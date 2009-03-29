@@ -20,7 +20,7 @@ function viewPlanetBody()
 	$stmt->close();
 
 	echo '<h1>View Planet</h1>', $eol;
-	echo '<img src="images/planet',$type,'.png" style="width: 20em; height: 20em;">', $eol;
+	echo '<img src="images/planet',$planettype,'.png" style="width: 20em; height: 20em;">', $eol;
 
 	echo '<table>', $eol;
 	echo '<tr><th>Planet Type</th><td>',$lookups["planetType"][$planettype],'</td></tr>', $eol;
