@@ -129,7 +129,11 @@ div.starmap a img {
 border: 0;
 }
 
-div.navtop, div.navbottom {
+.navtop, .navbottom .navleft, .navright {
+border: 0;
+}
+
+.navtop, .navbottom {
 position: absolute;
 left: 50%;
 width: 6.5em;
@@ -139,15 +143,15 @@ text-align: center;
 z-index: 1;
 }
 
-div.navtop {
+.navtop {
 top: 0;
 }
 
-div.navbottom {
+.navbottom {
 bottom: 0;
 }
 
-div.navleft, div.navright {
+.navleft, .navright {
 position: absolute;
 top: 50%;
 width: 1.3em;
@@ -157,15 +161,15 @@ text-align: center;
 z-index: 1;
 }
 
-div.navleft {
+.navleft {
 left: 0;
 }
 
-div.navright {
+.navright {
 right: 0;
 }
 
-div.zoomin, div.zoomout {
+.zoomin, .zoomout {
 position: absolute;
 width: 1.3em;
 height: 1.3em;
@@ -174,10 +178,10 @@ z-index: 1;
 top: 0;
 }
 
-div.zoomin {
+.zoomin {
 right: 1.4em;
 }
 
-div.zoomout {
+.zoomout {
 right: 0;
 }
