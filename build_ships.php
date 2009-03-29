@@ -15,7 +15,7 @@ function buildShipsBody()
 	$shiparray = array();
 	$orderarray = array();
 	
-	$query = $mysqli->prepare('SELECT shipconstruction FROM colonies WHERE planetid = ?;');
+	$query = $mysqli->prepare('SELECT metal,maxmetal,metalproduction,shipconstruction FROM colonies WHERE planetid = ?;');
 	if (!$query)
 	{
 		echo 'error: ', $mysqli->error, $eol;
@@ -28,7 +28,7 @@ function buildShipsBody()
 		echo 'error: ', $query->error, $eol;
 		exit;
 	}
-	$query->bind_result($shipprod);
+	$query->bind_result($metal,$maxmetal,$metalprod,$shipprod);
 	$query->fetch();
 	$query->close();
 	
@@ -122,6 +122,7 @@ function buildShipsBody()
 			echo "<input type=\"hidden\" name=\"design\" value=\"$designid\">";
 			echo "<input type=\"hidden\" name=\"planet\" value=\"$planetid\">";
 			echo "Amount: <input type=\"text\" name=\"count\" size=\"2\">";
+			echo '/', floor($metal/$metalcost);
 			echo "<input type=\"submit\" value=\"Build\"></form></td>";
 			echo '</tr>', $eol;
 		} while ($query->fetch());
