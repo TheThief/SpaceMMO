@@ -91,8 +91,8 @@ function viewSystemsBody()
 	echo '<a href="view_systems.php?x=', $x, '&y=', $y+$scroll, '&zoom=', $zoom, '"><img class="navbottom" src="images/down.png" alt="Down"></a>', $eol;
 	echo '<a href="view_systems.php?x=', $x-$scroll, '&y=', $y, '&zoom=', $zoom, '"><img class="navleft" src="images/left.png" alt="Left"></a>', $eol;
 	echo '<a href="view_systems.php?x=', $x+$scroll, '&y=', $y, '&zoom=', $zoom, '"><img class="navright" src="images/right.png" alt="Right"></a>', $eol;
-	echo '<div class="zoomin"><a href="view_systems.php?x=', $x, '&y=', $y, '&zoom=', $zoom*2, '">In</a></div>', $eol;
-	echo '<div class="zoomout"><a href="view_systems.php?x=', $x, '&y=', $y, '&zoom=', $zoom/2, '">Out</a></div>', $eol;
+	echo '<a href="view_systems.php?x=', $x, '&y=', $y, '&zoom=', $zoom*2, '"><img class="zoomin" src="images/in.png" alt="In"></a>', $eol;
+	echo '<a href="view_systems.php?x=', $x, '&y=', $y, '&zoom=', $zoom/2, '"><img class="zoomout" src="images/out.png" alt="Out"></a>', $eol;
 
 	echo '<div class="starmap" style="width: ', $viewsize, 'em; height: ', $viewsize, 'em; position: absolute; left: 1em; top: 1em;">', $eol;
 

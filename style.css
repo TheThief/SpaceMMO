@@ -175,13 +175,13 @@ width: 1.3em;
 height: 1.3em;
 text-align: center;
 z-index: 1;
-top: 0;
+top: 0.35em;
 }
 
 .zoomin {
-right: 1.4em;
+right: 1.8em;
 }
 
 .zoomout {
-right: 0;
+right: 0.35em;
 }
