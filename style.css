@@ -144,11 +144,11 @@ z-index: 1;
 }
 
 .navtop {
-top: 0;
+top: 0.35em;
 }
 
 .navbottom {
-bottom: 0;
+bottom: 0.35em;
 }
 
 .navleft, .navright {
@@ -162,11 +162,11 @@ z-index: 1;
 }
 
 .navleft {
-left: 0;
+left: 0.35em;
 }
 
 .navright {
-right: 0;
+right: 0.35em;
 }
 
 .zoomin, .zoomout {
