@@ -30,13 +30,12 @@ function colonyListBody()
 
 	echo '<h1>Colonies List</h1>', $eol;
 	echo '<table>', $eol;
-	echo '<tr><th>System</th><th>Orbit</th><th>Planet Type</th><th>Metal</th><th>Deuterium</th><th>Energy</th><th>Actions</th></tr>', $eol;
+	echo '<tr><th>Location</th>th>Planet Type</th><th>Metal</th><th>Deuterium</th><th>Energy</th><th>Actions</th></tr>', $eol;
 
 	while($query->fetch())
 	{
 		echo '<tr>';
-		echo "<td><a href=\"view_systems.php?system=$systemid\">$systemx, $systemy</a></td>";
-		echo "<td><a href=\"view_planets.php?system=$systemid\">$orbit</a></td>";
+		echo "<td><a href=\"view_planets.php?system=$systemid\">$systemx, $systemy : $orbit</a></td>";
 		echo '<td><img src="images/planet',$planettype,'.png" style="width:1em;height:1em;">',$lookups["planetType"][$planettype],'</td>';
 		echo "<td>$metal/$maxmetal (".getSigned($metalprod).")</td>";
 		echo "<td>$deuterium/$maxdeuterium (".getSigned($deuteriumprod).")</td>";
