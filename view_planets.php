@@ -49,18 +49,18 @@ function viewPlanetsBody()
 			{
 				$image = 'images/planet'.$type.'-oc.png';
 				//$link = 'view_planet.php?planet='.$planetid;
-				$tooltip += 'Enemy colony detected';
+				$tooltip .= 'Enemy colony detected';
 			}
 			else
 			{
 				$image = 'images/planet'.$type.'-c.png';
 				$link = 'colony_buildings.php?planet='.$planetid;
-				$tooltip += 'Your have a colony';
+				$tooltip .= 'Your have a colony';
 			}
 		}
 		else
 		{
-			$tooltip += 'Not colonised';
+			$tooltip .= 'Not colonised';
 		}
 
 		//$angle = $systemid*10+$orbit;
