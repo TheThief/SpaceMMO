@@ -23,7 +23,7 @@ function viewPlanetsBody()
 	$stmt->execute();
 	$stmt->bind_result($planetid,$orbit,$type,$colonyuserid);
 
-	echo '<h1>View Planets</h1>', $eol;
+	echo '<h1>View Solar System</h1>', $eol;
 	echo '<div class="starmap" style="width: ', $viewsize, 'em; height: ', $viewsize, 'em;">', $eol;
 
 	echo '<a href="view_systems.php?system=', $systemid, '"><img class="zoomout" src="images/out.png" alt="Out" title="View surrounding systems"></a>', $eol;
