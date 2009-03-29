@@ -174,7 +174,6 @@ function livePercent(seconds,cost,buildrate,progress,name,first){
 	per = (((buildrate*(sec/600))+progress)/cost)*100;
 	span=document.getElementById(name);
 	span.innerHTML = Math.min(Math.round(per),100);
-	}
 	if (per<100){
 		setTimeout('livePercent('+(sec+1)+','+cost+','+buildrate+','+progress+',"'+name+'",0);',1000);
 	}
