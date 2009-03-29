@@ -12,10 +12,10 @@ function viewPlanetBody()
 	$userid = $_SESSION['userid'];
 	$planetid = $_GET['planet'];
 
-	$stmt = $mysqli->prepare("SELECT orbit,type,planets.metal,planets.deuterium,userid,username FROM planets LEFT JOIN colonies USING (planetid) LEFT JOIN users USING (userid) WHERE planetid=?;");
+	$stmt = $mysqli->prepare("SELECT systemid,x,y,orbit,type,planets.metal,planets.deuterium,userid,username FROM planets LEFT JOIN colonies USING (planetid) LEFT JOIN users USING (userid) LEFT JOIN systems USING (systemid) WHERE planetid=?;");
 	$stmt->bind_param('i',$planetid);
 	$stmt->execute();
-	$stmt->bind_result($orbit,$planettype,$metal,$deuterium,$colonyuserid,$colonyusername);
+	$stmt->bind_result($systemid,$systemx,$systemy,$orbit,$planettype,$metal,$deuterium,$colonyuserid,$colonyusername);
 	$stmt->fetch();
 	$stmt->close();
 
@@ -23,6 +23,7 @@ function viewPlanetBody()
 	echo '<img src="images/planet',$planettype,'.png" style="width: 20em; height: 20em;">', $eol;
 
 	echo '<table>', $eol;
+	echo '<tr><th>Location</th><td><a href="view_planets.php?system=',$systemid,'">',$systemx,', ',$systemy,' : ',$orbit,'</a></td></tr>';
 	echo '<tr><th>Planet Type</th><td>',$lookups["planetType"][$planettype],'</td></tr>', $eol;
 	echo '<tr><th>Colonised By</th>';
 	if ($colonyuserid)
