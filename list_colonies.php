@@ -30,7 +30,7 @@ function colonyListBody()
 
 	echo '<h1>Colonies List</h1>', $eol;
 	echo '<table>', $eol;
-	echo '<tr><th>Location</th>th>Planet Type</th><th>Metal</th><th>Deuterium</th><th>Energy</th><th>Actions</th></tr>', $eol;
+	echo '<tr><th>Location</th><th>Planet Type</th><th>Metal</th><th>Deuterium</th><th>Energy</th><th>Actions</th></tr>', $eol;
 
 	while($query->fetch())
 	{
