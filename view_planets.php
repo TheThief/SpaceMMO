@@ -34,7 +34,7 @@ function viewPlanetsBody()
 
 	mt_srand($systemid);
 
-	$stmt = $mysqli->prepare("SELECT planetID,orbit,type,userid FROM planets LEFT JOIN colonies USING (planetid) LEFT JOIN systems WHERE systemid=?;");
+	$stmt = $mysqli->prepare("SELECT planetID,orbit,type,userid FROM planets LEFT JOIN colonies USING (planetid) WHERE systemid=?;");
 	$stmt->bind_param('i',$systemid);
 	$stmt->execute();
 	$stmt->bind_result($planetid,$orbit,$type,$colonyuserid);
