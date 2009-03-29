@@ -113,7 +113,7 @@ function viewSystemsBody()
 		else if ($othercolonies)
 		{
 			$image = 'images/star-oc.png';
-			$tooltip = 'Enemy system. Colonised planets: '.$colonies;
+			$tooltip = 'Enemy system. Colonised planets: '.$othercolonies;
 		}
 		echo '<a href="view_planets.php?system=', $systemid, '"><img src="', $image, '" style="width: ', $starsize, 'em; height ', $starsize, 'em; position: absolute; left: ', ($sysX-$xmin)*$starsize, 'em; top: ', ($sysY-$ymin)*$starsize, 'em;" title="',$tooltip,'"></a>', $eol;
 	}
