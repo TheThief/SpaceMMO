@@ -121,7 +121,7 @@ function buildShipsBody()
 			echo "<td><form action=\"queueshipbuild_exec.php\" method=\"post\">";
 			echo "<input type=\"hidden\" name=\"design\" value=\"$designid\">";
 			echo "<input type=\"hidden\" name=\"planet\" value=\"$planetid\">";
-			echo "Amount: <input type=\"text\" name=\"count\" size="2">";
+			echo "Amount: <input type=\"text\" name=\"count\" size=\"2\">";
 			echo "<input type=\"submit\" value=\"Build\"></form></td>";
 			echo '</tr>', $eol;
 		} while ($query->fetch());
