@@ -42,25 +42,25 @@ function viewPlanetsBody()
 	{
 		$image = 'images/planet'.$type.'.png';
 		$link = 'view_planet.php?planet='.$planetid;
-		$tooltip = $lookups["planetType"][$type].' at '.$systemx.', '.$systemy.' : '.$orbit.$eol;
+		$tooltip = $lookups["planetType"][$type].' planet at '.$systemx.', '.$systemy.' : '.$orbit;
 		if ($colonyuserid)
 		{
 			if ($colonyuserid != $userid)
 			{
 				$image = 'images/planet'.$type.'-oc.png';
 				//$link = 'view_planet.php?planet='.$planetid;
-				$tooltip .= 'Enemy colony detected';
+				$tooltip = 'Enemy colony detected on this '.$tooltip;
 			}
 			else
 			{
 				$image = 'images/planet'.$type.'-c.png';
 				$link = 'colony_buildings.php?planet='.$planetid;
-				$tooltip .= 'Your have a colony';
+				$tooltip .= 'Your have a colony on this '.$tooltip;
 			}
 		}
 		else
 		{
-			$tooltip .= 'Not colonised';
+			$tooltip .= 'Uncolonised '.$tooltip;
 		}
 
 		//$angle = $systemid*10+$orbit;
