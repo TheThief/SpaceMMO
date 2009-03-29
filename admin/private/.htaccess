@@ -1,0 +1,4 @@
+AuthName "Dialog prompt"
+AuthType Basic
+AuthUserFile /home/thethiefmaster/dynamicarcade.co.uk/SpaceMMO/admin/private/.htpasswd
+Require valid-user
