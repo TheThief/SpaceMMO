@@ -1,0 +1,1 @@
+<?function colonyMenu(){	global $eol;	$planetid = $_GET['planet'];	echo '<h3>Colony Menu</h3>', $eol;	echo '<ul>', $eol;	echo '<li><a href="/SpaceMMO/admin/colony_buildings.php">Upgrade Buildings</a></li>', $eol;	echo '<li><a href="/SpaceMMO/admin/build_ships.php?planet=', $planetid, '">Ships</a></li>', $eol;	echo '</ul>', $eol;}?>

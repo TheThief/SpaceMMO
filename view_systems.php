@@ -1,0 +1,114 @@
+<?
+include 'includes/start.inc.php';
+checkLoggedIn();
+
+include 'includes/template.inc.php';
+template('View Systems', 'viewSystemsBody');
+
+function viewSystemsBody()
+{
+	global $eol, $mysqli;
+	$userid = $_SESSION['userid'];
+	$x = $_GET['x'];
+	$y = $_GET['y'];
+	$viewdistance = 10;
+	$zoom = $_GET['zoom']; if (!is_numeric($zoom)) $zoom=1;
+	$zoom = clamp($zoom, 0.2, 2);
+	$starsize = $zoom * 2;
+	$viewsize = ($viewdistance*2 + $starsize + $viewdistance*2);
+	$distance = $viewdistance/$zoom;
+	$scroll = 3;
+
+	if (!is_numeric($x) || !is_numeric($y))
+	{
+		$systemid = $_GET['system'];
+
+		if (is_numeric($systemid))
+		{
+			$query = $mysqli->prepare('SELECT x,y FROM systems WHERE systemid=?');
+			if (!$query)
+			{
+				echo 'error: ', $mysqli->error, $eol;
+				exit;
+			}
+
+			$query->bind_param('i', $systemid);
+
+			$result = $query->execute();
+			if (!$result)
+			{
+				echo 'error: ', $query->error, $eol;
+				exit;
+			}
+
+			$query->bind_result($x, $y);
+			$query->fetch();
+			$query->close();
+		}
+		else
+		{
+			$query = $mysqli->prepare('SELECT x,y FROM colonies LEFT JOIN planets USING(planetid) LEFT JOIN systems USING(systemid) WHERE userid=? ORDER BY colonylevel DESC LIMIT 1');
+			if (!$query)
+			{
+				echo 'error: ', $mysqli->error, $eol;
+				exit;
+			}
+
+			$query->bind_param('i', $userid);
+
+			$result = $query->execute();
+			if (!$result)
+			{
+				echo 'error: ', $query->error, $eol;
+				exit;
+			}
+
+			$query->bind_result($x, $y);
+			$query->fetch();
+			$query->close();
+		}
+	}
+
+	$x = clamp($x, -50, 50);
+	$y = clamp($y, -50, 50);
+
+	$stmt = $mysqli->prepare('SELECT systemid,x,y,COUNT(user_colonies.planetid),COUNT(other_colonies.planetid) FROM systems LEFT JOIN planets USING (systemid)
+	LEFT JOIN (SELECT planetid FROM colonies WHERE userid=?) user_colonies USING (planetid)
+	LEFT JOIN (SELECT planetid FROM colonies WHERE userid!=?) other_colonies USING (planetid)
+	WHERE x>=? AND x<=? AND y>=? AND y<=? GROUP BY systemid ORDER BY NULL');
+	$xmin = $x-$distance;
+	$xmax = $x+$distance;
+	$ymin = $y-$distance;
+	$ymax = $y+$distance;
+	$stmt->bind_param('iiiiii',$userid,$userid,$xmin,$xmax,$ymin,$ymax);
+	$stmt->execute();
+	$stmt->bind_result($systemid,$sysX,$sysY,$colonies,$othercolonies);
+
+	echo '<h1>View Systems</h1>', $eol;
+	echo '<div class="starmap" style="width: ', $viewsize, 'em; height: ', $viewsize, 'em;">', $eol;
+
+	echo '<div class="navtop"><a href="view_systems.php?x=', $x, '&y=', $y-$scroll, '&zoom=', $zoom, '">Up</a></div>', $eol;
+	echo '<div class="navbottom"><a href="view_systems.php?x=', $x, '&y=', $y+$scroll, '&zoom=', $zoom, '">Down</a></div>', $eol;
+	echo '<div class="navleft"><a href="view_systems.php?x=', $x-$scroll, '&y=', $y, '&zoom=', $zoom, '">L<br>e<br>f<br>t</a></div>', $eol;
+	echo '<div class="navright"><a href="view_systems.php?x=', $x+$scroll, '&y=', $y, '&zoom=', $zoom, '">R<br>i<br>g<br>h<br>t</a></div>', $eol;
+
+	while ($stmt->fetch())
+	{
+		$image = 'images/star.png';
+		if ($colonies && $othercolonies)
+		{
+			$image ='images/star-oc+c.png';
+		}
+		else if ($colonies)
+		{
+			$image = 'images/star-c.png';
+		}
+		else if ($othercolonies)
+		{
+			$image = 'images/star-oc.png';
+		}
+		echo '<a href="view_planets.php?system=', $systemid, '"><img src="', $image, '" style="width: ', $starsize, 'em; height ', $starsize, 'em; position: absolute; left: ', ($sysX-$xmin)*$starsize, 'em; top: ', ($sysY-$ymin)*$starsize, 'em;"></a>', $eol;
+	}
+	$stmt->close();
+	echo '</div>', $eol;
+}
