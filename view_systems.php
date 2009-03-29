@@ -85,12 +85,14 @@ function viewSystemsBody()
 	$stmt->bind_result($systemid,$sysX,$sysY,$colonies,$othercolonies);
 
 	echo '<h1>View Systems</h1>', $eol;
-	echo '<div class="starmap" style="width: ', $viewsize, 'em; height: ', $viewsize, 'em;">', $eol;
+	echo '<div class="starmap" style="width: ', $viewsize+2, 'em; height: ', $viewsize+2, 'em;">', $eol;
 
 	echo '<div class="navtop"><a href="view_systems.php?x=', $x, '&y=', $y-$scroll, '&zoom=', $zoom, '">Up</a></div>', $eol;
 	echo '<div class="navbottom"><a href="view_systems.php?x=', $x, '&y=', $y+$scroll, '&zoom=', $zoom, '">Down</a></div>', $eol;
 	echo '<div class="navleft"><a href="view_systems.php?x=', $x-$scroll, '&y=', $y, '&zoom=', $zoom, '">L<br>e<br>f<br>t</a></div>', $eol;
 	echo '<div class="navright"><a href="view_systems.php?x=', $x+$scroll, '&y=', $y, '&zoom=', $zoom, '">R<br>i<br>g<br>h<br>t</a></div>', $eol;
+
+	echo '<div class="starmap" style="width: ', $viewsize, 'em; height: ', $viewsize, 'em; position: absolute; left: 1em; top: 1em;">', $eol;
 
 	while ($stmt->fetch())
 	{
@@ -110,5 +112,6 @@ function viewSystemsBody()
 		echo '<a href="view_planets.php?system=', $systemid, '"><img src="', $image, '" style="width: ', $starsize, 'em; height ', $starsize, 'em; position: absolute; left: ', ($sysX-$xmin)*$starsize, 'em; top: ', ($sysY-$ymin)*$starsize, 'em;"></a>', $eol;
 	}
 	$stmt->close();
+	echo '</div>', $eol;
 	echo '</div>', $eol;
 }
