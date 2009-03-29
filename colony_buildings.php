@@ -29,7 +29,7 @@ function colonyBuildingsBody()
 			var ne = parseInt(maxe * pval);
 			var ed =0;
 			var cd=0;
-			if(pval==output){
+			if(cc==nc && ce==ne){
 				cspan.innerHTML = cc;
 				cspan.title="";
 				espan.innerHTML = ce;
