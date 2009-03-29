@@ -158,3 +158,20 @@ left: 0;
 div.navright {
 right: 0;
 }
+
+div.zoomin, div.zoomout {
+position: absolute;
+width: 1.3em;
+height: 1.3em;
+text-align: center;
+z-index: 1;
+top: 0;
+}
+
+div.zoomin {
+right: 1.4em;
+}
+
+div.zoomout {
+right: 0;
+}
