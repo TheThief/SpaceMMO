@@ -25,6 +25,9 @@ function viewPlanetsBody()
 
 	echo '<h1>View Planets</h1>', $eol;
 	echo '<div class="starmap" style="width: ', $viewsize, 'em; height: ', $viewsize, 'em;">', $eol;
+
+	echo '<a href="view_systems.php?system=', $systemid, '"><img class="zoomout" src="images/out.png" alt="Out" title="View surrounding systems"></a>', $eol;
+
 	echo '<img src="images/star-large.png" style="width: ',$starsize,'em; height: ',$starsize,'em; position: absolute; left: ', ($viewsize-$starsize)/2, 'em; top: ', ($viewsize-$starsize)/2, 'em;">', $eol;
 
 	mt_srand($systemid);
