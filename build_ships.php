@@ -14,7 +14,7 @@ function buildShipsBody()
 	echo '<h1>Build Ships</h1>', $eol;
 	$shiparray = array();
 	$orderarray = array();
-	
+	$pcarray = array();
 	$query = $mysqli->prepare('SELECT metal,maxmetal,metalproduction,shipconstruction FROM colonies WHERE planetid = ?;');
 	if (!$query)
 	{
@@ -70,11 +70,12 @@ function buildShipsBody()
 				$timeoffset += $orderticks;
 				$shiparray[$id]=$shiptime;
 				$orderarray[$id]=$ordertime;
+				$pcarray[$id]=array(getTickElapsed(),$metalcost,$shipprod,$progress);
 			}
 			echo '<tr>';
 			echo "<td>$designname</td>";
 			echo "<td>$count</td>";
-			echo "<td>".(int)(($progress/$metalcost)*100)."%</td>";
+			echo "<td><span id=\"pcsp".$id."\">".(int)(($progress/$metalcost)*100)."</span>%</td>";
 			echo "<td><span id=\"shsp".$id."\">-<span></td>";
 			echo "<td><span id=\"orsp".$id."\">-<span></td>";
 			echo '</tr>';
@@ -165,6 +166,20 @@ function liveCount(seconds,name,first){
 	}
 
 }
+function livePercent(seconds,cost,buildrate,progress,name,first){
+	var sec = seconds;
+	var per;
+	if (sec > 600) sec = 0;
+	per = ((buildrate*(sec/600))+progress)/cost;
+	span=document.getElementById(name);
+	span.innerHTML =  Math.round(per);
+	if (per<100){
+		setTimeout('livePercent('+(sec+1)+','+cost+','+buildrate+','+progress+',"'+name+'",0);',1000);
+	}else{
+		setTimeout('reloadPage()',10000);
+	}
+
+}
 function padString(string,chr,len){
 	tempstring = string.toString();
 	while(tempstring.length < len) tempstring = chr + tempstring;
@@ -178,7 +193,9 @@ foreach($shiparray as $cid => $ctime){
 foreach($orderarray as $cid => $ctime){
 	echo "liveCount(".$ctime.",\"orsp".$cid."\",1);";
 }
-
+foreach($pcarray as $cid => $ctime){
+	echo "livePercent(".$ctime[0].",".$ctime[1].",".$ctime[2].",".$ctime[3].",\"pcsp".$cid."\",1);";
+}
 ?>
 </script>
 	<?
