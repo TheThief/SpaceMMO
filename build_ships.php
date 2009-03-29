@@ -146,7 +146,7 @@ function buildShipsBody()
 function reloadPage(){
 	location.reload(true);
 }
-function liveCount(seconds,name,first){
+function liveCount(seconds,name,reload,first){
 	span=document.getElementById(name);
 	if(first==1){
 		//spanb=document.getElementById("b" + name);
@@ -161,9 +161,9 @@ function liveCount(seconds,name,first){
 	span.innerHTML =  hours + ":" + padString(minutes,"0",2) + ":" + padString(sec,"0",2);
 	//span.title = hours + ":" + padString(minutes,"0",2) + ":" + padString(sec,"0",2);
 	if (seconds>0){
-		 setTimeout('liveCount('+(seconds - 1)+',"'+name+'",0);',1000);
+		 setTimeout('liveCount('+(seconds - 1)+',"'+name+'",'+reload+',0);',1000);
 	}else{
-		 setTimeout('reloadPage()',10000);
+		if(reload==1) setTimeout('reloadPage()',10000);
 	}
 
 }
@@ -171,13 +171,11 @@ function livePercent(seconds,cost,buildrate,progress,name,first){
 	var sec = seconds;
 	var per;
 	if (sec > 600) sec = 0;
-	per = ((buildrate*(sec/600))+progress)/cost;
+	per = ((buildrate*(sec/600))+progress)/cost)*100;
 	span=document.getElementById(name);
-	span.innerHTML =  Math.round(per*100);
+	span.innerHTML =  Math.floor(per);
 	if (per<100){
 		setTimeout('livePercent('+(sec+1)+','+cost+','+buildrate+','+progress+',"'+name+'",0);',1000);
-	}else{
-		setTimeout('reloadPage()',10000);
 	}
 
 }
@@ -189,10 +187,10 @@ function padString(string,chr,len){
 <?
 //print_r($countarray);
 foreach($shiparray as $cid => $ctime){
-	echo "liveCount(".$ctime.",\"shsp".$cid."\",1);";
+	echo "liveCount(".$ctime.",\"shsp".$cid."\",1,1);";
 }
 foreach($orderarray as $cid => $ctime){
-	echo "liveCount(".$ctime.",\"orsp".$cid."\",1);";
+	echo "liveCount(".$ctime.",\"orsp".$cid."\",0,1);";
 }
 echo "livePercent(".$pcarray[0].",".$pcarray[1].",".$pcarray[2].",".$pcarray[3].",\"pcsp1\",1);";
 
