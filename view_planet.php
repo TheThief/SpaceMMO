@@ -34,6 +34,6 @@ function viewPlanetBody()
 		echo '<td>-</td></tr>', $eol;
 	}
 	echo '<tr><th>Metal Reserves</th><td>',number_format($metal*100),'%</td></tr>', $eol;
-	echo '<tr><th>Deuterium Reserves Reserves</th><td>',number_format($deuterium*100),'%</td></tr>', $eol;
+	echo '<tr><th>Deuterium Reserves</th><td>',number_format($deuterium*100),'%</td></tr>', $eol;
 	echo '</table>', $eol;
 }
