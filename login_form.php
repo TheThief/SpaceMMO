@@ -1,3 +1,3 @@
 <?include 'includes/start.inc.php';include 'includes/template.inc.php';template('Log In', 'loginBody');
 function loginBody(){	global $eol, $mysqli;	$error = $_GET['error'];	echo '<h1>Log In</h1>';	if ($error)	{		echo '<p class="error">';		switch ($error)		{			case 1:				echo 'Login failed';			break;			case 2:				echo 'Session expired, please log in again';			break;		}		echo '</p>', $eol;	}
-?><form action="login_exec.php" method="post"><input type="text" name="username"><input type="password" name="password"><input type="submit" value="Submit"></form><?}?>
+?><form action="login_exec.php" method="post"><input type="text" name="username"><input type="password" name="password"><input type="submit" value="Submit"></form><a href="register.php">Register</a><?}?>
