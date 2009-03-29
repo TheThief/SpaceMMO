@@ -3,7 +3,7 @@ include 'includes/start.inc.php';
 checkLoggedIn();
 
 include 'includes/template.inc.php';
-template('View Planets', 'viewPlanetsBody');
+template('View Solar System', 'viewPlanetsBody');
 
 function viewPlanetsBody()
 {
