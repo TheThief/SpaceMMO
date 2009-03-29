@@ -33,17 +33,20 @@ function viewPlanetsBody()
 	{
 		$image = 'images/planet'.$type.'.png';
 		$link = 'view_planet.php?planet='.$planetid;
+		$tooltip = 'Not colonised';
 		if ($colonyuserid)
 		{
 			if ($colonyuserid != $userid)
 			{
 				$image = 'images/planet'.$type.'-oc.png';
 				//$link = 'view_planet.php?planet='.$planetid;
+				$tooltip = 'Enemy colony';
 			}
 			else
 			{
 				$image = 'images/planet'.$type.'-c.png';
 				$link = 'colony_buildings.php?planet='.$planetid;
+				$tooltip = 'Your colony';
 			}
 		}
 
@@ -51,7 +54,7 @@ function viewPlanetsBody()
 		$angle = mt_rand()/mt_getrandmax() * 2*M_PI;
 		$x = $viewsize/2 + sin($angle) * ($minorbit + ($orbit - 1) * $orbitspacing) - $planetsize/2;
 		$y = $viewsize/2 + cos($angle) * ($minorbit + ($orbit - 1) * $orbitspacing) - $planetsize/2;
-		echo '<a href="', $link, '"><img src="', $image, '" style="width: ',$planetsize,'em; height: ',$planetsize,'em; position: absolute; left: ', $x, 'em; top: ', $y, 'em;"></a>', $eol;
+		echo '<a href="', $link, '"><img src="', $image, '" style="width: ',$planetsize,'em; height: ',$planetsize,'em; position: absolute; left: ', $x, 'em; top: ', $y, 'em;" title="',$tooltip,'></a>', $eol;
 	}
 	$stmt->close();
 	echo '</div>', $eol;
