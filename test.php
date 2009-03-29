@@ -29,5 +29,6 @@ foreach($tests as $element)
         echo "'{$element}' is NOT numeric", PHP_EOL;
     }
 }
+
 ?>
 
