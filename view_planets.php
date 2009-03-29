@@ -57,7 +57,7 @@ function viewPlanetsBody()
 		$angle = mt_rand()/mt_getrandmax() * 2*M_PI;
 		$x = $viewsize/2 + sin($angle) * ($minorbit + ($orbit - 1) * $orbitspacing) - $planetsize/2;
 		$y = $viewsize/2 + cos($angle) * ($minorbit + ($orbit - 1) * $orbitspacing) - $planetsize/2;
-		echo '<a href="', $link, '"><img src="', $image, '" style="width: ',$planetsize,'em; height: ',$planetsize,'em; position: absolute; left: ', $x, 'em; top: ', $y, 'em;" title="',$tooltip,'></a>', $eol;
+		echo '<a href="', $link, '"><img src="', $image, '" style="width: ',$planetsize,'em; height: ',$planetsize,'em; position: absolute; left: ', $x, 'em; top: ', $y, 'em;" title="',$tooltip,'"></a>', $eol;
 	}
 	$stmt->close();
 	echo '</div>', $eol;
