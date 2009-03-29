@@ -36,7 +36,7 @@ function colonyListBody()
 		echo '<tr>';
 		echo "<td><a href=\"view_systems.php?system=$systemid\">$systemx, $systemy</a></td>";
 		echo "<td><a href=\"view_planets.php?system=$systemid\">$orbit</a></td>";
-		echo '<td>',$lookups["planetType"][$type],'</td>';
+		echo '<td>',$lookups["planetType"][$planettype],'</td>';
 		echo "<td>$metal/$maxmetal (".getSigned($metalprod).")</td>";
 		echo "<td>$deuterium/$maxdeuterium (".getSigned($deuteriumprod).")</td>";
 		echo "<td>$energy/$maxenergy (".getSigned($energyprod).")</td>";
