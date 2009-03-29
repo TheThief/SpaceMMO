@@ -31,7 +31,12 @@ function buildShipsBody()
 	$query->bind_result($metal,$maxmetal,$metalprod,$shipprod);
 	$query->fetch();
 	$query->close();
-	
+
+	echo '<table>', $eol;
+	echo '<tr><th>Metal</th><th>Build Rate</th></tr>', $eol;
+	echo '<tr><td>',$metal,'/',$maxmetal,' (',getSigned($metalprod),')','</td><td>',$shipprod,'</td></tr>';
+	echo '</table>', $eol;
+
 	$query = $mysqli->prepare('SELECT shipname,count,buildprogress,metalcost,queueid FROM shipbuildqueue LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING(hullid) WHERE planetID = ? ORDER BY queueID ASC;');
 	if (!$query)
 	{

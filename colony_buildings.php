@@ -72,6 +72,7 @@ function colonyBuildingsBody()
 	echo '<h1>Build at Colony</h1>', $eol;
 	echo '<table>', $eol;
 	echo '<tr><th>Metal</th><th>Deuterium</th><th>Energy</th></tr>', $eol;
+	echo '<tr>';
 	echo "<td>$metal/$maxmetal (".getSigned($metalprod).")";
 	if($metalprod<0 && $metal>abs($metalprod)) {
 		$mptime=(floor(abs($metal/$metalprod))*600)-getTickElapsed();
@@ -97,6 +98,7 @@ function colonyBuildingsBody()
         }
 	if($energy<abs($energyprod)) echo '<br><span class="error">',($energy==0)?"No":"Low",' Energy</span>';
         echo "</td>";
+	echo '</tr>', $eol;
 	echo '</table>', $eol;
 	echo '<table>', $eol;
 	echo '<col><col style="width: 20em;"><col>', $eol;
