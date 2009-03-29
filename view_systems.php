@@ -87,10 +87,10 @@ function viewSystemsBody()
 	echo '<h1>View Galaxy</h1>', $eol;
 	echo '<div class="starmap" style="width: ', $viewsize+2, 'em; height: ', $viewsize+2, 'em;">', $eol;
 
-	echo '<div class="navtop"><a href="view_systems.php?x=', $x, '&y=', $y-$scroll, '&zoom=', $zoom, '">Up</a></div>', $eol;
-	echo '<div class="navbottom"><a href="view_systems.php?x=', $x, '&y=', $y+$scroll, '&zoom=', $zoom, '">Down</a></div>', $eol;
-	echo '<div class="navleft"><a href="view_systems.php?x=', $x-$scroll, '&y=', $y, '&zoom=', $zoom, '">L<br>e<br>f<br>t</a></div>', $eol;
-	echo '<div class="navright"><a href="view_systems.php?x=', $x+$scroll, '&y=', $y, '&zoom=', $zoom, '">R<br>i<br>g<br>h<br>t</a></div>', $eol;
+	echo '<div class="navtop"><a href="view_systems.php?x=', $x, '&y=', $y-$scroll, '&zoom=', $zoom, '"><img url="images/up.png" alt="Up" style="width:100%;height: 100%;"></a></div>', $eol;
+	echo '<div class="navbottom"><a href="view_systems.php?x=', $x, '&y=', $y+$scroll, '&zoom=', $zoom, '"><img url="images/down.png" alt="Down" style="width:100%;height: 100%;"></a></div>', $eol;
+	echo '<div class="navleft"><a href="view_systems.php?x=', $x-$scroll, '&y=', $y, '&zoom=', $zoom, '"><img url="images/left.png" alt="Left" style="width:100%;height: 100%;"></a></div>', $eol;
+	echo '<div class="navright"><a href="view_systems.php?x=', $x+$scroll, '&y=', $y, '&zoom=', $zoom, '"><img url="images/right.png" alt="Right" style="width:100%;height: 100%;"></a></div>', $eol;
 	echo '<div class="zoomin"><a href="view_systems.php?x=', $x, '&y=', $y, '&zoom=', $zoom*2, '">In</a></div>', $eol;
 	echo '<div class="zoomout"><a href="view_systems.php?x=', $x, '&y=', $y, '&zoom=', $zoom/2, '">Out</a></div>', $eol;
 
