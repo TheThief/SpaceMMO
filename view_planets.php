@@ -8,6 +8,7 @@ template('View Solar System', 'viewPlanetsBody');
 function viewPlanetsBody()
 {
 	global $eol, $mysqli;
+	global $lookups;
 	$userid = $_SESSION['userid'];
 	$systemid = $_GET['system'];
 
@@ -18,17 +19,17 @@ function viewPlanetsBody()
 	$orbitspacing = 2.1;
 	$viewsize = ($minorbit + ($orbits - 1) * $orbitspacing + $planetsize/2) * 2;
 
-	$stmt = $mysqli->prepare("SELECT planetID,orbit,type,userid FROM planets LEFT JOIN colonies USING (planetid) WHERE systemid=?;");
+	$stmt = $mysqli->prepare("SELECT planetID,x,y,orbit,type,userid FROM planets LEFT JOIN colonies USING (planetid) LEFT JOIN systems USING (systemid) WHERE systemid=?;");
 	$stmt->bind_param('i',$systemid);
 	$stmt->execute();
-	$stmt->bind_result($planetid,$orbit,$type,$colonyuserid);
+	$stmt->bind_result($planetid,$systemx,$systemy,$orbit,$type,$colonyuserid);
 
 	echo '<h1>View Solar System</h1>', $eol;
 	echo '<div class="starmap" style="width: ', $viewsize, 'em; height: ', $viewsize, 'em;">', $eol;
 
 	echo '<a href="view_systems.php?system=', $systemid, '"><img class="zoomout" src="images/out.png" alt="Out" title="View surrounding systems"></a>', $eol;
 
-	echo '<img src="images/star-large.png" style="width: ',$starsize,'em; height: ',$starsize,'em; position: absolute; left: ', ($viewsize-$starsize)/2, 'em; top: ', ($viewsize-$starsize)/2, 'em;">', $eol;
+	echo '<img src="images/star-large.png" style="width: ',$starsize,'em; height: ',$starsize,'em; position: absolute; left: ', ($viewsize-$starsize)/2, 'em; top: ', ($viewsize-$starsize)/2, 'em;" title="Star of system ',$systemx,', ',$systemy,'">', $eol;
 
 	mt_srand($systemid);
 
@@ -36,21 +37,25 @@ function viewPlanetsBody()
 	{
 		$image = 'images/planet'.$type.'.png';
 		$link = 'view_planet.php?planet='.$planetid;
-		$tooltip = 'Not colonised';
+		$tooltip = $lookups["planetType"][$type].' at '.$systemx.', '.$systemy.' : '.$orbit.$eol;
 		if ($colonyuserid)
 		{
 			if ($colonyuserid != $userid)
 			{
 				$image = 'images/planet'.$type.'-oc.png';
 				//$link = 'view_planet.php?planet='.$planetid;
-				$tooltip = 'Enemy colony';
+				$tooltip += 'Enemy colony detected';
 			}
 			else
 			{
 				$image = 'images/planet'.$type.'-c.png';
 				$link = 'colony_buildings.php?planet='.$planetid;
-				$tooltip = 'Your colony';
+				$tooltip += 'Your have a colony';
 			}
+		}
+		else
+		{
+			$tooltip += 'Not colonised';
 		}
 
 		//$angle = $systemid*10+$orbit;
