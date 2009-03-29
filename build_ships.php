@@ -58,6 +58,7 @@ function buildShipsBody()
 		<tr><th>Design Name</th><th>Quantity</th><th>Ship Progress</th><th>Next Ship In</th><th>Order Complete In</th></tr>
 	<?	
 	$timeoffset=0;
+	$first=TRUE;
 	if($query->fetch())
 	{
 		do
@@ -70,16 +71,16 @@ function buildShipsBody()
 				$timeoffset += $orderticks;
 				$shiparray[$id]=$shiptime;
 				$orderarray[$id]=$ordertime;
-				$pcarray[$id]=array(getTickElapsed(),$metalcost,$shipprod,$progress);
+				if($first) $pcarray=array(getTickElapsed(),$metalcost,$shipprod,$progress);
 			}
 			echo '<tr>';
 			echo "<td>$designname</td>";
 			echo "<td>$count</td>";
-			echo "<td><span id=\"pcsp".$id."\">".(int)(($progress/$metalcost)*100)."</span>%</td>";
+			echo "<td><span id=\"pcsp".(int)$first."\">".(int)(($progress/$metalcost)*100)."</span>%</td>";
 			echo "<td><span id=\"shsp".$id."\">-<span></td>";
 			echo "<td><span id=\"orsp".$id."\">-<span></td>";
 			echo '</tr>';
-
+			$first=FALSE;
 		} while ($query->fetch());
 	}
 	else
@@ -193,9 +194,8 @@ foreach($shiparray as $cid => $ctime){
 foreach($orderarray as $cid => $ctime){
 	echo "liveCount(".$ctime.",\"orsp".$cid."\",1);";
 }
-foreach($pcarray as $cid => $ctime){
-	echo "livePercent(".$ctime[0].",".$ctime[1].",".$ctime[2].",".$ctime[3].",\"pcsp".$cid."\",1);";
-}
+echo "livePercent(".$pcarray[0].",".$pcarray[1].",".$pcarray[2].",".$pcarray[3].",\"pcsp1\",1);";
+
 ?>
 </script>
 	<?
