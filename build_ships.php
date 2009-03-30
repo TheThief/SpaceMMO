@@ -15,7 +15,28 @@ function buildShipsBody()
 	$shiparray = array();
 	$orderarray = array();
 	$pcarray = array();
-	$query = $mysqli->prepare('SELECT metal,maxmetal,metalproduction,shipconstruction FROM colonies WHERE planetid = ?;');
+	$query = $mysqli->prepare('SELECT metal,maxmetal,metalproduction,shipconstruction FROM colonies WHERE userid =? AND planetid = ?;');
+	if (!$query)
+	{
+		echo 'error: ', $mysqli->error, $eol;
+		exit;
+	}
+	$query->bind_param('ii',$userid, $planetid);
+	$result = $query->execute();
+	if (!$result)
+	{
+		echo 'error: ', $query->error, $eol;
+		exit;
+	}
+	$query->bind_result($metal,$maxmetal,$metalprod,$shipprod);
+	$result=$query->fetch();
+	if (!$result)
+	{
+		echo 'Error: Not your planet!', $eol;
+		exit;
+	}
+	$query->close();
+	$query = $mysqli->prepare('SELECT level FROM colonybuildings WHERE buildingid = 9 AND planetid = ?;');
 	if (!$query)
 	{
 		echo 'error: ', $mysqli->error, $eol;
@@ -28,8 +49,13 @@ function buildShipsBody()
 		echo 'error: ', $query->error, $eol;
 		exit;
 	}
-	$query->bind_result($metal,$maxmetal,$metalprod,$shipprod);
-	$query->fetch();
+	$query->bind_result($ddlevel);
+	$result=$query->fetch();
+	if (!$result)
+	{
+		echo 'Error: You need a drydock to build ships.', $eol;
+		exit;
+	}
 	$query->close();
 
 	echo '<table>', $eol;
