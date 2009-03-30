@@ -69,6 +69,28 @@ function queueShipBody()
 	}
 	$query->close();
 
+	$query = $mysqli->prepare('SELECT level FROM colonybuildings WHERE buildingid = 9 AND planetid = ?;');
+	if (!$query)
+	{
+		echo 'error: ', $mysqli->error, $eol;
+		exit;
+	}
+	$query->bind_param('i', $planetid);
+	$result = $query->execute();
+	if (!$result)
+	{
+		echo 'error: ', $query->error, $eol;
+		exit;
+	}
+	$query->bind_result($ddlevel);
+	$result=$query->fetch();
+	if (!$result)
+	{
+		echo 'Error: You need a drydock to build ships.', $eol;
+		exit;
+	}
+	$query->close();
+	
 	$metalcost = $metalcost*$count;
 	if ($metalcost > $metal)
 	{
