@@ -41,7 +41,7 @@ else
 	{
 		echo '<li><a href="/SpaceMMO/view_systems.php">View Galaxy</a></li>', $eol;
 	}
-	echo '<li><a href="/SpaceMMO/help/getting_sarted.php">Help</a></li>', $eol;
+	echo '<li><a href="/SpaceMMO/help/getting_started.php">Help</a></li>', $eol;
 }
 ?>
 </ul>
