@@ -11,7 +11,7 @@ function viewSystemsBody()
 	$userid = $_SESSION['userid'];
 	$x = $_GET['x'];
 	$y = $_GET['y'];
-	$viewdistance = 6;
+	$viewdistance = 7;
 	$zoom = $_GET['zoom']; if (!is_numeric($zoom)) $zoom=1;
 	$zoom = clamp($zoom, 0.2, 2);
 	$starsize = $zoom * 2;
