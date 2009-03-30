@@ -85,7 +85,6 @@ function viewSystemsBody()
 	$stmt->execute();
 	$stmt->bind_result($systemid,$sysX,$sysY,$colonies,$othercolonies);
 
-	echo '<h1>View Galaxy</h1>', $eol;
 	echo '<div class="starmap" style="width: ', $viewsize+2, 'em; height: ', $viewsize+2, 'em;">', $eol;
 
 	echo '<a href="view_systems.php?x=', $x, '&y=', $y-$scroll, '&zoom=', $zoom, '"><img class="navtop" src="images/up.png" alt="Up"></a>', $eol;

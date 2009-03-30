@@ -6,7 +6,7 @@ include 'includes/template.inc.php';
 include 'includes/colonymenu.inc.php';
 
 $countarray=array();
-template('Colony Buildings', 'colonyBuildingsBody', 'colonyMenu');
+template('Building at Colony', 'colonyBuildingsBody', 'colonyMenu');
 
 function colonyBuildingsBody()
 {
@@ -69,7 +69,6 @@ function colonyBuildingsBody()
 	}
 	$query->close();
 
-	echo '<h1>Build at Colony</h1>', $eol;
 	echo '<table>', $eol;
 	echo '<tr><th>Metal</th><th>Deuterium</th><th>Energy</th></tr>', $eol;
 	echo '<tr>';

@@ -19,7 +19,6 @@ function viewPlanetsBody()
 	$orbitspacing = 2.1;
 	$viewsize = ($minorbit + ($orbits - 1) * $orbitspacing + $planetsize/2) * 2;
 
-	echo '<h1>View Solar System</h1>', $eol;
 	echo '<div class="starmap" style="width: ', $viewsize, 'em; height: ', $viewsize, 'em;">', $eol;
 	echo '<a href="view_systems.php?system=', $systemid, '"><img class="zoomout" src="images/out.png" alt="Out" title="View surrounding systems"></a>', $eol;
 

@@ -28,7 +28,6 @@ function colonyListBody()
 
 	$query->bind_result($planetid,$systemid,$systemx,$systemy,$orbit,$planettype,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod);
 
-	echo '<h1>Colonies List</h1>', $eol;
 	echo '<table>', $eol;
 	echo '<tr><th>Location</th><th>Planet Type</th><th>Metal</th><th>Deuterium</th><th>Energy</th><th>Actions</th></tr>', $eol;
 

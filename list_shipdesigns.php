@@ -27,7 +27,6 @@ function designListBody()
 
 	$query->bind_result($designid,$shipname,$hullname,$metalcost,$size,$engines,$fuel,$cargo,$weapons,$shields);
 
-	echo '<h1>Ship Designs List</h1>', $eol;
 	echo '<table>', $eol;
 	echo '<tr><th>Design Name</th><th>Hull</th><th>Cost</th><th>Size</th><th>Engines</th><th>Fuel Bay</th><th>Cargo Bay</th><th>Weapons</th><th>Shields</th></tr>', $eol;
 
