@@ -85,7 +85,7 @@ function buildShipsBody()
 	}
 	else
 	{
-		echo '<tr><td colspan="3">Empty</td></tr>';
+		echo '<tr><td colspan="5">Empty</td></tr>';
 	}
 	?>
 	</table>
