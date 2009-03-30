@@ -1,4 +1,3 @@
-<script type="text/javascript">
 function updateProdVals(id,output,maxc,maxe){
 	cspan = document.getElementById("conssp"+id);
 	espan = document.getElementById("effsp"+id);	
@@ -122,5 +121,3 @@ function validateDesForm(){
 	if((calcsize == shsz) && (wep<=mw)) return true;
 	return false;	
 }
-
-</script>
