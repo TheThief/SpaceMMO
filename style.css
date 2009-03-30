@@ -28,6 +28,9 @@ div {
 a {
 	color: white;
 }
+a img {
+	border: 0;
+}
 @media print
 {
 	a {
@@ -127,10 +130,6 @@ div.starmap {
 	position: relative;
 	background: black;
 	margin: 0;
-}
-
-div.starmap a img {
-border: 0;
 }
 
 .navtop, .navbottom, .navleft, .navright {
