@@ -10,7 +10,7 @@ function helpGettingStartedBody()
 	echo '<p>After registering, the first thing you will want to do is to get your colony up and running. To do this, you will first need to go to to the colonies list, which will look something like this:</p>', $eol;
 	echo '<table>', $eol;
 	echo '<tr><th>Location</th><th>Planet Type</th><th>Metal</th><th>Deuterium</th><th>Energy</th><th>Actions</th></tr>', $eol;
-	echo '<tr><td><a>0, 0 : 1</a></td><td><img src="images/planet3.png" style="width:1em;height:1em;">Ice</td><td>2000/2000 (+0)</td><td>0/2000 (+0)</td><td>0/2000 (+0)</td><td><a>Details</a></td></tr>', $eol;
+	echo '<tr><td><a>0, 0 : 1</a></td><td><img src="../images/planet3.png" style="width:1em;height:1em;">Ice</td><td>2000/2000 (+0)</td><td>0/2000 (+0)</td><td>0/2000 (+0)</td><td><a>Details</a></td></tr>', $eol;
 	echo '</table>', $eol;
 	echo 'The columns represent the following:<br>', $eol;
 	echo '<dl>', $eol;
