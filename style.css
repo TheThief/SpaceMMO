@@ -124,8 +124,9 @@ color: red;
 }
 
 div.starmap {
-position: relative;
-background: black;
+	position: relative;
+	background: black;
+	margin: 0;
 }
 
 div.starmap a img {
