@@ -87,6 +87,7 @@ function buildShipsBody()
 	<?	
 	$timeoffset=0;
 	$first=TRUE;
+	$empty=FALSE;
 	if($query->fetch())
 	{
 		do
@@ -113,6 +114,7 @@ function buildShipsBody()
 	}
 	else
 	{
+		$empty=TRUE;
 		echo '<tr><td colspan="5">Empty</td></tr>';
 	}
 	?>
@@ -179,7 +181,9 @@ function buildShipsBody()
 	foreach($orderarray as $cid => $ctime){
 		echo "liveCount(".$ctime.",\"orsp".$cid."\",0,0,1);";
 	}
-	echo "livePercent(".$pcarray[0].",".$pcarray[1].",".$pcarray[2].",".$pcarray[3].",\"pcsp1\",1);";
+	if(!$empty){
+		echo "livePercent(".$pcarray[0].",".$pcarray[1].",".$pcarray[2].",".$pcarray[3].",\"pcsp1\",1);";
+	}
 	?>
 	</script>
 	<?
