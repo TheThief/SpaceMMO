@@ -55,12 +55,12 @@ function viewPlanetsBody()
 			{
 				$image = 'images/planet'.$type.'-c.png';
 				$link = 'colony_buildings.php?planet='.$planetid;
-				$tooltip .= 'Your have a colony on this '.$tooltip;
+				$tooltip = 'Your have a colony on this '.$tooltip;
 			}
 		}
 		else
 		{
-			$tooltip .= 'Uncolonised '.$tooltip;
+			$tooltip = 'Uncolonised '.$tooltip;
 		}
 
 		//$angle = $systemid*10+$orbit;
