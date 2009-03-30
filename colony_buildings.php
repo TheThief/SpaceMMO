@@ -104,7 +104,7 @@ function colonyBuildingsBody()
 	echo '<col><col style="width: 20em;"><col>', $eol;
 	echo '<tr><th>Building</th><th>Description</th><th>Actions</th></tr>', $eol;
 
-	$query = $mysqli->prepare('SELECT buildingID,level,output,buildingname,buildingdescription,maxbuildinglevel,
+	$query = $mysqli->prepare('SELECT buildingID,level,output,buildingname,buildingdescription,mincolonylevel,maxbuildinglevel,
 		building_cost(buildingid,IF(level,level+1,1)) AS cost,
 		consumestype, consumes, IF(level,colony_building_consumes_max(planetid,buildingid,level+1)-colony_building_consumes_max(planetid,buildingid,level),colony_building_consumes_max(planetid,buildingid,1)) AS consumesdelta,
 		effecttype, effect, IF(level,colony_building_effect_max(planetid,buildingid,level+1)-colony_building_effect_max(planetid,buildingid,level),colony_building_effect_max(?,buildingid,1)) AS effectdelta, colony_building_consumes_max(planetid,buildingid,level) AS maxconsumes, colony_building_effect_max(planetid,buildingid,level) AS maxeffect
@@ -125,7 +125,7 @@ function colonyBuildingsBody()
 		exit;
 	}
 
-	$query->bind_result($buildingid,$level,$output,$name,$description,$maxlevel,$cost,$consumestype,$consumes,$consumesdelta,$effecttype,$effect,$effectdelta,$maxconsumes,$maxeffect);
+	$query->bind_result($buildingid,$level,$output,$name,$description,$mincolonylevel,$maxlevel,$cost,$consumestype,$consumes,$consumesdelta,$effecttype,$effect,$effectdelta,$maxconsumes,$maxeffect);
 
 	while($query->fetch())
 	{
@@ -177,6 +177,11 @@ function colonyBuildingsBody()
 			if ($buildingid !=1 && $level+1 > $colonylevel)
 			{
 				echo '<br><span class="error">Colony level too low</span>', $eol;
+				$bCanBuild = false;
+			}
+			if ($buildingid !=1 && $mincolonylevel > $colonylevel)
+			{
+				echo '<br><span class="error">Colony level needs to be at least ',$mincolonylevel,'</span>', $eol;
 				$bCanBuild = false;
 			}
 			if ($cost > $metal)

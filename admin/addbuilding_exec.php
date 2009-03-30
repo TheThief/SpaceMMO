@@ -5,15 +5,16 @@ checkIsAdmin();
 $eol = "\n";
 header('Content-type: text/plain');
 
-$query = $mysqli->prepare('INSERT INTO buildings (buildingname,maxbuildinglevel,buildingdescription,metalcostbase,metalcostlinear,metalcostmultiplier,consumestype,consumesbase,consumeslinear,consumesmultiplier,effecttype,effectbase,effectlinear,effectmultiplier,multiplybyplanet) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
+$query = $mysqli->prepare('INSERT INTO buildings (buildingname,mincolonylevel,maxbuildinglevel,buildingdescription,metalcostbase,metalcostlinear,metalcostmultiplier,consumestype,consumesbase,consumeslinear,consumesmultiplier,effecttype,effectbase,effectlinear,effectmultiplier,multiplybyplanet) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
 if (!$query)
 {
 	echo 'error: ', $mysqli->error, $eol;
 	exit;
 }
 
-$query->bind_param('sisiddiiddiiddi', $name, $maxlevel, $description, $costbase, $costlinear, $costmult, $consumestype, $consumesbase, $consumeslinear, $consumesmult, $effecttype, $effectbase, $effectlinear, $effectmult, $multiplybyplanet);
+$query->bind_param('siisiddiiddiiddi', $name, $mincolonylevel, $maxlevel, $description, $costbase, $costlinear, $costmult, $consumestype, $consumesbase, $consumeslinear, $consumesmult, $effecttype, $effectbase, $effectlinear, $effectmult, $multiplybyplanet);
 $name = $_POST['name'];
+$mincolonylevel = $_POST['mincolonylevel'];
 $maxlevel = $_POST['maxlevel'];
 $description = $_POST['description'];
 $costbase = $_POST['costbase'];

@@ -41,7 +41,7 @@ function buildBuildingBody()
 	}
 	$query->close();
 
-	$query = $mysqli->prepare('SELECT metalcostbase*POW(metalcostmultiplier,IFNULL(level,0)) AS cost, consumestype, effecttype, level, maxbuildinglevel FROM buildings LEFT JOIN (SELECT buildingid,level FROM colonybuildings WHERE colonybuildings.planetid = ?) dtable USING (buildingid) WHERE buildingid=?');
+	$query = $mysqli->prepare('SELECT metalcostbase*POW(metalcostmultiplier,IFNULL(level,0)) AS cost, consumestype, effecttype, level, mincolonylevel, maxbuildinglevel FROM buildings LEFT JOIN (SELECT buildingid,level FROM colonybuildings WHERE colonybuildings.planetid = ?) dtable USING (buildingid) WHERE buildingid=?');
 	if (!$query)
 	{
 		echo 'error: ', $mysqli->error, $eol;
@@ -57,7 +57,7 @@ function buildBuildingBody()
 		exit;
 	}
 
-	$query->bind_result($cost,$consumestype,$effecttype,$level,$maxlevel);
+	$query->bind_result($cost,$consumestype,$effecttype,$level,$mincolonylevel,$maxlevel);
 	$result = $query->fetch();
 	if (!$result)
 	{
@@ -72,6 +72,11 @@ function buildBuildingBody()
 	if ($buildingid!=1 && $level+1>$colonylevel)
 	{
 		echo 'Error: Colony level too low, no room to upgrade.', $eol;
+		exit;
+	}
+	if ($buildingid!=1 && $mincolonylevel>$colonylevel)
+	{
+		echo 'Error: Colony level needs to be ',$mincolonylevel,' to build this building.', $eol;
 		exit;
 	}
 	if ($level+1>$maxlevel)
