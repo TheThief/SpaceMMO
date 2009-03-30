@@ -11,7 +11,9 @@ function buildShipsBody()
 	global $eol, $mysqli;
 	$userid = $_SESSION['userid'];
  	$planetid = $_GET['planet'];
-
+	?>
+	<script type="text/javascript" src="functions.js"></script>
+	<?
 	$shiparray = array();
 	$orderarray = array();
 	$pcarray = array();
@@ -169,59 +171,17 @@ function buildShipsBody()
 
 	?>
 	<script type="text/javascript">
-function reloadPage(){
-	location.reload(true);
-}
-function liveCount(seconds,name,reload,first){
-	span=document.getElementById(name);
-	if(first==1){
-		//spanb=document.getElementById("b" + name);
-		var d = new Date();
-		d.setTime(d.getTime()+(seconds*1000));
-		span.title = d.toLocaleDateString() + " " + d.toLocaleTimeString();
-		//spanb.title = d.toLocaleDateString() + " " + d.toLocaleTimeString();
-	}
-	hours = Math.floor(seconds/3600);
-	minutes = Math.floor(seconds/60)%60;
-	sec = seconds%60;
-	span.innerHTML =  hours + ":" + padString(minutes,"0",2) + ":" + padString(sec,"0",2);
-	//span.title = hours + ":" + padString(minutes,"0",2) + ":" + padString(sec,"0",2);
-	if (seconds>0){
-		 setTimeout('liveCount('+(seconds - 1)+',"'+name+'",'+reload+',0);',1000);
-	}else{
-		if(reload==1) setTimeout('reloadPage()',10000);
-	}
 
-}
-function livePercent(seconds,cost,buildrate,progress,name,first){
-	var sec = seconds;
-	var per;
-	if (sec > 600) sec = 0;
-	per = (((buildrate*(sec/600))+progress)/cost)*100;
-	span=document.getElementById(name);
-	span.innerHTML = Math.min(Math.round(per),100);
-	if (per<100){
-		setTimeout('livePercent('+(sec+1)+','+cost+','+buildrate+','+progress+',"'+name+'",0);',1000);
+	<?
+	foreach($shiparray as $cid => $ctime){
+		echo "liveCount(".$ctime.",\"shsp".$cid."\",0,1,1);";
 	}
-
-}
-function padString(string,chr,len){
-	tempstring = string.toString();
-	while(tempstring.length < len) tempstring = chr + tempstring;
-	return tempstring;
-}
-<?
-//print_r($countarray);
-foreach($shiparray as $cid => $ctime){
-	echo "liveCount(".$ctime.",\"shsp".$cid."\",1,1);";
-}
-foreach($orderarray as $cid => $ctime){
-	echo "liveCount(".$ctime.",\"orsp".$cid."\",0,1);";
-}
-echo "livePercent(".$pcarray[0].",".$pcarray[1].",".$pcarray[2].",".$pcarray[3].",\"pcsp1\",1);";
-
-?>
-</script>
+	foreach($orderarray as $cid => $ctime){
+		echo "liveCount(".$ctime.",\"orsp".$cid."\",0,0,1);";
+	}
+	echo "livePercent(".$pcarray[0].",".$pcarray[1].",".$pcarray[2].",".$pcarray[3].",\"pcsp1\",1);";
+	?>
+	</script>
 	<?
 }
 ?>

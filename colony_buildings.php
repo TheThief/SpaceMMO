@@ -16,34 +16,7 @@ function colonyBuildingsBody()
 	$countpoint=0;
 
 	?>
-	<script type="text/javascript">
-		function updateProdVals(id,output,maxc,maxe){
-			cspan = document.getElementById("conssp"+id);
-			espan = document.getElementById("effsp"+id);	
-			var index = document.getElementById("pdd"+id).selectedIndex;
-			var pval = parseFloat(document.getElementById("pdd"+id)[index].value);
-			pval = pval/100;
-			var cc = parseInt(maxc * output);
-			var ce = parseInt(maxe * output);
-			var nc = parseInt(maxc * pval);
-			var ne = parseInt(maxe * pval);
-			var ed =0;
-			var cd=0;
-			if(cc==nc && ce==ne){
-				cspan.innerHTML = cc;
-				cspan.title="";
-				espan.innerHTML = ce;
-				espan.title="";
-			}else{				
-				cd = nc-cc;
-				ed = ne-ce;
-				cspan.innerHTML = nc + "("+ cc+")";
-				cspan.title=((cd>=0)?"+":"") + cd;
-                                espan.innerHTML = ne + "("+ ce+")";
-				espan.title=((ed>=0)?"+":"") + ed;
-			}
-		}
-	</script>
+	<script type="text/javascript" src="functions.js"></script>
 	<?
 	$query = $mysqli->prepare('SELECT colonylevel,metal,maxmetal,metalproduction,deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction FROM colonies WHERE colonies.userid=? AND colonies.planetID = ?;');
 	if (!$query)
@@ -235,40 +208,10 @@ function colonyBuildingsBody()
 }
 ?>
 <script type="text/javascript"> 
-function reloadPage(){
-	location.reload(true);
-}
-function liveCount(seconds,name,first){
-	span=document.getElementById(name);
-	if(first==1){
-		spanb=document.getElementById("b" + name);
-		var d = new Date();
-		d.setTime(d.getTime()+(seconds*1000));
-		span.title = d.toLocaleDateString() + " " + d.toLocaleTimeString();	
-		spanb.title = d.toLocaleDateString() + " " + d.toLocaleTimeString();	
-	}
-	hours = Math.floor(seconds/3600);
-	minutes = Math.floor(seconds/60)%60;
-	sec = seconds%60;
-	span.innerHTML =  hours + ":" + padString(minutes,"0",2) + ":" + padString(sec,"0",2);
-	//span.title = hours + ":" + padString(minutes,"0",2) + ":" + padString(sec,"0",2);
-	if (seconds>0){
-		 setTimeout('liveCount('+(seconds - 1)+',"'+name+'",0);',1000);
-	}else{
-		 setTimeout('reloadPage()',10000);
-	}
-	
-}
-
-function padString(string,chr,len){
-	tempstring = string.toString();
-	while(tempstring.length < len) tempstring = chr + tempstring;
-	return tempstring;
-}
 <?
 //print_r($countarray);
 foreach($countarray as $cid => $ctime){
-	echo "liveCount(".$ctime.",\"timesp".$cid."\",1);";
+	echo "liveCount(".$ctime.",\"timesp".$cid."\",1,1,1);";
 }
 ?>
 </script>
