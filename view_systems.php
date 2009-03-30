@@ -15,8 +15,9 @@ function viewSystemsBody()
 	$zoom = $_GET['zoom']; if (!is_numeric($zoom)) $zoom=1;
 	$zoom = clamp($zoom, 0.2, 2);
 	$starsize = $zoom * 2;
+	$distance = floor($viewdistance/$zoom);
+	$viewdistance = $distance*$zoom;
 	$viewsize = ($viewdistance*2 + $starsize + $viewdistance*2);
-	$distance = $viewdistance/$zoom;
 	$scroll = 3;
 
 	if (!is_numeric($x) || !is_numeric($y))
