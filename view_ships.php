@@ -9,7 +9,7 @@ function viewShipsBody()
 {
 	global $eol, $mysqli;
 	$userid = $_SESSION['userid'];
-	$userid = $_GET['planetid'];
+	$userid = $_GET['planet'];
 
 	$query = $mysqli->prepare('SELECT count,shipname FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleets.userID = ? AND planetid = ? AND orderid = 0');
 	if (!$query)
