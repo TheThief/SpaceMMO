@@ -98,7 +98,7 @@ function viewSystemsBody()
 
 	while ($stmt->fetch())
 	{
-		$image = 'images/star.png';
+		$image = 'images/star'.($systemid%4 +1).'.png';
 		$tooltip = 'Not colonised';
 		if ($colonies && $othercolonies)
 		{
