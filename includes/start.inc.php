@@ -201,7 +201,7 @@ function prodDropdown($current,$planet,$building,$maxcons,$maxeffect){
 	echo "<form action=\"alter_production_exec.php\" method=\"post\">\n";
 	echo "<input type=\"hidden\" name=\"planet\" value=\"" .$planet . "\">\n";
 	echo "<input type=\"hidden\" name=\"building\" value=\"" .$building . "\">\n";
-	$js= "onChange=\"updateProdVals(".$building .",".$current .",". $maxcons . "," .$maxeffect . ");\"";
+	$js= "onChange=\"updateProdVals(".$building .",".round($current,1) .",". $maxcons . "," .$maxeffect . ");\"";
 	echo "<select id=\"pdd" . $building . "\" name=\"output\" $js >\n";
 	for($i=0;$i<=100;$i+=10){
 		$prodval = (float)$i/100;
