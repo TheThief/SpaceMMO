@@ -17,7 +17,7 @@ function template($title, $bodyfunc, $menufunc=null)
 	echo '', $eol;
 	echo '<div class="menuouter">', $eol;
 	echo '<div class="logo">', $eol;
-	echo '<img src="images/logo.png" alt="Logo!">', $eol;
+	echo '<img src="/SpaceMMO/images/logo.png" alt="Logo!">', $eol;
 	echo '</div>', $eol;
 	echo '', $eol;
 	echo '<div class="menu">', $eol;
