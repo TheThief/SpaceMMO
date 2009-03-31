@@ -9,7 +9,7 @@ function helpGettingStartedBody()
 	global $eol, $mysqli;
 
 ?><h2>Colonies</h2>
-<p>After registering, the first thing you will want to do is to get your colony up and running. To do this, you will first need to go to to the colonies list, which will look something like this:</p>
+<p>After registering, the first thing you will want to do is to get your colony up and running. To do this, you will first need to go to the colonies list, which will look something like this:</p>
 <table>
 <tr><th>Location</th><th>Planet Type</th><th>Metal</th><th>Deuterium</th><th>Energy</th><th>Actions</th></tr>
 <tr><td><a>0, 0 : 1</a></td><td><img src="../images/planet3.png" style="width:1em;height:1em;">Ice</td><td>2000/2000 (+0)</td><td>0/2000 (+0)</td><td>0/2000 (+0)</td><td><a>Details</a></td></tr>
