@@ -2,8 +2,10 @@
 include 'includes/start.inc.php';
 checkLoggedIn();
 
+include 'includes/colonymenu.inc.php';
+
 include 'includes/template.inc.php';
-template('Ships in Orbit', 'viewShipsBody');
+template('Ships in Orbit', 'viewShipsBody', 'colonyMenu');
 
 function viewShipsBody()
 {
