@@ -208,7 +208,6 @@ function prodDropdown($current,$planet,$building,$maxcons,$maxeffect){
 		$selected=($prodval==round($current,1))?"selected":"";
 		echo "<option value=\"$i\" $selected >$i%</option>\n";
 	}
-
 	echo "</select><input type=\"submit\" value=\"Set\">\n</form>\n";
 }
 ?>
