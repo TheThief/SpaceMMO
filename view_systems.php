@@ -11,14 +11,18 @@ function viewSystemsBody()
 	$userid = $_SESSION['userid'];
 	$x = $_GET['x'];
 	$y = $_GET['y'];
-	$viewdistance = 7;
+
+	$viewdistance = 7; // in grid squares at normal zoom
+	$minstarsize = 1.2;// in em
+	$maxstarsize = 2;  // in em
+	$gridsize = 2;     // in em
+	$scroll = 3;       // in grid squares
+
 	$zoom = $_GET['zoom']; if (!is_numeric($zoom)) $zoom=1;
-	$zoom = clamp($zoom, 0.2, 2);
-	$starsize = $zoom * 2;
-	$distance = floor($viewdistance/$zoom);
-	$viewdistance = $distance*$zoom;
-	$viewsize = ($viewdistance*2 + $starsize + $viewdistance*2);
-	$scroll = 3;
+	$zoom = clamp($zoom, 0.25, 2);
+	$distance = floor($viewdistance/$zoom); // in grid squares
+	$viewdistance = $distance*$zoom;        // in grid squares at normal zoom
+	$viewsize = ($viewdistance + 1 + $viewdistance) * $gridsize;
 
 	if (!is_numeric($x) || !is_numeric($y))
 	{
@@ -115,7 +119,8 @@ function viewSystemsBody()
 			$image = 'images/star-oc.png';
 			$tooltip = 'Enemy system. Colonised planets: '.$othercolonies;
 		}
-		echo '<a href="view_planets.php?system=', $systemid, '"><img src="', $image, '" style="width: ', $starsize, 'em; height: ', $starsize, 'em; position: absolute; left: ', ($sysX-$xmin)*$starsize, 'em; top: ', ($sysY-$ymin)*$starsize, 'em;" title="',$tooltip,'"></a>', $eol;
+		$starsize = (floor($systemid/4)%4)/4 * ($maxstarsize-$minstarsize) + $minstarsize;
+		echo '<a href="view_planets.php?system=', $systemid, '"><img src="', $image, '" style="width: ', $starsize, 'em; height: ', $starsize, 'em; position: absolute; left: ', ($sysX-$xmin+0.5)*$gridsize-$starsize/2, 'em; top: ', ($sysY-$ymin+0.5)*$gridsize-$starsize/2, 'em;" title="',$tooltip,'"></a>', $eol;
 	}
 	$stmt->close();
 	echo '</div>', $eol;
