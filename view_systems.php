@@ -94,7 +94,7 @@ function viewSystemsBody()
 	echo '<a href="view_systems.php?x=', $x, '&y=', $y, '&zoom=', $zoom*2, '"><img class="zoomin" src="images/in.png" alt="In"></a>', $eol;
 	echo '<a href="view_systems.php?x=', $x, '&y=', $y, '&zoom=', $zoom/2, '"><img class="zoomout" src="images/out.png" alt="Out"></a>', $eol;
 
-	echo '<div class="starmap" style="width: ', $viewsize, 'em; height: ', $viewsize, 'em; position: absolute; left: 1em; top: 1em;">', $eol;
+	echo '<div class="starmap" style="width: ', $viewsize, 'em; height: ', $viewsize, 'em; position: absolute; left: 1em; top: 1em; background: url(images/starbg.png) center center;">', $eol;
 
 	while ($stmt->fetch())
 	{
