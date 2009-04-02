@@ -20,8 +20,11 @@ function viewSystemsBody()
 
 	$zoom = $_GET['zoom']; if (!is_numeric($zoom)) $zoom=1;
 	$zoom = clamp($zoom, 0.25, 2);
-	$distance = floor($viewdistance/$zoom); // in grid squares
-	$viewdistance = $distance*$zoom;        // in grid squares at normal zoom
+	$viewdistance = floor($viewdistance/$zoom); // in grid squares
+	$minstarsize *= $zoom;
+	$maxstarsize *= $zoom;
+	$gridsize *= $zoom;
+	$scroll = floor($scroll/$zoom);
 	$viewsize = ($viewdistance + 1 + $viewdistance) * $gridsize;
 
 	if (!is_numeric($x) || !is_numeric($y))
