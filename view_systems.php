@@ -106,24 +106,27 @@ function viewSystemsBody()
 	while ($stmt->fetch())
 	{
 		$image = 'images/star'.($systemid%4 +1).'.png';
+		$image2 = null;
 		$tooltip = 'Not colonised';
 		if ($colonies && $othercolonies)
 		{
-			$image ='images/star-oc+c.png';
+			$image2 ='images/star-oc+c.png';
 			$tooltip = 'Contested System. Your colonies: '.$colonies.' Other colonies: '.$othercolonies;
 		}
 		else if ($colonies)
 		{
-			$image = 'images/star-c.png';
+			$image2 = 'images/star-c.png';
 			$tooltip = 'Your system. Colonised planets: '.$colonies;
 		}
 		else if ($othercolonies)
 		{
-			$image = 'images/star-oc.png';
+			$image2 = 'images/star-oc.png';
 			$tooltip = 'Enemy system. Colonised planets: '.$othercolonies;
 		}
 		$starsize = (floor($systemid/4)%4)/4 * ($maxstarsize-$minstarsize) + $minstarsize;
-		echo '<a href="view_planets.php?system=', $systemid, '"><img src="', $image, '" style="width: ', $starsize, 'em; height: ', $starsize, 'em; position: absolute; left: ', ($sysX-$xmin+0.5)*$gridsize-$starsize/2, 'em; top: ', ($sysY-$ymin+0.5)*$gridsize-$starsize/2, 'em;" title="',$tooltip,'"></a>', $eol;
+		echo '<a href="view_planets.php?system=', $systemid, '">', $eol;
+		echo '<img src="', $image, '" style="width: ', $starsize, 'em; height: ', $starsize, 'em; position: absolute; left: ', ($sysX-$xmin+0.5)*$gridsize-$starsize/2, 'em; top: ', ($sysY-$ymin+0.5)*$gridsize-$starsize/2, 'em;" title="',$tooltip,'">', $eol;
+		echo '<img src="', $image, '" style="width: ', $gridsize, 'em; height: ', $gridsize, 'em; position: absolute; left: ', ($sysX-$xmin)*$gridsize, 'em; top: ', ($sysY-$ymin)*$gridsize, 'em;" title="',$tooltip,'"></a>', $eol;
 	}
 	$stmt->close();
 	echo '</div>', $eol;
