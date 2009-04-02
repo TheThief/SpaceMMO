@@ -1,4 +1,4 @@
-AuthName "Dialog prompt"
+AuthName "Whats the password?"
 AuthType Basic
-AuthUserFile /var/www/www.dynamicarcade.co.uk/SpaceMMO/admin/private/.htpasswd
+AuthUserFile ./.htpasswd
 Require valid-user
