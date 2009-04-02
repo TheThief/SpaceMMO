@@ -48,6 +48,6 @@ function viewShipsBody()
 		echo '<tr><td colspan="2">None!</td></tr>';
 	}
 	echo '</table>', $eol;
-	echo '<a href="build_ships.php">Build</a> more ships.', $eol;
+	echo '<a href="build_ships.php?planet=',$planetid,'">Build</a> more ships.', $eol;
 }
 ?>
