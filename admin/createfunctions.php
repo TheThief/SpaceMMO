@@ -6,7 +6,7 @@ $eol = "\n";
 header('Content-type: text/plain');
 
 // need to log in as power user for this
-$mysqli = new mysqli('mysql.dynamicarcade.co.uk',$db_admin_user,$db_admin_pass,$db_db);
+$mysqli = new mysqli($db_server,$db_admin_user,$db_admin_pass,$db_db);
 
 //$result = $mysqli->query('DROP FUNCTION mult_exp');
 $result = $mysqli->query('CREATE FUNCTION mult_exp(level INT, base FLOAT, linear FLOAT, multiplier FLOAT) returns FLOAT DETERMINISTIC NO SQL RETURN ROUND((base+base*(level-1)*linear)*POW(multiplier,level-1))');

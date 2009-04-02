@@ -21,7 +21,7 @@ class spacemysqli extends mysqli{
 }
 
 $eol = "\n";
-$mysqli = new spacemysqli('mysql.dynamicarcade.co.uk',$db_user,$db_pass,$db_db);
+$mysqli = new spacemysqli($db_server,$db_user,$db_pass,$db_db);
 
 register_shutdown_function("cleanUp");
 function cleanUp(){

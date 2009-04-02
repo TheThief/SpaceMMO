@@ -6,7 +6,7 @@ $eol = "\n";
 header('Content-type: text/plain');
 
 // need to log in as power user for this
-$mysqli = new mysqli('mysql.dynamicarcade.co.uk',$db_admin_user,$db_admin_pass,$db_db);
+$mysqli = new mysqli($db_server,$db_admin_user,$db_admin_pass,$db_db);
 
 //$result = $mysqli->query('DROP TABLE planets');
 $result = $mysqli->query('CREATE TABLE planets(planetID INT NOT NULL AUTO_INCREMENT, systemID INT NOT NULL, orbit INT NOT NULL, type TINYINT NOT NULL, metal FLOAT, deuterium FLOAT, PRIMARY KEY (planetID))');
