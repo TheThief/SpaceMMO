@@ -1,6 +1,6 @@
-#!/usr/bin/php -q
+#!/usr/bin/php
 <?php
-include '../../includes/start.inc.php';
+include '/var/www/www.dynamicarcade.co.uk/SpaceMMO/includes/start.inc.php';
 //mail("mark@gethyper.co.uk","Tick",date("H:i:s"));
 $eol = "\n";
 
