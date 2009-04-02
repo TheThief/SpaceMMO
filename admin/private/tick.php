@@ -1,4 +1,4 @@
-#!/usr/local/php5/bin/php -q
+#!/usr/bin/php -q
 <?php
 include 'dynamicarcade.co.uk/SpaceMMO/includes/start.inc.php';
 //mail("mark@gethyper.co.uk","Tick",date("H:i:s"));
