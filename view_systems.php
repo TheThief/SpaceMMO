@@ -84,10 +84,10 @@ function viewSystemsBody()
 	LEFT JOIN (SELECT planetid FROM colonies WHERE userid=?) user_colonies USING (planetid)
 	LEFT JOIN (SELECT planetid FROM colonies WHERE userid!=?) other_colonies USING (planetid)
 	WHERE x>=? AND x<=? AND y>=? AND y<=? GROUP BY systemid ORDER BY NULL');
-	$xmin = $x-$distance;
-	$xmax = $x+$distance;
-	$ymin = $y-$distance;
-	$ymax = $y+$distance;
+	$xmin = $x-$viewdistance;
+	$xmax = $x+$viewdistance;
+	$ymin = $y-$viewdistance;
+	$ymax = $y+$viewdistance;
 	$stmt->bind_param('iiiiii',$userid,$userid,$xmin,$xmax,$ymin,$ymax);
 	$stmt->execute();
 	$stmt->bind_result($systemid,$sysX,$sysY,$colonies,$othercolonies);
