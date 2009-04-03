@@ -86,8 +86,8 @@ div.menu {
 }
 div.menu ul {
 	list-style-type: none;
-	padding-left: 0;
-	margin-left: 0;
+	padding: 0;
+	margin: 0;
 }
 
 div.bodyouter {
