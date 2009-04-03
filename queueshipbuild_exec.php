@@ -114,6 +114,22 @@ function queueShipBody()
 		exit;
 	}
 
+	$query = $mysqli->prepare('UPDATE colonies SET metal=metal-? WHERE userID = ? AND planetID = ?');
+	if (!$query)
+	{
+		echo 'error: ', $mysqli->error, $eol;
+		exit;
+	}
+	$query->bind_param('iii', $metalcost, $userid, $planetid);
+
+	$result = $query->execute();
+	if (!$result)
+	{
+		echo 'error: ', $query->error, $eol;
+		exit;
+	}
+	$query->close();
+
 	$mysqli->commit();
 
 	header('HTTP/1.1 303 See Other');
