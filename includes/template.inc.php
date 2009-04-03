@@ -1,5 +1,5 @@
 <?
-function template($title, $bodyfunc, $menufunc=null)
+function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 {
 	global $eol, $mysqli;
 	$userid = $_SESSION['userid'];
@@ -12,6 +12,10 @@ function template($title, $bodyfunc, $menufunc=null)
 	echo '<head>', $eol;
 	echo '<title>SpaceMMO - ', $title, '</title>', $eol;
 	echo '<link rel="stylesheet" type="text/css" href="/SpaceMMO/style.css">', $eol;
+	if ($headerfunc)
+	{
+		$headerfunc();
+	}
 	echo '</head>', $eol;
 	echo '<body>', $eol;
 	echo '', $eol;
