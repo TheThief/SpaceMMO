@@ -29,7 +29,8 @@ function viewPlanetsBody()
 	$stmt->fetch();
 	$stmt->close();
 
-	echo '<img src="images/star-large.png" style="width: ',$starsize,'em; height: ',$starsize,'em; position: absolute; left: ', ($viewsize-$starsize)/2, 'em; top: ', ($viewsize-$starsize)/2, 'em;" title="Star of system ',$systemx,', ',$systemy,'">', $eol;
+	$image = 'images/star-large'.($systemid%4 +1).'.png';
+	echo '<img src="',$image,'" style="width: ',$starsize,'em; height: ',$starsize,'em; position: absolute; left: ', ($viewsize-$starsize)/2, 'em; top: ', ($viewsize-$starsize)/2, 'em;" title="Star of system ',$systemx,', ',$systemy,'">', $eol;
 
 	mt_srand($systemid);
 
