@@ -82,13 +82,13 @@ function viewShipsBody()
 	echo '<option value="1" selected>Move</option>', $eol;
 	echo '</select><br>', $eol;
 
-	$query = $mysqli->prepare('SELECT systemid,orbit,planetid,(ROUND(SQRT(POW(x-?,2)+POW(y-?,2)),2)) AS distance FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? ORDER BY distance ASC');
+	$query = $mysqli->prepare('SELECT systemid,orbit,planetid,(ROUND(SQRT(POW(x-?,2)+POW(y-?,2)),2)) AS distance FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY distance ASC');
 	if (!$query)
 	{
 		echo 'error: ', $mysqli->error, $eol;
 		exit;
 	}
-	$query->bind_param('iii', $sysx, $sysy, $userid);
+	$query->bind_param('iii', $sysx, $sysy, $userid, $planetid);
 
 	$result = $query->execute();
 	if (!$result)
@@ -106,7 +106,7 @@ function viewShipsBody()
 	{
 		do
 		{
-			echo '<option value="', $orderplanetid, '">', systemcode($ordersystemid, $orderorbit), '(', number_format($orderdistance,2), ' PC)</option>', $eol;
+			echo '<option value="', $orderplanetid, '">', systemcode($ordersystemid, $orderorbit), ' (', number_format($orderdistance,2), ' PC)</option>', $eol;
 		} while ($query->fetch());
 	}
 	else
