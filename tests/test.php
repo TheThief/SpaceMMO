@@ -30,7 +30,17 @@ foreach($tests as $element)
     }
 }
 
-echo 'A'+3;
+echo '<br><br>';
+
+function systemcode($systemid)
+{
+	return chr(ord('A')+floor($systemid/99)) + ((($systemid-1)%99)+1);
+}
+
+echo systemcode(1),'<br>';
+echo systemcode(123),'<br>';
+echo systemcode(457),'<br>';
+echo systemcode(1000),'<br>';
 
 ?>
 
