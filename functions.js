@@ -91,7 +91,7 @@ function getPartsSize(){
 
 function validateDesForm(shsz,mw){
 	var calcsize = getPartsSize();
-	var sname = document.getElementById("shipname").value);
+	var sname = document.getElementById("shipname").value;
 	var wep = parseInt(document.getElementById("weapons").value);
 	var engines = parseInt(document.getElementById("engines").value);
 	var 
