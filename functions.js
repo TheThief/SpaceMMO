@@ -94,6 +94,8 @@ function validateDesForm(shsz,mw){
 	var sname = document.getElementById("shipname").value;
 	var wep = parseInt(document.getElementById("weapons").value);
 	var engines = parseInt(document.getElementById("engines").value);
+	var shields = parseInt(document.getElementById("shields").value);
+	var cargo = parseInt(document.getElementById("cargo").value);
 	var fuel = parseInt(document.getElementById("fuel").value);
 	
 	if(sname == ""){
@@ -121,6 +123,12 @@ function validateDesForm(shsz,mw){
 		alert("You need at least 1 Fuel.");
 		return false;
 	}
+	
+	if(wep<0 || shields<0 || cargo <0){
+		alert("You can't have a negative value");
+		return false;
+	}
+	
 	if((calcsize == shsz) && (wep<=mw)) return true;
 	return false;	
 }
