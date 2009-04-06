@@ -91,9 +91,16 @@ function getPartsSize(){
 
 function validateDesForm(shsz,mw){
 	var calcsize = getPartsSize();
+	var sname = document.getElementById("shipname").value);
 	var wep = parseInt(document.getElementById("weapons").value);
 	var engines = parseInt(document.getElementById("engines").value);
-	var fuel = parseInt(document.getElementById("fuel").value);
+	var 
+	
+	if(sname == ""){
+		alert("You need a ship name.");
+		return false;
+	}fuel = parseInt(document.getElementById("fuel").value);
+	
 	if(calcsize > shsz){
 		alert("You have overloaded your ship by " + (calcsize -shsz) + ".");
 		return false;
