@@ -106,7 +106,7 @@ function viewShipsBody()
 	{
 		do
 		{
-			echo '<option value="', $orderplanetid, '">', systemcode($ordersystemid, $orderorbit), '(', format_number($orderdistance,2), ' PC)</option>', $eol;
+			echo '<option value="', $orderplanetid, '">', systemcode($ordersystemid, $orderorbit), '(', number_format($orderdistance,2), ' PC)</option>', $eol;
 		} while ($query->fetch());
 	}
 	else
