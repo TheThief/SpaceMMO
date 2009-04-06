@@ -28,7 +28,7 @@ function designListBody()
 	$query->bind_result($designid,$shipname,$hullname,$metalcost,$size,$engines,$fuel,$cargo,$weapons,$shields);
 
 	echo '<table>', $eol;
-	echo '<tr><th>Design Name</th><th>Hull</th><th>Cost</th><th>Size</th><th>Engines</th><th>Fuel Bay</th><th>Cargo Bay</th><th>Weapons</th><th>Shields</th></tr>', $eol;
+	echo '<tr><th>Design Name</th><th>Hull</th><th>Cost</th><th>Size</th><th><span title="Engines/Fuel Bay/Weapons/Shields/Cargo bay">E/F/W/S/C</th><th>Speed</th><th>Range</th></tr>', $eol;
 
 	if($query->fetch())
 	{
@@ -39,11 +39,9 @@ function designListBody()
 			echo "<td>$hullname</td>";
 			echo "<td>$metalcost Metal</td>";
 			echo "<td>$size</td>";
-			echo "<td>$engines</td>";
-			echo "<td>$fuel</td>";
-			echo "<td>$cargo</td>";
-			echo "<td>$weapons</td>";
-			echo "<td>$shields</td>";
+			echo "<td>$engines/$fuel/$weapons/$shields/$cargo</td>";
+			echo '<td>', number_format(($engines*4)/$size,2), ' PC/h</td>';
+			echo '<td>', number_format(($fuel*4)/$engines,2), ' PC</td>';
 			echo '</tr>', $eol;
 		} while ($query->fetch());
 	}
