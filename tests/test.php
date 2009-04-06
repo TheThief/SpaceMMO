@@ -30,5 +30,7 @@ foreach($tests as $element)
     }
 }
 
+echo 'A'+3;
+
 ?>
 
