@@ -136,9 +136,11 @@ function validateDesForm(shsz,mw){
 function validateField(name,size,min,max){
 	var field = parseInt(document.getElementById(name).value);
 	var calcsize = getPartsSize();
+	var remspace = calcsize - field;
 	if (field < min) field = min;
 	if (calcsize>size) field = field - (calcsize-size);
 	if (calcsize>max) field = max;
+	if (field>(size-remspace)) field = size - remspace; 
 	document.getElementById(name).value = field;
 	document.getElementById("remain").value = size-getPartsSize();
 }
