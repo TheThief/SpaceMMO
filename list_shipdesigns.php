@@ -40,8 +40,8 @@ function designListBody()
 			echo "<td>$metalcost Metal</td>";
 			echo "<td>$size</td>";
 			echo "<td>$engines/$fuel/$weapons/$shields/$cargo</td>";
-			echo '<td>', number_format(($engines*4)/$size,2), ' PC/h</td>';
-			echo '<td>', number_format(($fuel*4)/$engines,2), ' PC</td>';
+			echo '<td>', number_format(($engines*4)/$size *6,2), ' PC/h</td>';
+			echo '<td>', number_format(($fuel*6)/$engines,2), ' PC</td>';
 			echo '</tr>', $eol;
 		} while ($query->fetch());
 	}
