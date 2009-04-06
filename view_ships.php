@@ -88,7 +88,7 @@ function viewShipsBody()
 		echo 'error: ', $mysqli->error, $eol;
 		exit;
 	}
-	$query->bind_param('iii', $sysx, $sysy, $userid, $planetid);
+	$query->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
 
 	$result = $query->execute();
 	if (!$result)
