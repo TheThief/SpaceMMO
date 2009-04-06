@@ -37,9 +37,21 @@ function systemcode($systemid)
 	return chr(ord('A')+floor(($systemid-1)/99)) . padstring(((($systemid-1)%99)+1),'0',2);
 }
 
+function systemid($systemcode)
+{
+	if (strlen($systemcode)!=3
+		|| ord($systemcode[0]) < ord('A') || ord($systemcode[0]) > ord('K')
+		|| !is_numeric($systemcode[1]) || !is_numeric($systemcode[2]))
+	{
+		echo 'error: Invalid system code';
+		exit;
+	}
+	return (ord($systemcode[0])-ord('A'))*99 + substr($systemcode,1);
+}
+
 for ($i=1;$i<200;$i++)
 {
-	echo $i,'=',systemcode($i),', ';
+	echo $i,'=',systemcode($i),'=',systemid(systemcode($i)),', ';
 }
 
 ?>
