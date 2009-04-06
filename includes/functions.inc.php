@@ -186,9 +186,14 @@ function prodDropdown($current,$planet,$building,$maxcons,$maxeffect){
 	echo "</select><input type=\"submit\" value=\"Set\">\n</form>\n";
 }
 
-function systemcode($systemid)
+function systemcode($systemid,$planetorbit=null)
 {
-	return chr(ord('A')+floor(($systemid-1)/99)) . padstring(((($systemid-1)%99)+1),'0',2);
+	$return = chr(ord('A')+floor(($systemid-1)/99)) . padstring(((($systemid-1)%99)+1),'0',2);
+	if ($planetorbit)
+	{
+		$return += chr(ord('A') + $planetorbit);
+	}
+	return $return;
 }
 
 function systemid($systemcode)
