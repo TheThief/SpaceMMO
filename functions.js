@@ -143,5 +143,6 @@ function validateField(name,size,min,max){
 	document.getElementById("remain").value = size-getPartsSize();
 	if (size-getPartsSize()<0){
 		document.getElementById(name).value = parseInt(document.getElementById(name).value) + (size-getPartsSize());
+		document.getElementById("remain").value = 0;
 	}
 }
