@@ -132,3 +132,13 @@ function validateDesForm(shsz,mw){
 	if((calcsize == shsz) && (wep<=mw)) return true;
 	return false;	
 }
+
+function validateField(name,size,min,max){
+	var field = parseInt(document.getElementById(name).value);
+	var calcsize = getPartsSize();
+	if (field < min) field = min;
+	if (calcsize>size) field = field - (calcsize-size);
+	if (calcsize>max) field = max;
+	document.getElementById(name).value = field;
+	document.getElementById("remain").value = size-getPartsSize();
+}
