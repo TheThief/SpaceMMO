@@ -89,15 +89,11 @@ function getPartsSize(){
 	return engines + fuel + cargo + weapons + shields;
 }
 
-function validateDesForm(){
+function validateDesForm(shsz,mw){
 	var calcsize = getPartsSize();
-	var index = document.getElementById("hullselect").selectedIndex;
-	var ship = document.getElementById("hullselect")[index].value;
 	var wep = parseInt(document.getElementById("weapons").value);
 	var engines = parseInt(document.getElementById("engines").value);
 	var fuel = parseInt(document.getElementById("fuel").value);
-	var shsz = size[ship];
-	var mw = weap[ship];
 	if(calcsize > shsz){
 		alert("You have overloaded your ship by " + (calcsize -shsz) + ".");
 		return false;
