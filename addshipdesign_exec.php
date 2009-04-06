@@ -28,6 +28,12 @@ function addShipDesignBody()
 		exit;
 	}
 
+	if ($engines<0 || $fuel<0 || $cargo < 0 || $weapons < 0 || $shields < 0)
+	{
+		echo 'Error: I\'m afraid negative space is impossible. It\'s not even theoretically possible. You might want to rethink your design with that in mind...', $eol;
+		exit;
+	}
+
 	if ($engines<1)
 	{
 		echo 'Error: You have to have engines on your ship or it won\'t move...', $eol;
