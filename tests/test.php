@@ -34,7 +34,7 @@ echo '<br><br>';
 
 function systemcode($systemid)
 {
-	return chr(ord('A')+floor(($systemid-1)/99)) . ((($systemid-1)%99)+1);
+	return chr(ord('A')+floor(($systemid-1)/99)) . padstring(((($systemid-1)%99)+1),'0',2);
 }
 
 for ($i=1;$i<200;$i++)
