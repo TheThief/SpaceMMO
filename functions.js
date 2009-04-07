@@ -143,8 +143,55 @@ function validateField(name,size,min,max){
 	if (field>(size-remspace)) field = size - remspace; 
 	document.getElementById(name).value = field;
 	document.getElementById("remain").value = size-getPartsSize();
-	//if (size-getPartsSize()<0){
-	//	document.getElementById(name).value = parseInt(document.getElementById(name).value) + (size-getPartsSize());
-	//	document.getElementById("remain").value = 0;
-	//}
+
+	updatestats();
+}
+
+function minus(sectionid,min)
+{
+	section = document.getElementById(sectionid);
+	remain = document.getElementById("remain");
+	if (section.value > min)
+	{
+		section.value -= 1;
+		remain.value = Number(remain.value) + 1;
+	}
+
+	updatestats();
+}
+
+function plus(sectionid,max)
+{
+	section = document.getElementById(sectionid);
+	remain = document.getElementById("remain");
+	if (remain.value > 0 && (!max || section.value < max))
+	{
+		section.value = Number(section.value) + 1;
+		remain.value -= 1;
+	}
+
+	updatestats();
+}
+
+function updatestats()
+{
+	var size = parseInt(document.getElementById("size").value);
+
+	var engines = parseInt(document.getElementById("engines").value);
+	var fuel = parseInt(document.getElementById("fuel").value);
+	var weapons = parseInt(document.getElementById("weapons").value);
+	var shields = parseInt(document.getElementById("shields").value);
+	var cargo = parseInt(document.getElementById("cargo").value);
+
+	var speed = document.getElementById("speed");
+	var range = document.getElementById("range");
+	var attack = document.getElementById("attack");
+	var defense = document.getElementById("defense");
+	var capacity = document.getElementById("capacity");
+
+	speed.innerHTML = (engines*24/size).tofixed(2);
+	range.innerHTML = (fuel*6/engines).tofixed(2);
+	attack.innerHTML = weapons;
+	defense.innerHTML = shields*10 + size;
+	capacity.innerHTML = cargo*10;
 }
