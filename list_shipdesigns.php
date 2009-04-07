@@ -28,7 +28,7 @@ function designListBody()
 	$query->bind_result($designid,$shipname,$hullname,$metalcost,$size,$engines,$fuel,$cargo,$weapons,$shields);
 
 	echo '<table>', $eol;
-	echo '<tr><th>Design Name</th><th>Hull</th><th>Cost</th><th>Size</th><th><span title="Engines/Fuel Bay/Weapons/Shields/Cargo bay">E/F/W/S/C</th><th>Speed</th><th>Range</th></tr>', $eol;
+	echo '<tr><th>Design Name</th><th>Hull</th><th>Cost</th><th>Size</th><th><span title="Engines/Fuel Bay/Weapons/Shields/Cargo bay">E/F/W/S/C</th><th>Speed</th><th>Range</th><th>Attack</th><th>Defense</th><th>Cargo Capacity</th></tr>', $eol;
 
 	if($query->fetch())
 	{
@@ -42,12 +42,15 @@ function designListBody()
 			echo "<td>$engines/$fuel/$weapons/$shields/$cargo</td>";
 			echo '<td>', number_format(($engines*4)/$size *6,2), ' PC/h</td>';
 			echo '<td>', number_format(($fuel*6)/$engines,2), ' PC</td>';
+			echo '<td>', number_format($weapons), '</td>';
+			echo '<td>', number_format(($shield*10)+$size), ' HP</td>';
+			echo '<td>', number_format($cargo*10), ' m3</td>';
 			echo '</tr>', $eol;
 		} while ($query->fetch());
 	}
 	else
 	{
-		echo '<tr><td colspan="9">None!?</td></tr>';
+		echo '<tr><td colspan="10">None!?</td></tr>';
 	}
 	echo '</table>', $eol;
 	echo '<a href="addshipdesign_form.php">Add</a> a new design.', $eol;
