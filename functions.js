@@ -189,8 +189,8 @@ function updatestats()
 	var defense = document.getElementById("defense");
 	var capacity = document.getElementById("capacity");
 
-	speed.innerHTML = (engines*24/size).tofixed(2);
-	range.innerHTML = (fuel*6/engines).tofixed(2);
+	speed.innerHTML = Number(engines*24/size).tofixed(2);
+	range.innerHTML = Number(fuel*6/engines).tofixed(2);
 	attack.innerHTML = weapons;
 	defense.innerHTML = shields*10 + size;
 	capacity.innerHTML = cargo*10;
