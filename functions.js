@@ -175,7 +175,7 @@ function plus(sectionid,max)
 
 function updatestats()
 {
-	var size = parseInt(document.getElementById("size").value);
+	var size = parseInt(document.getElementById("size").innerHTML);
 
 	var engines = parseInt(document.getElementById("engines").value);
 	var fuel = parseInt(document.getElementById("fuel").value);
