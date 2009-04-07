@@ -6,6 +6,12 @@ foreach($_POST['test'] as $key => $value)
 	echo $key,' = ',$value,'<br>', $eol;
 }
 
+print_r($_POST['test']);
+
+unset($_POST['test']['a'],$_POST['test']['b'],$_POST['test']['c'],$_POST['test']['d']);
+
+echo count($_POST['test']);
+
 ?>
 <form action="testpost.php" method="post">
 <input name="test[a]" type="text"><br>
