@@ -21,10 +21,10 @@ function fleetOrderBody()
 
 	$mysqli->autocommit(false);
 
-	$query = $mysqli->prepare('SELECT orderid,fuel FROM fleets WHERE userID = ? AND fleetid = ? FOR UPDATE');
+	$query = $mysqli->prepare('SELECT orderid,fuel,planetid FROM fleets WHERE userID = ? AND fleetid = ? FOR UPDATE');
 	$query->bind_param('ii', $userid, $fleetid);
 	$query->execute();
-	$query->bind_result($fleetorderid, $fuel);
+	$query->bind_result($fleetorderid, $fuel, $planetid);
 	$result = $query->fetch();
 	if (!$result)
 	{
