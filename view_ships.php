@@ -25,16 +25,10 @@ function viewShipsBody()
 	}
 	$query->close();
 
-	echo '1.', $eol;
-	ob_flush();
-
 	$query = $mysqli->prepare('SELECT designid,shipname,count FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleets.userID = ? AND planetid = ? AND orderid = 0');
 	$query->bind_param('ii', $userid, $planetid);
 	$result = $query->execute();
 	$query->bind_result($designid,$shipname,$count);
-
-	echo '2.', $eol;
-	ob_flush();
 
 	echo '<h2>Unassigned</h2>', $eol;
 	echo '<form action="createfleet_exec.php" method="post">', $eol;
@@ -68,29 +62,16 @@ function viewShipsBody()
 	$query->bind_result($fleetid, $systemid, $orbit, $orderticks);
 	$query->store_result();
 
-	echo '3.', $eol;
-	ob_flush();
-
 	$queryships = $mysqli->prepare('SELECT shipname,count FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleetid = ?');
 	$queryships->bind_param('i', $fleetid);
 	$queryships->bind_result($shipname,$count);
-
-	echo '4.', $eol;
-	ob_flush();
 
 	if($query->fetch())
 	{
 		$querydestinations = $mysqli->prepare('SELECT systemid,orbit,planetid,(ROUND(SQRT(POW(x-?,2)+POW(y-?,2)),2)) AS distance FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY distance ASC');
 		$querydestinations->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
-
-		echo '5a.', $eol;
-		ob_flush();
-
 		$querydestinations->execute();
 		$querydestinations->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance);
-
-		echo '5.', $eol;
-		ob_flush();
 
 		$destinations = array();
 		while ($query->fetch())
@@ -108,9 +89,6 @@ function viewShipsBody()
 			echo '<ul>', $eol;
 
 			$queryships->execute();
-			
-			echo '6.', $eol;
-			ob_flush();
 
 			while ($queryships->fetch())
 			{
@@ -141,13 +119,10 @@ function viewShipsBody()
 	}
 
 	$query = $mysqli->prepare('SELECT fleetid,orderid,systemid,orbit,orderticks FROM fleets LEFT JOIN planets USING (planetid) WHERE fleets.userID = ? AND planetid = ? AND orderid > 1');
-	$query->bind_param('iiiii', $userid, $planetid, $systemid, $orbit, $orderticks);
+	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($fleetid,$order);
+	$query->bind_result($fleetid, $order, $systemid, $orbit, $orderticks);
 	$query->store_result();
-
-	echo '7.', $eol;
-	ob_flush();
 
 	if($query->fetch())
 	{
@@ -161,9 +136,6 @@ function viewShipsBody()
 			echo '<ul>', $eol;
 
 			$queryships->execute();
-			
-			echo '8.', $eol;
-			ob_flush();
 
 			while ($queryships->fetch())
 			{
