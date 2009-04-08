@@ -42,7 +42,7 @@ function getColonies($apikey){
 	$query->bind_result($planetid,$systemid,$systemx,$systemy,$orbit,$planettype,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod);
 	while($query->fetch())
 	{
-		$temparray[]=array(	"planetid"=>$planetid,
+		$temparray[]=array(	"colonyid"=>$planetid,
 							"systemid"=>$systemid,
 							"systemx"=>$systemx,
 							"systemy"=>$systemy,
