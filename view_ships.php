@@ -56,7 +56,7 @@ function viewShipsBody()
 	}
 	echo '</form>', $eol;
 
-	$query = $mysqli->prepare('SELECT fleetid,orderid,systemid,orbit,orderticks FROM fleets LEFT JOIN planets USING (planetid) WHERE fleets.userID = ? AND planetid = ? AND orderid == 1');
+	$query = $mysqli->prepare('SELECT fleetid,orderid,systemid,orbit,orderticks FROM fleets LEFT JOIN planets USING (planetid) WHERE fleets.userID = ? AND planetid = ? AND orderid = 1');
 	$query->bind_param('iiiii', $userid, $planetid, $systemid, $orbit, $orderticks);
 
 	$queryships = $mysqli->prepare('SELECT shipname,count FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleetid = ?');
