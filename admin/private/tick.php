@@ -4,6 +4,8 @@ include '/var/www/www.dynamicarcade.co.uk/SpaceMMO/includes/start.inc.php';
 //mail("mark@gethyper.co.uk","Tick",date("H:i:s"));
 $eol = "\n";
 
+// Colony production
+
 $mysqli->autocommit(false);
 
 $query = $mysqli->prepare('UPDATE colonies SET metal=LEAST(metal+metalproduction, maxmetal), deuterium=LEAST(deuterium+deuteriumproduction, maxdeuterium), energy=LEAST(energy+energyproduction, maxenergy)'
@@ -21,6 +23,10 @@ if (!$result)
 	exit;
 }
 $query->close();
+
+$mysqli->commit();
+
+// Ship construction
 
 $query = $mysqli->prepare('SELECT userid,planetid,shipconstruction FROM colonies WHERE shipconstruction > 0');
 if (!$query)
@@ -238,6 +244,18 @@ while ($query->fetch())
 $updatequery->close;
 $deletequery->close;
 $query2->close();
+$query->close();
+
+$mysqli->commit();
+
+// Fleet movement
+
+$query = $mysqli->prepare('UPDATE fleets SET fuel = fuel - fueluse, orderticks = orderticks - 1 WHERE orderid > 1 AND fuel >= fueluse');
+$query->execute();
+$query->close();
+
+$query = $mysqli->prepare('UPDATE fleets SET orderid = 1 WHERE orderticks = 0 AND orderid == 2');
+$query->execute();
 $query->close();
 
 $mysqli->commit();

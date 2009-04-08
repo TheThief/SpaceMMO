@@ -7,34 +7,43 @@ function cleanUp(){
 
 $lookups=array();
 //planetType
-$lookups["planetType"]=array(	1 => "Rocky",
-				2 => "Gas Giant",
-				3 => "Ice");
+$lookups["planetType"]=array(
+		1 => "Rocky",
+		2 => "Gas Giant",
+		3 => "Ice");
 //resourceType
-$lookups["resourceType"]=array(	0 => "None",
-				1 => "Metal",
-				2 => "Deuterium",
-				3 => "Energy");
+$lookups["resourceType"]=array(
+		0 => "None",
+		1 => "Metal",
+		2 => "Deuterium",
+		3 => "Energy");
 //buildingEffect
-$lookups["buildingEffect"]=array(	0 => "None",
-					1 => "Metal Production",
-					2 => "Deuterium Production",
-					3 => "Energy Production",
-					4 => "Colony Level",
-					5 => "Metal Storage",
-					6 => "Deuterium Storage",
-					7 => "Energy Storage",
-					8 => "Ship Construction Rate");
+$lookups["buildingEffect"]=array(
+		0 => "None",
+		1 => "Metal Production",
+		2 => "Deuterium Production",
+		3 => "Energy Production",
+		4 => "Colony Level",
+		5 => "Metal Storage",
+		6 => "Deuterium Storage",
+		7 => "Energy Storage",
+		8 => "Ship Construction Rate");
 $lookups["buildingEffectColumn"]=array(
-					1 => "metalproduction",
-					2 => "deuteriumproduction",
-					3 => "energyproduction",
-					4 => "colonylevel",
-					5 => "maxmetal",
-					6 => "maxdeuterium",
-					7 => "maxenergy",
-					8 => "shipconstruction");
+		1 => "metalproduction",
+		2 => "deuteriumproduction",
+		3 => "energyproduction",
+		4 => "colonylevel",
+		5 => "maxmetal",
+		6 => "maxdeuterium",
+		7 => "maxenergy",
+		8 => "shipconstruction");
 
+$lookups["order"]=array(
+		1 => "Unassigned",
+		1 => "Defend",
+		2 => "Move to",
+		3 => "Colonise",
+		4 => "Attack");
 
 function checkLoggedIn_failed()
 {
