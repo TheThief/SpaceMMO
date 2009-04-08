@@ -190,7 +190,7 @@ function updatestats()
 	var capacity = document.getElementById("capacity");
 
 	speed.innerHTML = (engines*24/size).toFixed(2);
-	range.innerHTML = (fuel*(engines*24/size)/engines).toFixed(2);
+	range.innerHTML = (fuel*24/size).toFixed(2);
 	attack.innerHTML = weapons;
 	defense.innerHTML = shields*10 + size;
 	capacity.innerHTML = cargo*10;
