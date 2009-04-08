@@ -21,9 +21,8 @@ class space_mysqli extends mysqli{
 			ob_flush();
 			die();
 		}else{
-			return $result;
+			return $stmt;
 		}
-		return $stmt;
 	}
 }
 
