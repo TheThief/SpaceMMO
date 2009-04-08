@@ -83,7 +83,7 @@ function fleetOrderBody()
 
 	$moveallquery = $mysqli->prepare('UPDATE fleetships SET fleetid=? WHERE fleetid=? AND designid=?');
 	$moveallquery->bind_param('iii', $fleetid, $planetfleetid, $designid);
-	$movesomequery1 = $mysqli->prepare('UPDATE fleetships SET count=? WHERE fleetid=? AND designid=?');
+	$movesomequery1 = $mysqli->prepare('UPDATE fleetships SET count=count-? WHERE fleetid=? AND designid=?');
 	$movesomequery1->bind_param('iii', $count, $planetfleetid, $designid);
 	$movesomequery2 = $mysqli->prepare('INSERT INTO fleetships (fleetid,designid,count) VALUES(?,?,?)');
 	$movesomequery2->bind_param('iii', $fleetid, $designid, $count);
