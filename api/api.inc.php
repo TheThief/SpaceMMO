@@ -64,7 +64,7 @@ function getColonies($apikey){
 }
 
 function getPlanetType($type){
-	global $lookups
+	global $lookups;
 	return $lookups["planetType"][$type];
 }
 ?>
