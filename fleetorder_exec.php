@@ -39,7 +39,7 @@ function fleetOrderBody()
 		exit;
 	}
 
-	$query = $mysqli->prepare('SELECT deuterium,x,y FROM colonies LEFT JOIN planets USING (planetid) WHERE userid=? AND planetID = ? FOR UPDATE');
+	$query = $mysqli->prepare('SELECT colonies.deuterium,x,y FROM colonies LEFT JOIN planets USING (planetid) WHERE userid=? AND planetID = ? FOR UPDATE');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
 	$query->bind_result($deuterium,$sysx,$sysy);
