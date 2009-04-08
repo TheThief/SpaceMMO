@@ -88,7 +88,7 @@ function viewShipsBody()
 
 		$querydestinations->execute();
 		$querydestinations->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance);
-		
+
 		echo '5.', $eol;
 		ob_flush();
 
