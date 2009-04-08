@@ -74,7 +74,7 @@ function viewShipsBody()
 		$querydestinations->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance);
 
 		$destinations = array();
-		while ($query->fetch())
+		while ($querydestinations->fetch())
 		{
 			$destinations[$orderplanetid] = systemcode($ordersystemid, $orderorbit).' ('.number_format($orderdistance,2).' PC)';
 		}
