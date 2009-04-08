@@ -75,8 +75,8 @@ function fleetOrderBody()
 		}
 	}
 
-	$query = $mysqli->prepare('INSERT INTO fleets (userid,planetid,orderid) VALUES (?,?,1)');
-	$query->bind_param('ii', $userid, $planetid);
+	$query = $mysqli->prepare('INSERT INTO fleets (userid,planetid,orderid,orderplanetid) VALUES (?,?,1,?)');
+	$query->bind_param('iii', $userid, $planetid, $planetid);
 	$query->execute();
 	$fleetid = $query->insert_id;
 	$query->close();
