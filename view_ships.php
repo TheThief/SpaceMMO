@@ -107,15 +107,19 @@ function viewShipsBody()
 				{
 					echo '<option value="', $orderplanetid, '">', $string, '</option>', $eol;
 				}
-				echo "</select>\n";
+				echo '</select>', $eol;
 				echo '<input type="submit" value="Dispatch">', $eol;
 			}
 			else
 			{
 				echo '<option value="0" selected disabled>No colonies</option>', $eol;
 				echo '<input type="submit" value="Dispatch" disabled>', $eol;
-				echo '</form>', $eol;
 			}
+			echo '</form>', $eol;
+			echo '<form action="disbandfleet_exec.php" method="post">', $eol;
+			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
+			echo '<input type="submit" value="Disband">', $eol;
+			echo '</form>', $eol;
 		} while ($query->fetch());
 	}
 

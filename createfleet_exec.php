@@ -37,7 +37,7 @@ function fleetOrderBody()
 
 	$mysqli->autocommit(false);
 
-	$query = $mysqli->prepare('SELECT fleetid FROM fleets WHERE userID = ? AND planetid = ? AND orderid = 0 FOR UPDATE');
+	$query = $mysqli->prepare('SELECT fleetid FROM fleets WHERE userID = ? AND planetid = ? AND orderid = 0');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
 	$query->bind_result($planetfleetid);
@@ -49,10 +49,10 @@ function fleetOrderBody()
 	}
 	$query->close();
  
-	$query = $mysqli->prepare('SELECT designid,count,size,engines,fuel FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ? FOR UPDATE');
+	$query = $mysqli->prepare('SELECT designid,count FROM fleetships WHERE fleetid = ? FOR UPDATE');
 	$query->bind_param('i', $planetfleetid);
 	$query->execute();
-	$query->bind_result($designid,$count,$size,$engines,$fuel);
+	$query->bind_result($designid,$count);
 
 	$planetships = array();
 	while ($query->fetch())
