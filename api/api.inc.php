@@ -6,7 +6,7 @@ function getColonies($apikey){
 	global $mysqli;
 	
 	$temparray= array();
-	$query = $mysqli->prepare('SELECT userid FROM users WHERE username = \'?\';');
+	$query = $mysqli->prepare('SELECT userid FROM users WHERE username = ?;');
 	if (!$query)
 	{
 		echo 'error: ', $mysqli->error, $eol;
