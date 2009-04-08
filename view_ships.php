@@ -133,7 +133,7 @@ function viewShipsBody()
 			echo '<form action="fleetorder_exec.php" method="post">', $eol;
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h2>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h2>', $eol;
-			echo formatSeconds($orderticks*600),'<br>', $eol;
+			echo formatSeconds("h:i:s",$orderticks*600),'<br>', $eol;
 			echo '<ul>', $eol;
 
 			$queryships->execute();
