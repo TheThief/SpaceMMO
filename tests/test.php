@@ -1,6 +1,6 @@
 Autio thingy works
 <?php
-include "../includes/start.inc.php";
+//include "../includes/start.inc.php";
 include "../api/api.inc.php";
 
 $test = getColonies("splatman");
