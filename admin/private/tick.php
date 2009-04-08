@@ -254,7 +254,7 @@ $query = $mysqli->prepare('UPDATE fleets SET fuel = fuel - fueluse, orderticks =
 $query->execute();
 $query->close();
 
-$query = $mysqli->prepare('UPDATE fleets SET orderid = 1 WHERE orderticks = 0 AND orderid == 2');
+$query = $mysqli->prepare('UPDATE fleets SET orderid = 1 WHERE orderticks <= 0 AND orderid == 2');
 $query->execute();
 $query->close();
 

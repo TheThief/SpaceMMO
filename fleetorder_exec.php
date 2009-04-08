@@ -52,7 +52,7 @@ function fleetOrderBody()
 	$query->close();
 
 	$query = $mysqli->prepare('SELECT (ROUND(SQRT(POW(x-?,2)+POW(y-?,2)),2)) AS distance FROM planets LEFT JOIN systems USING (systemid) WHERE planetid = ?');
-	$query->bind_param('iii', $sysx, $sysy, $planetid);
+	$query->bind_param('iii', $sysx, $sysy, $orderplanetid);
 	$query->execute();
 	$query->bind_result($orderdistance);
 	$result = $query->fetch();
@@ -109,8 +109,8 @@ function fleetOrderBody()
 
 	$fueluse = $totalfuelneed / $orderticks;
 
-	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, fuel=?, fueluse=?');
-	$query->bind_param('iiiii', $orderid, $orderplanetid, $orderticks, $fuel, $fueluse);
+	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, fuel=?, fueluse=? WHERE fleetid=?');
+	$query->bind_param('iiiii', $orderid, $orderplanetid, $orderticks, $fuel, $fueluse, $fleetid);
 	$query->execute();
 	$query->close();
 
