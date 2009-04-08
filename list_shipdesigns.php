@@ -42,7 +42,7 @@ function designListBody()
 			echo "<td>$engines/$fuel/$weapons/$shields/$cargo</td>";
 			echo '<td>', number_format(($engines*4)/$size *6,2), ' PC/h</td>';
 			echo '<td>', number_format($fuel*6), ' D</td>';
-			echo '<td>', number_format(($fuel*4)/$size *6),2), ' PC</td>';
+			echo '<td>', number_format(($fuel*4)/$size *6,2), ' PC</td>';
 			echo '<td>', number_format($weapons), '</td>';
 			echo '<td>', number_format(($shields*10)+$size), ' HP</td>';
 			echo '<td>', number_format($cargo*10), ' m3</td>';
