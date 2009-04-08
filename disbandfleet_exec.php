@@ -65,7 +65,7 @@ function fleetOrderBody()
 	$movequery->bind_param('iii', $planetfleetid, $fleetid, $designid);
 	$mergequery1 = $mysqli->prepare('UPDATE fleetships SET count=count+? WHERE fleetid=? AND designid=?');
 	$mergequery1->bind_param('iii', $count, $planetfleetid, $designid);
-	$mergequery2 = $mysqli->prepare('DELETE FROM fleetships  WHERE fleetid=? AND designid=?');
+	$mergequery2 = $mysqli->prepare('DELETE FROM fleetships WHERE fleetid=? AND designid=?');
 	$mergequery2->bind_param('ii', $fleetid, $designid);
 
 	while ($query->fetch())
@@ -92,8 +92,8 @@ function fleetOrderBody()
 	$query->execute();
 	$query->close();
 
-	$query = $mysqli->prepare('UPDATE colonies SET deuterium = LEAST(deuterium+?, maxdeuterium) WHERE fleetid = ?');
-	$query->bind_param('ii', $fuel, $fleetid);
+	$query = $mysqli->prepare('UPDATE colonies SET deuterium = LEAST(deuterium+?, maxdeuterium) WHERE planetid = ?');
+	$query->bind_param('ii', $fuel, $planetid);
 	$query->execute();
 	$query->close();
 
