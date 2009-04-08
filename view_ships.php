@@ -1,4 +1,4 @@
-<?
+ï»¿<?
 include 'includes/start.inc.php';
 checkLoggedIn();
 
@@ -92,7 +92,7 @@ function viewShipsBody()
 
 			while ($queryships->fetch())
 			{
-				echo '<li>',$count,' × ',$shipname,'</li>', $eol;
+				echo '<li>',$count,' Ã— ',$shipname,'</li>', $eol;
 			}
 			echo '</ul>', $eol;
 			echo 'Order: ';
@@ -139,7 +139,8 @@ function viewShipsBody()
 
 			while ($queryships->fetch())
 			{
-				echo '<li>',$count,' × ',$shipname,'</li>', $eol;
+				// &#215; = Ã—
+				echo '<li>',$count,' &#215; ',$shipname,'</li>', $eol;
 			}
 			echo '</ul>', $eol;
 			echo '<input type="hidden" name="order" value="1">', $eol;
