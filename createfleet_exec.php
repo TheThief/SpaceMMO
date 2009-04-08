@@ -54,7 +54,7 @@ function fleetOrderBody()
 	$query->execute();
 	$query->bind_result($designid,$count,$size,$engines,$fuel);
 
-	$planetships = new array();
+	$planetships = array();
 	while ($query->fetch())
 	{
 		$planetships[$designid] = $count;
