@@ -82,6 +82,10 @@ function viewShipsBody()
 	{
 		$querydestinations = $mysqli->prepare('SELECT systemid,orbit,planetid,(ROUND(SQRT(POW(x-?,2)+POW(y-?,2)),2)) AS distance FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY distance ASC');
 		$querydestinations->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
+
+		echo '5a.', $eol;
+		ob_flush();
+
 		$querydestinations->execute();
 		$querydestinations->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance);
 		
