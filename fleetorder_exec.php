@@ -13,7 +13,7 @@ function fleetOrderBody()
 	$orderid = $_POST['order'];
 	$orderplanetid = $_POST['orderplanet'];
 
-	if ($orderid <= 0 || $orderid > 1)
+	if ($orderid <= 1 || $orderid > 2)
 	{
 		echo 'Error: Invalid order.', $eol;
 		exit;
