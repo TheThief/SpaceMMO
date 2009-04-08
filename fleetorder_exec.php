@@ -70,18 +70,23 @@ function fleetOrderBody()
 	$query->fetch();
 	$query->close();
 
-	$query = $mysqli->prepare('SELECT count, engines, engines*24/size AS speed FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
-	$query->bind_param('i', $fleetid);
-	$query->execute();
-	$query->bind_result($count,$engines,$speed);
-
 	$totalfuelneed = 0;
-	$orderticks = ceil($orderdistance/$minspeed) * 6;
-	while ($query->fetch())
+	$orderticks = 1;
+	if ($orderdistance > 0)
 	{
-		$totalfuelneed += $count * ceil($engines * $minspeed / $speed) * $orderticks * 1;
+		$orderticks = ceil($orderdistance/$minspeed) * 6;
+
+		$query = $mysqli->prepare('SELECT count, engines, engines*24/size AS speed FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
+		$query->bind_param('i', $fleetid);
+		$query->execute();
+		$query->bind_result($count,$engines,$speed);
+
+		while ($query->fetch())
+		{
+			$totalfuelneed += $count * ceil($engines * $minspeed / $speed) * $orderticks * 1;
+		}
+		$query->close();
 	}
-	$query->close();
 
 	if ($totalfuelneed > $fuel)
 	{
