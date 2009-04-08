@@ -1,4 +1,4 @@
-ï»¿<?
+<?
 include 'includes/start.inc.php';
 checkLoggedIn();
 
@@ -59,7 +59,7 @@ function viewShipsBody()
 	$query = $mysqli->prepare('SELECT fleetid,orderid,systemid,orbit,orderticks FROM fleets LEFT JOIN planets USING (planetid) WHERE fleets.userID = ? AND planetid = ? AND orderid = 1');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($fleetid, $systemid, $orderid, $orbit, $orderid, $orderticks);
+	$query->bind_result($fleetid, $orderid, $systemid, $orbit, $orderticks);
 	$query->store_result();
 
 	$queryships = $mysqli->prepare('SELECT shipname,count FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleetid = ?');
@@ -92,7 +92,7 @@ function viewShipsBody()
 
 			while ($queryships->fetch())
 			{
-				echo '<li>',$count,' Ã— ',$shipname,'</li>', $eol;
+				echo '<li>',$count,' × ',$shipname,'</li>', $eol;
 			}
 			echo '</ul>', $eol;
 			echo 'Order: ';
@@ -139,7 +139,7 @@ function viewShipsBody()
 
 			while ($queryships->fetch())
 			{
-				// &#215; = Ã—
+				// &#215; = ×
 				echo '<li>',$count,' &#215; ',$shipname,'</li>', $eol;
 			}
 			echo '</ul>', $eol;
