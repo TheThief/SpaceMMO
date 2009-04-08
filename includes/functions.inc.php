@@ -38,9 +38,13 @@ $lookups["buildingEffectColumn"]=array(
 
 function checkLoggedIn_failed()
 {
+	$page = basename($_SERVER["PHP_SELF"]);
+	if(isset($_SERVER["QUERY_STRING"])){
+		$page = "&q=".urlencode($_SERVER["QUERY_STRING"]);
+	}
 	//http_redirect('login_form.php', array(), false, 303);
 	header('HTTP/1.1 303 See Other');
-	header('Location: login_form.php?error=2');
+	header('Location: login_form.php?error=2&p=',$page);
 	exit;
 }
 
