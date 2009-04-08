@@ -107,6 +107,7 @@ function viewShipsBody()
 				{
 					echo '<option value="', $orderplanetid, '">', $string, '</option>', $eol;
 				}
+				echo "</select>\n";
 				echo '<input type="submit" value="Dispatch">', $eol;
 			}
 			else
