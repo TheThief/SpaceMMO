@@ -25,10 +25,16 @@ function viewShipsBody()
 	}
 	$query->close();
 
+	echo '1.', $eol;
+	ob_flush();
+
 	$query = $mysqli->prepare('SELECT designid,shipname,count FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleets.userID = ? AND planetid = ? AND orderid = 0');
 	$query->bind_param('ii', $userid, $planetid);
 	$result = $query->execute();
 	$query->bind_result($designid,$shipname,$count);
+
+	echo '2.', $eol;
+	ob_flush();
 
 	echo '<h2>Unassigned</h2>', $eol;
 	echo '<form action="createfleet_exec.php" method="post">', $eol;
@@ -62,9 +68,15 @@ function viewShipsBody()
 	$query->bind_result($fleetid, $systemid, $orbit, $orderticks);
 	$query->store_result();
 
+	echo '3.', $eol;
+	ob_flush();
+
 	$queryships = $mysqli->prepare('SELECT shipname,count FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleetid = ?');
 	$queryships->bind_param('i', $fleetid);
 	$queryships->bind_result($shipname,$count);
+
+	echo '4.', $eol;
+	ob_flush();
 
 	if($query->fetch())
 	{
@@ -72,6 +84,10 @@ function viewShipsBody()
 		$querydestinations->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
 		$querydestinations->execute();
 		$querydestinations->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance);
+		
+		echo '5.', $eol;
+		ob_flush();
+
 		$destinations = array();
 		while ($query->fetch())
 		{
@@ -88,6 +104,10 @@ function viewShipsBody()
 			echo '<ul>', $eol;
 
 			$queryships->execute();
+			
+			echo '6.', $eol;
+			ob_flush();
+
 			while ($queryships->fetch())
 			{
 				echo '<li>',$count,' × ',$shipname,'</li>', $eol;
@@ -122,6 +142,9 @@ function viewShipsBody()
 	$query->bind_result($fleetid,$order);
 	$query->store_result();
 
+	echo '7.', $eol;
+	ob_flush();
+
 	if($query->fetch())
 	{
 		echo '<br>', $eol;
@@ -134,6 +157,10 @@ function viewShipsBody()
 			echo '<ul>', $eol;
 
 			$queryships->execute();
+			
+			echo '8.', $eol;
+			ob_flush();
+
 			while ($queryships->fetch())
 			{
 				echo '<li>',$count,' × ',$shipname,'</li>', $eol;
