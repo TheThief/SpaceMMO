@@ -44,7 +44,7 @@ function checkLoggedIn_failed()
 	}
 	//http_redirect('login_form.php', array(), false, 303);
 	header('HTTP/1.1 303 See Other');
-	header('Location: login_form.php?error=2&p=',$page);
+	header('Location: login_form.php?error=2&p='.$page);
 	exit;
 }
 
