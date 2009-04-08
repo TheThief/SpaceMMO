@@ -76,7 +76,7 @@ function fleetOrderBody()
 	$query->bind_result($count,$engines,$speed);
 
 	$totalfuelneed = 0;
-	$orderticks = ceil($distance/$minspeed) * 6;
+	$orderticks = ceil($orderdistance/$minspeed) * 6;
 	while ($query->fetch())
 	{
 		$totalfuelneed += $count * ceil($engines * $minspeed / $speed) * $orderticks * 1;
@@ -107,10 +107,14 @@ function fleetOrderBody()
 		$query->close();
 	}
 
-	$fueluse = $totalfuelneed / $orderticks;
+	$fueluse = 0;
+	if ($orderticks > 0)
+	{
+		$fueluse = $totalfuelneed / $orderticks;
+	}
 
 	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, fuel=?, fueluse=? WHERE fleetid=?');
-	$query->bind_param('iiiii', $orderid, $orderplanetid, $orderticks, $fuel, $fueluse, $fleetid);
+	$query->bind_param('iiiiii', $orderid, $orderplanetid, $orderticks, $fuel, $fueluse, $fleetid);
 	$query->execute();
 	$query->close();
 
