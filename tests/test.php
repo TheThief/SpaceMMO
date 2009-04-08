@@ -1,10 +1,5 @@
-Autio thingy works
 <?php
-//include "../includes/start.inc.php";
-include "../api/api.inc.php";
-
-$test = getColonies("splatman");
-print_r($test);
+include "../includes/start.inc.php";
 //prodDropdown(0.5,1,1);
 //prodDropdown(1,1,1);
 //echo formatSeconds("h:i:n",0);
