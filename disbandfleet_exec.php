@@ -56,7 +56,7 @@ function fleetOrderBody()
 	$query->close();
 
 	$query = $mysqli->prepare('SELECT designid,count FROM fleetships WHERE fleetid = ? FOR UPDATE');
-	$query->bind_param('i', $planetfleetid);
+	$query->bind_param('i', $fleetid);
 	$query->execute();
 	$query->bind_result($designid,$count);
 	$query->store_result();
