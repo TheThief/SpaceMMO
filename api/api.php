@@ -46,7 +46,7 @@ $server->wsdl->addComplexType('Colonies',
 
 $server->register('getColonies',                // method name
     array('apikey' => 'xsd:string'),        // input parameters
-    array('return' => 'xsd:string'),      // output parameters
+    array('return' => 'tns:Colonies'),      // output parameters
     'urn:SpaceMMO',                      // namespace
     'urn:SpaceMMO#getColonies',                // soapaction
     'rpc',                                // style
