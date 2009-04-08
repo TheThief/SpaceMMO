@@ -66,7 +66,7 @@ function fleetOrderBody()
 	$mergequery1 = $mysqli->prepare('UPDATE fleetships SET count=count+? WHERE fleetid=? AND designid=?');
 	$mergequery1->bind_param('iii', $count, $planetfleetid, $designid);
 	$mergequery2 = $mysqli->prepare('DELETE FROM fleetships  WHERE fleetid=? AND designid=?');
-	$mergequery2->bind_param('iii', $fleetid, $designid);
+	$mergequery2->bind_param('ii', $fleetid, $designid);
 
 	while ($query->fetch())
 	{
