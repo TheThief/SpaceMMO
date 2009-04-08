@@ -141,7 +141,7 @@ function viewShipsBody()
 			while ($queryships->fetch())
 			{
 				// &#215; = ×
-				echo '<li>',$count,' &#215; ',$shipname,'</li>', $eol;
+				echo "<li>".$count." &#215; ".$shipname."</li>". $eol;
 			}
 			echo '</ul>', $eol;
 			echo '<input type="hidden" name="order" value="1">', $eol;
