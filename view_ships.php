@@ -51,7 +51,7 @@ function viewShipsBody()
 	}
 	else
 	{
-		echo '<tr><td colspan="3">None! Might want to <a href="build_ships.php?planet=',$planetid,'">build</a> some.</td></tr>';
+		echo '<tr><td colspan="2">None! Might want to <a href="build_ships.php?planet=',$planetid,'">build</a> some.</td></tr>';
 		echo '</table>', $eol;
 	}
 	echo '</form>', $eol;
@@ -133,7 +133,7 @@ function viewShipsBody()
 			echo '<form action="fleetorder_exec.php" method="post">', $eol;
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h2>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h2>', $eol;
-			echo formatSeconds("h:i:s",$orderticks*600),'<br>', $eol;
+			echo formatSeconds('h:i:s',$orderticks*600),'<br>', $eol;
 			echo '<ul>', $eol;
 
 			$queryships->execute();
@@ -141,7 +141,7 @@ function viewShipsBody()
 			while ($queryships->fetch())
 			{
 				// &#215; = ×
-				echo "<li>".$count." &#215; ".$shipname."</li>". $eol;
+				echo '<li>',$count,' &#215; ',$shipname,'</li>', $eol;
 			}
 			echo '</ul>', $eol;
 			echo '<input type="hidden" name="order" value="1">', $eol;
