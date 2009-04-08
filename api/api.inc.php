@@ -42,7 +42,23 @@ function getColonies($apikey){
 	$query->bind_result($planetid,$systemid,$systemx,$systemy,$orbit,$planettype,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod);
 	while($query->fetch())
 	{
-		$temparray[]=array($planetid,$systemid,$systemx,$systemy,$orbit,systemcode($systemid, $orbit),$planettype,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod);
+		$temparray[]=array(	"planetid"=>$planetid,
+							"systemid"=>$systemid,
+							"systemx"=>$systemx,
+							"systemy"=>$systemy,
+							"orbit"=>$orbit,
+							"systemcode"=>systemcode($systemid, $orbit),
+							"planettype"=>$planettype,
+							"metal"=>$metal,
+							"maxmetal"=>$maxmetal,
+							"metalprod"=>$metalprod,
+							"deuterium"=>$deuterium,
+							"maxdeuterium"=>$maxdeuterium,
+							"deuteriumprod"=>$deuteriumprod,
+							"energy"=>$energy,
+							"maxenergy"=>$maxenergy,
+							"energyprod"=>$energyprod
+							);
 	}
 	return $temparray;
 }
