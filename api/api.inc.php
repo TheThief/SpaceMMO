@@ -62,4 +62,9 @@ function getColonies($apikey){
 	}
 	return $temparray;
 }
+
+function getPlanetType($type){
+	global $lookups
+	return $lookups["planetType"][$type];
+}
 ?>

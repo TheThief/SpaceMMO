@@ -54,6 +54,16 @@ $server->register('getColonies',                // method name
     'Gets list of user\'s colonies and thier stats.'            // documentation
 );
 
+$server->register('getPlanetType',                // method name
+    array('type' => 'xsd:int'),        // input parameters
+    array('return' => 'xsd:string'),      // output parameters
+    'urn:SpaceMMO',                      // namespace
+    'urn:SpaceMMO#getPlanetType',                // soapaction
+    'rpc',                                // style
+    'encoded',                            // use
+    'Gets a textual representation of planet type.'            // documentation
+);
+
 $HTTP_RAW_POST_DATA = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : '';
 $server->service($HTTP_RAW_POST_DATA);
 ?>
