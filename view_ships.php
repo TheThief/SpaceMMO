@@ -97,9 +97,8 @@ function viewShipsBody()
 			echo '</ul>', $eol;
 			echo 'Order: ';
 			echo '<select name="order">', $eol;
-			echo '<option value="2" selected>Move</option>', $eol;
-			echo '</select><br>', $eol;
-			echo 'Destination: ';
+			echo '<option value="2" selected>Move to</option>', $eol;
+			echo '</select>', $eol;
 			echo '<select name="orderplanet">', $eol;
 			if (count($destinations) > 0)
 			{
