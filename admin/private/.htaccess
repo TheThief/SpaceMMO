@@ -1,4 +1,4 @@
 AuthName "Whats the password?"
 AuthType Basic
-AuthUserFile /var/www/www.dyanmicarcade.co.uk/SpaceMMO/admin/private/.htpasswd
+AuthUserFile /var/www/www.dynamicarcade.co.uk/SpaceMMO/admin/private/.htpasswd
 Require valid-user
