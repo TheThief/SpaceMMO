@@ -175,7 +175,7 @@ function viewShipsBody()
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h3>', $eol;
 			echo 'From: ',systemcode($fromsystemid,$fromorbit),'<br>', $eol;
-			echo formatSeconds('h:i:s',$orderticks*600),'<br>', $eol;
+			echo formatSeconds('h:i:s',$orderticks*TICK),'<br>', $eol;
 			echo '<ul>', $eol;
 
 			$queryships->execute();
@@ -210,7 +210,7 @@ function viewShipsBody()
 			//echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h3>', $eol;
 			echo 'Owner: ',$username,'<br>', $eol;
-			echo formatSeconds('h:i:s',$orderticks*600),'<br>', $eol;
+			echo formatSeconds('h:i:s',$orderticks*TICK),'<br>', $eol;
 			echo '<ul>', $eol;
 
 			$queryships->execute();
