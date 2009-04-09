@@ -12,7 +12,13 @@ function viewShipsBody()
 	global $eol, $mysqli, $lookups;
 	$userid = $_SESSION['userid'];
 	$planetid = $_GET['planet'];
+	$countarray=array();
+	$cointpoint=0;
 
+	?>
+	<script type="text/javascript" src="functions.js.php"></script>
+	<?
+	
 	$query = $mysqli->prepare('SELECT x,y,systemid,orbit FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetID = ?');
 	$query->bind_param('ii', $userid, $planetid);
 	$result = $query->execute();
@@ -143,7 +149,9 @@ function viewShipsBody()
 			echo '<form action="fleetorder_exec.php" method="post">', $eol;
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($ordersystemid,$orderorbit),'</h3>', $eol;
-			echo formatSeconds('h:i:s',$orderticks*TICK),'<br>', $eol;
+			echo '<span id="count',$countpoint,'">',formatSeconds('h:i:s',($orderticks*TICK)-getTickElapsed()),'</span><br>', $eol;
+			$countarray[$countpoint++] = ($orderticks*TICK)-getTickElapsed();
+			
 			echo '<ul>', $eol;
 
 			$queryships->execute();
@@ -175,7 +183,8 @@ function viewShipsBody()
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h3>', $eol;
 			echo 'From: ',systemcode($fromsystemid,$fromorbit),'<br>', $eol;
-			echo formatSeconds('h:i:s',$orderticks*TICK),'<br>', $eol;
+			echo '<span id="count',$countpoint,'">',formatSeconds('h:i:s',($orderticks*TICK)-getTickElapsed()),'</span><br>', $eol;
+			$countarray[$countpoint++] = ($orderticks*TICK)-getTickElapsed();
 			echo '<ul>', $eol;
 
 			$queryships->execute();
@@ -210,9 +219,9 @@ function viewShipsBody()
 			//echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h3>', $eol;
 			echo 'Owner: ',$username,'<br>', $eol;
-			echo formatSeconds('h:i:s',$orderticks*TICK),'<br>', $eol;
+			echo '<span id="count',$countpoint,'">',formatSeconds('h:i:s',($orderticks*TICK)-getTickElapsed()),'</span><br>', $eol;
 			echo '<ul>', $eol;
-
+			$countarray[$countpoint++] = ($orderticks*TICK)-getTickElapsed();
 			$queryships->execute();
 
 			while ($queryships->fetch())
@@ -226,5 +235,15 @@ function viewShipsBody()
 			//echo '</form>', $eol;
 		} while ($query->fetch());
 	}
+	?>
+<script type="text/javascript"> 
+<?
+//print_r($countarray);
+foreach($countarray as $cid => $ctime){
+	echo "liveCount(".$ctime.",\"count".$cid."\",0,1,1);";
+}
+?>
+</script>
+<?
 }
 ?>
