@@ -163,7 +163,8 @@ function colonyBuildingsBody()
 			}
 			if ($cost > $maxmetal)
 			{
-				//echo '<br><span class="error">Not enough metal storage</span>', $eol;
+				echo '<br><span class="error">Not enough metal storage</span>', $eol;
+				echo '<br><span class="error">You need ',($cost-$maxmetal),' more metal storage</span>', $eol;
 				$bCanBuild = false;
 			}
 			if ($bCanBuild)
@@ -181,7 +182,7 @@ function colonyBuildingsBody()
 			{
 				echo '<br><span class="error">Cost: ', $cost, ' metal</span>';
 				echo '<br><span class="error">You need: ', $cost-$metal, ' more metal</span>';
-				if($metalprod > 0){
+				if(($metalprod > 0) && ($cost <= $maxmetal)){
 					$gtime = ceil(($cost-$metal)/$metalprod);
 					$rtime = formatSeconds("h:i:s",($gtime*TICK)-getTickElapsed());
 					$countarray[$countpoint]=($gtime*TICK)-getTickElapsed();
