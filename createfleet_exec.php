@@ -112,7 +112,7 @@ function fleetOrderBody()
 	$query->fetch();
 	$query->close();
 
-	$query = $mysqli->prepare('UPDATE fleets SET minspeed=?, totalcargobay=?, totalfuelbay=? WHERE fleetid=?');
+	$query = $mysqli->prepare('UPDATE fleets SET speed=?, totalcargo=?, totalfuelbay=? WHERE fleetid=?');
 	$query->bind_param('iiii', $minspeed, $totalcargobay, $totalfuelbay, $fleetid);
 	$query->execute();
 	$query->close();
