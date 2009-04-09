@@ -21,10 +21,10 @@ function fleetOrderBody()
 
 	$mysqli->autocommit(false);
 
-	$query = $mysqli->prepare('SELECT orderid,fuel,planetid FROM fleets WHERE userID = ? AND fleetid = ? FOR UPDATE');
+	$query = $mysqli->prepare('SELECT orderid,fuel,planetid,speed,totalfuelbay,totalcargo FROM fleets WHERE userID = ? AND fleetid = ? FOR UPDATE');
 	$query->bind_param('ii', $userid, $fleetid);
 	$query->execute();
-	$query->bind_result($fleetorderid, $fuel, $planetid);
+	$query->bind_result($fleetorderid, $fuel, $planetid, $fleetspeed, $totalfuelbay, $totalcargo);
 	$result = $query->fetch();
 	if (!$result)
 	{
@@ -63,18 +63,11 @@ function fleetOrderBody()
 	}
 	$query->close();
 
-	$query = $mysqli->prepare('SELECT MIN(engines*24/size) AS minspeed, SUM(count*fuel*6) AS totalfuelbay FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
-	$query->bind_param('i', $fleetid);
-	$query->execute();
-	$query->bind_result($minspeed,$totalfuelbay);
-	$query->fetch();
-	$query->close();
-
 	$totalfuelneed = 0;
 	$orderticks = 1;
 	if ($orderdistance > 0)
 	{
-		$orderticks = ceil($orderdistance/$minspeed) * 6;
+		$orderticks = ceil($orderdistance/$fleetspeed) * 6;
 
 		$query = $mysqli->prepare('SELECT count, engines, engines*24/size AS speed FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
 		$query->bind_param('i', $fleetid);
@@ -83,7 +76,7 @@ function fleetOrderBody()
 
 		while ($query->fetch())
 		{
-			$totalfuelneed += $count * ceil($engines * $minspeed / $speed) * $orderticks * 1;
+			$totalfuelneed += $count * ceil($engines * $fleetspeed / $speed) * $orderticks * 1;
 		}
 		$query->close();
 	}
