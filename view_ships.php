@@ -160,10 +160,10 @@ function viewShipsBody()
 		} while ($query->fetch());
 	}
 
-	$query = $mysqli->prepare('SELECT fleetid,orderid,orderticks FROM fleets WHERE fleets.userID = ? AND fleets.orderplanetid = ? AND fleets.orderid > 1');
+	$query = $mysqli->prepare('SELECT fleetid,orderid,orderticks,systemid,orbit FROM fleets LEFT JOIN planets USING (planetid) WHERE fleets.userID = ? AND fleets.orderplanetid = ? AND fleets.orderid > 1');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($fleetid, $orderid, $orderticks);
+	$query->bind_result($fleetid, $orderid, $orderticks, $fromsystemid, $fromorbit);
 	$query->store_result();
 
 	if($query->fetch())
@@ -174,6 +174,7 @@ function viewShipsBody()
 			echo '<form action="fleetorder_exec.php" method="post">', $eol;
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h3>', $eol;
+			echo 'From: ',systemcode($fromsystemid,$fromorbit),'<br>', $eol;
 			echo formatSeconds('h:i:s',$orderticks*600),'<br>', $eol;
 			echo '<ul>', $eol;
 
