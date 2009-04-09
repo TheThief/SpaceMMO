@@ -1,6 +1,6 @@
 <?
-include("../includes/db.inc.php");
-include("../includes/functions.inc.php");
+include_once("../includes/db.inc.php");
+include_once("../includes/functions.inc.php");
 
 function getColonies($apikey){
 	global $mysqli;

@@ -1,8 +1,8 @@
 <?php
-include 'includes/start.inc.php';
+include_once 'includes/start.inc.php';
 checkLoggedIn();
 
-include 'includes/template.inc.php';
+include_once 'includes/template.inc.php';
 template('Queue Ship for Construction', 'queueShipBody');
 
 function queueShipBody()

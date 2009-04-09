@@ -1,5 +1,5 @@
 <?
-include("includes/start.inc.php");
+include_once("includes/start.inc.php");
 
 $x=0;
 $y=0;

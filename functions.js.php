@@ -1,3 +1,6 @@
+<?
+include_once("./includes/functions.inc.php");
+?>
 function updateProdVals(id,output,maxc,maxe){
 	cspan = document.getElementById("conssp"+id);
 	espan = document.getElementById("effsp"+id);	
@@ -56,8 +59,8 @@ function liveCount(seconds,name,dual,reload,first){
 function livePercent(seconds,cost,buildrate,progress,name,first){
 	var sec = seconds;
 	var per;
-	if (sec > 600) sec = 0;
-	per = (((buildrate*(sec/600))+progress)/cost)*100;
+	if (sec > <?echo TICK;?>) sec = 0;
+	per = (((buildrate*(sec/<?echo TICK;?>))+progress)/cost)*100;
 	span=document.getElementById(name);
 	span.innerHTML = Math.min(Math.round(per),100);
 	if (per<100){

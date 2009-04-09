@@ -1,8 +1,8 @@
 <?
-include 'includes/start.inc.php';
+include_once 'includes/start.inc.php';
 checkLoggedIn();
 
-include 'includes/template.inc.php';
+include_once 'includes/template.inc.php';
 template('Ship Designs List', 'designListBody');
 
 function designListBody()

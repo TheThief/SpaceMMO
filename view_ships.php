@@ -1,10 +1,10 @@
 <?
-include 'includes/start.inc.php';
+include_once 'includes/start.inc.php';
 checkLoggedIn();
 
-include 'includes/colonymenu.inc.php';
+include_once 'includes/colonymenu.inc.php';
 
-include 'includes/template.inc.php';
+include_once 'includes/template.inc.php';
 template('Ships in Orbit', 'viewShipsBody', 'colonyMenu');
 
 function viewShipsBody()
@@ -136,7 +136,7 @@ function viewShipsBody()
 			echo '<form action="fleetorder_exec.php" method="post">', $eol;
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h2>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h2>', $eol;
-			echo formatSeconds('h:i:s',$orderticks*600),'<br>', $eol;
+			echo formatSeconds('h:i:s',$orderticks*TICK),'<br>', $eol;
 			echo '<ul>', $eol;
 
 			$queryships->execute();

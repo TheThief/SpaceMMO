@@ -1,5 +1,5 @@
 <?
-include 'includes/admin.inc.php';
+include_once 'includes/admin.inc.php';
 checkIsAdmin();
 
 $query = $mysqli->prepare('SELECT planetID,orbit,type,planets.metal,planets.deuterium,userid,username FROM planets LEFT JOIN colonies USING (planetid) LEFT JOIN users USING (userid) WHERE systemid=? ORDER BY orbit ASC');

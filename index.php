@@ -1,5 +1,5 @@
 <?php
-include 'includes/start.inc.php';
+include_once 'includes/start.inc.php';
 
 header("HTTP/1.1 303 See Other");
 if (isLoggedIn())

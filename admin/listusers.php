@@ -1,5 +1,5 @@
 <?
-include 'includes/admin.inc.php';
+include_once 'includes/admin.inc.php';
 checkIsAdmin();
 
 $query = $mysqli->prepare('SELECT userID,username,bisadmin,COUNT(colonies.userid) FROM users LEFT JOIN colonies USING (userid) GROUP BY userid ORDER BY NULL');

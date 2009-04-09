@@ -1,5 +1,5 @@
 <?
-include 'includes/admin.inc.php';
+include_once 'includes/admin.inc.php';
 checkIsAdmin();
 
 $query = $mysqli->prepare('SELECT systems.systemid,systems.x,systems.y,COUNT(planets.planetid),COUNT(colonies.planetid) FROM systems LEFT JOIN planets USING (systemid) LEFT JOIN colonies USING (planetid) GROUP BY systemid ORDER BY NULL');

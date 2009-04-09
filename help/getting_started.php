@@ -1,7 +1,7 @@
 <?
-include '../includes/start.inc.php';
+include_once '../includes/start.inc.php';
 
-include '../includes/template.inc.php';
+include_once '../includes/template.inc.php';
 template('Help - Getting Started', 'helpGettingStartedBody');
 
 function helpGettingStartedBody()

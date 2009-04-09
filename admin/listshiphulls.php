@@ -1,8 +1,8 @@
 <?
-include 'includes/admin.inc.php';
+include_once 'includes/admin.inc.php';
 checkIsAdmin();
 
-include '../includes/template.inc.php';
+include_once '../includes/template.inc.php';
 
 template('Admin List Ship Hulls', 'adminListShipHullsBody');
 

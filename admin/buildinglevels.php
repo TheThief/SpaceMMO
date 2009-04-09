@@ -1,5 +1,5 @@
-<?include 'includes/admin.inc.php';checkIsAdmin();
-include '../includes/template.inc.php';template('Building Levels', 'buildingLevelsBody');function buildingLevelsBody(){	global $eol, $mysqli;	global $lookups;	$buildingid = $_GET['building'];	$query = $mysqli->prepare('SELECT buildingname,maxbuildinglevel,consumestype,effecttype FROM buildings WHERE buildingid = ?');	if (!$query)	{		echo 'error: ', $mysqli->error, $eol;		exit;	}	$query->bind_param('i', $buildingid);	$result = $query->execute();	if (!$result)	{		echo 'error: ', $query->error, $eol;		exit;	}	$query->bind_result($buildingname,$maxlevel,$consumestype,$effecttype);
+<?include_once 'includes/admin.inc.php';checkIsAdmin();
+include_once '../includes/template.inc.php';template('Building Levels', 'buildingLevelsBody');function buildingLevelsBody(){	global $eol, $mysqli;	global $lookups;	$buildingid = $_GET['building'];	$query = $mysqli->prepare('SELECT buildingname,maxbuildinglevel,consumestype,effecttype FROM buildings WHERE buildingid = ?');	if (!$query)	{		echo 'error: ', $mysqli->error, $eol;		exit;	}	$query->bind_param('i', $buildingid);	$result = $query->execute();	if (!$result)	{		echo 'error: ', $query->error, $eol;		exit;	}	$query->bind_result($buildingname,$maxlevel,$consumestype,$effecttype);
 	$bResult = $query->fetch();
 	if (!$result)	{		echo 'error: ', $query->error, $eol;		exit;	}
 

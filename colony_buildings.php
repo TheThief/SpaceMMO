@@ -1,9 +1,9 @@
 <?
-include 'includes/start.inc.php';
+include_once 'includes/start.inc.php';
 checkLoggedIn();
 
-include 'includes/template.inc.php';
-include 'includes/colonymenu.inc.php';
+include_once 'includes/template.inc.php';
+include_once 'includes/colonymenu.inc.php';
 
 $countarray=array();
 template('Building at Colony', 'colonyBuildingsBody', 'colonyMenu');
@@ -16,7 +16,7 @@ function colonyBuildingsBody()
 	$countpoint=0;
 
 	?>
-	<script type="text/javascript" src="functions.js"></script>
+	<script type="text/javascript" src="functions.js.php"></script>
 	<?
 	$query = $mysqli->prepare('SELECT colonylevel,metal,maxmetal,metalproduction,deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction FROM colonies WHERE colonies.userid=? AND colonies.planetID = ?;');
 	if (!$query)
@@ -47,7 +47,7 @@ function colonyBuildingsBody()
 	echo '<tr>';
 	echo "<td>$metal/$maxmetal (".getSigned($metalprod).")";
 	if($metalprod<0 && $metal>abs($metalprod)) {
-		$mptime=(floor(abs($metal/$metalprod))*600)-getTickElapsed();
+		$mptime=(floor(abs($metal/$metalprod))*TICK)-getTickElapsed();
 		$countarray[$countpoint]=$mptime;
 		echo '<br><span class="error" id="btimesp',$countpoint,'">Runs out in: </span><span class="error" id="timesp',$countpoint++,'"></span>';
 	}
@@ -55,7 +55,7 @@ function colonyBuildingsBody()
 	echo "</td>";
 	echo "<td>$deuterium/$maxdeuterium (".getSigned($deuteriumprod).")";
 	if($deuteriumprod<0 && $deuterium>abs($deuteriumprod)) {
-                $dptime=(floor(abs($deuterium/$deuteriumprod))*600)-getTickElapsed();
+                $dptime=(floor(abs($deuterium/$deuteriumprod))*TICK)-getTickElapsed();
                 $countarray[$countpoint]=$dptime;
                 echo '<br><span class="error" id="btimesp',$countpoint,'">Runs out in: </span><span class="error" id="timesp',$countpoint++,'"></span>';
         }
@@ -64,7 +64,7 @@ function colonyBuildingsBody()
 
 	echo "<td>$energy/$maxenergy (".getSigned($energyprod).")";
         if($energyprod<0 && $energy>abs($energyprod)) {
-                $eptime=(floor(abs($energy/$energyprod))*600)-getTickElapsed();
+                $eptime=(floor(abs($energy/$energyprod))*TICK)-getTickElapsed();
                 $countarray[$countpoint]=$eptime;
                 echo '<br><span class="error" id="btimesp',$countpoint,'">Runs out in: </span><span class="error" id="timesp',$countpoint++,'"></span>';
         }
@@ -183,8 +183,8 @@ function colonyBuildingsBody()
 				echo '<br><span class="error">You need: ', $cost-$metal, ' more metal</span>';
 				if($metalprod > 0){
 					$gtime = ceil(($cost-$metal)/$metalprod);
-					$rtime = formatSeconds("h:i:s",($gtime*600)-getTickElapsed());
-					$countarray[$countpoint]=($gtime*600)-getTickElapsed();
+					$rtime = formatSeconds("h:i:s",($gtime*TICK)-getTickElapsed());
+					$countarray[$countpoint]=($gtime*TICK)-getTickElapsed();
 					echo '<br><span class="error" id="btimesp',$countpoint,'">Available in: </span><span class="error" id="timesp',$countpoint++,'" title=""></span>';
 				}
 			}

@@ -1,9 +1,9 @@
 <?
-include 'includes/start.inc.php';
+include_once 'includes/start.inc.php';
 checkLoggedIn();
 
-include 'includes/colonymenu.inc.php';
-include 'includes/template.inc.php';
+include_once 'includes/colonymenu.inc.php';
+include_once 'includes/template.inc.php';
 template('Build Ships', 'buildShipsBody','colonyMenu');
 
 function buildShipsBody()
@@ -12,7 +12,7 @@ function buildShipsBody()
 	$userid = $_SESSION['userid'];
  	$planetid = $_GET['planet'];
 	?>
-	<script type="text/javascript" src="functions.js"></script>
+	<script type="text/javascript" src="functions.js.php"></script>
 	<?
 	$shiparray = array();
 	$orderarray = array();
@@ -94,9 +94,9 @@ function buildShipsBody()
 		{	
 			if($shipprod>0){
 				$shipticks = ($metalcost-$progress)/$shipprod;
-				$shiptime = (ceil(($shipticks+$timeoffset))*600)-getTickElapsed();
+				$shiptime = (ceil(($shipticks+$timeoffset))*TICK)-getTickElapsed();
 				$orderticks = (($metalcost*$count)-$progress)/$shipprod;
-				$ordertime = (ceil(($orderticks+$timeoffset))*600)-getTickElapsed();
+				$ordertime = (ceil(($orderticks+$timeoffset))*TICK)-getTickElapsed();
 				$timeoffset += $orderticks;
 				$shiparray[$id]=$shiptime;
 				$orderarray[$id]=$ordertime;

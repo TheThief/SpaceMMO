@@ -1,4 +1,6 @@
 <?
+define("TICK",600);
+
 function cleanUp(){
 	if(DEBUG) echo "Starting clean up\n";
 	//$mysqli->close();

@@ -1,5 +1,5 @@
 <?
-include "./includes/start.inc.php";
+include_once "./includes/start.inc.php";
 $scale = 5;
 $stmt = $mysqli->prepare("SELECT * FROM systems;");
 $stmt->execute();

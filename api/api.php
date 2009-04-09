@@ -1,6 +1,6 @@
 <?
 require_once("./nusoap/nusoap.php");
-include("api.inc.php");
+include_once("api.inc.php");
 $server = new soap_server;
 
 $server->configureWSDL('SpaceMMO', 'urn:SpaceMMO');

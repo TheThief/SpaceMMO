@@ -1,5 +1,5 @@
 <?php
-include 'includes/admin.inc.php';
+include_once 'includes/admin.inc.php';
 checkIsAdmin();
 
 $eol = "\n";

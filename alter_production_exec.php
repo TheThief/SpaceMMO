@@ -1,10 +1,10 @@
 <?php
-include 'includes/start.inc.php';
+include_once 'includes/start.inc.php';
 checkLoggedIn();
 
-include 'includes/production.inc.php';
+include_once 'includes/production.inc.php';
 
-include 'includes/template.inc.php';
+include_once 'includes/template.inc.php';
 template('Alter Building Production', 'alterProductionBody');
 
 function alterProductionBody()

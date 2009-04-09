@@ -1,5 +1,5 @@
 <?php
-include "../includes/start.inc.php";
+include_once "../includes/start.inc.php";
 
 foreach($_POST['test'] as $key => $value)
 {
