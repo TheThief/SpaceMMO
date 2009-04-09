@@ -13,10 +13,10 @@ function viewShipsBody()
 	$userid = $_SESSION['userid'];
 	$planetid = $_GET['planet'];
 
-	$query = $mysqli->prepare('SELECT x,y FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetID = ?');
+	$query = $mysqli->prepare('SELECT x,y,systemid,orbit FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetID = ?');
 	$query->bind_param('ii', $userid, $planetid);
 	$result = $query->execute();
-	$query->bind_result($sysx,$sysy);
+	$query->bind_result($sysx,$sysy,$systemid,$orbit);
 	$result = $query->fetch();
 	if (!$result)
 	{
@@ -56,10 +56,10 @@ function viewShipsBody()
 	}
 	echo '</form>', $eol;
 
-	$query = $mysqli->prepare('SELECT fleetid,orderid,systemid,orbit,orderticks FROM fleets LEFT JOIN planets USING (planetid) WHERE fleets.userID = ? AND planetid = ? AND orderid = 1');
+	$query = $mysqli->prepare('SELECT fleetid FROM fleets LEFT JOIN planets USING (planetid) WHERE fleets.userID = ? AND planetid = ? AND orderid = 1');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($fleetid, $orderid, $systemid, $orbit, $orderticks);
+	$query->bind_result($fleetid);
 	$query->store_result();
 
 	$queryships = $mysqli->prepare('SELECT shipname,count FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleetid = ?');
@@ -80,12 +80,12 @@ function viewShipsBody()
 		}
 		$querydestinations->close();
 
-		echo '<br>', $eol;
+		echo '<h2>Defending Fleets</h2>', $eol;
 		do
 		{
 			echo '<form action="fleetorder_exec.php" method="post">', $eol;
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
-			echo '<h2>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h2>', $eol;
+			echo '<h3>',$lookups['order'][1],' ',systemcode($systemid,$orbit),'</h3>', $eol;
 			echo '<ul>', $eol;
 
 			$queryships->execute();
@@ -98,6 +98,9 @@ function viewShipsBody()
 			echo 'Order: ';
 			echo '<select name="order">', $eol;
 			echo '<option value="2" selected>Move to</option>', $eol;
+			echo '<option value="3">Transport to</option>', $eol;
+			echo '<option value="4">Colonise</option>', $eol;
+			echo '<option value="5" disabled>Attack</option>', $eol;
 			echo '</select>', $eol;
 			echo '<select name="orderplanet">', $eol;
 			if (count($destinations) > 0)
@@ -106,14 +109,18 @@ function viewShipsBody()
 				{
 					echo '<option value="', $orderplanetid, '">', $string, '</option>', $eol;
 				}
-				echo '</select>', $eol;
-				echo '<input type="submit" value="Dispatch">', $eol;
+				echo '<option value="0">Other...</option>', $eol;
 			}
 			else
 			{
-				echo '<option value="0" selected disabled>No colonies</option>', $eol;
-				echo '<input type="submit" value="Dispatch" disabled>', $eol;
+				echo '<option value="0" disabled>No colonies</option>', $eol;
+				echo '<option value="0" selected>Other...</option>', $eol;
 			}
+			echo '</select>', $eol;
+			echo '<input type="text" size="4" maxlen="4" name="orderplanetother"><br>', $eol;
+			echo 'Transport: <input type="text" size="4" name="metal"> metal, ', $eol;
+			echo '<input type="text" size="4" name="deuterium"> deuterium<br>', $eol;
+			echo '<input type="submit" value="Dispatch">', $eol;
 			echo '</form>', $eol;
 			echo '<form action="disbandfleet_exec.php" method="post">', $eol;
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
@@ -125,17 +132,17 @@ function viewShipsBody()
 	$query = $mysqli->prepare('SELECT fleetid,orderid,systemid,orbit,orderticks FROM fleets LEFT JOIN planets ON orderplanetid = planets.planetid WHERE fleets.userID = ? AND fleets.planetid = ? AND fleets.orderid > 1');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($fleetid, $orderid, $systemid, $orbit, $orderticks);
+	$query->bind_result($fleetid, $orderid, $ordersystemid, $orderorbit, $orderticks);
 	$query->store_result();
 
 	if($query->fetch())
 	{
-		echo '<br>', $eol;
+		echo '<h2>Active Fleets</h2>', $eol;
 		do
 		{
 			echo '<form action="fleetorder_exec.php" method="post">', $eol;
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
-			echo '<h2>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h2>', $eol;
+			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($ordersystemid,$orderorbit),'</h3>', $eol;
 			echo formatSeconds('h:i:s',$orderticks*TICK),'<br>', $eol;
 			echo '<ul>', $eol;
 
@@ -150,6 +157,72 @@ function viewShipsBody()
 			echo '<input type="hidden" name="order" value="1">', $eol;
 			echo '<input type="submit" value="Recall" disabled>', $eol;
 			echo '</form>', $eol;
+		} while ($query->fetch());
+	}
+
+	$query = $mysqli->prepare('SELECT fleetid,orderid,orderticks FROM fleets WHERE fleets.userID = ? AND fleets.orderplanetid = ? AND fleets.orderid > 1');
+	$query->bind_param('ii', $userid, $planetid);
+	$query->execute();
+	$query->bind_result($fleetid, $orderid, $orderticks);
+	$query->store_result();
+
+	if($query->fetch())
+	{
+		echo '<h2>Incoming Fleets</h2>', $eol;
+		do
+		{
+			echo '<form action="fleetorder_exec.php" method="post">', $eol;
+			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
+			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h3>', $eol;
+			echo formatSeconds('h:i:s',$orderticks*600),'<br>', $eol;
+			echo '<ul>', $eol;
+
+			$queryships->execute();
+
+			while ($queryships->fetch())
+			{
+				// &#215; = ×
+				echo '<li>',$count,' &#215; ',$shipname,'</li>', $eol;
+			}
+			echo '</ul>', $eol;
+			echo '<input type="hidden" name="order" value="1">', $eol;
+			echo '<input type="submit" value="Recall" disabled>', $eol;
+			echo '</form>', $eol;
+		} while ($query->fetch());
+	}
+
+	$scandistance = 2;
+
+	$query = $mysqli->prepare('SELECT fleetid,username,orderid,orderticks FROM fleets LEFT JOIN users USING (userid) WHERE fleets.userID != ? AND fleets.orderplanetid = ? AND fleets.orderid > 1 AND orderticks <= ?');
+	$query->bind_param('ii', $userid, $planetid, $scandistance);
+	$query->execute();
+	$query->bind_result($fleetid, $username, $orderid, $orderticks);
+	$query->store_result();
+
+	if($query->fetch())
+	{
+		echo '<h2>Incoming Enemy Fleets</h2>', $eol;
+		do
+		{
+			// todo: "intercept" order
+			//echo '<form action="fleetorder_exec.php" method="post">', $eol;
+			//echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
+			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h3>', $eol;
+			echo 'Owner: ',$username,'<br>', $eol;
+			echo formatSeconds('h:i:s',$orderticks*600),'<br>', $eol;
+			echo '<ul>', $eol;
+
+			$queryships->execute();
+
+			while ($queryships->fetch())
+			{
+				// &#215; = ×
+				echo '<li>',$count,' &#215; ',$shipname,'</li>', $eol;
+			}
+			echo '</ul>', $eol;
+			//echo '<input type="hidden" name="order" value="1">', $eol;
+			//echo '<input type="submit" value="Recall" disabled>', $eol;
+			//echo '</form>', $eol;
 		} while ($query->fetch());
 	}
 }

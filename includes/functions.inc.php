@@ -41,11 +41,12 @@ $lookups["buildingEffectColumn"]=array(
 		8 => "shipconstruction");
 
 $lookups["order"]=array(
-		1 => "Unassigned",
+		0 => "Unassigned",
 		1 => "Defend",
 		2 => "Move to",
-		3 => "Colonise",
-		4 => "Attack");
+		3 => "Transport to",
+		4 => "Colonise",
+		5 => "Attack");
 
 function checkLoggedIn_failed()
 {
