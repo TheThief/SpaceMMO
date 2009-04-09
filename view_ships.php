@@ -108,7 +108,7 @@ function viewShipsBody()
 			echo '<option value="4">Colonise</option>', $eol;
 			echo '<option value="5" disabled>Attack</option>', $eol;
 			echo '</select>', $eol;
-			echo '<select name="orderplanet">', $eol;
+			echo '<select name="orderplanet" id="opd',$fleetid,'" onchange="updateOtherP(',$fleetid,');">', $eol;
 			if (count($destinations) > 0)
 			{
 				foreach ($destinations as $orderplanetid => $string)
@@ -123,7 +123,7 @@ function viewShipsBody()
 				echo '<option value="0" selected>Other...</option>', $eol;
 			}
 			echo '</select>', $eol;
-			echo '<input type="text" size="4" maxlen="4" name="orderplanetother"><br>', $eol;
+			echo '<input type="text" size="4" maxlen="4" name="orderplanetother" id="opo',$fleetid,'" style="visibility: hidden"><br>', $eol;
 			echo 'Transport: <input type="text" size="4" name="metal"> metal, ', $eol;
 			echo '<input type="text" size="4" name="deuterium"> deuterium<br>', $eol;
 			echo '<input type="submit" value="Dispatch">', $eol;
@@ -132,6 +132,7 @@ function viewShipsBody()
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<input type="submit" value="Disband">', $eol;
 			echo '</form>', $eol;
+			echo "<script type=\"text/javascript\">updateOtherP($fleetid);</script>\n";
 		} while ($query->fetch());
 	}
 
