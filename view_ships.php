@@ -194,7 +194,7 @@ function viewShipsBody()
 	$scandistance = 2;
 
 	$query = $mysqli->prepare('SELECT fleetid,username,orderid,orderticks FROM fleets LEFT JOIN users USING (userid) WHERE fleets.userID != ? AND fleets.orderplanetid = ? AND fleets.orderid > 1 AND orderticks <= ?');
-	$query->bind_param('ii', $userid, $planetid, $scandistance);
+	$query->bind_param('iii', $userid, $planetid, $scandistance);
 	$query->execute();
 	$query->bind_result($fleetid, $username, $orderid, $orderticks);
 	$query->store_result();
