@@ -44,7 +44,7 @@ function fleetOrderBody()
 	$result = $query->fetch();
 	if (!$result)
 	{
-		echo 'Error: You don\'t have a colony on that planet.', $eol;
+		echo 'Error: You have no unassigned ships orbiting that planet.', $eol;
 		exit;
 	}
 	$query->close();
@@ -104,6 +104,18 @@ function fleetOrderBody()
 	$moveallquery->close();
 	$movesomequery1->close();
 	$movesomequery2->close();
+
+	$query = $mysqli->prepare('SELECT MIN(engines*24/size) AS minspeed, SUM(count*cargo*10) AS totalcargobay, SUM(count*fuel*6) AS totalfuelbay FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
+	$query->bind_param('i', $fleetid);
+	$query->execute();
+	$query->bind_result($minspeed,$totalcargobay,$totalfuelbay);
+	$query->fetch();
+	$query->close();
+
+	$query = $mysqli->prepare('UPDATE fleets SET minspeed=?, totalcargobay=?, totalfuelbay=? WHERE fleetid=?');
+	$query->bind_param('iiii', $minspeed, $totalcargobay, $totalfuelbay, $fleetid);
+	$query->execute();
+	$query->close();
 
 	$mysqli->commit();
 
