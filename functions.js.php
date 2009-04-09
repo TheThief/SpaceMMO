@@ -203,7 +203,7 @@ function updateOtherP(id){
 	var index = document.getElementById("opd"+id).selectedIndex;
 	var selval = document.getElementById("opd"+id)[index].value;
 	
-	if(selVal==0){
+	if(selval==0){
 		document.getElementById("opo"+id).style.visibility="visible";
 	}else{
 		document.getElementById("opo"+id).style.visibility="hidden";
