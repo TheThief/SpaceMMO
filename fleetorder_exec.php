@@ -130,11 +130,6 @@ function fleetOrderBody()
 		}
 		$fuel = $totalfuelneed;
 		$deuterium = $deuterium - $deuteriumneed;
-
-		$query = $mysqli->prepare('UPDATE colonies SET deuterium = ? WHERE userid = ? AND planetID = ?');
-		$query->bind_param('iii', $deuteriumneed, $userid, $planetid);
-		$query->execute();
-		$query->close();
 	}
 
 	if ($transportdeuterium > $deuterium)
@@ -149,8 +144,15 @@ function fleetOrderBody()
 		$fueluse = $totalfuelneed / $orderticks;
 	}
 
-	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, fuel=?, fueluse=? WHERE fleetid=?');
-	$query->bind_param('iiiiii', $orderid, $orderplanetid, $orderticks, $fuel, $fueluse, $fleetid);
+	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, fuel=?, fueluse=?, $metal=?, $deuterium=? WHERE fleetid=?');
+	$query->bind_param('iiiiiiii', $orderid, $orderplanetid, $orderticks, $fuel, $fueluse, $transportmetal, $transportdeuterium, $fleetid);
+	$query->execute();
+	$query->close();
+
+	$metal = $metal - $transportmetal;
+	$deuterium = $deuterium - $transportdeuterium;
+	$query = $mysqli->prepare('UPDATE colonies SET metal = ?, deuterium = ? WHERE userid = ? AND planetID = ?');
+	$query->bind_param('iiii', $metal, $deuterium, $userid, $planetid);
 	$query->execute();
 	$query->close();
 
