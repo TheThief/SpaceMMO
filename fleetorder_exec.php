@@ -12,8 +12,27 @@ function fleetOrderBody()
 	$fleetid = $_POST['fleet'];
 	$orderid = $_POST['order'];
 	$orderplanetid = $_POST['orderplanet'];
+	$transportmetal = $_POST['metal'];
+	$transportdeuterium = $_POST['deuterium'];
 
-	if ($orderid <= 1 || $orderid > 2)
+	if (!$orderplanetid)
+	{
+		$ordersystemid = systemid($_POST['orderplanetother']);
+		$orderplanet = orbit($_POST['orderplanetother']);
+		$query = $mysqli->prepare('SELECT planetid FROM planets WHERE systemid = ? AND orbit = ?');
+		$query->bind_param('ii', $ordersystemid, $orderplanet);
+		$query->execute();
+		$query->bind_result($orderplanetid);
+		$result = $query->fetch();
+		if (!$result)
+		{
+			echo 'Error: No such destination planet.', $eol;
+			exit;
+		}
+		$query->close();
+	}
+
+	if ($orderid < 2 || $orderid > 3)
 	{
 		echo 'Error: Invalid order.', $eol;
 		exit;
@@ -39,10 +58,16 @@ function fleetOrderBody()
 		exit;
 	}
 
-	$query = $mysqli->prepare('SELECT colonies.deuterium,x,y FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userid=? AND planetID = ? FOR UPDATE');
+	if ($transportmetal + $transportdeuterium > $totalcargo)
+	{
+		echo 'Error: Fleet does not have enough cargo space to carry that much cargo.', $eol;
+		exit;
+	}
+
+	$query = $mysqli->prepare('SELECT colonies.metal,colonies.deuterium,x,y FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userid=? AND planetID = ? FOR UPDATE');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($deuterium,$sysx,$sysy);
+	$query->bind_result($metal,$deuterium,$sysx,$sysy);
 	$result = $query->fetch();
 	if (!$result)
 	{
@@ -50,6 +75,12 @@ function fleetOrderBody()
 		exit;
 	}
 	$query->close();
+
+	if ($transportmetal > $metal)
+	{
+		echo 'Error: You don\'t have that much metal to transport.', $eol;
+		exit;
+	}
 
 	$query = $mysqli->prepare('SELECT (ROUND(SQRT(POW(x-?,2)+POW(y-?,2)),2)) AS distance FROM planets LEFT JOIN systems USING (systemid) WHERE planetid = ?');
 	$query->bind_param('iii', $sysx, $sysy, $orderplanetid);
@@ -86,23 +117,30 @@ function fleetOrderBody()
 		$deuteriumneed = $totalfuelneed - $fuel;
 		if ($deuteriumneed > $deuterium)
 		{
-			echo 'Error: You don\'t have enough deuterium for that flight.<br>', $eol;
+			echo 'Error: You don\'t have enough deuterium to fuel that flight.<br>', $eol;
 			echo 'You need ',$deuteriumneed,' more deuterium.', $eol;
 			exit;
 		}
 
 		if ($totalfuelneed > $totalfuelbay)
 		{
-			echo 'Error: Not enough fuel bay for that flight.<br>', $eol;
+			echo 'Error: Fleet doesn\'t have enough fuel bay to hold all the fuel needed for that flight.<br>', $eol;
 			echo 'You need ',$totalfuelneed,' deuterium, those ships only hold ',$totalfuelbay,' deuterium in their fuel bays.', $eol;
 			exit;
 		}
 		$fuel = $totalfuelneed;
+		$deuterium = $deuterium - $deuteriumneed;
 
-		$query = $mysqli->prepare('UPDATE colonies SET deuterium = deuterium - ? WHERE userid = ? AND planetID = ?');
+		$query = $mysqli->prepare('UPDATE colonies SET deuterium = ? WHERE userid = ? AND planetID = ?');
 		$query->bind_param('iii', $deuteriumneed, $userid, $planetid);
 		$query->execute();
 		$query->close();
+	}
+
+	if ($transportdeuterium > $deuterium)
+	{
+		echo 'Error: After fueling your fleet for the journey, you don\'t have that much deuterium to transport.', $eol;
+		exit;
 	}
 
 	$fueluse = 0;

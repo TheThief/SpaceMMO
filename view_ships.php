@@ -108,22 +108,25 @@ function viewShipsBody()
 			echo '<option value="4">Colonise</option>', $eol;
 			echo '<option value="5" disabled>Attack</option>', $eol;
 			echo '</select>', $eol;
-			echo '<select name="orderplanet" id="opd',$fleetid,'" onchange="updateOtherP(',$fleetid,');">', $eol;
 			if (count($destinations) > 0)
 			{
+				echo '<select name="orderplanet" id="opd',$fleetid,'" onchange="updateOtherP(',$fleetid,');">', $eol;
 				foreach ($destinations as $orderplanetid => $string)
 				{
 					echo '<option value="', $orderplanetid, '">', $string, '</option>', $eol;
 				}
 				echo '<option value="0">Other...</option>', $eol;
+				echo '</select>', $eol;
+				echo '<input type="text" size="4" maxlen="4" name="orderplanetother" id="opo',$fleetid,'" style="visibility: hidden"><br>', $eol;
 			}
 			else
 			{
+				echo '<select name="orderplanet">', $eol;
 				echo '<option value="0" disabled>No colonies</option>', $eol;
 				echo '<option value="0" selected>Other...</option>', $eol;
+				echo '</select>', $eol;
+				echo '<input type="text" size="4" maxlen="4" name="orderplanetother"><br>', $eol;
 			}
-			echo '</select>', $eol;
-			echo '<input type="text" size="4" maxlen="4" name="orderplanetother" id="opo',$fleetid,'" style="visibility: hidden"><br>', $eol;
 			echo 'Transport: <input type="text" size="4" name="metal"> metal, ', $eol;
 			echo '<input type="text" size="4" name="deuterium"> deuterium<br>', $eol;
 			echo '<input type="submit" value="Dispatch">', $eol;
@@ -136,10 +139,10 @@ function viewShipsBody()
 		} while ($query->fetch());
 	}
 
-	$query = $mysqli->prepare('SELECT fleetid,orderid,systemid,orbit,orderticks FROM fleets LEFT JOIN planets ON orderplanetid = planets.planetid WHERE fleets.userID = ? AND fleets.planetid = ? AND fleets.orderid > 1');
+	$query = $mysqli->prepare('SELECT fleetid,orderid,systemid,orbit,orderticks,fleets.metal,fleets.deuterium FROM fleets LEFT JOIN planets ON orderplanetid = planets.planetid WHERE fleets.userID = ? AND fleets.planetid = ? AND fleets.orderid > 1');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($fleetid, $orderid, $ordersystemid, $orderorbit, $orderticks);
+	$query->bind_result($fleetid, $orderid, $ordersystemid, $orderorbit, $orderticks, $fleetmetal, $fleetdeuterium);
 	$query->store_result();
 
 	if($query->fetch())
@@ -150,6 +153,18 @@ function viewShipsBody()
 			echo '<form action="fleetorder_exec.php" method="post">', $eol;
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($ordersystemid,$orderorbit),'</h3>', $eol;
+			if ($fleetmetal && $fleetdeuterium)
+			{
+				echo 'Transporting: ',$fleetmetal,' metal<br>', $eol;
+			}
+			else if ($fleetmetal)
+			{
+				echo 'Transporting: ',$fleetmetal,' metal, ',$fleetdeuterium,' deuterium<br>', $eol;
+			}
+			else if ($fleetdeuterium)
+			{
+				echo 'Transporting: ',$fleetdeuterium,' deuterium<br>', $eol;
+			}
 			echo '<span id="count',$countpoint,'">',formatSeconds('h:i:s',($orderticks*TICK)-getTickElapsed()),'</span><br>', $eol;
 			$countarray[$countpoint++] = ($orderticks*TICK)-getTickElapsed();
 			
@@ -169,10 +184,10 @@ function viewShipsBody()
 		} while ($query->fetch());
 	}
 
-	$query = $mysqli->prepare('SELECT fleetid,orderid,orderticks,systemid,orbit FROM fleets LEFT JOIN planets USING (planetid) WHERE fleets.userID = ? AND fleets.orderplanetid = ? AND fleets.orderid > 1');
+	$query = $mysqli->prepare('SELECT fleetid,orderid,orderticks,systemid,orbit,fleets.metal,fleets.deuterium FROM fleets LEFT JOIN planets USING (planetid) WHERE fleets.userID = ? AND fleets.orderplanetid = ? AND fleets.orderid > 1');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($fleetid, $orderid, $orderticks, $fromsystemid, $fromorbit);
+	$query->bind_result($fleetid, $orderid, $orderticks, $fromsystemid, $fromorbit, $fleetmetal, $fleetdeuterium);
 	$query->store_result();
 
 	if($query->fetch())
@@ -184,6 +199,18 @@ function viewShipsBody()
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h3>', $eol;
 			echo 'From: ',systemcode($fromsystemid,$fromorbit),'<br>', $eol;
+			if ($fleetmetal && $fleetdeuterium)
+			{
+				echo 'Transporting: ',$fleetmetal,' metal<br>', $eol;
+			}
+			else if ($fleetmetal)
+			{
+				echo 'Transporting: ',$fleetmetal,' metal, ',$fleetdeuterium,' deuterium<br>', $eol;
+			}
+			else if ($fleetdeuterium)
+			{
+				echo 'Transporting: ',$fleetdeuterium,' deuterium<br>', $eol;
+			}
 			echo '<span id="count',$countpoint,'">',formatSeconds('h:i:s',($orderticks*TICK)-getTickElapsed()),'</span><br>', $eol;
 			$countarray[$countpoint++] = ($orderticks*TICK)-getTickElapsed();
 			echo '<ul>', $eol;
@@ -232,7 +259,7 @@ function viewShipsBody()
 			}
 			echo '</ul>', $eol;
 			//echo '<input type="hidden" name="order" value="1">', $eol;
-			//echo '<input type="submit" value="Recall" disabled>', $eol;
+			//echo '<input type="submit" value="Intercept" disabled>', $eol;
 			//echo '</form>', $eol;
 		} while ($query->fetch());
 	}

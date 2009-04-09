@@ -214,14 +214,25 @@ function systemcode($systemid,$planetorbit=null)
 
 function systemid($systemcode)
 {
-	if (strlen($systemcode)!=3
+	if (strlen($systemcode)<3 || strlen($systemcode)>4
 		|| ord($systemcode[0]) < ord('A') || ord($systemcode[0]) > ord('K')
 		|| !is_numeric($systemcode[1]) || !is_numeric($systemcode[2]))
 	{
 		echo 'error: Invalid system code';
 		exit;
 	}
-	return (ord($systemcode[0])-ord('A'))*99 + substr($systemcode,1);
+	return (ord($systemcode[0])-ord('A'))*99 + substr($systemcode,1,2);
+}
+
+function orbit($systemcode)
+{
+	if (strlen($systemcode)!=4
+		|| ord($systemcode[3]) < ord('A') || ord($systemcode[3]) > ord('G'))
+	{
+		echo 'error: Invalid planet code';
+		exit;
+	}
+	return ord($systemcode[3]) - ord('A');
 }
 
 ?>
