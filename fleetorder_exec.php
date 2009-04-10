@@ -144,7 +144,7 @@ function fleetOrderBody()
 		$fueluse = $totalfuelneed / $orderticks;
 	}
 
-	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, fuel=?, fueluse=?, $metal=?, $deuterium=? WHERE fleetid=?');
+	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, fuel=?, fueluse=?, metal=?, deuterium=? WHERE fleetid=?');
 	$query->bind_param('iiiiiiii', $orderid, $orderplanetid, $orderticks, $fuel, $fueluse, $transportmetal, $transportdeuterium, $fleetid);
 	$query->execute();
 	$query->close();
