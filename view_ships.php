@@ -155,11 +155,11 @@ function viewShipsBody()
 			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($ordersystemid,$orderorbit),'</h3>', $eol;
 			if ($fleetmetal && $fleetdeuterium)
 			{
-				echo 'Transporting: ',$fleetmetal,' metal<br>', $eol;
+				echo 'Transporting: ',$fleetmetal,' metal, ',$fleetdeuterium,' deuterium<br>', $eol;
 			}
 			else if ($fleetmetal)
 			{
-				echo 'Transporting: ',$fleetmetal,' metal, ',$fleetdeuterium,' deuterium<br>', $eol;
+				echo 'Transporting: ',$fleetmetal,' metal<br>', $eol;
 			}
 			else if ($fleetdeuterium)
 			{
@@ -201,11 +201,11 @@ function viewShipsBody()
 			echo 'From: ',systemcode($fromsystemid,$fromorbit),'<br>', $eol;
 			if ($fleetmetal && $fleetdeuterium)
 			{
-				echo 'Transporting: ',$fleetmetal,' metal<br>', $eol;
+				echo 'Transporting: ',$fleetmetal,' metal, ',$fleetdeuterium,' deuterium<br>', $eol;
 			}
 			else if ($fleetmetal)
 			{
-				echo 'Transporting: ',$fleetmetal,' metal, ',$fleetdeuterium,' deuterium<br>', $eol;
+				echo 'Transporting: ',$fleetmetal,' metal<br>', $eol;
 			}
 			else if ($fleetdeuterium)
 			{
