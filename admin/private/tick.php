@@ -254,9 +254,9 @@ $query = $mysqli->prepare('UPDATE fleets SET fuel = fuel - fueluse, orderticks =
 $query->execute();
 $query->close();
 
-$query = $mysqli->prepare('UPDATE colonies INNER JOIN (SELECT orderplanetid AS planetid, SUM(metal) AS fleetmetal, SUM(deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid >= 2 GROUP BY orderplanetid) fleetresources USING (planetid) SET metal=LEAST(metal+fleetmetal,maxmetal), deuterium=LEAST(deuterium+fleetdeuterium,maxdeuterium)');
-$query->execute();
-$query->close();
+$query = $mysqli->query('UPDATE colonies INNER JOIN (SELECT orderplanetid AS planetid, SUM(metal) AS fleetmetal, SUM(deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid >= 2 GROUP BY orderplanetid) fleetresources USING (planetid) SET metal=LEAST(metal+fleetmetal,maxmetal), deuterium=LEAST(deuterium+fleetdeuterium,maxdeuterium)');
+//$query->execute();
+//$query->close();
 
 $query = $mysqli->prepare('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, fueluse = 0, metal = 0, deuterium = 0 WHERE orderticks <= 0 AND orderid = 2');
 $query->execute();
