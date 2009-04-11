@@ -234,8 +234,4 @@ function orbit($systemcode)
 	}
 	return ord($systemcode[3]) - ord('A');
 }
-
-function getLineNo(){
-	return __LINE__;
-}
 ?>
