@@ -7,7 +7,8 @@ echo $_SERVER["PHP_SELF"];
 foreach (range(0.0, 1.0, 0.1) as $number) {
     echo $number . "\n";
 }
-
+echo getLineNo();
+echo getLineNo();
 $tests = Array(
         "42", 
         1337, 
