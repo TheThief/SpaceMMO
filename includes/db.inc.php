@@ -5,6 +5,7 @@ class space_mysqli extends mysqli{
 		$result = parent::query($query);
 		if($this->error){
 			//ob_clean();
+			throw new Exception("mysqli query error: " . $this->error);
 			echo "<b>mysqli query error:</b> " . $this->error."\n"; 
 			ob_flush();
 			die();
@@ -17,6 +18,7 @@ class space_mysqli extends mysqli{
 		$stmt = new space_mysqli_stmt($this, $query);
 		if($this->error){
 			//ob_clean();
+			throw new Exception("mysqli prepare errorr: " . $this->error);
 			echo "<b>mysqli prepare error:</b> " . $this->error."\n"; 
 			ob_flush();
 			die();
@@ -32,6 +34,7 @@ class space_mysqli_stmt extends mysqli_stmt{
 		$result = parent::execute();
 		if($this->error){
 			//ob_clean();
+			throw new Exception("mysqli_stmt execute error: " . $this->error);
 			echo "<b>mysqli_stmt execute error:</b> " . $this->error."\n"; 
 			ob_flush();
 			die();
