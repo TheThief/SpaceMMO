@@ -15,6 +15,24 @@ function fleetOrderBody()
 	$transportmetal = $_POST['metal'];
 	$transportdeuterium = $_POST['deuterium'];
 
+	if ($orderid < 2 || $orderid > 3)
+	{
+		echo 'Error: Invalid order.', $eol;
+		exit;
+	}
+
+	$fuelmult = 1;
+	if ($orderid == 3)
+	{
+		if ($transportmetal + $transportdeuterium <= 0)
+		{
+			echo 'Error: A "transport" order requires <i>some</i> resources to be transported.', $eol;
+			exit;
+		}
+
+		$fuelmult = 2;
+	}
+
 	if (!$orderplanetid)
 	{
 		$ordersystemid = systemid($_POST['orderplanetother']);
@@ -30,12 +48,6 @@ function fleetOrderBody()
 			exit;
 		}
 		$query->close();
-	}
-
-	if ($orderid < 2 || $orderid > 3)
-	{
-		echo 'Error: Invalid order.', $eol;
-		exit;
 	}
 
 	$mysqli->autocommit(false);
@@ -98,7 +110,7 @@ function fleetOrderBody()
 	$orderticks = 1;
 	if ($orderdistance > 0)
 	{
-		$orderticks = ceil($orderdistance/$fleetspeed) * 6;
+		$orderticks = ceil($orderdistance/$fleetspeed * 6);
 
 		$query = $mysqli->prepare('SELECT count, engines, engines*24/size AS speed FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
 		$query->bind_param('i', $fleetid);
@@ -111,6 +123,8 @@ function fleetOrderBody()
 		}
 		$query->close();
 	}
+
+	$totalfuelneed *= $fuelmult;
 
 	if ($totalfuelneed > $fuel)
 	{

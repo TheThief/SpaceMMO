@@ -254,18 +254,23 @@ $query = $mysqli->prepare('UPDATE fleets SET fuel = fuel - fueluse, orderticks =
 $query->execute();
 $query->close();
 
-$query = $mysqli->query('UPDATE colonies INNER JOIN (SELECT orderplanetid AS planetid, SUM(metal) AS fleetmetal, SUM(deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid >= 2 GROUP BY orderplanetid) fleetresources USING (planetid) SET metal=LEAST(metal+fleetmetal,maxmetal), deuterium=LEAST(deuterium+fleetdeuterium,maxdeuterium)');
+//$query = $mysqli->prepare('UPDATE colonies INNER JOIN (SELECT orderplanetid AS planetid, SUM(metal) AS fleetmetal, SUM(deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid >= 2 GROUP BY orderplanetid) fleetresources USING (planetid) SET metal=LEAST(metal+fleetmetal,maxmetal), deuterium=LEAST(deuterium+fleetdeuterium,maxdeuterium)');
 //$query->execute();
 //$query->close();
+$mysqli->query('UPDATE colonies INNER JOIN (SELECT orderplanetid AS planetid, SUM(metal) AS fleetmetal, SUM(deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid >= 2 GROUP BY orderplanetid) fleetresources USING (planetid) SET metal=LEAST(metal+fleetmetal,maxmetal), deuterium=LEAST(deuterium+fleetdeuterium,maxdeuterium)');
 
 $query = $mysqli->prepare('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, fueluse = 0, metal = 0, deuterium = 0 WHERE orderticks <= 0 AND orderid = 2');
 $query->execute();
 $query->close();
 
-$query = $mysqli->prepare('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, fueluse = 0, metal = 0, deuterium = 0 WHERE orderticks <= 0 AND orderid = 3');
-//$query = $mysqli->prepare('UPDATE fleets SET orderplanetid = planetid, orderid = 2, orderticks = ?, metal = 0, deuterium = 0 LEFT JOIN  WHERE orderticks <= 0 AND orderid = 3');
-$query->execute();
-$query->close();
+//$query = $mysqli->prepare('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, fueluse = 0, metal = 0, deuterium = 0 WHERE orderticks <= 0 AND orderid = 3');
+//$query->execute();
+//$query->close();
+$mysqli->query('UPDATE fleets
+	LEFT JOIN planets AS fromplanet ON fromplanet.planetid=fleets.planetid LEFT JOIN systems AS fromsystem ON fromsystem.systemid=fromplanet.systemid
+	LEFT JOIN planets AS toplanet ON toplanet.planetid=fleets.orderplanetid LEFT JOIN systems AS tosystem ON tosystem.systemid=toplanet.systemid
+	SET fleets.orderplanetid = fleets.planetid, fleets.orderid = 2, fleets.orderticks = GREATEST(CEIL(ROUND(SQRT(POW(tosystem.x-fromsystem.x,2)+POW(tosystem.y-fromsystem.y,2)),2)/fleets.speed*6), 1), fleets.metal = 0, fleets.deuterium = 0
+	WHERE fleets.orderticks <= 0 AND fleets.orderid = 3');
 
 $mysqli->commit();
 
