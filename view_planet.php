@@ -19,7 +19,7 @@ function viewPlanetBody()
 	$stmt->fetch();
 	$stmt->close();
 
-	echo '<img src="images/planet',$planettype,'.png" style="width: 20em; height: 20em;">', $eol;
+	echo '<img src="images/planet',$planettype,'-large.png" style="width: 20em; height: 20em;">', $eol;
 
 	echo '<table>', $eol;
 	echo '<tr><th>Location</th><td><a href="view_planets.php?system=',$systemid,'">',$systemx,', ',$systemy,' : ',$orbit,'</a></td></tr>';
