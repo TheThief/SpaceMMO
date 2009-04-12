@@ -41,19 +41,20 @@ function viewPlanetsBody()
 	while ($stmt->fetch())
 	{
 		$image = 'images/planet'.$type.'.png';
+		$image2 = null;
 		$link = 'view_planet.php?planet='.$planetid;
 		$tooltip = $lookups["planetType"][$type].' planet at '.$systemx.', '.$systemy.' : '.$orbit;
 		if ($colonyuserid)
 		{
 			if ($colonyuserid != $userid)
 			{
-				$image = 'images/planet'.$type.'-oc.png';
+				$image2 = 'images/star-oc.png';
 				//$link = 'view_planet.php?planet='.$planetid;
 				$tooltip = 'Enemy colony detected on this '.$tooltip;
 			}
 			else
 			{
-				$image = 'images/planet'.$type.'-c.png';
+				$image2 = 'images/star-c.png';
 				$link = 'colony_buildings.php?planet='.$planetid;
 				$tooltip = 'Your have a colony on this '.$tooltip;
 			}
@@ -68,7 +69,13 @@ function viewPlanetsBody()
 		$x = $viewsize/2 + sin($angle) * ($minorbit + ($orbit - 1) * $orbitspacing) - $planetsize/2;
 		$y = $viewsize/2 + cos($angle) * ($minorbit + ($orbit - 1) * $orbitspacing) - $planetsize/2;
 		echo '<img src="images/orbit', $orbit, '.png" style="z-index: 0; width: 100%; height: 100%; position: absolute; left: 0; top: 0;">', $eol;
-		echo '<a href="', $link, '"><img src="', $image, '" style="z-index: 1; width: ',$planetsize,'em; height: ',$planetsize,'em; position: absolute; left: ', $x, 'em; top: ', $y, 'em;" title="',$tooltip,'"></a>', $eol;
+		echo '<a href="', $link, '">';
+		echo '<img src="', $image, '" style="z-index: 1; width: ',$planetsize,'em; height: ',$planetsize,'em; position: absolute; left: ', $x, 'em; top: ', $y, 'em;" title="',$tooltip,'">';
+		if ($image2)
+		{
+			echo '<img src="', $image2, '" style="z-index: 2; width: ',$planetsize,'em; height: ',$planetsize,'em; position: absolute; left: ', $x, 'em; top: ', $y, 'em;" title="',$tooltip,'">';
+		}
+		echo '</a>', $eol;
 	}
 	$stmt->close();
 	echo '</div>', $eol;
