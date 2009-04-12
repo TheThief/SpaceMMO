@@ -239,7 +239,7 @@ function orbit($systemcode)
 }
 
 function planetChanger($page=NULL){
-	global $planetChagneID, $mysqli;
+	global $planetChangeID, $mysqli;
 	$userid = $_SESSION['userid'];
 	$current= $_GET['planet'];
 	$page = is_null($page)?basename($_SERVER["PHP_SELF"]):$page;
