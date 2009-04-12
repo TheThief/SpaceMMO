@@ -259,7 +259,7 @@ function planetChanger($page=NULL){
 	}
 	?>
 	<form action="<? echo $page;?>" method="get">
-		<select name="planet" id="pcdd<? echo $planetChagneID;?>" onchange="changePage(<? echo $planetChagneID++;?>,<? echo $page;?>,<? echo $current;?>)">
+		<select name="planet" id="pcdd<? echo $planetChangeID;?>" onchange="changePage(<? echo $planetChangeID++;?>,'<? echo $page;?>',<? echo $current;?>)">
 	<?
 	$query->bind_result($planetid,$systemid,$orbit);
 	while($query->fetch()){
