@@ -83,7 +83,7 @@ function buildShipsBody()
 	?>
 	<h2>Build Queue</h2>
 	<table>
-		<tr><th>Design Name</th><th>Quantity</th><th>Ship Progress</th><th>Next Ship In</th><th>Order Complete In</th></tr>
+		<tr><th>Design Name</th><th>Quantity</th><!--<th>Ship Progress</th>--><th>Next Ship In</th><th>Order Complete In</th></tr>
 	<?	
 	$timeoffset=0;
 	$first=TRUE;
@@ -100,14 +100,15 @@ function buildShipsBody()
 				$timeoffset += $orderticks;
 				$shiparray[$id]=$shiptime;
 				$orderarray[$id]=$ordertime;
+				formatSeconds("h:i:s"
 				if($first) $pcarray=array(getTickElapsed(),$metalcost,$shipprod,$progress);
 			}
 			echo '<tr>';
 			echo "<td>$designname</td>";
 			echo "<td>$count</td>";
-			echo "<td><span id=\"pcsp".(int)$first."\">".(int)(($progress/$metalcost)*100)."</span>%</td>";
-			echo "<td><span id=\"shsp".$id."\">-<span></td>";
-			echo "<td><span id=\"orsp".$id."\">-<span></td>";
+			//echo "<td><span id=\"pcsp".(int)$first."\">".(int)(($progress/$metalcost)*100)."</span>%</td>";
+			echo "<td><span id=\"shsp".$id."\">".formatSeconds("h:i:s",$shiptime)."<span></td>";
+			echo "<td><span id=\"orsp".$id."\">".formatSeconds("h:i:s",$ordertime)."<span></td>";
 			echo '</tr>';
 			$first=FALSE;
 		} while ($query->fetch());
@@ -115,7 +116,7 @@ function buildShipsBody()
 	else
 	{
 		$empty=TRUE;
-		echo '<tr><td colspan="5">Empty</td></tr>';
+		echo '<tr><td colspan="4">Empty</td></tr>';
 	}
 	?>
 	</table>

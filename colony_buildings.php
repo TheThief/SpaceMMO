@@ -187,7 +187,7 @@ function colonyBuildingsBody()
 					$gtime = ceil(($cost-$metal)/$metalprod);
 					$rtime = formatSeconds("h:i:s",($gtime*TICK)-getTickElapsed());
 					$countarray[$countpoint]=($gtime*TICK)-getTickElapsed();
-					echo '<br><span class="error" id="btimesp',$countpoint,'">Available in: </span><span class="error" id="timesp',$countpoint++,'" title=""></span>';
+					echo '<br><span class="error" id="btimesp',$countpoint,'">Available in: </span><span class="error" id="timesp',$countpoint++,'" title="">$rtime</span>';
 				}
 			}
 			else
