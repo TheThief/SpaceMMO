@@ -59,8 +59,8 @@ function buildShipsBody()
 		exit;
 	}
 	$query->close();
-
-	echo '<table>', $eol;
+	planetChanger();
+	echo '<br><table>', $eol;
 	echo '<tr><th>Metal</th><th>Build Rate</th></tr>', $eol;
 	echo '<tr><td>',$metal,'/',$maxmetal,' (',getSigned($metalprod),')','</td><td>',$shipprod,'</td></tr>';
 	echo '</table>', $eol;

@@ -36,7 +36,8 @@ function viewShipsBody()
 	$result = $query->execute();
 	$query->bind_result($designid,$shipname,$count);
 
-	echo '<h2>Unassigned</h2>', $eol;
+	planetChanger();
+	echo '<br><h2>Unassigned</h2>', $eol;
 	echo '<form action="createfleet_exec.php" method="post">', $eol;
 	echo '<input type="hidden" name="planet" value="',$planetid,'">', $eol;
 	echo '<table>', $eol;
