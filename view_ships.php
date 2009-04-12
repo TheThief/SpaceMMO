@@ -30,14 +30,15 @@ function viewShipsBody()
 		exit;
 	}
 	$query->close();
-
+	planetChanger();
+	echo "<br>";
 	$query = $mysqli->prepare('SELECT designid,shipname,count FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleets.userID = ? AND planetid = ? AND orderid = 0');
 	$query->bind_param('ii', $userid, $planetid);
 	$result = $query->execute();
 	$query->bind_result($designid,$shipname,$count);
 
-	planetChanger();
-	echo '<br><h2>Unassigned</h2>', $eol;
+	
+	echo '<h2>Unassigned</h2>', $eol;
 	echo '<form action="createfleet_exec.php" method="post">', $eol;
 	echo '<input type="hidden" name="planet" value="',$planetid,'">', $eol;
 	echo '<table>', $eol;
