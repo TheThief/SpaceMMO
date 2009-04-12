@@ -209,3 +209,13 @@ function updateOtherP(id){
 		document.getElementById("opo"+id).style.visibility="hidden";
 	}
 }
+
+function changePage(id,page,pid){
+	var index = document.getElementById("pcdd"+id).selectedIndex;
+	var selval = document.getElementById("pcdd"+id)[index].value;
+	
+	if(selval != pid){
+		document.location = "./" + page + "?planet=" + selval;
+	}
+	
+}

@@ -7,6 +7,9 @@ function cleanUp(){
 	if(DEBUG) echo "End clean up\n";
 }
 
+//Used to identify planet changing drop downs
+$planetChangeID=0;
+
 $lookups=array();
 //planetType
 $lookups["planetType"]=array(
@@ -233,5 +236,37 @@ function orbit($systemcode)
 		exit;
 	}
 	return ord($systemcode[3]) - ord('A');
+}
+
+function planetChanger($page=NULL){
+	global $planetChagneID, $mysqli;
+	$userid = $_SESSION['userid'];
+	$current= $_GET['planet'];
+	$page = is_null($page)?basename($_SERVER["PHP_SELF"]):$page;
+	$query = $mysqli->prepare('SELECT colonies.planetid,systemid,planets.orbit FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE colonies.userID = ? ORDER BY colonylevel DESC;');
+	if (!$query)
+	{
+		echo 'error: ', $mysqli->error, $eol;
+		exit;
+	}
+	$query->bind_param('i', $userid);
+
+	$result = $query->execute();
+	if (!$result)
+	{
+		echo 'error: ', $query->error, $eol;
+		exit;
+	}
+	?>
+	<form action="<? echo $page;?>" method="get">
+		<select name="planet" id="pcdd<? echo $planetChagneID;?>" onchange="changePage(<? echo $planetChagneID++;?>,<? echo $page;?>,<? echo $current;?>)">
+	<?
+	$query->bind_result($planetid,$systemid,$orbit);
+	while($query->fetch()){
+		?>
+		<option value="<? echo $planetid;?>" <? echo ($planetid==$current)?"selected":"";?>><? echo systemcode($systemid,$orbit);?></option>
+		<?
+	}
+	?> </select><input type="Submit" value="Go"></form> <?
 }
 ?>

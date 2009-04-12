@@ -72,6 +72,7 @@ function colonyBuildingsBody()
         echo "</td>";
 	echo '</tr>', $eol;
 	echo '</table>', $eol;
+	planetChanger();
 	echo '<table>', $eol;
 	echo '<col><col style="width: 20em;"><col>', $eol;
 	echo '<tr><th>Building</th><th>Description</th><th>Actions</th></tr>', $eol;
