@@ -100,7 +100,6 @@ function buildShipsBody()
 				$timeoffset += $orderticks;
 				$shiparray[$id]=$shiptime;
 				$orderarray[$id]=$ordertime;
-				formatSeconds("h:i:s"
 				if($first) $pcarray=array(getTickElapsed(),$metalcost,$shipprod,$progress);
 			}
 			echo '<tr>';
