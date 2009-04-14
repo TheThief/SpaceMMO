@@ -1,0 +1,14 @@
+Add a "queued" time to each entry in the build queue and use it to stop the fact that building a cheap ship 1 sec before the next tick completes it instantly.
+Make buildings take time to build/upgrade. Perhaps make them do nothing while being upgraded?
+Add images for buildings and ship hulls.
+Add a colony summary to view_planet.php and go there instead of colony_buildings.php when you click on "Details" on the colony list or when you click on the colonised planet in the solar view.
+Make new-user sign-up work. Make it bot-proof (recaptcha?)
+Add the ability to colonise a planet.
+Add the "subspace sensors", and appropriate column on a colony, for detecting incoming enemy fleets. Change view_ships to use that instead of the current hardcoded number.
+Add the ability to attack.
+Add the ability to recall a fleet.
+Change fleet fuel use so it is calculated at fleet creation instead of on every order issued.
+
+Switch to using "systemid,orbit" as the planet key instead of planetid? Would simplify queries that get a colony's location.
+
+Switch to 1-minute ticks?
