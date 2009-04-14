@@ -3,7 +3,7 @@ include_once "../includes/start.inc.php";
 
 ?><html>
 <head>
-<meta http-equiv="Content-Type" value="text/html; charset=utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
 <?
