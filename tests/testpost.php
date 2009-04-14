@@ -7,7 +7,7 @@ foreach($_POST['test'] as $key => $value)
 }
 
 print_r($_POST['test']);
-print_r($SERVER);
+print($_SERVER['CONTENT_TYPE']);
 
 unset($_POST['test']['a'],$_POST['test']['b'],$_POST['test']['c'],$_POST['test']['d']);
 
