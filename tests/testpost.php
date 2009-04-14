@@ -3,7 +3,7 @@ include_once "../includes/start.inc.php";
 
 ?><html>
 <head>
-<meta http-equiv="Content-type" value="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" value="text/html; charset=utf-8">
 </head>
 <body>
 <?
@@ -20,7 +20,7 @@ unset($_POST['test']['a'],$_POST['test']['b'],$_POST['test']['c'],$_POST['test']
 echo count($_POST['test']);
 
 ?>
-<form action="testpost.php" method="post" accept-charset="UTF-8">
+<form action="testpost.php" method="post" accept-charset="utf-8">
 <input name="test[a]" type="text"><br>
 <input name="test[b]" type="text"><br>
 <input name="test[c]" type="text"><br>
