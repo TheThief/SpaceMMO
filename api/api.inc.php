@@ -49,6 +49,7 @@ function getColonies($apikey){
 							"orbit"=>$orbit,
 							"systemcode"=>systemcode($systemid, $orbit),
 							"planettype"=>$planettype,
+							"planettypetext"=>getPlanetType($planettype),
 							"metal"=>$metal,
 							"maxmetal"=>$maxmetal,
 							"metalprod"=>$metalprod,
