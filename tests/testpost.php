@@ -3,7 +3,7 @@ include_once "../includes/start.inc.php";
 
 foreach($_POST['test'] as $key => $value)
 {
-	echo $key,' = ',$value,'<br>', $eol;
+	echo $key,' = ',$value, ' (',mb_strlen($value),' c, ',strlen($value),' b)','<br>', $eol;
 }
 
 print_r($_POST['test']);
