@@ -14,7 +14,7 @@ unset($_POST['test']['a'],$_POST['test']['b'],$_POST['test']['c'],$_POST['test']
 echo count($_POST['test']);
 
 ?>
-<form action="testpost.php" method="post">
+<form action="testpost.php" method="post" accept-charset="utf-8">
 <input name="test[a]" type="text"><br>
 <input name="test[b]" type="text"><br>
 <input name="test[c]" type="text"><br>
