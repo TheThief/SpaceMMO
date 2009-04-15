@@ -19,20 +19,20 @@ else
 	echo 'error: ', $mysqli->error, $eol;
 }
 
-//$result = $mysqli->query('ALTER TABLE planets ADD INDEX systemID (systemID)');
-//if ($result)
-//{
-//	echo 'index on \'systemID\' created successfully', $eol;
-//}
-//else
-//{
-//	echo 'error: ', $mysqli->error, $eol;
-//}
-
 $result = $mysqli->query('ALTER TABLE planets ADD UNIQUE INDEX orbit (systemID,orbit)');
 if ($result)
 {
-	echo 'index on \'orbit (systemID,orbit)\' created successfully', $eol;
+	echo 'index \'orbit\' on \'systemID,orbit\' created successfully', $eol;
+}
+else
+{
+	echo 'error: ', $mysqli->error, $eol;
+}
+
+$result = $mysqli->query('ALTER TABLE planets ADD INDEX planettype (type)');
+if ($result)
+{
+	echo 'index \'planettype\' on \'type\' created successfully', $eol;
 }
 else
 {
