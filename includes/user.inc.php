@@ -25,7 +25,7 @@ function adduser($username, $password, $planetid=null)
 		$query->execute();
 		$query->bind_result($planetid);
 		$result = $query->execute();
-		if (!$result)
+		if (!$result || !$planetid)
 		{
 			echo 'Error choosing a colony planet', $eol;
 			exit;
