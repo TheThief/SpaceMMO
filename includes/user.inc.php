@@ -19,6 +19,8 @@ function adduser($username, $password, $planetid=null)
 
 	if (!$planetid)
 	{
+		if (USER_DEBUG) echo 'No planet specified for initial colony, choosing one automatically', $eol;
+
 		$query = $mysqli->prepare('SELECT planetid FROM planets LEFT JOIN (SELECT systems.*,COUNT(colonies.planetid) AS colonycount FROM systems LEFT JOIN planets USING (systemid) LEFT JOIN colonies USING (planetid) GROUP BY systemid ORDER BY NULL) systemcolonies USING (systemid) WHERE type=3 AND colonycount=0 LIMIT 1');
 		$query->execute();
 		$query->bind_result($planetid);
