@@ -21,16 +21,15 @@ function adduser($username, $password, $planetid=null)
 	{
 		if (USER_DEBUG) echo 'No planet specified for initial colony, choosing one automatically', $eol;
 
-		$query = $mysqli->prepare('SELECT planetid FROM planets LEFT JOIN (SELECT systemid FROM colonies LEFT JOIN planets USING (planetid) GROUP BY systemid ORDER BY NULL) colonisedsystems USING (systemid) WHERE type=3 AND colonisedsystems.systemid IS NULL LIMIT 1');
-		$query->execute();
-		$query->bind_result($planetid);
-		$result = $query->execute();
-		if (!$result || !$planetid)
+		$result = $mysqli->query('SELECT planetid FROM planets LEFT JOIN (SELECT systemid FROM colonies LEFT JOIN planets USING (planetid) GROUP BY systemid ORDER BY NULL) colonisedsystems USING (systemid) WHERE type=3 AND colonisedsystems.systemid IS NULL LIMIT 1');
+		$data = $result->fetch_row();
+		if (!$data)
 		{
-			echo 'Error choosing a colony planet', $eol;
+			echo 'No suitable planets found', $eol;
 			exit;
 		}
-		$query->close();
+		$planetid = $data[0];
+		$result->close();
 	}
 
 	if (USER_DEBUG) echo 'Chosen \'', $planetid, '\' for colony', $eol;
