@@ -2,7 +2,7 @@
 include_once 'includes/admin.inc.php';
 checkIsAdmin();
 
-define("DEBUG",true);
+define('USER_DEBUG',true);
 include_once '../includes/user.inc.php';
 
 header('Content-type: text/plain');

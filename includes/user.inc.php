@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('USER_DEBUG')) define('USER_DEBUG',DEBUG);
+if (!defined('COLONY_DEBUG')) define('COLONY_DEBUG',USER_DEBUG);
 include_once 'colony.inc.php';
 
 function adduser($username, $password, $planetid=null)
@@ -13,7 +15,7 @@ function adduser($username, $password, $planetid=null)
 	$userid = $query->insert_id;
 	$query->close();
 
-	if (DEBUG) echo 'User \'', $username, '\' added successfully', $eol;
+	if (USER_DEBUG) echo 'User \'', $username, '\' added successfully', $eol;
 
 	if (!$planetid)
 	{
@@ -29,7 +31,7 @@ function adduser($username, $password, $planetid=null)
 		$query->close();
 	}
 
-	if (DEBUG) echo 'Chosen \'', $planetid, '\' for colony', $eol;
+	if (USER_DEBUG) echo 'Chosen \'', $planetid, '\' for colony', $eol;
 
 	colonise($planetid, $userid);
 

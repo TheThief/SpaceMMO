@@ -2,7 +2,7 @@
 include_once 'includes/admin.inc.php';
 checkIsAdmin();
 
-define("DEBUG",true);
+define('COLONY_DEBUG',true);
 include_once '../includes/colony.inc.php';
 
 header('Content-type: text/plain');
