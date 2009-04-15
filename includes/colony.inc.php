@@ -1,7 +1,7 @@
 <?php
 function colonise($planetid, $userid)
 {
-	global $mysql, $eol;
+	global $mysqli, $eol;
 
 	$query = $mysqli->prepare('INSERT INTO colonies (planetID,userid) VALUES (?, ?)');
 	$query->bind_param('ii', $planetid, $userid);
