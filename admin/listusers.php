@@ -2,46 +2,37 @@
 include_once 'includes/admin.inc.php';
 checkIsAdmin();
 
-$query = $mysqli->prepare('SELECT userID,username,bisadmin,COUNT(colonies.userid) FROM users LEFT JOIN colonies USING (userid) GROUP BY userid ORDER BY NULL');
-if (!$query)
-{
-	echo 'error: ', $mysqli->error, $eol;
-	exit;
-}
+include_once '../includes/template.inc.php';
 
-$result = $query->execute();
-if (!$result)
-{
-	echo 'error: ', $query->error, $eol;
-	exit;
-}
+template('Admin List Users', 'adminListUsersBody');
 
-$query->bind_result($userid,$username,$bisadmin,$colonies);
-?>
-<html>
-<head>
-<link rel="stylesheet" type="text/css" href="../style.css">
-</head>
-<body>
-
-<div>
-<table>
-<tr><th>User ID</th><th>User Name</th><th>Is Admin</th><th># of Colonies</th>
-<th>Actions</th></tr>
-<?
-while($query->fetch())
+function adminListUsersBody()
 {
-	?><tr><td><?=$userid?></td><td><?=$username?></td><td><?=$bisadmin?'Yes':''?></td><td><?=$colonies?></td><td><?
-	if (!$bisadmin)
+	global $eol, $mysqli;
+	$query = $mysqli->prepare('SELECT userID,username,bisadmin,COUNT(colonies.userid) FROM users LEFT JOIN colonies USING (userid) GROUP BY userid ORDER BY NULL');
+	$result = $query->execute();
+	$query->bind_result($userid,$username,$bisadmin,$colonies);
+
+	echo '<table>', $eol;
+	echo '<tr><th>User ID</th><th>User Name</th><th>Is Admin</th><th># of Colonies</th><th>Actions</th></tr>', $eol;
+
+	while($query->fetch())
 	{
-		?><a href="makeadmin.php?userid=<?=$userid?>">Make Admin</a><?
+		echo '<tr><td>',$userid,'</td><td>',$username,'</td><td>',$bisadmin?'Yes':'','</td><td>',$colonies,'</td><td>';
+		if (!$bisadmin)
+		{
+			echo '<a href="makeadmin.php?userid=',$userid,'">Make Admin</a>';
+			echo '<br>', $eol;
+			echo '<a href="deleteuser_exec.php?userid=',$userid,'">Delete User</a>';
+		}
+		echo '</td></tr>', $eol;
 	}
-	?></td></tr>
-<?
+	echo '</table>', $eol;
+	echo '<br>', $eol;
+	echo 'Add User:<br>', $eol;
+	echo '<form action="adduser_exec.php" method="post">', $eol;
+	echo 'Username: <input type="text" name="username"><br>', $eol;
+	echo 'Password: <input type="password" name="password"><br>', $eol;
+	echo '<input type="submit" value="Submit">', $eol;
+	echo '</form>', $eol;
 }
-?>
-</table>
-</div>
-
-</body>
-</html>
