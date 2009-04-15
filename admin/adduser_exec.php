@@ -10,7 +10,7 @@ header('Content-type: text/plain');
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-$mysqli->autocommit(false)
+$mysqli->autocommit(false);
 
 adduser($username, $password);
 
