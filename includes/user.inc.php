@@ -4,7 +4,7 @@ include_once 'colony.inc.php';
 
 function adduser($username, $password, $planetid=null)
 {
-	global $mysql, $eol;
+	global $mysqli, $eol;
 
 	$query = $mysqli->prepare('INSERT INTO users (username, passhash) VALUES (?, UNHEX(?))');
 	$query->bind_param('ss', $username, $passhash);
