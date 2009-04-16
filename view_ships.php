@@ -30,21 +30,29 @@ function viewShipsBody()
 		exit;
 	}
 	$query->close();
+
 	planetChanger();
 	echo "<br>";
-	$query = $mysqli->prepare('SELECT designid,shipname,count FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleets.userID = ? AND planetid = ? AND orderid = 0');
-	$query->bind_param('ii', $userid, $planetid);
-	$result = $query->execute();
-	$query->bind_result($designid,$shipname,$count);
 
-	
+	$query = $mysqli->prepare('SELECT fleetid FROM fleets WHERE fleets.userID = ? AND planetid = ? AND orderid = 0');
+	$query->bind_param('ii', $userid, $planetid);
+	$query->execute();
+	$query->bind_result($fleetid);
+	$query->fetch();
+	$query->close();
+
+	$queryships = $mysqli->prepare('SELECT designid,shipname,count FROM fleetships LEFT JOIN shipdesigns USING (designid) WHERE fleetid = ?');
+	$queryships->bind_param('i', $fleetid);
+	$queryships->bind_result($designid,$shipname,$count);
+
 	echo '<h2>Unassigned</h2>', $eol;
 	echo '<form action="createfleet_exec.php" method="post">', $eol;
 	echo '<input type="hidden" name="planet" value="',$planetid,'">', $eol;
 	echo '<table>', $eol;
 	echo '<tr><th>Design Name</th><th>Count</th><th></th></tr>', $eol;
 
-	if($query->fetch())
+	$queryships->execute();
+	if($queryships->fetch())
 	{
 		do
 		{
@@ -53,7 +61,7 @@ function viewShipsBody()
 			echo "<td>$count</td>";
 			echo '<td><input type="text" size="4" name="ships[',$designid,']" value="0"></td>';
 			echo '</tr>', $eol;
-		} while ($query->fetch());
+		} while ($queryships->fetch());
 		echo '</table>', $eol;
 		echo '<input type="submit" value="Create Fleet">', $eol;
 	}
@@ -64,15 +72,11 @@ function viewShipsBody()
 	}
 	echo '</form>', $eol;
 
-	$query = $mysqli->prepare('SELECT fleetid FROM fleets LEFT JOIN planets USING (planetid) WHERE fleets.userID = ? AND planetid = ? AND orderid = 1');
+	$query = $mysqli->prepare('SELECT fleetid FROM fleets WHERE fleets.userID = ? AND planetid = ? AND orderid = 1');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
 	$query->bind_result($fleetid);
 	$query->store_result();
-
-	$queryships = $mysqli->prepare('SELECT shipname,count FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleetid = ?');
-	$queryships->bind_param('i', $fleetid);
-	$queryships->bind_result($shipname,$count);
 
 	if($query->fetch())
 	{
