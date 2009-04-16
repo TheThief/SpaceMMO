@@ -40,9 +40,10 @@ function fleetOrderBody()
 	}
 	else if ($orderid == 4)
 	{
-		if ($transportmetal < 20000)
+		if ($transportmetal < COLONY_COST)
 		{
-			echo 'Error: A "colonise" order requires you to transport 20000 metal to construct the colony with.', $eol;
+			echo 'Error: A "colonise" order requires you to transport ',COLONY_COST,' metal to construct the colony with.<br>', $eol;
+			echo 'Transporting extra to allow you to build the colony\'s first mine and generator isn\'t a bad idea either.', $eol;
 			exit;
 		}
 

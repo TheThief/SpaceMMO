@@ -1,5 +1,6 @@
 <?
-define("TICK",600);
+define("TICK",600); // Seconds per tick
+define("TICKS_PH",6); // Ticks per hour
 
 function cleanUp(){
 	if(DEBUG) echo "Starting clean up\n";

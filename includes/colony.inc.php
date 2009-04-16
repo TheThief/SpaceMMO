@@ -1,5 +1,8 @@
 <?php
 if (!defined('COLONY_DEBUG')) define('COLONY_DEBUG',DEBUG);
+
+define('COLONY_COST',20000);
+
 function colonise($planetid, $userid, $metal=0)
 {
 	global $mysqli, $eol;

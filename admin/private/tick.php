@@ -300,7 +300,7 @@ while ($query->fetch())
 	if (!$result || !$colonyuserid)
 	{
 		colonise($planetid, $fleetuserid);
-		$metalcost = 20000;
+		$metalcost = COLONY_COST;
 		$transferquery1->execute();
 		$transferquery2->execute();
 	}
