@@ -10,7 +10,7 @@ header('Content-type: text/plain');
 $planetid = $_GET['planet'];
 $userid = $_GET['userid'];
 
-$mysqli->autocommit(false)
+$mysqli->autocommit(false);
 
 colonise($planetid, $userid);
 
