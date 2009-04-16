@@ -113,7 +113,7 @@ function fleetOrderBody()
 	$query->close();
 
 	$query = $mysqli->prepare('SELECT SUM(count * CEIL(engines * ? / (engines*24/size))) AS fueluse FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
-	$query->bind_param('di', $fueluse, $fleetid);
+	$query->bind_param('di', $minspeed, $fleetid);
 	$query->execute();
 	$query->bind_result($fueluse);
 	$query->fetch();
