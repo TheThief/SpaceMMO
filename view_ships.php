@@ -98,10 +98,10 @@ function viewShipsBody()
 			echo '<form action="fleetorder_exec.php" method="post">', $eol;
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h3>',$lookups['order'][1],' ',systemcode($systemid,$orbit),'</h3>', $eol;
-			echo 'Speed: ',$speed,' PC/h (Fuel use: ',$fueluse*6,' D/h)<br>', $eol;
-			echo 'Fuel: ',$fuel,'/ ',$totalfuelbay,' D<br>', $eol;
-			echo 'Max Range: ',$speed * floor($totalfuelbay/$fueluse) * 6,' PC<br>', $eol;
-			echo 'Cargo Capacity: ',$totalcargobay,' m3<br>', $eol;
+			echo 'Speed: ',number_format($speed,2),' PC/h (Fuel use: ',$fueluse*6,' D/h)<br>', $eol;
+			echo 'Fuel: ',$fuel,' / ',$totalfuelbay,' D<br>', $eol;
+			echo 'Max Range: ',number_format($speed * floor($totalfuelbay/$fueluse) * 6, 2),' PC<br>', $eol;
+			echo 'Cargo Capacity: ',$totalcargo,' m3<br>', $eol;
 			echo '<ul>', $eol;
 
 			$queryships->execute();
