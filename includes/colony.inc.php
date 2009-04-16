@@ -1,11 +1,11 @@
 <?php
 if (!defined('COLONY_DEBUG')) define('COLONY_DEBUG',DEBUG);
-function colonise($planetid, $userid)
+function colonise($planetid, $userid, $metal=0)
 {
 	global $mysqli, $eol;
 
-	$query = $mysqli->prepare('INSERT INTO colonies (planetID,userid) VALUES (?, ?)');
-	$query->bind_param('ii', $planetid, $userid);
+	$query = $mysqli->prepare('INSERT INTO colonies (planetID,userid,metal) VALUES (?, ?, ?)');
+	$query->bind_param('iii', $planetid, $userid, $metal);
 	$query->execute();
 	$query->close();
 

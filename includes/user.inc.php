@@ -34,7 +34,7 @@ function adduser($username, $password, $planetid=null)
 
 	if (USER_DEBUG) echo 'Chosen \'', $planetid, '\' for colony', $eol;
 
-	colonise($planetid, $userid);
+	colonise($planetid, $userid, 2000);
 
 	return $userid;
 }

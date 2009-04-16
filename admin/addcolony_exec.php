@@ -12,7 +12,7 @@ $userid = $_GET['userid'];
 
 $mysqli->autocommit(false);
 
-colonise($planetid, $userid);
+colonise($planetid, $userid, 2000);
 
 $mysqli->commit();
 
