@@ -60,7 +60,7 @@ function fleetOrderBody()
 	{
 		if (!$ordercolonyuserid)
 		{
-			echo 'Error: You can't move ships to uncolonised planets, try a "colonise" order.', $eol;
+			echo 'Error: You can\'t move ships to uncolonised planets, try a "colonise" order.', $eol;
 			exit;
 		}
 		else if ($userid != $ordercolonyuserid)
@@ -73,7 +73,7 @@ function fleetOrderBody()
 	{
 		if (!$ordercolonyuserid)
 		{
-			echo 'Error: You can't transport resources to uncolonised planets, try a "colonise" order.', $eol;
+			echo 'Error: You can\'t transport resources to uncolonised planets, try a "colonise" order.', $eol;
 			exit;
 		}
 	}
