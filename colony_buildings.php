@@ -51,7 +51,7 @@ function colonyBuildingsBody()
 		$countarray[$countpoint]=$mptime;
 		echo '<br><span class="error" id="btimesp',$countpoint,'">Runs out in: </span><span class="error" id="timesp',$countpoint++,'"></span>';
 	}
-	if($metal<abs($metalprod)) echo '<br><span class="error">',($metal==0)?"No":"Low",' Metal</span>';
+	if($metalprod < 0 && $metal < abs($metalprod)) echo '<br><span class="error">',($metal==0)?"No":"Low",' Metal</span>';
 	echo "</td>";
 	echo "<td>$deuterium/$maxdeuterium (".getSigned($deuteriumprod).")";
 	if($deuteriumprod<0 && $deuterium>abs($deuteriumprod)) {
@@ -59,7 +59,7 @@ function colonyBuildingsBody()
                 $countarray[$countpoint]=$dptime;
                 echo '<br><span class="error" id="btimesp',$countpoint,'">Runs out in: </span><span class="error" id="timesp',$countpoint++,'"></span>';
         }
-	if($deuterium<abs($deuteriumprod)) echo '<br><span class="error">',($deuterium==0)?"No":"Low",' Deuterium</span>';
+	if($deuteriumprod < 0 && $deuterium < abs($deuteriumprod)) echo '<br><span class="error">',($deuterium==0)?"No":"Low",' Deuterium</span>';
         echo "</td>";
 
 	echo "<td>$energy/$maxenergy (".getSigned($energyprod).")";
@@ -68,7 +68,7 @@ function colonyBuildingsBody()
                 $countarray[$countpoint]=$eptime;
                 echo '<br><span class="error" id="btimesp',$countpoint,'">Runs out in: </span><span class="error" id="timesp',$countpoint++,'"></span>';
         }
-	if($energy<abs($energyprod)) echo '<br><span class="error">',($energy==0)?"No":"Low",' Energy</span>';
+	if($energyprod < 0 && $energy < abs($energyprod)) echo '<br><span class="error">',($energy==0)?"No":"Low",' Energy</span>';
         echo "</td>";
 	echo '</tr>', $eol;
 	echo '</table>', $eol;
