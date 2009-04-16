@@ -80,10 +80,10 @@ function fleetOrderBody()
 
 	$mysqli->autocommit(false);
 
-	$query = $mysqli->prepare('SELECT orderid,fuel,planetid,speed,totalfuelbay,totalcargo FROM fleets WHERE userID = ? AND fleetid = ? FOR UPDATE');
+	$query = $mysqli->prepare('SELECT orderid,fuel,planetid,speed,totalfuelbay,totalcargo,fueluse FROM fleets WHERE userID = ? AND fleetid = ? FOR UPDATE');
 	$query->bind_param('ii', $userid, $fleetid);
 	$query->execute();
-	$query->bind_result($fleetorderid, $fuel, $planetid, $fleetspeed, $totalfuelbay, $totalcargo);
+	$query->bind_result($fleetorderid, $fuel, $planetid, $fleetspeed, $totalfuelbay, $totalcargo, $fueluse);
 	$result = $query->fetch();
 	if (!$result)
 	{
@@ -134,24 +134,13 @@ function fleetOrderBody()
 	}
 	$query->close();
 
-	$totalfuelneed = 0;
 	$orderticks = 1;
 	if ($orderdistance > 0)
 	{
 		$orderticks = ceil($orderdistance/$fleetspeed * 6);
-
-		$query = $mysqli->prepare('SELECT count, engines, engines*24/size AS speed FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
-		$query->bind_param('i', $fleetid);
-		$query->execute();
-		$query->bind_result($count,$engines,$speed);
-
-		while ($query->fetch())
-		{
-			$totalfuelneed += $count * ceil($engines * $fleetspeed / $speed) * $orderticks * 1;
-		}
-		$query->close();
 	}
 
+	$totalfuelneed = $fueluse * $orderticks;
 	$totalfuelneed *= $fuelmult;
 
 	if ($totalfuelneed > $fuel)
@@ -180,14 +169,8 @@ function fleetOrderBody()
 		exit;
 	}
 
-	$fueluse = 0;
-	if ($orderticks > 0)
-	{
-		$fueluse = $totalfuelneed / $orderticks;
-	}
-
-	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, fuel=?, fueluse=?, metal=?, deuterium=? WHERE fleetid=?');
-	$query->bind_param('iiiiiiii', $orderid, $orderplanetid, $orderticks, $fuel, $fueluse, $transportmetal, $transportdeuterium, $fleetid);
+	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, fuel=?, metal=?, deuterium=? WHERE fleetid=?');
+	$query->bind_param('iiiiiiii', $orderid, $orderplanetid, $orderticks, $fuel, $transportmetal, $transportdeuterium, $fleetid);
 	$query->execute();
 	$query->close();
 
