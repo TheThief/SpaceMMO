@@ -15,9 +15,15 @@ function fleetOrderBody()
 	$transportmetal = $_POST['metal'];
 	$transportdeuterium = $_POST['deuterium'];
 
-	if ($orderid < 2 || $orderid > 3)
+	if ($orderid < 2 || $orderid > 4)
 	{
 		echo 'Error: Invalid order.', $eol;
+		exit;
+	}
+
+	if ($transportmetal < 0 || $transportdeuterium < 0)
+	{
+		echo 'Error: Transport "negative" resources you say. How does that work then?', $eol;
 		exit;
 	}
 
@@ -27,6 +33,16 @@ function fleetOrderBody()
 		if ($transportmetal + $transportdeuterium <= 0)
 		{
 			echo 'Error: A "transport" order requires <i>some</i> resources to be transported.', $eol;
+			exit;
+		}
+
+		$fuelmult = 2;
+	}
+	else if ($orderid == 4)
+	{
+		if ($transportmetal < 20000)
+		{
+			echo 'Error: A "colonise" order requires you to transport 20000 metal to construct the colony with.', $eol;
 			exit;
 		}
 
@@ -75,6 +91,22 @@ function fleetOrderBody()
 		{
 			echo 'Error: You can\'t transport resources to uncolonised planets, try a "colonise" order.', $eol;
 			exit;
+		}
+	}
+	else if ($orderid == 4)
+	{
+		if ($ordercolonyuserid)
+		{
+			if ($ordercolonyuserid == $userid)
+			{
+				echo 'Error: You already colonised that planet. Congratulations crew, mission complete in record time!', $eol;
+				exit;
+			}
+			else
+			{
+				echo 'Error: How do you expect to colonise a planet without first wiping out its inhabitants? "Attack" first.', $eol;
+				exit;
+			}
 		}
 	}
 
@@ -165,12 +197,12 @@ function fleetOrderBody()
 
 	if ($transportdeuterium > $deuterium)
 	{
-		echo 'Error: After fueling your fleet for the journey, you don\'t have that much deuterium to transport.', $eol;
+		echo 'Error: After fueling your fleet for the journey, you don\'t have that much deuterium left to transport.', $eol;
 		exit;
 	}
 
-	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, fuel=?, metal=?, deuterium=? WHERE fleetid=?');
-	$query->bind_param('iiiiiii', $orderid, $orderplanetid, $orderticks, $fuel, $transportmetal, $transportdeuterium, $fleetid);
+	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, totalorderticks=?, fuel=?, metal=?, deuterium=? WHERE fleetid=?');
+	$query->bind_param('iiiiiiii', $orderid, $orderplanetid, $orderticks, $orderticks, $fuel, $transportmetal, $transportdeuterium, $fleetid);
 	$query->execute();
 	$query->close();
 

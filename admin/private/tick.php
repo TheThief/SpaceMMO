@@ -2,7 +2,6 @@
 <?php
 include_once '/var/www/www.dynamicarcade.co.uk/SpaceMMO/includes/start.inc.php';
 //mail("mark@gethyper.co.uk","Tick",date("H:i:s"));
-$eol = "\n";
 
 // Colony production
 
@@ -250,27 +249,69 @@ $mysqli->commit();
 
 // Fleet movement
 
-$query = $mysqli->prepare('UPDATE fleets SET fuel = fuel - fueluse, orderticks = orderticks - 1 WHERE orderid > 1 AND fuel >= fueluse');
+$query = $mysqli->prepare('UPDATE fleets SET fuel = fuel - fueluse, orderticks = orderticks - 1 WHERE orderid > 1 AND fuel >= fueluse AND orderticks > 0');
 $query->execute();
 $query->close();
 
+$mysqli->commit();
+
+// Order 2 - Move
 //$query = $mysqli->prepare('UPDATE colonies INNER JOIN (SELECT orderplanetid AS planetid, SUM(metal) AS fleetmetal, SUM(deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid >= 2 GROUP BY orderplanetid) fleetresources USING (planetid) SET metal=LEAST(metal+fleetmetal,maxmetal), deuterium=LEAST(deuterium+fleetdeuterium,maxdeuterium)');
 //$query->execute();
 //$query->close();
-$mysqli->query('UPDATE colonies INNER JOIN (SELECT orderplanetid AS planetid, SUM(metal) AS fleetmetal, SUM(deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid >= 2 GROUP BY orderplanetid) fleetresources USING (planetid) SET metal=LEAST(metal+fleetmetal,maxmetal), deuterium=LEAST(deuterium+fleetdeuterium,maxdeuterium)');
+$mysqli->query('UPDATE colonies INNER JOIN (SELECT orderplanetid AS planetid, SUM(metal) AS fleetmetal, SUM(deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid >= 2 AND orderid <= 3 GROUP BY orderplanetid) fleetresources USING (planetid) SET metal=LEAST(metal+fleetmetal,maxmetal), deuterium=LEAST(deuterium+fleetdeuterium,maxdeuterium)');
 
 $query = $mysqli->prepare('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, metal = 0, deuterium = 0 WHERE orderticks <= 0 AND orderid = 2');
 $query->execute();
 $query->close();
 
+// Order 3 - Transport
 //$query = $mysqli->prepare('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, metal = 0, deuterium = 0 WHERE orderticks <= 0 AND orderid = 3');
 //$query->execute();
 //$query->close();
-$mysqli->query('UPDATE fleets
-	LEFT JOIN planets AS fromplanet ON fromplanet.planetid=fleets.planetid LEFT JOIN systems AS fromsystem ON fromsystem.systemid=fromplanet.systemid
-	LEFT JOIN planets AS toplanet ON toplanet.planetid=fleets.orderplanetid LEFT JOIN systems AS tosystem ON tosystem.systemid=toplanet.systemid
-	SET fleets.orderplanetid = fleets.planetid, fleets.orderid = 2, fleets.orderticks = GREATEST(CEIL(ROUND(SQRT(POW(tosystem.x-fromsystem.x,2)+POW(tosystem.y-fromsystem.y,2)),2)/fleets.speed*6), 1), fleets.metal = 0, fleets.deuterium = 0
-	WHERE fleets.orderticks <= 0 AND fleets.orderid = 3');
+$mysqli->query('UPDATE fleets SET fleets.orderplanetid = fleets.planetid, fleets.orderid = 2, fleets.orderticks = fleets.totalorderticks, fleets.metal = 0, fleets.deuterium = 0 WHERE fleets.orderticks <= 0 AND fleets.orderid = 3');
+
+$mysqli->commit();
+
+include_once '/var/www/www.dynamicarcade.co.uk/SpaceMMO/includes/colony.inc.php';
+
+// Order 4 - Colonise
+$query = $mysqli->prepare('SELECT userid, orderplanetid, SUM(fleets.metal) AS fleetmetal, SUM(fleets.deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid = 4 GROUP BY userid,orderplanetid');
+$query->execute();
+$query->bind_result($fleetuserid, $planetid, $colonyuserid, $fleetmetal, $fleetdeuterium);
+$query->store_result();
+
+$colonyquery = $mysqli->prepare('SELECT colonies.userid FROM colonies WHERE planetid = ?');
+$colonyquery->bind_param('i', $planetid);
+$colonyquery->bind_result($colonyuserid);
+
+$transferquery1 = $mysqli->prepare('UPDATE colonies SET metal=LEAST(metal+?-?,maxmetal), deuterium=LEAST(deuterium+?,maxdeuterium) WHERE planetid = ?');
+$transferquery1->bind_param('iiii', $fleetmetal, $metalcost, $fleetdeuterium, $planetid);
+$transferquery2 = $mysqli->prepare('UPDATE fleets SET metal=0, deuterium=0 WHERE orderticks <= 0 AND orderid = 4 AND orderplanetid = ?');
+$transferquery2->bind_param('i', $planetid);
+$returnquery = $mysqli->prepare('UPDATE fleets SET orderplanetid = planetid, orderid = 2, orderticks = totalorderticks WHERE orderticks <= 0 AND orderid = 4 AND orderplanetid = ?');
+$returnquery->bind_param('i', $planetid);
+
+while ($query->fetch())
+{
+	$colonyquery->execute();
+	$colonyquery->store_result();
+	$result = $colonyquery->fetch();
+	if (!$result || !$colonyuserid)
+	{
+		colonise($planetid, $fleetuserid);
+		$metalcost = 20000;
+		$transferquery1->execute();
+		$transferquery2->execute();
+	}
+	else if ($colonyuserid == $fleetuserid)
+	{
+		$metalcost = 0;
+		$transferquery1->execute();
+		$transferquery2->execute();
+	}
+	$returnquery->execute();
+}
 
 $mysqli->commit();
 
