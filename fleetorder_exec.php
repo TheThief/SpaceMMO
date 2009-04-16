@@ -42,12 +42,40 @@ function fleetOrderBody()
 		$query->execute();
 		$query->bind_result($orderplanetid);
 		$result = $query->fetch();
+		$query->close();
 		if (!$result)
 		{
 			echo 'Error: No such destination planet.', $eol;
 			exit;
 		}
-		$query->close();
+	}
+
+	$query = $mysqli->prepare('SELECT userid FROM colonies WHERE planetid = ?');
+	$query->bind_param('i', $orderplanetid);
+	$query->execute();
+	$query->bind_result($ordercolonyuserid);
+	$result = $query->fetch();
+	$query->close();
+	if ($orderid == 2)
+	{
+		if (!$ordercolonyuserid)
+		{
+			echo 'Error: You can't move ships to uncolonised planets, try a "colonise" order.', $eol;
+			exit;
+		}
+		else if ($userid != $ordercolonyuserid)
+		{
+			echo 'Error: You can only move ships to your own colonies. Try an "attack" or "transport" order.', $eol;
+			exit;
+		}
+	}
+	else if ($orderid == 3)
+	{
+		if (!$ordercolonyuserid)
+		{
+			echo 'Error: You can't transport resources to uncolonised planets, try a "colonise" order.', $eol;
+			exit;
+		}
 	}
 
 	$mysqli->autocommit(false);
