@@ -72,10 +72,10 @@ function viewShipsBody()
 	}
 	echo '</form>', $eol;
 
-	$query = $mysqli->prepare('SELECT fleetid FROM fleets WHERE fleets.userID = ? AND planetid = ? AND orderid = 1');
+	$query = $mysqli->prepare('SELECT fleetid,speed,totalcargo,fuel,totalfuelbay,fueluse FROM fleets WHERE fleets.userID = ? AND planetid = ? AND orderid = 1');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($fleetid);
+	$query->bind_result($fleetid,$speed,$totalcargo,$fuel,$totalfuelbay,$fueluse);
 	$query->store_result();
 
 	if($query->fetch())
@@ -98,6 +98,10 @@ function viewShipsBody()
 			echo '<form action="fleetorder_exec.php" method="post">', $eol;
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h3>',$lookups['order'][1],' ',systemcode($systemid,$orbit),'</h3>', $eol;
+			echo 'Speed: ',$speed,' PC/h (Fuel use: ',$fueluse*6,' D/h)<br>', $eol;
+			echo 'Fuel: ',$fuel,'/ ',$totalfuelbay,' D<br>', $eol;
+			echo 'Max Range: ',$speed * floor($totalfuelbay/$fueluse) * 6,' PC<br>', $eol;
+			echo 'Cargo Capacity: ',$totalcargobay,' m3<br>', $eol;
 			echo '<ul>', $eol;
 
 			$queryships->execute();
