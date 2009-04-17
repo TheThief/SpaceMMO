@@ -185,7 +185,7 @@ function fleetOrderBody()
 		if ($deuteriumneed > $deuterium)
 		{
 			echo 'Error: You don\'t have enough deuterium to fuel that flight.<br>', $eol;
-			echo 'You need ',$deuteriumneed,' more deuterium.', $eol;
+			echo 'You need ',$deuteriumneed - $deuterium,' more deuterium.', $eol;
 			exit;
 		}
 
