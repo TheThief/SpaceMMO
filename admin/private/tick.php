@@ -278,7 +278,7 @@ include_once '/var/www/www.dynamicarcade.co.uk/SpaceMMO/includes/colony.inc.php'
 // Order 4 - Colonise
 $query = $mysqli->prepare('SELECT userid, orderplanetid, SUM(fleets.metal) AS fleetmetal, SUM(fleets.deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid = 4 GROUP BY userid,orderplanetid');
 $query->execute();
-$query->bind_result($fleetuserid, $planetid, $colonyuserid, $fleetmetal, $fleetdeuterium);
+$query->bind_result($fleetuserid, $planetid, $fleetmetal, $fleetdeuterium);
 $query->store_result();
 
 $colonyquery = $mysqli->prepare('SELECT colonies.userid FROM colonies WHERE planetid = ?');
