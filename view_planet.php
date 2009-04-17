@@ -36,5 +36,6 @@ function viewPlanetBody()
 	}
 	echo '<tr><th>Metal Reserves</th><td>',number_format($metal*100),'%</td></tr>', $eol;
 	echo '<tr><th>Deuterium Reserves</th><td>',number_format($deuterium*100),'%</td></tr>', $eol;
+	echo '<tr><th>Actions</th><td><a href="addbookmark_exec.php?planet=', $planetid, '">Bookmark</a></td>';
 	echo '</table>', $eol;
 }
