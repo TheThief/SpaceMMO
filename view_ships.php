@@ -80,12 +80,22 @@ function viewShipsBody()
 
 	if($query->fetch())
 	{
+		$bookmarks = array();
+		$destinations = array();
+
+		$querybookmarks = $mysqli->prepare('SELECT systemid,orbit,planetid,(ROUND(SQRT(POW(x-?,2)+POW(y-?,2)),2)) AS distance FROM bookmarks LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY distance ASC');
+		$querybookmarks->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
+		$querybookmarks->execute();
+		$querybookmarks->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance);
+		while ($querybookmarks->fetch())
+		{
+			$bookmarks[$orderplanetid] = systemcode($ordersystemid, $orderorbit).' ('.number_format($orderdistance,2).' PC)';
+		}
+		$querybookmarks->close();
 		$querydestinations = $mysqli->prepare('SELECT systemid,orbit,planetid,(ROUND(SQRT(POW(x-?,2)+POW(y-?,2)),2)) AS distance FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY distance ASC');
 		$querydestinations->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
 		$querydestinations->execute();
 		$querydestinations->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance);
-
-		$destinations = array();
 		while ($querydestinations->fetch())
 		{
 			$destinations[$orderplanetid] = systemcode($ordersystemid, $orderorbit).' ('.number_format($orderdistance,2).' PC)';
@@ -120,25 +130,35 @@ function viewShipsBody()
 			echo '<option value="4">Colonise</option>', $eol;
 			echo '<option value="5" disabled>Attack</option>', $eol;
 			echo '</select>', $eol;
+			echo '<select name="orderplanet" id="opd',$fleetid,'" onchange="updateOtherP(',$fleetid,');">', $eol;
+			if (count($bookmarks) > 0)
+			{
+				echo '<option value="0" disabled>Bookmarks</option>', $eol;
+				foreach ($bookmarks as $orderplanetid => $string)
+				{
+					echo '<option value="', $orderplanetid, '">', $string, '</option>', $eol;
+				}
+			}
+			else
+			{
+				echo '<option value="0" disabled>No Bookmarks</option>', $eol;
+			}
 			if (count($destinations) > 0)
 			{
-				echo '<select name="orderplanet" id="opd',$fleetid,'" onchange="updateOtherP(',$fleetid,');">', $eol;
+				echo '<option value="0" disabled>Colonies</option>', $eol;
 				foreach ($destinations as $orderplanetid => $string)
 				{
 					echo '<option value="', $orderplanetid, '">', $string, '</option>', $eol;
 				}
-				echo '<option value="0">Other...</option>', $eol;
-				echo '</select>', $eol;
-				echo '<input type="text" size="4" maxlen="4" name="orderplanetother" id="opo',$fleetid,'" style="visibility: visible"><br>', $eol;
 			}
 			else
 			{
-				echo '<select name="orderplanet">', $eol;
-				echo '<option value="0" disabled>No colonies</option>', $eol;
-				echo '<option value="0" selected>Other...</option>', $eol;
-				echo '</select>', $eol;
-				echo '<input type="text" size="4" maxlen="4" name="orderplanetother"><br>', $eol;
+				echo '<option value="0" disabled>No Colonies</option>', $eol;
 			}
+			echo '<option value="0">Other...</option>', $eol;
+			echo '</select>', $eol;
+			echo '<input type="text" size="4" maxlen="4" name="orderplanetother" id="opo',$fleetid,'" style="visibility: visible"><br>', $eol;
+
 			echo 'Transport: <input type="text" size="4" name="metal"> metal, ', $eol;
 			echo '<input type="text" size="4" name="deuterium"> deuterium<br>', $eol;
 			echo '<input type="submit" value="Dispatch">', $eol;
