@@ -19,23 +19,30 @@ function bookmarksListBody()
 	echo '<table>', $eol;
 	echo '<tr><th>Location</th><th>Planet Type</th><th>Colonised By</th><th>Metal Reserves</th><th>Deuterium Reserves</th><th>Actions</th></tr>', $eol;
 
-	while($query->fetch())
+	if ($query->fetch())
 	{
-		echo '<tr>';
-		echo '<td><a href="view_planets.php?system=',$systemid,'">',systemcode($systemid, $orbit),'</a></td>';
-		echo '<td><a href="view_planet.php?planet=',$planetid,'"><img src="images/planet',$planettype,'.png" style="width:1em;height:1em;">',$lookups["planetType"][$planettype],'</a></td>';
-		if ($colonyusername)
+		do
 		{
-			echo '<td>',$colonyusername,'</td>', $eol;
-		}
-		else
-		{
-			echo '<td>-</td>', $eol;
-		}
-		echo '<td>',$metal,'</td>';
-		echo '<td>',$deuterium,'</td>';
-		echo '<td><a href="deletebookmark_exec.php?planet=', $planetid, '">Delete</a></td>';
-		echo '</tr>', $eol;
+			echo '<tr>';
+			echo '<td><a href="view_planets.php?system=',$systemid,'">',systemcode($systemid, $orbit),'</a></td>';
+			echo '<td><a href="view_planet.php?planet=',$planetid,'"><img src="images/planet',$planettype,'.png" style="width:1em;height:1em;">',$lookups["planetType"][$planettype],'</a></td>';
+			if ($colonyusername)
+			{
+				echo '<td>',$colonyusername,'</td>', $eol;
+			}
+			else
+			{
+				echo '<td>-</td>', $eol;
+			}
+			echo '<td>',$metal,'</td>';
+			echo '<td>',$deuterium,'</td>';
+			echo '<td><a href="deletebookmark_exec.php?planet=', $planetid, '">Delete</a></td>';
+			echo '</tr>', $eol;
+		} while ($query->fetch());
+	}
+	else
+	{
+		echo '<tr><td colspan="6">None. Bookmark planets from their planet details page.</td></tr>';
 	}
 	echo '</table>', $eol;
 }
