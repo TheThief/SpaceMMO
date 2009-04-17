@@ -22,7 +22,8 @@ function viewPlanetBody()
 	echo '<img src="images/planet',$planettype,'-large.png" style="width: 20em; height: 20em;">', $eol;
 
 	echo '<table>', $eol;
-	echo '<tr><th>Location</th><td><a href="view_planets.php?system=',$systemid,'">',$systemx,', ',$systemy,' : ',$orbit,'</a></td></tr>';
+	echo '<tr><th>Location</th><td><a href="view_planets.php?system=',$systemid,'">',systemcode($systemid, $orbit),'</a></td></tr>';
+	echo '<tr><th>System Coordinates</th><td><a href="view_systems.php?system=',$systemid,'">',$systemx,', ',$systemy,'</a></td></tr>';
 	echo '<tr><th>Planet Type</th><td>',$lookups["planetType"][$planettype],'</td></tr>', $eol;
 	echo '<tr><th>Colonised By</th>';
 	if ($colonyuserid)
