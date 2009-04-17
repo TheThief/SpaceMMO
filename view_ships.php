@@ -155,6 +155,7 @@ function viewShipsBody()
 			{
 				echo '<option value="0" disabled>No Colonies</option>', $eol;
 			}
+			echo '<option value="0" disabled>Other</option>', $eol;
 			echo '<option value="0">Other...</option>', $eol;
 			echo '</select>', $eol;
 			echo '<input type="text" size="4" maxlen="4" name="orderplanetother" id="opo',$fleetid,'" style="visibility: visible"><br>', $eol;
