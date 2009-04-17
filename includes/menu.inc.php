@@ -7,6 +7,7 @@ if (!isLoggedIn())
 else
 {
 	echo '<li><a href="/SpaceMMO/list_colonies.php">Colonies List</a></li>', $eol;
+	echo '<li><a href="/SpaceMMO/list_bookmarks.php">Bookmarks List</a></li>', $eol;
 	echo '<li><a href="/SpaceMMO/list_shipdesigns.php">Ship Designs</a></li>', $eol;
 
 	$systemid = $_GET['system'];
