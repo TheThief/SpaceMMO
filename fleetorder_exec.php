@@ -2,6 +2,9 @@
 include_once 'includes/start.inc.php';
 checkLoggedIn();
 
+// for COLONY_COST constant
+include_once 'includes/colony.inc.php';
+
 include_once 'includes/template.inc.php';
 template('Issue Order', 'fleetOrderBody');
 
