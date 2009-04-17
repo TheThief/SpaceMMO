@@ -34,8 +34,8 @@ function bookmarksListBody()
 			{
 				echo '<td>-</td>', $eol;
 			}
-			echo '<td>',number_format($metal,2),'</td>';
-			echo '<td>',number_format($deuterium,2),'</td>';
+			echo '<td>',number_format($metal*100),'%</td>';
+			echo '<td>',number_format($deuterium*100),'%</td>';
 			echo '<td><a href="deletebookmark_exec.php?planet=', $planetid, '">Delete</a></td>';
 			echo '</tr>', $eol;
 		} while ($query->fetch());
