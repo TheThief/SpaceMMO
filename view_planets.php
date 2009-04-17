@@ -43,20 +43,20 @@ function viewPlanetsBody()
 		$image = 'images/planet'.$type.'.png';
 		$image2 = null;
 		$link = 'view_planet.php?planet='.$planetid;
-		$tooltip = $lookups["planetType"][$type].' planet at '.$systemx.', '.$systemy.' : '.$orbit;
+		$tooltip = $lookups["planetType"][$type].' planet '.systemcode($systemid,$orbit);
 		if ($colonyuserid)
 		{
 			if ($colonyuserid != $userid)
 			{
 				$image2 = 'images/star-oc.png';
 				//$link = 'view_planet.php?planet='.$planetid;
-				$tooltip = 'Enemy colony detected on this '.$tooltip;
+				$tooltip = 'Enemy colony detected on '.$tooltip;
 			}
 			else
 			{
 				$image2 = 'images/star-c.png';
 				$link = 'colony_buildings.php?planet='.$planetid;
-				$tooltip = 'Your have a colony on this '.$tooltip;
+				$tooltip = 'Your colony on '.$tooltip;
 			}
 		}
 		else
