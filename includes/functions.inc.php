@@ -211,7 +211,7 @@ function systemcode($systemid,$planetorbit=null)
 	$return = chr(ord('A')+floor(($systemid-1)/99)) . padstring(((($systemid-1)%99)+1),'0',2);
 	if ($planetorbit)
 	{
-		$return .= chr(ord('A') + $planetorbit);
+		$return .= chr(ord('A') + $planetorbit - 1);
 	}
 	return $return;
 }
@@ -236,7 +236,7 @@ function orbit($systemcode)
 		echo 'error: Invalid planet code';
 		exit;
 	}
-	return ord($systemcode[3]) - ord('A');
+	return ord($systemcode[3]) - ord('A') + 1;
 }
 
 function planetChanger($page=NULL){
