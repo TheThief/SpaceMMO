@@ -76,38 +76,42 @@ function checkLoggedIn()
 	}
 }
 
-function isLoggedIn()
+function isLoggedIn($forceUpdate=false)
 {
 	global $mysqli;
 
-	$userid = $_SESSION['userid'];
-	if (!$userid)
+	static $isLoggedIn = false;
+	static $isLoggedInSet = false;
+
+	if (!$isLoggedInSet || $forceUpdate)
 	{
-		return false;
+		$userid = $_SESSION['userid'];
+		if (!$userid)
+		{
+			$isLoggedIn = false;
+		}
+		else
+		{
+			$query = $mysqli->prepare('SELECT 1 from users WHERE userid=? AND phpsessionid=UNHEX(?)');
+			$query->bind_param('ss', $userid, $sessionid);
+			$userid = $_SESSION['userid'];
+			$sessionid = session_id();
+
+			$result = $query->execute();
+			if (!$result)
+			{
+				echo 'error: ', $query->error, $eol;
+				exit;
+			}
+
+			$query->bind_result($isLoggedIn);
+			$query->fetch();
+		}
+
+		$isLoggedInSet = true;
 	}
 
-	$query = $mysqli->prepare('SELECT 1 from users WHERE userid=? AND phpsessionid=UNHEX(?)');
-	if (!$query)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
-
-	$query->bind_param('ss', $userid, $sessionid);
-	$userid = $_SESSION['userid'];
-	$sessionid = session_id();
-
-	$result = $query->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query->error, $eol;
-		exit;
-	}
-
-	$query->bind_result($loggedin);
-	$query->fetch();
-
-	return $loggedin;
+	return $isLoggedIn;
 }
 
 function isAdmin()

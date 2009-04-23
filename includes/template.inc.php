@@ -37,6 +37,25 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 		include(dirname(__FILE__).'/../admin/includes/adminmenu.inc.php');
 	}
 	echo '</div>', $eol;
+	if (isLoggedIn())
+	{
+		$colonyid = $_SESSION['colony'];
+		if (!$colonyid)
+		{
+			$query = $mysqli->prepare('SELECT planetid FROM colonies WHERE userid=? ORDER BY colonylevel DESC LIMIT 1');
+			$query->bind_param('i', $userid);
+			$query->execute();
+			$query->bind_result($colonyid);
+			$query->fetch();
+			$query->close();
+			$_SESSION['colony'] = $colonyid;
+		}
+		echo '<div>', $eol;
+		echo '<h2>Colony Summary</h2>', $eol;
+		echo '...', $eol;
+		echo 'WIP', $eol;
+		echo '</div>', $eol;
+	}
 	echo '</div>', $eol;
 	echo '', $eol;
 	echo '<div class="bodyouter">', $eol;
