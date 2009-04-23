@@ -53,7 +53,7 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 			$_SESSION['colony'] = $colonyid;
 		}
 
-		$query = $mysqli->prepare('SELECT systemid,orbit,colonylevel,metal,maxmetal,metalproduction,deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction,shipconstruction FROM colonies LEFT JOIN planets USING (planetid) WHERE planetid=?');
+		$query = $mysqli->prepare('SELECT systemid,orbit,colonylevel,colonies.metal,maxmetal,metalproduction,colonies.deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction,shipconstruction FROM colonies LEFT JOIN planets USING (planetid) WHERE planetid=?');
 		$query->bind_param('i', $colonyid);
 		$query->execute();
 		$query->bind_result($systemid,$orbit,$colonylevel,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod,$shipconstruction);
