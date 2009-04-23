@@ -17,7 +17,7 @@ function bookmarksListBody()
 	$query->bind_result($planetid,$systemid,$orbit,$planettype,$colonyusername,$metal,$deuterium);
 
 	echo '<table>', $eol;
-	echo '<tr><th>Location</th><th>Planet Type</th><th>Colonised By</th><th>Metal Reserves</th><th>Deuterium Reserves</th><th>Actions</th></tr>', $eol;
+	echo '<tr><th>Location</th><th>Planet Type</th><th>Colonised By</th><th>Metal Abundance</th><th>Deuterium Abundance</th><th>Actions</th></tr>', $eol;
 
 	if ($query->fetch())
 	{
