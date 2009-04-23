@@ -1,4 +1,6 @@
 <?
+include_once('functions.inc.php');
+
 function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 {
 	global $eol, $mysqli;
@@ -50,10 +52,20 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 			$query->close();
 			$_SESSION['colony'] = $colonyid;
 		}
+
+		$query = $mysqli->prepare('SELECT systemid,orbit,colonylevel,metal,maxmetal,metalproduction,deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction,shipconstruction FROM colonies LEFT JOIN planets USING (planetid) WHERE planetid=?');
+		$query->bind_param('i', $colonyid);
+		$query->execute();
+		$query->bind_result($systemid,$orbit,$colonylevel,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod,$shipconstruction);
+		$query->fetch();
+		$query->close();
+
 		echo '<div>', $eol;
-		echo '<h2>Colony Summary</h2>', $eol;
-		echo '...', $eol;
-		echo 'WIP', $eol;
+		echo '<h2>',systemcode($systemid,$orbit),'</h2>', $eol;
+		echo '<table>', $eol;
+		echo '<tr><th>Metal</th><td>',getSigned($metalprod),'<br>',$metal,'/',$maxmetal,'</td></tr>', $eol;
+		echo '<tr><th>Deuterium</th><td>',getSigned($deuteriumprod),'<br>',$deuterium,'/',$maxdeuterium,'</td></tr>', $eol;
+		echo '<tr><th>Energy</th><td>',getSigned($energyprod),'<br>',$energy,'/',$maxenergy,'</td></tr>', $eol;
 		echo '</div>', $eol;
 	}
 	echo '</div>', $eol;
