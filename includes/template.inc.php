@@ -66,6 +66,7 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 		echo '<tr><th>Metal</th><td>',getSigned($metalprod),'<br>',$metal,'/',$maxmetal,'</td></tr>', $eol;
 		echo '<tr><th>Deuterium</th><td>',getSigned($deuteriumprod),'<br>',$deuterium,'/',$maxdeuterium,'</td></tr>', $eol;
 		echo '<tr><th>Energy</th><td>',getSigned($energyprod),'<br>',$energy,'/',$maxenergy,'</td></tr>', $eol;
+		echo '</table>', $eol;
 		echo '</div>', $eol;
 	}
 	echo '</div>', $eol;
