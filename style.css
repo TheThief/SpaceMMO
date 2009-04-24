@@ -91,10 +91,9 @@ div.logo img {
 div.menu {
 	padding: 0.3em;
 }
-div.menu ul {
-	list-style-type: none;
+div.menu ul, div.colonysummary ul
+{
 	padding: 0;
-	margin: 0;
 }
 
 div.bodyouter {
