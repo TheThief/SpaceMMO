@@ -1,6 +1,8 @@
 <?
 //include_once('functions.inc.php');
 
+// TODO: Add js and SQL equivalents
+
 // Cargo capacity in units of M or D
 function cargoCapacity($cargobay)
 {
@@ -10,7 +12,7 @@ function cargoCapacity($cargobay)
 // Fuel capacity in D
 function fuelCapacity($fuelbay)
 {
-	return $fuelbay * 6;
+	return $fuelbay * 12;
 }
 
 // Attack damage
