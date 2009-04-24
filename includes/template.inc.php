@@ -1,6 +1,21 @@
 <?
 include_once('functions.inc.php');
 
+function prodSummary($id, $current, $max, $delta)
+{
+	$symbol = '.';
+	if ($delta > 0)
+	{
+		$symbol = '+';
+	}
+	else if ($delta < 0)
+	{
+		$symbol = '-';
+	}
+	$title = number_format($current).'/'.number_format($max).'('.getSigned($delta).')';
+	return '<span id="'.$id.'" title="'.$title.'">'.$current.' '.$symbol.'</span>';
+}
+
 function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 {
 	global $eol, $mysqli;
@@ -62,11 +77,10 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 
 		echo '<div>', $eol;
 		echo '<h2>',systemcode($systemid,$orbit),'</h2>', $eol;
-		echo '<table>', $eol;
-		echo '<tr><th>Metal</th></tr><tr><td>',getSigned($metalprod),'<br>',$metal,'/',$maxmetal,'</td></tr>', $eol;
-		echo '<tr><th>Deuterium</th></tr><tr><td>',getSigned($deuteriumprod),'<br>',$deuterium,'/',$maxdeuterium,'</td></tr>', $eol;
-		echo '<tr><th>Energy</th></tr><tr><td>',getSigned($energyprod),'<br>',$energy,'/',$maxenergy,'</td></tr>', $eol;
-		echo '</table>', $eol;
+		echo '<ul>', $eol;
+		echo '<li>Metal: ',prodSummary('summary_metal', $metal, $maxmetal, $metalprod),'</li>', $eol;
+		echo '<li>Deuterium: ',prodSummary('summary_deuterium', $deuterium, $maxdeuterium, $deuteriumprod),'</li>', $eol;
+		echo '<li>Energy: ',prodSummary('summary_energy', $energy, $maxenergy, $energyprod),'</li>', $eol;
 		echo '</div>', $eol;
 	}
 	echo '</div>', $eol;

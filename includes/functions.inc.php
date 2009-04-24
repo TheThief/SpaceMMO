@@ -160,7 +160,7 @@ function htmlDropdown($name, $arrName)
 }
 
 function getSigned($val){
-	return ($val<0)?$val:"+".$val;
+	return ($val>0) ? '+'.$val : $val;
 }
 
 function clamp($val, $min, $max)
