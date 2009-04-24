@@ -28,7 +28,7 @@ function defense($size, $shields)
 // Speed in PC/h
 function speed($size, $engines)
 {
-	return (engines*24) / size;
+	return ($engines*24) / $size;
 }
 
 // Fuel use in D/h
