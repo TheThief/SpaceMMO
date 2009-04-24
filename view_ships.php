@@ -113,7 +113,7 @@ function viewShipsBody()
 			echo 'Speed: ',number_format($speed,2),' PC/h (Fuel use: ',$fueluse*6,' D/h)<br>', $eol;
 			echo 'Fuel: ',$fuel,' / ',$totalfuelbay,' D<br>', $eol;
 			echo 'Max Range: ',number_format($maxrange, 2),' PC (',number_format($maxreturnrange, 2),' PC return)<br>', $eol;
-			echo 'Cargo Capacity: ',$totalcargo,' m3<br>', $eol;
+			echo 'Cargo Capacity: ',$totalcargo,' Units<br>', $eol;
 			echo '<ul>', $eol;
 
 			$queryships->execute();

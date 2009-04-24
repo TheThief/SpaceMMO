@@ -2,6 +2,8 @@
 include_once 'includes/start.inc.php';
 checkLoggedIn();
 
+include_once 'includes/ships.inc.php';
+
 include_once 'includes/template.inc.php';
 template('Issue Order', 'fleetOrderBody');
 
@@ -105,7 +107,7 @@ function fleetOrderBody()
 	$movesomequery1->close();
 	$movesomequery2->close();
 
-	$query = $mysqli->prepare('SELECT MIN(engines*24/size) AS minspeed, SUM(count*cargo*10) AS totalcargobay, SUM(count*fuel*6) AS totalfuelbay FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
+	$query = $mysqli->prepare('SELECT MIN(engines*24/size) AS minspeed, SUM(count*cargo*100) AS totalcargobay, SUM(count*fuel*6) AS totalfuelbay FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
 	$query->bind_param('i', $fleetid);
 	$query->execute();
 	$query->bind_result($minspeed,$totalcargobay,$totalfuelbay);

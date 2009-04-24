@@ -196,7 +196,7 @@ function updatestats()
 	range.innerHTML = (fuel*24/size).toFixed(2);
 	attack.innerHTML = weapons;
 	defense.innerHTML = shields*10 + size;
-	capacity.innerHTML = cargo*10;
+	capacity.innerHTML = cargo*100;
 }
 
 function updateOtherP(id){
