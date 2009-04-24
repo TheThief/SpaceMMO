@@ -75,7 +75,7 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 		$query->fetch();
 		$query->close();
 
-		echo '<div>', $eol;
+		echo '<div class="colonysummary">', $eol;
 		echo '<h2>',systemcode($systemid,$orbit),'</h2>', $eol;
 		echo '<ul>', $eol;
 		echo '<li>Metal: ',prodSummary('summary_metal', $metal, $maxmetal, $metalprod),'</li>', $eol;
