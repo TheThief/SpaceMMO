@@ -44,7 +44,7 @@ function range($size, $engines, $fuelbay)
 }
 
 // Return range in PC
-function range($size, $engines, $fuelbay)
+function returnrange($size, $engines, $fuelbay)
 {
 	return speed($size, $engines) * floor(fuelCapacity($fuelbay) / fuelUse($engines) / 2);
 }
