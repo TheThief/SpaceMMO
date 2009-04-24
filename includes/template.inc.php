@@ -13,7 +13,7 @@ function prodSummary($id, $current, $max, $delta)
 		$symbol = '-';
 	}
 	$title = thousands($current).'/'.thousands($max).' ('.getSigned($delta).')';
-	return '<span id="'.$id.'" title="'.$title.'">'.$current.' '.$symbol.'</span>';
+	return '<span id="'.$id.'" title="'.$title.'">'.thousands($current).' '.$symbol.'</span>';
 }
 
 function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
