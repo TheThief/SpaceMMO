@@ -159,8 +159,27 @@ function htmlDropdown($name, $arrName)
 	echo '</select>';
 }
 
-function getSigned($val){
+function getSigned($val)
+{
 	return ($val>0) ? '+'.$val : $val;
+}
+
+function thousands($val)
+{
+	// over 10M show in M (millions)
+	if (abs($val) >= 10000000)
+	{
+		return intval($val/1000000).'M';
+	}
+	// over 10k show in k (thousands)
+	else if (abs($val) >= 10000)
+	{
+		return intval($val/1000).'k';
+	}
+	else
+	{
+		return intval($val);
+	}
 }
 
 function clamp($val, $min, $max)

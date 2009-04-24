@@ -12,7 +12,7 @@ function prodSummary($id, $current, $max, $delta)
 	{
 		$symbol = '-';
 	}
-	$title = number_format($current).'/'.number_format($max).'('.getSigned($delta).')';
+	$title = thousands($current).'/'.thousands($max).' ('.getSigned($delta).')';
 	return '<span id="'.$id.'" title="'.$title.'">'.$current.' '.$symbol.'</span>';
 }
 
