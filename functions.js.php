@@ -191,17 +191,17 @@ function updatestats()
 	var shields = parseInt(document.getElementById("shields").value);
 	var cargo = parseInt(document.getElementById("cargo").value);
 
-	var speed = document.getElementById("speed");
-	var range = document.getElementById("range");
-	var attack = document.getElementById("attack");
-	var defense = document.getElementById("defense");
-	var capacity = document.getElementById("capacity");
+	var speedElement = document.getElementById("speed");
+	var rangeElement = document.getElementById("range");
+	var attackElement = document.getElementById("attack");
+	var defenseElement = document.getElementById("defense");
+	var capacityElement = document.getElementById("capacity");
 
-	speed.innerHTML = speed(size, engines).toFixed(2);
-	range.innerHTML = shiprange(size, engines, fuel).toFixed(2);
-	attack.innerHTML = attackPower(weapons);
-	defense.innerHTML = defense(size, shields);
-	capacity.innerHTML = cargoCapacity(cargobay);
+	speedElement.innerHTML = speed(size, engines).toFixed(2);
+	rangeElement.innerHTML = shiprange(size, engines, fuel).toFixed(2);
+	attackElement.innerHTML = attackPower(weapons);
+	defenseElement.innerHTML = defense(size, shields);
+	capacityElement.innerHTML = cargoCapacity(cargobay);
 }
 
 function updateOtherP(id){
