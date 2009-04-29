@@ -3,10 +3,9 @@ include_once 'includes/start.inc.php';
 checkLoggedIn();
 
 include_once 'includes/template.inc.php';
-include_once 'includes/colonymenu.inc.php';
 
 $countarray=array();
-template('Building at Colony', 'colonyBuildingsBody', 'colonyMenu');
+template('Building at Colony', 'colonyBuildingsBody');
 
 function colonyBuildingsBody()
 {
