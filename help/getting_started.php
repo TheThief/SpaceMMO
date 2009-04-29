@@ -1,8 +1,10 @@
 <?
 include_once '../includes/start.inc.php';
 
+include_once '../includes/helpmenu.inc.php';
+
 include_once '../includes/template.inc.php';
-template('Help - Getting Started', 'helpGettingStartedBody');
+template('Help - Getting Started', 'helpGettingStartedBody', 'helpMenu');
 
 function helpGettingStartedBody()
 {

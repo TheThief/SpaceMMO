@@ -34,51 +34,58 @@ function viewSystemsBody()
 		if (is_numeric($systemid))
 		{
 			$query = $mysqli->prepare('SELECT x,y FROM systems WHERE systemid=?');
-			if (!$query)
-			{
-				echo 'error: ', $mysqli->error, $eol;
-				exit;
-			}
-
 			$query->bind_param('i', $systemid);
-
-			$result = $query->execute();
+			$query->execute();
+			$query->bind_result($x, $y);
+			$query = $query->fetch();
 			if (!$result)
 			{
-				echo 'error: ', $query->error, $eol;
+				echo 'error: system id not valid.', $eol;
 				exit;
 			}
 
-			$query->bind_result($x, $y);
-			$query->fetch();
 			$query->close();
 		}
 		else
 		{
 			$query = $mysqli->prepare('SELECT x,y FROM colonies LEFT JOIN planets USING(planetid) LEFT JOIN systems USING(systemid) WHERE userid=? ORDER BY colonylevel DESC LIMIT 1');
-			if (!$query)
-			{
-				echo 'error: ', $mysqli->error, $eol;
-				exit;
-			}
-
 			$query->bind_param('i', $userid);
-
-			$result = $query->execute();
+			$query->execute();
+			$query->bind_result($x, $y);
+			$result = $query->fetch();
 			if (!$result)
 			{
-				echo 'error: ', $query->error, $eol;
+				echo 'error: You have no colonies!?', $eol;
 				exit;
 			}
 
-			$query->bind_result($x, $y);
-			$query->fetch();
 			$query->close();
 		}
 	}
 
 	$x = clamp($x, -50, 50);
 	$y = clamp($y, -50, 50);
+
+	$colonyid = $_SESSION['colony'];
+	$query = $mysqli->prepare('SELECT systemid,x,y FROM planets LEFT JOIN systems USING(systemid) WHERE planetid=?');
+	$query->bind_param('i', $colonyid);
+	$query->execute();
+	$query->bind_result($colonysystemid, $colonyx, $colonyy);
+	$query->fetch();
+	$query->close();
+
+	$query = $mysqli->prepare('SELECT x,y FROM systems WHERE systemid=?');
+	$query->bind_param('i', $systemid);
+	$query->execute();
+	$query->bind_result($x, $y);
+	$query = $query->fetch();
+	if (!$result)
+	{
+		echo 'error: system id not valid.', $eol;
+		exit;
+	}
+
+	$query->close();
 
 	$stmt = $mysqli->prepare('SELECT systemid,x,y,COUNT(user_colonies.planetid),COUNT(other_colonies.planetid) FROM systems LEFT JOIN planets USING (systemid)
 	LEFT JOIN (SELECT planetid FROM colonies WHERE userid=?) user_colonies USING (planetid)
@@ -108,7 +115,20 @@ function viewSystemsBody()
 		$image = 'images/star'.($systemid%4 +1).'.png';
 		$image2 = null;
 		$tooltip = 'Not colonised';
-		if ($colonies && $othercolonies)
+		if ($systemid == $colonysystemid)
+		{
+			if ($othercolonies)
+			{
+				$image2 ='images/star-oc+c.png';
+				$tooltip = 'Current System (Contested). Your colonies: '.$colonies.' Other colonies: '.$othercolonies;
+			}
+			else
+			{
+				$image2 = 'images/star-c.png';
+				$tooltip = 'Current system. Colonised planets: '.$colonies;
+			}
+		}
+		else if ($colonies && $othercolonies)
 		{
 			$image2 ='images/star-oc+c.png';
 			$tooltip = 'Contested System. Your colonies: '.$colonies.' Other colonies: '.$othercolonies;
@@ -123,6 +143,12 @@ function viewSystemsBody()
 			$image2 = 'images/star-oc.png';
 			$tooltip = 'Enemy system. Colonised planets: '.$othercolonies;
 		}
+
+		if ($systemid != $colonysystemid)
+		{
+			$tooltip .= ' Distance: '.number_format(distance($x-$colonyx, $y-$colonyy), 2).'PC';
+		}
+
 		$starsize = (floor($systemid/4)%4)/4 * ($maxstarsize-$minstarsize) + $minstarsize;
 		echo '<a href="view_planets.php?system=', $systemid, '">', $eol;
 		echo '<img src="', $image, '" style="width: ', $starsize, 'em; height: ', $starsize, 'em; position: absolute; left: ', ($sysX-$xmin+0.5)*$gridsize-$starsize/2, 'em; top: ', ($sysY-$ymin+0.5)*$gridsize-$starsize/2, 'em;" title="',$tooltip,'">', $eol;

@@ -184,7 +184,12 @@ function thousands($val)
 
 function clamp($val, $min, $max)
 {
-     return min(max($val, $min), $max);
+    return min(max($val, $min), $max);
+}
+
+function distance($x, $y)
+{
+    return sqrt($x*$x + $y*$y);
 }
 
 function getTickElapsed(){
