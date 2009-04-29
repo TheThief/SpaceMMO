@@ -71,17 +71,10 @@ function viewSystemsBody()
 	$query->bind_param('i', $colonyid);
 	$query->execute();
 	$query->bind_result($colonysystemid, $colonyx, $colonyy);
-	$query->fetch();
-	$query->close();
-
-	$query = $mysqli->prepare('SELECT x,y FROM systems WHERE systemid=?');
-	$query->bind_param('i', $systemid);
-	$query->execute();
-	$query->bind_result($x, $y);
 	$result = $query->fetch();
 	if (!$result)
 	{
-		echo 'error: system id not valid.', $eol;
+		echo 'error: current colony not valid!?', $eol;
 		exit;
 	}
 	$query->close();
