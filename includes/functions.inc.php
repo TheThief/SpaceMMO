@@ -265,11 +265,11 @@ function orbit($systemcode)
 	return ord($systemcode[3]) - ord('A') + 1;
 }
 
-function planetChanger($page=NULL){
+function planetChanger($current=NULL,$page=NULL){
 	global $planetChangeID, $mysqli;
 	$userid = $_SESSION['userid'];
-	$current= $_GET['planet'];
-	$page = is_null($page)?basename($_SERVER["PHP_SELF"]):$page;
+	if (is_null($current)) $current = $_GET['planet'];
+	if (is_null($page)) $page = basename($_SERVER["PHP_SELF"]);
 	$query = $mysqli->prepare('SELECT colonies.planetid,systemid,planets.orbit FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE colonies.userID = ? ORDER BY colonylevel DESC;');
 	if (!$query)
 	{
