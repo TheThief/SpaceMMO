@@ -81,7 +81,6 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 		echo '<li>Metal: ',prodSummary('summary_metal', $metal, $maxmetal, $metalprod),'</li>', $eol;
 		echo '<li>Deuterium: ',prodSummary('summary_deuterium', $deuterium, $maxdeuterium, $deuteriumprod),'</li>', $eol;
 		echo '<li>Energy: ',prodSummary('summary_energy', $energy, $maxenergy, $energyprod),'</li>', $eol;
-		planetChanger();
 		echo '</div>', $eol;
 	}
 	echo '</div>', $eol;
