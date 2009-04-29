@@ -12,7 +12,7 @@ function changeColonyBody()
 
 	$colonyid = $_GET['planet'];
 
-	$query = $mysqli->prepare('SELECT planetid FROM colonies WHERE planetid=?');
+	$query = $mysqli->prepare('SELECT userid FROM colonies WHERE planetid=?');
 	$query->bind_param('i', $colonyid);
 	$query->execute();
 	$query->bind_result($colonyuserid);
