@@ -1,6 +1,8 @@
 <?
 include_once('functions.inc.php');
 
+include_once('colonymenu.inc.php');
+
 function prodSummary($id, $current, $max, $delta)
 {
 	$symbol = '.';
@@ -69,20 +71,29 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 			$_SESSION['colony'] = $colonyid;
 		}
 
-		$query = $mysqli->prepare('SELECT systemid,orbit,colonylevel,colonies.metal,maxmetal,metalproduction,colonies.deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction,shipconstruction FROM colonies LEFT JOIN planets USING (planetid) WHERE planetid=?');
-		$query->bind_param('i', $colonyid);
+		$query = $mysqli->prepare('SELECT systemid,orbit,colonylevel,colonies.metal,maxmetal,metalproduction,colonies.deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction,shipconstruction FROM colonies LEFT JOIN planets USING (planetid) WHERE userid=? AND planetid=?');
+		$query->bind_param('ii', $userid, $colonyid);
 		$query->execute();
 		$query->bind_result($systemid,$orbit,$colonylevel,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod,$shipconstruction);
-		$query->fetch();
+		$result = $query->fetch();
 		$query->close();
 
 		echo '<div class="colonysummary">', $eol;
-		//echo '<h2>',systemcode($systemid,$orbit),'</h2>', $eol;
+		echo '<h2>Colony ',systemcode($systemid,$orbit),'</h2>', $eol;
 		planetChanger($colonyid,'change_colony.php');
-		echo '<ul>', $eol;
-		echo '<li>Metal: ',prodSummary('summary_metal', $metal, $maxmetal, $metalprod),'</li>', $eol;
-		echo '<li>Deuterium: ',prodSummary('summary_deuterium', $deuterium, $maxdeuterium, $deuteriumprod),'</li>', $eol;
-		echo '<li>Energy: ',prodSummary('summary_energy', $energy, $maxenergy, $energyprod),'</li>', $eol;
+		if ($result)
+		{
+			echo '<ul>', $eol;
+			echo '<li>Metal: ',prodSummary('summary_metal', $metal, $maxmetal, $metalprod),'</li>', $eol;
+			echo '<li>Deuterium: ',prodSummary('summary_deuterium', $deuterium, $maxdeuterium, $deuteriumprod),'</li>', $eol;
+			echo '<li>Energy: ',prodSummary('summary_energy', $energy, $maxenergy, $energyprod),'</li>', $eol;
+			echo '</ul>', $eol;
+			colonyMenu();
+		}
+		else
+		{
+			echo 'You\'ve lost this colony, choose another.', $eol;
+		}
 		echo '</div>', $eol;
 	}
 	echo '</div>', $eol;

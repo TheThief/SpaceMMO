@@ -26,9 +26,6 @@ function viewShipsBody()
 	}
 	$query->close();
 
-	planetChanger();
-	echo "<br>";
-
 	$query = $mysqli->prepare('SELECT fleetid FROM fleets WHERE fleets.userID = ? AND planetid = ? AND orderid = 0');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
