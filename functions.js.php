@@ -172,7 +172,7 @@ function plus(sectionid,max)
 {
 	section = document.getElementById(sectionid);
 	remain = document.getElementById("remain");
-	if (remain.value > 0 && (!max || section.value < max))
+	if (remain.value > 0 && section.value < max)
 	{
 		section.value = Number(section.value) + 1;
 		remain.value -= 1;
