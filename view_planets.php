@@ -48,21 +48,18 @@ function viewPlanetsBody()
 		if ($colonyid == $planetid)
 		{
 			$image2 = 'images/star-cc.png';
-			//$link = 'view_planet.php?planet='.$planetid;
 			$tooltip = 'Current Colony, on '.$tooltip;
 		}
-		if ($colonyuserid)
+		else if ($colonyuserid)
 		{
 			if ($colonyuserid != $userid)
 			{
 				$image2 = 'images/star-oc.png';
-				//$link = 'view_planet.php?planet='.$planetid;
 				$tooltip = 'Enemy colony detected on '.$tooltip;
 			}
 			else
 			{
 				$image2 = 'images/star-c.png';
-				//$link = 'colony_buildings.php?planet='.$planetid;
 				$tooltip = 'Your colony on '.$tooltip;
 			}
 		}
