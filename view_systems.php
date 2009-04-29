@@ -37,13 +37,12 @@ function viewSystemsBody()
 			$query->bind_param('i', $systemid);
 			$query->execute();
 			$query->bind_result($x, $y);
-			$query = $query->fetch();
+			$result = $query->fetch();
 			if (!$result)
 			{
 				echo 'error: system id not valid.', $eol;
 				exit;
 			}
-
 			$query->close();
 		}
 		else
