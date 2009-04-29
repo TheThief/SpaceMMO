@@ -14,11 +14,6 @@ function viewShipsBody()
 	$planetid = $_GET['planet'];
 	$countarray=array();
 	$cointpoint=0;
-
-	?>
-	<script type="text/javascript" src="functions.js.php"></script>
-	<?
-	
 	$query = $mysqli->prepare('SELECT x,y,systemid,orbit FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetID = ?');
 	$query->bind_param('ii', $userid, $planetid);
 	$result = $query->execute();

@@ -34,6 +34,7 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 	{
 		$headerfunc();
 	}
+	echo "<script type=\"text/javascript\" src=\"functions.js.php\"></script>";
 	echo '</head>', $eol;
 	echo '<body>', $eol;
 	echo '', $eol;

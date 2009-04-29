@@ -9,8 +9,6 @@ template('Create Ship Design', 'designCreateBody', null, 'designCreateHead');
 
 function designCreateHead()
 {
-?><script type="text/javascript" src="functions.js.php"></script>
-<?
 }
 
 function designCreateBody()

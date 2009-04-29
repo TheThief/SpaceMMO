@@ -14,10 +14,6 @@ function colonyBuildingsBody()
 	$userid = $_SESSION['userid'];
 	$planetid = $_GET['planet'];
 	$countpoint=0;
-
-	?>
-	<script type="text/javascript" src="functions.js.php"></script>
-	<?
 	$query = $mysqli->prepare('SELECT colonylevel,metal,maxmetal,metalproduction,deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction FROM colonies WHERE colonies.userid=? AND colonies.planetID = ?;');
 	if (!$query)
 	{

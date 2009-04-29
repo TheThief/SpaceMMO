@@ -11,9 +11,6 @@ function buildShipsBody()
 	global $eol, $mysqli;
 	$userid = $_SESSION['userid'];
  	$planetid = $_GET['planet'];
-	?>
-	<script type="text/javascript" src="functions.js.php"></script>
-	<?
 	$shiparray = array();
 	$orderarray = array();
 	$pcarray = array();
