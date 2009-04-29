@@ -201,7 +201,7 @@ function updatestats()
 	rangeElement.innerHTML = shiprange(size, engines, fuel).toFixed(2);
 	attackElement.innerHTML = attackPower(weapons);
 	defenseElement.innerHTML = defense(size, shields);
-	capacityElement.innerHTML = cargoCapacity(cargobay);
+	capacityElement.innerHTML = cargoCapacity(cargo);
 }
 
 function updateOtherP(id){
