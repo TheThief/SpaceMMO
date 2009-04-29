@@ -110,7 +110,7 @@ function viewSystemsBody()
 		{
 			if ($othercolonies)
 			{
-				$image2 ='images/star-oc+c.png';
+				$image2 ='images/star-oc+cc.png';
 				$tooltip = 'Current System (Contested). Your colonies: '.$colonies.' Other colonies: '.$othercolonies;
 			}
 			else

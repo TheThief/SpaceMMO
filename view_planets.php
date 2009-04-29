@@ -11,6 +11,7 @@ function viewPlanetsBody()
 	global $lookups;
 	$userid = $_SESSION['userid'];
 	$systemid = $_GET['system'];
+	$colonyid = $_SESSION['colony'];
 
 	$starsize = 7; // diameter
 	$minorbit = 6; // radius
@@ -44,6 +45,12 @@ function viewPlanetsBody()
 		$image2 = null;
 		$link = 'view_planet.php?planet='.$planetid;
 		$tooltip = $lookups["planetType"][$type].' planet '.systemcode($systemid,$orbit);
+		if ($colonyid == $planetid)
+		{
+			$image2 = 'images/star-cc.png';
+			//$link = 'view_planet.php?planet='.$planetid;
+			$tooltip = 'Current Colony, on '.$tooltip;
+		}
 		if ($colonyuserid)
 		{
 			if ($colonyuserid != $userid)
@@ -55,7 +62,7 @@ function viewPlanetsBody()
 			else
 			{
 				$image2 = 'images/star-c.png';
-				$link = 'colony_buildings.php?planet='.$planetid;
+				//$link = 'colony_buildings.php?planet='.$planetid;
 				$tooltip = 'Your colony on '.$tooltip;
 			}
 		}
