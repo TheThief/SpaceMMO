@@ -6,7 +6,7 @@ include_once '../includes/colony.inc.php';
 include_once '../includes/helpmenu.inc.php';
 
 include_once '../includes/template.inc.php';
-template('Help - Getting Started', 'helpGettingStartedBody', 'helpMenu');
+template('Help - Getting Started', 'helpColonisingBody', 'helpMenu');
 
 function helpColonisingBody()
 {
