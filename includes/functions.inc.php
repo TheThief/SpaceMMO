@@ -194,19 +194,17 @@ function distance($x, $y)
 
 function getTickElapsed(){
         $curtime=explode(":",date("i:s"));
-        $elapsedMins = $curtime[0];
-        $lapsed=60*$elapsedMins[1] + $curtime[1];
+        $lapsed = (60*$curtime[0] + $curtime[1]) % TICK;
         return $lapsed;
 }
 
 function formatSeconds($formatstring,$seconds){
-	$sec = $seconds%60;
-	$min = ($seconds/60);
+	$sec = floor($seconds)%60;
+	$min = floor($seconds/60)%60;
 	$hour = floor($seconds/3600);
-        $replacements=array(    "i"=>padString($min%60,"0",2),
+        $replacements=array(    "i"=>padString($min,"0",2),
                                 "s"=>padString($sec,"0",2),
-                                "h"=>$hour,
-				"m"=>floor($min));
+                                "h"=>$hour);
         return str_replace(array_keys($replacements),array_values($replacements),$formatstring);
 }
 

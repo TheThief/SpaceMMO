@@ -1,6 +1,11 @@
 <?
 include_once("./includes/functions.inc.php");
 ?>
+
+<?
+include_once("./includes/ships.js.php");
+?>
+
 function updateProdVals(id,output,maxc,maxe){
 	cspan = document.getElementById("conssp"+id);
 	espan = document.getElementById("effsp"+id);	
@@ -192,11 +197,11 @@ function updatestats()
 	var defense = document.getElementById("defense");
 	var capacity = document.getElementById("capacity");
 
-	speed.innerHTML = (engines*24/size).toFixed(2);
-	range.innerHTML = (fuel*48/size).toFixed(2);
-	attack.innerHTML = weapons;
-	defense.innerHTML = shields*10 + size;
-	capacity.innerHTML = cargo*100;
+	speed.innerHTML = speed(size, engines).toFixed(2);
+	range.innerHTML = shiprange(size, engines, fuel).toFixed(2);
+	attack.innerHTML = attackPower(weapons);
+	defense.innerHTML = defense(size, shields);
+	capacity.innerHTML = cargoCapacity(cargobay);
 }
 
 function updateOtherP(id){
@@ -217,5 +222,4 @@ function changePage(id,page,pid){
 	if(selval != pid){
 		document.location = "./" + page + "?planet=" + selval;
 	}
-	
 }

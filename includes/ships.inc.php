@@ -1,7 +1,9 @@
 <?
-//include_once('functions.inc.php');
+include_once('functions.inc.php');
 
-// TODO: Add js and SQL equivalents
+/**********************************
+* Keep in sync with ships.js.php  *
+**********************************/
 
 // Cargo capacity in units of M or D
 function cargoCapacity($cargobay)
@@ -12,7 +14,7 @@ function cargoCapacity($cargobay)
 // Fuel capacity in D
 function fuelCapacity($fuelbay)
 {
-	return $fuelbay * 12;
+	return $fuelbay * 100;
 }
 
 // Attack damage
@@ -36,19 +38,19 @@ function speed($size, $engines)
 // Fuel use in D/h
 function fuelUse($engines)
 {
-	return $engines * 6;
+	return $engines * 60;
 }
 
 // Range in PC
 function shiprange($size, $engines, $fuelbay)
 {
-	return speed($size, $engines) * floor(fuelCapacity($fuelbay) / fuelUse($engines));
+	return speed($size, $engines) * floor(TICKS_PH * fuelCapacity($fuelbay) / fuelUse($engines)) / TICKS_PH;
 }
 
 // Return range in PC
 function returnrange($size, $engines, $fuelbay)
 {
-	return speed($size, $engines) * floor(fuelCapacity($fuelbay) / fuelUse($engines) / 2);
+	return speed($size, $engines) * floor(TICKS_PH * fuelCapacity($fuelbay) / fuelUse($engines) / 2) / TICKS_PH;
 }
 
 ?>
