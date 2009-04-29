@@ -33,5 +33,5 @@ function changeColonyBody()
 	$_SESSION['colony'] = $colonyid;
 
 	header('HTTP/1.1 303 See Other');
-	header('Location: view_planet.php'.$colonyid);
+	header('Location: view_planet.php?planet='.$colonyid);
 }
