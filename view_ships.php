@@ -105,12 +105,12 @@ function viewShipsBody()
 		echo '<h2>Defending Fleets</h2>', $eol;
 		do
 		{
-			$maxrange = $speed * floor($totalfuelbay/$fueluse) / 6;
-			$maxreturnrange = $speed * floor($totalfuelbay/$fueluse/2) / 6;
+			$maxrange = $speed * floor($totalfuelbay/$fueluse) / TICKS_PH;
+			$maxreturnrange = $speed * floor($totalfuelbay/$fueluse/2) / TICKS_PH;
 			echo '<form action="fleetorder_exec.php" method="post">', $eol;
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h3>',$lookups['order'][1],' ',systemcode($systemid,$orbit),'</h3>', $eol;
-			echo 'Speed: ',number_format($speed,2),' PC/h (Fuel use: ',$fueluse*6,' D/h)<br>', $eol;
+			echo 'Speed: ',number_format($speed,2),' PC/h (Fuel use: ',$fueluse*TICKS_PH,' D/h)<br>', $eol;
 			echo 'Fuel: ',$fuel,' / ',$totalfuelbay,' D<br>', $eol;
 			echo 'Max Range: ',number_format($maxrange, 2),' PC (',number_format($maxreturnrange, 2),' PC return)<br>', $eol;
 			echo 'Cargo Capacity: ',$totalcargo,' Units<br>', $eol;
@@ -207,7 +207,7 @@ function viewShipsBody()
 
 			while ($queryships->fetch())
 			{
-				// &#215; = ×
+				// &#215; = Ã—
 				echo '<li>',$count,' &#215; ',$shipname,'</li>', $eol;
 			}
 			echo '</ul>', $eol;
@@ -252,7 +252,7 @@ function viewShipsBody()
 
 			while ($queryships->fetch())
 			{
-				// &#215; = ×
+				// &#215; = Ã—
 				echo '<li>',$count,' &#215; ',$shipname,'</li>', $eol;
 			}
 			echo '</ul>', $eol;
@@ -287,7 +287,7 @@ function viewShipsBody()
 
 			while ($queryships->fetch())
 			{
-				// &#215; = ×
+				// &#215; = Ã—
 				echo '<li>',$count,' &#215; ',$shipname,'</li>', $eol;
 			}
 			echo '</ul>', $eol;
