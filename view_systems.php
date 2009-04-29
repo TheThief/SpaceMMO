@@ -138,7 +138,7 @@ function viewSystemsBody()
 
 		if ($systemid != $colonysystemid)
 		{
-			$tooltip .= ' Distance: '.number_format(distance($x-$colonyx, $y-$colonyy), 2).'PC';
+			$tooltip .= ' Distance: '.number_format(distance($sysX-$colonyx, $sysY-$colonyy), 2).'PC';
 		}
 
 		$starsize = (floor($systemid/4)%4)/4 * ($maxstarsize-$minstarsize) + $minstarsize;
