@@ -78,13 +78,12 @@ function viewSystemsBody()
 	$query->bind_param('i', $systemid);
 	$query->execute();
 	$query->bind_result($x, $y);
-	$query = $query->fetch();
+	$result = $query->fetch();
 	if (!$result)
 	{
 		echo 'error: system id not valid.', $eol;
 		exit;
 	}
-
 	$query->close();
 
 	$stmt = $mysqli->prepare('SELECT systemid,x,y,COUNT(user_colonies.planetid),COUNT(other_colonies.planetid) FROM systems LEFT JOIN planets USING (systemid)
