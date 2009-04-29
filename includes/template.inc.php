@@ -78,7 +78,7 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 
 		echo '<div class="colonysummary">', $eol;
 		//echo '<h2>',systemcode($systemid,$orbit),'</h2>', $eol;
-		planetChanger($colonyid,'/SpaceMMO/change_colony.php');
+		planetChanger($colonyid,'change_colony.php');
 		echo '<ul>', $eol;
 		echo '<li>Metal: ',prodSummary('summary_metal', $metal, $maxmetal, $metalprod),'</li>', $eol;
 		echo '<li>Deuterium: ',prodSummary('summary_deuterium', $deuterium, $maxdeuterium, $deuteriumprod),'</li>', $eol;
