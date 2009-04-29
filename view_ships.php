@@ -167,7 +167,7 @@ function viewShipsBody()
 	$query = $mysqli->prepare('SELECT fleetid,orderid,systemid,orbit,orderticks,fuel,totalfuelbay,fleets.metal,fleets.deuterium FROM fleets LEFT JOIN planets ON orderplanetid = planets.planetid WHERE fleets.userID = ? AND fleets.planetid = ? AND fleets.orderid > 1');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($fleetid, $orderid, $ordersystemid, $orderorbit, $orderticks, $fleetmetal, $fleetdeuterium);
+	$query->bind_result($fleetid, $orderid, $ordersystemid, $orderorbit, $orderticks, $fuel, $totalfuelbay, $fleetmetal, $fleetdeuterium);
 	$query->store_result();
 
 	if($query->fetch())
@@ -213,7 +213,7 @@ function viewShipsBody()
 	$query = $mysqli->prepare('SELECT fleetid,orderid,orderticks,systemid,orbit,fuel,totalfuelbay,fleets.metal,fleets.deuterium FROM fleets LEFT JOIN planets USING (planetid) WHERE fleets.userID = ? AND fleets.orderplanetid = ? AND fleets.orderid > 1');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($fleetid, $orderid, $orderticks, $fromsystemid, $fromorbit, $fleetmetal, $fleetdeuterium);
+	$query->bind_result($fleetid, $orderid, $orderticks, $fromsystemid, $fromorbit, $fuel, $totalfuelbay, $fleetmetal, $fleetdeuterium);
 	$query->store_result();
 
 	if($query->fetch())
