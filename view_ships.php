@@ -97,8 +97,8 @@ function viewShipsBody()
 		echo '<h2>Defending Fleets</h2>', $eol;
 		do
 		{
-			$maxrange = shiprange($speed, $fueluse, $totalfuelbay);
-			$maxreturnrange = returnrange($speed, $fueluse, $totalfuelbay);
+			$maxrange = shiprange($speed, $fueluse*SMALLTICKS_PH, $totalfuelbay);
+			$maxreturnrange = returnrange($speed, $fueluse*SMALLTICKS_PH, $totalfuelbay);
 			echo '<form action="fleetorder_exec.php" method="post">', $eol;
 			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h3>',$lookups['order'][1],' ',systemcode($systemid,$orbit),'</h3>', $eol;
