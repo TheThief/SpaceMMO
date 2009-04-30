@@ -2,6 +2,8 @@
 include_once 'includes/start.inc.php';
 checkLoggedIn();
 
+include_once 'includes/ships.inc.php';
+
 include_once 'includes/template.inc.php';
 template('Ships in Orbit', 'viewShipsBody');
 
