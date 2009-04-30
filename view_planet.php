@@ -42,7 +42,7 @@ function viewPlanetBody()
 	}
 	echo '<tr><th>Metal Abundance</th><td>',number_format($metal*100),'%</td></tr>', $eol;
 	echo '<tr><th>Deuterium Abundance</th><td>',number_format($deuterium*100),'%</td></tr>', $eol;
-	if($numrows==0){
+	if($rows==0){
 		echo '<tr><th>Actions</th><td><a href="addbookmark_exec.php?planet=', $planetid, '">Bookmark</a></td>';
 	}else{
 		echo '<tr><th>Actions</th><td>Bookmarked</td>';
