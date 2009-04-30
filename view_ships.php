@@ -191,13 +191,11 @@ function viewShipsBody()
 			{
 				echo 'Transporting: ',$fleetdeuterium,' deuterium<br>', $eol;
 			}
-			echo '<span id="count',$countpoint,'">',formatSeconds('h:i:s',($orderticks*TICK)-getTickElapsed()),'</span><br>', $eol;
-			$countarray[$countpoint++] = ($orderticks*TICK)-getTickElapsed();
-			
+			echo '<span id="count',$countpoint,'">',formatSeconds('h:i:s',ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed()),'</span><br>', $eol;
+			$countarray[$countpoint++] = ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed();
+
 			echo '<ul>', $eol;
-
 			$queryships->execute();
-
 			while ($queryships->fetch())
 			{
 				// &#215; = ×
@@ -238,12 +236,11 @@ function viewShipsBody()
 			{
 				echo 'Transporting: ',$fleetdeuterium,' deuterium<br>', $eol;
 			}
-			echo '<span id="count',$countpoint,'">',formatSeconds('h:i:s',($orderticks*TICK)-getTickElapsed()),'</span><br>', $eol;
-			$countarray[$countpoint++] = ($orderticks*TICK)-getTickElapsed();
+			echo '<span id="count',$countpoint,'">',formatSeconds('h:i:s',ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed()),'</span><br>', $eol;
+			$countarray[$countpoint++] = ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed();
+
 			echo '<ul>', $eol;
-
 			$queryships->execute();
-
 			while ($queryships->fetch())
 			{
 				// &#215; = ×
@@ -274,11 +271,11 @@ function viewShipsBody()
 			//echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h3>', $eol;
 			echo 'Owner: ',$username,'<br>', $eol;
-			echo '<span id="count',$countpoint,'">',formatSeconds('h:i:s',($orderticks*TICK)-getTickElapsed()),'</span><br>', $eol;
-			echo '<ul>', $eol;
-			$countarray[$countpoint++] = ($orderticks*TICK)-getTickElapsed();
-			$queryships->execute();
+			echo '<span id="count',$countpoint,'">',formatSeconds('h:i:s',ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed()),'</span><br>', $eol;
+			$countarray[$countpoint++] = ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed();
 
+			echo '<ul>', $eol;
+			$queryships->execute();
 			while ($queryships->fetch())
 			{
 				// &#215; = ×
