@@ -105,34 +105,35 @@ function viewSystemsBody()
 	{
 		$image = 'images/star'.($systemid%4 +1).'.png';
 		$image2 = null;
-		$tooltip = 'Not colonised';
+		$syscode = systemcode($systemid);
+		$tooltip = $syscode .' Not colonised';
 		if ($systemid == $colonysystemid)
 		{
 			if ($othercolonies)
 			{
 				$image2 ='images/star-oc+cc.png';
-				$tooltip = 'Current System (Contested). Your colonies: '.$colonies.' Other colonies: '.$othercolonies;
+				$tooltip = $syscode .' Current System (Contested). Your colonies: '.$colonies.' Other colonies: '.$othercolonies;
 			}
 			else
 			{
 				$image2 = 'images/star-c.png';
-				$tooltip = 'Current system. Colonised planets: '.$colonies;
+				$tooltip = $syscode .' Current system. Colonised planets: '.$colonies;
 			}
 		}
 		else if ($colonies && $othercolonies)
 		{
 			$image2 ='images/star-oc+c.png';
-			$tooltip = 'Contested System. Your colonies: '.$colonies.' Other colonies: '.$othercolonies;
+			$tooltip = $syscode .' Contested System. Your colonies: '.$colonies.' Other colonies: '.$othercolonies;
 		}
 		else if ($colonies)
 		{
 			$image2 = 'images/star-c.png';
-			$tooltip = 'Your system. Colonised planets: '.$colonies;
+			$tooltip = $syscode .' Your system. Colonised planets: '.$colonies;
 		}
 		else if ($othercolonies)
 		{
 			$image2 = 'images/star-oc.png';
-			$tooltip = 'Enemy system. Colonised planets: '.$othercolonies;
+			$tooltip = $syscode .' Enemy system. Colonised planets: '.$othercolonies;
 		}
 
 		if ($systemid != $colonysystemid)
