@@ -39,7 +39,11 @@ function colonyListBody()
 		echo "<td>$metal/$maxmetal (".getSigned($metalprod).")</td>";
 		echo "<td>$deuterium/$maxdeuterium (".getSigned($deuteriumprod).")</td>";
 		echo "<td>$energy/$maxenergy (".getSigned($energyprod).")</td>";
-		echo '<td><a href="change_colony.php?planet=', $planetid, '">Change to</a></td>';
+		if($_SESSION['colony'] != $planetid){
+			echo '<td><a href="change_colony.php?planet=', $planetid, '">Change to</a></td>';
+		}else{
+			echo '<td></td>';
+		}
 		echo '</tr>', $eol;
 	}
 	echo '</table>', $eol;

@@ -18,7 +18,13 @@ function viewPlanetBody()
 	$stmt->bind_result($systemid,$systemx,$systemy,$orbit,$planettype,$metal,$deuterium,$colonyuserid,$colonyusername);
 	$stmt->fetch();
 	$stmt->close();
-
+	
+	$stmt = $mysqli->prepare("SELECT * FROM bookmarks WHERE planetid=? and userid=?;");
+	$stmt->bind_param('ii',$planetid,$userid);
+	$stmt->execute();
+	$stmt->store_result();
+	$rows = $stmt->num_rows;
+	$stmt->close();
 	echo '<img src="images/planet',$planettype,'-large.png" style="width: 20em; height: 20em;">', $eol;
 
 	echo '<table>', $eol;
@@ -36,6 +42,10 @@ function viewPlanetBody()
 	}
 	echo '<tr><th>Metal Abundance</th><td>',number_format($metal*100),'%</td></tr>', $eol;
 	echo '<tr><th>Deuterium Abundance</th><td>',number_format($deuterium*100),'%</td></tr>', $eol;
-	echo '<tr><th>Actions</th><td><a href="addbookmark_exec.php?planet=', $planetid, '">Bookmark</a></td>';
+	if($numrows==0){
+		echo '<tr><th>Actions</th><td><a href="addbookmark_exec.php?planet=', $planetid, '">Bookmark</a></td>';
+	}else{
+		echo '<tr><th>Actions</th><td>Bookmarked</td>';
+	}
 	echo '</table>', $eol;
 }
