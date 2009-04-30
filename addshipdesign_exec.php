@@ -2,6 +2,8 @@
 include_once 'includes/start.inc.php';
 checkLoggedIn();
 
+include_once 'includes/ships.inc.php';
+
 include_once 'includes/template.inc.php';
 template('Save Ship Design', 'addShipDesignBody');
 
@@ -91,14 +93,18 @@ function addShipDesignBody()
 		exit;
 	}
 
-	$query = $mysqli->prepare('INSERT INTO shipdesigns (userid,hullid,shipname,engines,fuel,cargo,weapons,shields) VALUES (?,?,?,?,?,?,?,?)');
+	$query = $mysqli->prepare('INSERT INTO shipdesigns (userid,hullid,shipname,engines,fuel,cargo,weapons,shields,speed,fuelcapacity,cargocapacity,defense) VALUES (?,?,?,?,?,?,?,?)');
 	if (!$query)
 	{
 		echo 'error: ', $mysqli->error, $eol;
 		exit;
 	}
 
-	$query->bind_param('iisiiiii', $userid,$hullid,$shipname,$engines,$fuel,$cargo,$weapons,$shields);
+	$query->bind_param('iisiiiiiiiii', $userid,$hullid,$shipname,$engines,$fuel,$cargo,$weapons,$shields,$speed,$fuelcapacity,$cargocapacity,$defense);
+	$speed = speed($size, $engines);
+	$fuelcapacity = fuelCapacity($fuel);
+	$cargocapacity = cargoCapacity($cargo);
+	$defense = defense($size, $shields);
 
 	$result = $query->execute();
 	if (!$result)

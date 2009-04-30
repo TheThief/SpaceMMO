@@ -41,16 +41,32 @@ function fuelUse($engines)
 	return $engines * 60;
 }
 
-// Range in PC
-function shiprange($size, $engines, $fuelbay)
+// Range in PC based on ship design
+function shiprangeraw($size, $engines, $fuelbay)
 {
-	return speed($size, $engines) * floor(TICKS_PH * fuelCapacity($fuelbay) / fuelUse($engines)) / TICKS_PH;
+	return shiprange(speed($size, $engines), fuelUse($engines), fuelCapacity($fuelbay));
+}
+
+// Range in PC.
+// Speed is in PC/h, fuel use is in D/h, fuel is in D.
+// Calculated in small ticks
+function shiprange($speed, $fueluse, $fuel)
+{
+	return $speed * floor($fuel / ($fueluse / SMALLTICKS_PH)) / SMALLTICKS_PH;
+}
+
+// Return range in PC based on ship design
+function returnrangeraw($size, $engines, $fuelbay)
+{
+	return returnrange(speed($size, $engines), fuelUse($engines), fuelCapacity($fuelbay));
 }
 
 // Return range in PC
-function returnrange($size, $engines, $fuelbay)
+// Speed is in PC/h, fuel use is in D/h, fuel is in D.
+// Calculated in small ticks
+function returnrange($speed, $fueluse, $fuel)
 {
-	return speed($size, $engines) * floor(TICKS_PH * fuelCapacity($fuelbay) / fuelUse($engines) / 2) / TICKS_PH;
+	return $speed * floor($fuel / ($fueluse / SMALLTICKS_PH) / 2) / SMALLTICKS_PH;
 }
 
 ?>

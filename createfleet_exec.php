@@ -107,14 +107,14 @@ function fleetOrderBody()
 	$movesomequery1->close();
 	$movesomequery2->close();
 
-	$query = $mysqli->prepare('SELECT MIN(engines*24/size) AS minspeed, SUM(count*cargo*100) AS totalcargobay, SUM(count*fuel*100) AS totalfuelbay FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
+	$query = $mysqli->prepare('SELECT MIN(speed) AS minspeed, SUM(count*cargocapacity) AS totalcargobay, SUM(count*fuelcapacity) AS totalfuelbay FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
 	$query->bind_param('i', $fleetid);
 	$query->execute();
 	$query->bind_result($minspeed,$totalcargobay,$totalfuelbay);
 	$query->fetch();
 	$query->close();
 
-	$query = $mysqli->prepare('SELECT SUM(count * CEIL(engines * ? / (engines*24/size)) * 10) AS fueluse FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
+	$query = $mysqli->prepare('SELECT SUM(count * CEIL(engines * ? / speed)) AS fueluse FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
 	$query->bind_param('di', $minspeed, $fleetid);
 	$query->execute();
 	$query->bind_result($fueluse);

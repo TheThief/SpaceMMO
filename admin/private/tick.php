@@ -249,7 +249,7 @@ $mysqli->commit();
 
 // Fleet movement
 
-$query = $mysqli->prepare('UPDATE fleets SET fuel = fuel - fueluse, orderticks = orderticks - 1 WHERE orderid > 1 AND fuel >= fueluse AND orderticks > 0');
+$query = $mysqli->prepare('UPDATE fleets SET fuel = fuel - fueluse * LEAST('.SMALL_PER_TICK.',orderticks), orderticks = orderticks - '.SMALL_PER_TICK.' WHERE orderid > 1 AND fuel >= fueluse * LEAST('.SMALL_PER_TICK.',orderticks) AND orderticks > 0');
 $query->execute();
 $query->close();
 

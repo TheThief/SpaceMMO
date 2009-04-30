@@ -1,6 +1,9 @@
 <?
 define("TICK",600); // Seconds per tick
 define("TICKS_PH",6); // Ticks per hour
+define("SMALLTICK",60); // Seconds per small tick
+define("SMALLTICKS_PH",60); // Small ticks per hour
+define("SMALL_PER_TICK",10); // Small ticks per tick
 
 function cleanUp(){
 	if(DEBUG) echo "Starting clean up\n";

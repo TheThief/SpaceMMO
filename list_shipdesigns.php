@@ -12,7 +12,7 @@ function designListBody()
 	global $eol, $mysqli;
 	$userid = $_SESSION['userid'];
 
-	$query = $mysqli->prepare('SELECT designid,shipname,hullname,metalcost,size,engines,fuel,cargo,weapons,shields FROM shipdesigns LEFT JOIN shiphulls USING (hullid) WHERE userID = ? ORDER BY designid ASC;');
+	$query = $mysqli->prepare('SELECT designid,shipname,hullname,metalcost,size,engines,fuel,cargo,weapons,shields,speed,fuelcapacity,cargocapacity,defense FROM shipdesigns LEFT JOIN shiphulls USING (hullid) WHERE userID = ? ORDER BY designid ASC;');
 	if (!$query)
 	{
 		echo 'error: ', $mysqli->error, $eol;
@@ -27,7 +27,7 @@ function designListBody()
 		exit;
 	}
 
-	$query->bind_result($designid,$shipname,$hullname,$metalcost,$size,$engines,$fuel,$cargo,$weapons,$shields);
+	$query->bind_result($designid,$shipname,$hullname,$metalcost,$size,$engines,$fuel,$cargo,$weapons,$shields,$speed,$fuelcapacity,$cargocapacity,$defense);
 
 	echo '<table>', $eol;
 	echo '<tr><th>Design Name</th><th>Hull</th><th>Cost</th><th>Size</th><th><span title="Engines/Fuel Bay/Weapons/Shields/Cargo bay">E/F/W/S/C</th><th>Speed</th><th>Fuel Bay</th><th>Range</th><th>Attack</th><th>Defense</th><th>Cargo Capacity</th></tr>', $eol;
@@ -42,12 +42,12 @@ function designListBody()
 			echo "<td>$metalcost Metal</td>";
 			echo "<td>$size</td>";
 			echo "<td>$engines/$fuel/$weapons/$shields/$cargo</td>";
-			echo '<td>', number_format(speed($size, $engines),2), ' PC/h</td>';
-			echo '<td>', number_format(fuelCapacity($fuel)), ' D</td>';
-			echo '<td>', number_format(shiprange($size, $engines, $fuel),2), ' PC</td>';
+			echo '<td>', number_format($speed,2), ' PC/h</td>';
+			echo '<td>', number_format($fuelcapacity), ' D</td>';
+			echo '<td>', number_format(shiprange($speed, $fueluse, $fuelcapacity),2), ' PC</td>';
 			echo '<td>', number_format(attackPower($weapons)), '</td>';
-			echo '<td>', number_format(defense($size, $shields)), ' HP</td>';
-			echo '<td>', number_format(cargoCapacity($cargo)), ' Units</td>';
+			echo '<td>', number_format($defense), ' HP</td>';
+			echo '<td>', number_format($cargocapacity), ' Units</td>';
 			echo '</tr>', $eol;
 		} while ($query->fetch());
 	}

@@ -9,7 +9,7 @@ header('Content-type: text/plain');
 $mysqli = new mysqli($db_server,$db_admin_user,$db_admin_pass,$db_db);
 
 //$result = $mysqli->query('DROP TABLE shipdesigns');
-$result = $mysqli->query('CREATE TABLE shipdesigns(designID INT NOT NULL AUTO_INCREMENT, userID INT NOT NULL, hullID INT NOT NULL, shipname CHAR(20), engines INT NOT NULL DEFAULT 0, fuel INT NOT NULL DEFAULT 0, cargo INT NOT NULL DEFAULT 0, weapons INT NOT NULL DEFAULT 0, shields INT NOT NULL DEFAULT 0, PRIMARY KEY (designID)) ENGINE=INNODB');
+$result = $mysqli->query('CREATE TABLE shipdesigns(designID INT NOT NULL AUTO_INCREMENT, userID INT NOT NULL, hullID INT NOT NULL, shipname CHAR(20), engines INT NOT NULL DEFAULT 0, fuel INT NOT NULL DEFAULT 0, cargo INT NOT NULL DEFAULT 0, weapons INT NOT NULL DEFAULT 0, shields INT NOT NULL DEFAULT 0, speed FLOAT NOT NULL DEFAULT 0, fuelcapacity INT NOT NULL DEFAULT 0, cargocapacity INT NOT NULL DEFAULT 0, defense INT NOT NULL DEFAULT 0, PRIMARY KEY (designID)) ENGINE=INNODB');
 if ($result)
 {
 	echo 'table \'shipdesigns\' created successfully', $eol;

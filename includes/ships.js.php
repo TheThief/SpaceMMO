@@ -45,11 +45,11 @@ function fuelUse(engines)
 // Range in PC
 function shiprange(size, engines, fuelbay)
 {
-	return speed(size, engines) * Math.floor(<?=TICKS_PH?> * fuelCapacity(fuelbay) / fuelUse(engines)) / <?=TICKS_PH?>;
+	return speed(size, engines) * Math.floor(<?=SMALLTICKS_PH?> * fuelCapacity(fuelbay) / fuelUse(engines)) / <?=SMALLTICKS_PH?>;
 }
 
 // Return range in PC
 function returnrange(size, engines, fuelbay)
 {
-	return speed(size, engines) * Math.floor(<?=TICKS_PH?> * fuelCapacity(fuelbay) / fuelUse(engines) / 2) / <?=TICKS_PH?>;
+	return speed(size, engines) * Math.floor(<?=SMALLTICKS_PH?> * fuelCapacity(fuelbay) / fuelUse(engines) / 2) / <?=SMALLTICKS_PH?>;
 }

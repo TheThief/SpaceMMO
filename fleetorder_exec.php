@@ -173,7 +173,7 @@ function fleetOrderBody()
 	$orderticks = 1;
 	if ($orderdistance > 0)
 	{
-		$orderticks = ceil($orderdistance/$fleetspeed * TICKS_PH);
+		$orderticks = ceil($orderdistance/$fleetspeed * SMALLTICKS_PH);
 	}
 
 	$totalfuelneed = $fueluse * $orderticks;
