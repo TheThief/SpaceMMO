@@ -267,7 +267,7 @@ function viewShipsBody()
 		echo '<h2>Incoming Fleets</h2>', $eol;
 		echo '<form action="fleetorder_exec.php" method="post">', $eol;
 		echo '<table>', $eol;
-		echo '<tr><th></th><th>Ships</th><th>Order</th><th>Fuel</th><th>Cargo</th><th>Time</th></tr>', $eol;
+		echo '<tr><th></th><th>Ships</th><th>Order</th><th>From</th><th>Fuel</th><th>Cargo</th><th>Time</th></tr>', $eol;
 		do
 		{
 			echo '<tr>';
