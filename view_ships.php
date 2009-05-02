@@ -64,7 +64,7 @@ function viewShipsBody()
 	}
 	echo '</form>', $eol;
 
-	$query = $mysqli->prepare('SELECT fleetid,speed,fuel,totalfuelbay,fuelbay,metal,deuterium,totalcargo FROM fleets WHERE fleets.userID = ? AND planetid = ? AND orderid = 1');
+	$query = $mysqli->prepare('SELECT fleetid,speed,fuel,totalfuelbay,fueluse,metal,deuterium,totalcargo FROM fleets WHERE fleets.userID = ? AND planetid = ? AND orderid = 1');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
 	$query->bind_result($fleetid,$speed,$fuel,$totalfuelbay,$fueluse,$fleetmetal,$fleetdeuterium,$totalcargo);
