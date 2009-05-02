@@ -64,14 +64,58 @@ function viewShipsBody()
 	}
 	echo '</form>', $eol;
 
-	$query = $mysqli->prepare('SELECT fleetid,speed,totalcargo,fuel,totalfuelbay,fueluse FROM fleets WHERE fleets.userID = ? AND planetid = ? AND orderid = 1');
+	$query = $mysqli->prepare('SELECT fleetid,speed,fuel,totalfuelbay,fuelbay,metal,deuterium,totalcargo FROM fleets WHERE fleets.userID = ? AND planetid = ? AND orderid = 1');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($fleetid,$speed,$totalcargo,$fuel,$totalfuelbay,$fueluse);
+	$query->bind_result($fleetid,$speed,$fuel,$totalfuelbay,$fueluse,$fleetmetal,$fleetdeuterium,$totalcargo);
 	$query->store_result();
 
 	if($query->fetch())
 	{
+		echo '<h2>Idle Fleets</h2>', $eol;
+		echo '<form action="fleetorder_exec.php" method="post">', $eol;
+		echo '<table>', $eol;
+		echo '<tr><th></th><th>Ships</th><th>Speed</th><th>Range</th><th>Fuel</th><th>Cargo</th></tr>', $eol;
+		do
+		{
+			echo '<tr>';
+			echo '<td><input type="radio" name="fleet" value="',$fleetid,'"></td>';
+
+			echo '<td>';
+			$queryships->execute();
+			if ($queryships->fetch())
+			{
+				echo '',$count,' &#215; ',$shipname,'', $eol;
+				while ($queryships->fetch())
+				{
+					echo ', ',$count,' &#215; ',$shipname,'', $eol;
+				}
+			}
+			echo '</td>';
+			echo '<td>',number_format($speed,2),' PC/h</td>';
+			$range = shiprange($speed, $fueluse*SMALLTICKS_PH, $totalfuelbay);
+			echo '<td>',number_format($range,2),' PC</td>';
+			echo '<td>',$fuel,' / ',$totalfuelbay,' D</td>';
+			if ($fleetmetal && $fleetdeuterium)
+			{
+				echo '<td>',$fleetmetal,' M + ',$fleetdeuterium,' D / ',$totalcargo,'</td>';
+			}
+			else if ($fleetmetal)
+			{
+				echo '<td>',$fleetmetal,' M / ',$totalcargo,'</td>';
+			}
+			else if ($fleetdeuterium)
+			{
+				echo '<td>',$fleetdeuterium,' D / ',$totalcargo,'</td>';
+			}
+			else
+			{
+				echo '<td>0 / ',$totalcargo,'</td>';
+			}
+			echo '</tr>', $eol;
+		} while ($query->fetch());
+		echo '</table>', $eol;
+
 		$bookmarks = array();
 		$destinations = array();
 
@@ -94,74 +138,52 @@ function viewShipsBody()
 		}
 		$querydestinations->close();
 
-		echo '<h2>Defending Fleets</h2>', $eol;
-		do
+		echo 'Order: ';
+		echo '<select name="order">', $eol;
+		echo '<option value="2" selected>Move to</option>', $eol;
+		echo '<option value="3">Transport to</option>', $eol;
+		echo '<option value="4">Colonise</option>', $eol;
+		echo '<option value="5" disabled>Attack</option>', $eol;
+		echo '</select>', $eol;
+		echo '<select name="orderplanet" id="opd0" onchange="updateOtherP(0);">', $eol;
+		if (count($bookmarks) > 0)
 		{
-			$maxrange = shiprange($speed, $fueluse*SMALLTICKS_PH, $totalfuelbay);
-			$maxreturnrange = returnrange($speed, $fueluse*SMALLTICKS_PH, $totalfuelbay);
-			echo '<form action="fleetorder_exec.php" method="post">', $eol;
-			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
-			echo '<h3>',$lookups['order'][1],' ',systemcode($systemid,$orbit),'</h3>', $eol;
-			echo 'Speed: ',number_format($speed,2),' PC/h (Fuel use: ',$fueluse*SMALLTICKS_PH,' D/h)<br>', $eol;
-			echo 'Max Range: ',number_format($maxrange, 2),' PC (',number_format($maxreturnrange, 2),' PC return)<br>', $eol;
-			echo 'Fuel: ',$fuel,' / ',$totalfuelbay,' D<br>', $eol;
-			echo 'Cargo Capacity: ',$totalcargo,' Units<br>', $eol;
-			echo '<ul>', $eol;
+			echo '<option value="0" disabled>Bookmarks</option>', $eol;
+			foreach ($bookmarks as $orderplanetid => $string)
+			{
+				echo '<option value="', $orderplanetid, '">', $string, '</option>', $eol;
+			}
+		}
+		else
+		{
+			echo '<option value="0" disabled>No Bookmarks</option>', $eol;
+		}
+		if (count($destinations) > 0)
+		{
+			echo '<option value="0" disabled>Colonies</option>', $eol;
+			foreach ($destinations as $orderplanetid => $string)
+			{
+				echo '<option value="', $orderplanetid, '">', $string, '</option>', $eol;
+			}
+		}
+		else
+		{
+			echo '<option value="0" disabled>No Colonies</option>', $eol;
+		}
+		echo '<option value="0" disabled>Other</option>', $eol;
+		echo '<option value="0">Other...</option>', $eol;
+		echo '</select>', $eol;
+		echo '<input type="text" size="4" maxlen="4" name="orderplanetother" id="opo0"><br>', $eol;
 
-			$queryships->execute();
-
-			while ($queryships->fetch())
-			{
-				echo '<li>',$count,' &#215; ',$shipname,'</li>', $eol;
-			}
-			echo '</ul>', $eol;
-			echo 'Order: ';
-			echo '<select name="order">', $eol;
-			echo '<option value="2" selected>Move to</option>', $eol;
-			echo '<option value="3">Transport to</option>', $eol;
-			echo '<option value="4">Colonise</option>', $eol;
-			echo '<option value="5" disabled>Attack</option>', $eol;
-			echo '</select>', $eol;
-			echo '<select name="orderplanet" id="opd',$fleetid,'" onchange="updateOtherP(',$fleetid,');">', $eol;
-			if (count($bookmarks) > 0)
-			{
-				echo '<option value="0" disabled>Bookmarks</option>', $eol;
-				foreach ($bookmarks as $orderplanetid => $string)
-				{
-					echo '<option value="', $orderplanetid, '">', $string, '</option>', $eol;
-				}
-			}
-			else
-			{
-				echo '<option value="0" disabled>No Bookmarks</option>', $eol;
-			}
-			if (count($destinations) > 0)
-			{
-				echo '<option value="0" disabled>Colonies</option>', $eol;
-				foreach ($destinations as $orderplanetid => $string)
-				{
-					echo '<option value="', $orderplanetid, '">', $string, '</option>', $eol;
-				}
-			}
-			else
-			{
-				echo '<option value="0" disabled>No Colonies</option>', $eol;
-			}
-			echo '<option value="0" disabled>Other</option>', $eol;
-			echo '<option value="0">Other...</option>', $eol;
-			echo '</select>', $eol;
-			echo '<input type="text" size="4" maxlen="4" name="orderplanetother" id="opo',$fleetid,'" style="visibility: visible"><br>', $eol;
-
-			echo 'Transport: <input type="text" size="4" name="metal"> metal, ', $eol;
-			echo '<input type="text" size="4" name="deuterium"> deuterium<br>', $eol;
-			echo '<input type="submit" value="Dispatch">', $eol;
-			echo '</form>', $eol;
-			echo '<form action="disbandfleet_exec.php" method="post">', $eol;
-			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
-			echo '<input type="submit" value="Disband">', $eol;
-			echo '</form>', $eol;
-			echo "<script type=\"text/javascript\">updateOtherP($fleetid);</script>\n";
-		} while ($query->fetch());
+		echo 'Transport: <input type="text" size="4" name="metal"> metal, ', $eol;
+		echo '<input type="text" size="4" name="deuterium"> deuterium<br>', $eol;
+		echo '<input type="submit" value="Dispatch">', $eol;
+		echo '</form>', $eol;
+		//echo '<form action="disbandfleet_exec.php" method="post">', $eol;
+		//echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
+		//echo '<input type="submit" value="Disband">', $eol;
+		//echo '</form>', $eol;
+		echo '<script type="text/javascript">updateOtherP(0);</script>', $eol;
 	}
 
 	$query = $mysqli->prepare('SELECT fleetid,orderid,systemid,orbit,orderticks,fuel,totalfuelbay,fleets.metal,fleets.deuterium FROM fleets LEFT JOIN planets ON orderplanetid = planets.planetid WHERE fleets.userID = ? AND fleets.planetid = ? AND fleets.orderid > 1');
