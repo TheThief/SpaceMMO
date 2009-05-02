@@ -96,21 +96,28 @@ function viewShipsBody()
 			$range = shiprange($speed, $fueluse*SMALLTICKS_PH, $totalfuelbay);
 			echo '<td>',number_format($range,2),' PC</td>';
 			echo '<td>',$fuel,' / ',$totalfuelbay,' D</td>';
-			if ($fleetmetal && $fleetdeuterium)
+			if ($totalcargo)
 			{
-				echo '<td>',$fleetmetal,' M + ',$fleetdeuterium,' D / ',$totalcargo,'</td>';
-			}
-			else if ($fleetmetal)
-			{
-				echo '<td>',$fleetmetal,' M / ',$totalcargo,'</td>';
-			}
-			else if ($fleetdeuterium)
-			{
-				echo '<td>',$fleetdeuterium,' D / ',$totalcargo,'</td>';
+				if ($fleetmetal && $fleetdeuterium)
+				{
+					echo '<td>',$fleetmetal,' M + ',$fleetdeuterium,' D / ',$totalcargo,'</td>';
+				}
+				else if ($fleetmetal)
+				{
+					echo '<td>',$fleetmetal,' M / ',$totalcargo,'</td>';
+				}
+				else if ($fleetdeuterium)
+				{
+					echo '<td>',$fleetdeuterium,' D / ',$totalcargo,'</td>';
+				}
+				else
+				{
+					echo '<td>0 / ',$totalcargo,'</td>';
+				}
 			}
 			else
 			{
-				echo '<td>0 / ',$totalcargo,'</td>';
+				echo '<td>-</td>';
 			}
 			echo '</tr>', $eol;
 		} while ($query->fetch());
@@ -195,39 +202,58 @@ function viewShipsBody()
 	if($query->fetch())
 	{
 		echo '<h2>Active Fleets</h2>', $eol;
+		echo '<form action="fleetorder_exec.php" method="post">', $eol;
+		echo '<table>', $eol;
+		echo '<tr><th></th><th>Ships</th><th>Order</th><th>Fuel</th><th>Cargo</th><th>Time</th></tr>', $eol;
 		do
 		{
-			echo '<form action="fleetorder_exec.php" method="post">', $eol;
-			echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
-			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($ordersystemid,$orderorbit),'</h3>', $eol;
-			echo 'Fuel: ',$fuel,' / ',$totalfuelbay,' D<br>', $eol;
-			if ($fleetmetal && $fleetdeuterium)
-			{
-				echo 'Transporting: ',$fleetmetal,' metal, ',$fleetdeuterium,' deuterium<br>', $eol;
-			}
-			else if ($fleetmetal)
-			{
-				echo 'Transporting: ',$fleetmetal,' metal<br>', $eol;
-			}
-			else if ($fleetdeuterium)
-			{
-				echo 'Transporting: ',$fleetdeuterium,' deuterium<br>', $eol;
-			}
-			echo '<span id="count',$countpoint,'">',formatSeconds('h:i:s',ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed()),'</span><br>', $eol;
-			$countarray[$countpoint++] = ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed();
+			echo '<tr>';
+			echo '<td><input type="radio" name="fleet" value="',$fleetid,'"></td>';
 
-			echo '<ul>', $eol;
+			echo '<td>';
 			$queryships->execute();
-			while ($queryships->fetch())
+			if ($queryships->fetch())
 			{
-				// &#215; = ×
-				echo '<li>',$count,' &#215; ',$shipname,'</li>', $eol;
+				echo '',$count,' &#215; ',$shipname,'', $eol;
+				while ($queryships->fetch())
+				{
+					echo ', ',$count,' &#215; ',$shipname,'', $eol;
+				}
 			}
-			echo '</ul>', $eol;
-			echo '<input type="hidden" name="order" value="1">', $eol;
-			echo '<input type="submit" value="Recall" disabled>', $eol;
-			echo '</form>', $eol;
+			echo '</td>';
+			echo '<td>',$lookups['order'][$orderid],' ',systemcode($ordersystemid,$orderorbit),'</td>', $eol;
+			echo '<td>',$fuel,' / ',$totalfuelbay,' D</td>';
+			if ($totalcargo)
+			{
+				if ($fleetmetal && $fleetdeuterium)
+				{
+					echo '<td>',$fleetmetal,' M + ',$fleetdeuterium,' D / ',$totalcargo,'</td>';
+				}
+				else if ($fleetmetal)
+				{
+					echo '<td>',$fleetmetal,' M / ',$totalcargo,'</td>';
+				}
+				else if ($fleetdeuterium)
+				{
+					echo '<td>',$fleetdeuterium,' D / ',$totalcargo,'</td>';
+				}
+				else
+				{
+					echo '<td>0 / ',$totalcargo,'</td>';
+				}
+			}
+			else
+			{
+				echo '<td>-</td>';
+			}
+			echo '<td><span id="count',$countpoint,'">',formatSeconds('h:i:s',ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed()),'</span></td>', $eol;
+			$countarray[$countpoint++] = ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed();
+			echo '</tr>', $eol;
 		} while ($query->fetch());
+		echo '</table>', $eol;
+		echo '<input type="hidden" name="order" value="1">', $eol;
+		echo '<input type="submit" value="Recall" disabled>', $eol;
+		echo '</form>', $eol;
 	}
 
 	$query = $mysqli->prepare('SELECT fleetid,orderid,orderticks,systemid,orbit,fuel,totalfuelbay,fleets.metal,fleets.deuterium FROM fleets LEFT JOIN planets USING (planetid) WHERE fleets.userID = ? AND fleets.orderplanetid = ? AND fleets.orderid > 1');
