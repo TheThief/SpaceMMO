@@ -93,7 +93,7 @@ function addShipDesignBody()
 		exit;
 	}
 
-	$query = $mysqli->prepare('INSERT INTO shipdesigns (userid,hullid,shipname,engines,fuel,cargo,weapons,shields,speed,fuelcapacity,cargocapacity,defense) VALUES (?,?,?,?,?,?,?,?)');
+	$query = $mysqli->prepare('INSERT INTO shipdesigns (userid,hullid,shipname,engines,fuel,cargo,weapons,shields,speed,fuelcapacity,cargocapacity,defense) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
 	if (!$query)
 	{
 		echo 'error: ', $mysqli->error, $eol;
