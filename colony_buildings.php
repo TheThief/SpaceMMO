@@ -126,13 +126,13 @@ function colonyBuildingsBody()
 		}
 		echo '</td>';
 
+		echo '<td>';
 		if ($level >= $maxlevel)
 		{
-			echo '<span>Max Level</span><br>', $eol;
+			echo '<span>Max Level</span>', $eol;
 		}
 		else
 		{
-			echo '<td>';
 			if ($level)
 			{
 				echo 'Upgrade to level ', $level+1, ':';
@@ -197,9 +197,9 @@ function colonyBuildingsBody()
 			{
 				echo '<br>', $lookups["resourceType"][$consumestype], ' Use: +', $consumesdelta;
 			}
-			echo '</td>';
-			echo '</tr>', $eol;
 		}
+		echo '</td>';
+		echo '</tr>', $eol;
 	}
 	echo '</table>', $eol;
 }
