@@ -21,22 +21,10 @@ function queueShipBody()
 
 	$mysqli->autocommit(false);
 
-	$query = $mysqli->prepare('SELECT metalcost FROM shipdesigns LEFT JOIN shiphulls USING (hullID) WHERE userID = ? AND designID = ?;');
-	if (!$query)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
+	$query = $mysqli->prepare('SELECT metalcost,mindrydock FROM shipdesigns LEFT JOIN shiphulls USING (hullID) WHERE userID = ? AND designID = ?;');
 	$query->bind_param('ii', $userid, $designid);
-
-	$result = $query->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query->error, $eol;
-		exit;
-	}
-
-	$query->bind_result($metalcost);
+	$query->execute();
+	$query->bind_result($metalcost, $mindrydock);
 	$result = $query->fetch();
 	if (!$result)
 	{
@@ -46,51 +34,36 @@ function queueShipBody()
 	$query->close();
 
 	$query = $mysqli->prepare('SELECT metal FROM colonies WHERE userID = ? AND planetID = ? FOR UPDATE;');
-	if (!$query)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
 	$query->bind_param('ii', $userid, $planetid);
-
-	$result = $query->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query->error, $eol;
-		exit;
-	}
-
+	$query->execute();
 	$query->bind_result($metal);
 	$result = $query->fetch();
 	if (!$result)
 	{
-		echo 'Error: Not your planet!', $eol;
+		echo 'Error: You don\'t have a colony on that planet.', $eol;
 		exit;
 	}
 	$query->close();
 
 	$query = $mysqli->prepare('SELECT level FROM colonybuildings WHERE buildingid = 9 AND planetid = ?;');
-	if (!$query)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
 	$query->bind_param('i', $planetid);
 	$result = $query->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query->error, $eol;
-		exit;
-	}
 	$query->bind_result($ddlevel);
-	$result=$query->fetch();
+	$result = $query->fetch();
 	if (!$result)
 	{
 		echo 'Error: You need a drydock to build ships.', $eol;
 		exit;
 	}
 	$query->close();
-	
+
+	if ($mindrydock > $ddlevel)
+	{
+		echo 'Error: Your drydock is too low level to build this kind of ship.<br>', $eol;
+		echo 'Orbital Drydock level: ',$ddlevel,', required level: ',$mindrydock, $eol;
+		exit;
+	}
+
 	$metalcost = $metalcost*$count;
 	if ($metalcost > $metal)
 	{
