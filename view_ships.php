@@ -284,8 +284,8 @@ function viewShipsBody()
 				}
 			}
 			echo '</td>';
-			echo '<td>',$lookups['order'][$orderid],' ',systemcode($ordersystemid,$orderorbit),'</td>', $eol;
-			echo 'From: ',systemcode($fromsystemid,$fromorbit),'<br>', $eol;
+			echo '<td>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</td>', $eol;
+			echo '<td>',systemcode($fromsystemid,$fromorbit),'</td>', $eol;
 			echo '<td>',$fuel,' / ',$totalfuelbay,' D</td>';
 			if ($totalcargo)
 			{
