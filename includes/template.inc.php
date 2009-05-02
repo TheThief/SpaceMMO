@@ -79,8 +79,7 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 		$query->close();
 
 		echo '<div class="colonysummary">', $eol;
-		echo '<h2><img src="images/planet',$planettype,'.png" style="width:2em;height:2em;">', $eol;
-		echo 'Colony ',systemcode($systemid,$orbit),'</h2>', $eol;
+		echo '<h2><img src="images/planet',$planettype,'.png" style="float: left;width:2em;height:2em;">',systemcode($systemid,$orbit),'</h2>', $eol;
 		planetChanger($colonyid,'change_colony.php');
 		if ($result)
 		{
