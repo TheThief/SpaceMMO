@@ -71,15 +71,16 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 			$_SESSION['colony'] = $colonyid;
 		}
 
-		$query = $mysqli->prepare('SELECT systemid,orbit,colonylevel,colonies.metal,maxmetal,metalproduction,colonies.deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction,shipconstruction FROM colonies LEFT JOIN planets USING (planetid) WHERE userid=? AND planetid=?');
+		$query = $mysqli->prepare('SELECT systemid,orbit,type,colonylevel,colonies.metal,maxmetal,metalproduction,colonies.deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction,shipconstruction FROM colonies LEFT JOIN planets USING (planetid) WHERE userid=? AND planetid=?');
 		$query->bind_param('ii', $userid, $colonyid);
 		$query->execute();
-		$query->bind_result($systemid,$orbit,$colonylevel,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod,$shipconstruction);
+		$query->bind_result($systemid,$orbit,$planettype,$colonylevel,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod,$shipconstruction);
 		$result = $query->fetch();
 		$query->close();
 
 		echo '<div class="colonysummary">', $eol;
-		echo '<h2>Colony ',systemcode($systemid,$orbit),'</h2>', $eol;
+		echo '<h2><img src="images/planet',$planettype,'.png" style="width:2em;height:2em;">', $eol;
+		echo 'Colony ',systemcode($systemid,$orbit),'</h2>', $eol;
 		planetChanger($colonyid,'change_colony.php');
 		if ($result)
 		{
