@@ -155,11 +155,13 @@ function viewShipsBody()
 		echo '<select name="orderplanet" id="opd0" onchange="updateOtherP(0);">', $eol;
 		if (count($bookmarks) > 0)
 		{
-			echo '<option value="0" disabled>Bookmarks</option>', $eol;
+			//echo '<option value="0" disabled>Bookmarks</option>', $eol;
+			echo "<optgroup label=\"Bookmarks\">" .$eol;
 			foreach ($bookmarks as $orderplanetid => $string)
 			{
 				echo '<option value="', $orderplanetid, '">', $string, '</option>', $eol;
 			}
+			echo "</optgroup>" .$eol;
 		}
 		else
 		{
@@ -167,18 +169,22 @@ function viewShipsBody()
 		}
 		if (count($destinations) > 0)
 		{
-			echo '<option value="0" disabled>Colonies</option>', $eol;
+			//echo '<option value="0" disabled>Colonies</option>', $eol;
+			echo "<optgroup label=\"Colonies\">" .$eol;
 			foreach ($destinations as $orderplanetid => $string)
 			{
 				echo '<option value="', $orderplanetid, '">', $string, '</option>', $eol;
 			}
+			echo "</optgroup>" .$eol;
 		}
 		else
 		{
 			echo '<option value="0" disabled>No Colonies</option>', $eol;
 		}
-		echo '<option value="0" disabled>Other</option>', $eol;
+		//echo '<option value="0" disabled>Other</option>', $eol;
+		echo "<optgroup label=\"Other\">" .$eol;
 		echo '<option value="0">Other...</option>', $eol;
+		echo "</optgroup>" .$eol;
 		echo '</select>', $eol;
 		echo '<input type="text" size="4" maxlen="4" name="orderplanetother" id="opo0"><br>', $eol;
 
