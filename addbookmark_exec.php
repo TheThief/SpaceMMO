@@ -20,7 +20,7 @@ function addBookmarkBody()
 	}
 
 	$query = $mysqli->prepare('SELECT planetid FROM bookmarks WHERE userid=? AND planetid=?');
-	$query->bind_param('ii', $userid,$planetid;
+	$query->bind_param('ii', $userid,$planetid);
 	$query->execute();
 	$query->bind_result($result);
 	$result = $query->fetch();
