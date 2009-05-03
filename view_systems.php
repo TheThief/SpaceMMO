@@ -22,7 +22,7 @@ function viewSystemsBody()
 	$zoom = clamp($zoom, 0.25, 2);
 	$gridsize *= $zoom;
 	$viewdistance = floor(($viewsize/$gridsize - 1) / 2); // in grid squares
-	$indent = ($viewsize - ($viewdistance * 2 + 1) * $gridsize)) / 2; // in em
+	$indent = ($viewsize - ($viewdistance * 2 + 1) * $gridsize) / 2; // in em
 	$minstarsize *= $zoom;
 	$maxstarsize *= $zoom;
 	$scroll = floor($scroll/$zoom);
