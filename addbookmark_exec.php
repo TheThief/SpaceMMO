@@ -9,8 +9,10 @@ function addBookmarkBody()
 {
 	global $eol, $mysqli;
 	$userid = $_SESSION['userid'];
-	$planetid = $_GET['planet'];
-
+	$planetid = $_POST['planet'];
+	$description = $_POST['description'];
+	if($description =="") $description = "-";
+	
 	if (!$planetid)
 	{
 		echo 'Error: You can\'t just bookmark the middle of nowhere! Choose a planet.', $eol;
@@ -18,7 +20,7 @@ function addBookmarkBody()
 	}
 
 	$query = $mysqli->prepare('SELECT planetid FROM bookmarks WHERE userid=? AND planetid=?');
-	$query->bind_param('ii', $userid,$planetid);
+	$query->bind_param('ii', $userid,$planetid;
 	$query->execute();
 	$query->bind_result($result);
 	$result = $query->fetch();
@@ -29,8 +31,8 @@ function addBookmarkBody()
 		exit;
 	}
 
-	$query = $mysqli->prepare('INSERT INTO bookmarks (userid,planetid) VALUES (?,?)');
-	$query->bind_param('ii', $userid,$planetid);
+	$query = $mysqli->prepare('INSERT INTO bookmarks (userid,planetid,description) VALUES (?,?,?)');
+	$query->bind_param('iis', $userid,$planetid,$description);
 	$query->execute();
 	$query->close();
 
