@@ -143,6 +143,7 @@ function validateDesForm(shsz,mw){
 
 function validateField(name,size,min,max){
 	var field = parseInt(document.getElementById(name).value);
+	if (field.toString() =="NaN") field = 0;
 	var calcsize = getPartsSize();
 	var remspace = calcsize - field;
 	if (field < min) field = min;
