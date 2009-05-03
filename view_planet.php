@@ -45,7 +45,7 @@ function viewPlanetBody()
 	if($rows==0){
 		echo '<tr><th>Actions</th>';
 		?>
-		<td><form action="addbookmark_exec.php" method="post"><input type="hidden" name="planet" value="<?echo $planetid;?>">Description:<input name="description" value="-" maxlength="60" size="14"><input type="submit" value="Bookmark"></form></td></tr>
+		<td><form action="addbookmark_exec.php" method="post"><input type="hidden" name="planet" value="<?echo $planetid;?>">Description: <input name="description" value="-" maxlength="60" size="14"><input type="submit" value="Bookmark"></form></td></tr>
 		<?
 	}else{
 		echo '<tr><th>Actions</th><td>Bookmarked</td></tr>';
