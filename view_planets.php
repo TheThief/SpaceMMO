@@ -30,9 +30,6 @@ function viewPlanetsBody()
 	$stmt->fetch();
 	$stmt->close();
 
-	$image = 'images/star-large'.($systemid%4 +1).'.png';
-	echo '<img src="',$image,'" style="width: ',$starsize,'em; height: ',$starsize,'em; position: absolute; left: ', ($viewsize-$starsize)/2, 'em; top: ', ($viewsize-$starsize)/2, 'em;" title="Star of system ',$systemx,', ',$systemy,'">', $eol;
-
 	mt_srand($systemid);
 
 	$stmt = $mysqli->prepare("SELECT planetID,orbit,type,userid FROM planets LEFT JOIN colonies USING (planetid) WHERE systemid=?;");
@@ -82,5 +79,9 @@ function viewPlanetsBody()
 		echo '</a>', $eol;
 	}
 	$stmt->close();
+
+	$image = 'images/star-large'.($systemid%4 +1).'.png';
+	echo '<img src="',$image,'" style="width: ',$starsize,'em; height: ',$starsize,'em; position: absolute; left: ', ($viewsize-$starsize)/2, 'em; top: ', ($viewsize-$starsize)/2, 'em;" title="Star of system ',$systemx,', ',$systemy,'">', $eol;
+
 	echo '</div>', $eol;
 }
