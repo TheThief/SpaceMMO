@@ -49,7 +49,8 @@ function viewFleetBody()
 
 	//echo '<td>',number_format($speed,2),' PC/h</td>';
 	//echo '<td>',number_format($range,2),' PC</td>';
-	echo '',$fuel,' / ',$totalfuelbay,' D<br>';
+	echo 'Fuel: ',$fuel,' / ',$totalfuelbay,' D<br>';
+	echo 'Cargo: ';
 	if ($totalcargo)
 	{
 		if ($fleetmetal && $fleetdeuterium)
