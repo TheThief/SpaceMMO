@@ -75,7 +75,7 @@ function viewShipsBody()
 		echo '<h2>Idle Fleets</h2>', $eol;
 		echo '<form action="fleetorder_exec.php" method="post">', $eol;
 		echo '<table>', $eol;
-		echo '<tr><th></th><th>Ships</th><th>Speed</th><th>Range</th><th>Fuel</th><th>Cargo</th></tr>', $eol;
+		echo '<tr><th></th><th>Ships</th><th>Speed</th><th>Range</th><th>Fuel</th><th>Cargo</th><th>Actions</th></tr>', $eol;
 		do
 		{
 			echo '<tr>';
@@ -119,6 +119,7 @@ function viewShipsBody()
 			{
 				echo '<td>-</td>';
 			}
+			echo '<td><a href="view_fleet.php?fleet=',$fleetid,'">Details</a></td>';
 			echo '</tr>', $eol;
 		} while ($query->fetch());
 		echo '</table>', $eol;
