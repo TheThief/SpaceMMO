@@ -13,7 +13,8 @@ function viewFleetBody()
 
 	$userid = $_SESSION['userid'];
 	$fleetid = $_GET['fleet'];
-
+	$planetid = $_SESSION['colony'];
+	
 	$query = $mysqli->prepare('SELECT orderid,systemid,orbit,orderticks,fuel,totalfuelbay,fueluse,fleets.metal,fleets.deuterium,totalcargo FROM fleets LEFT JOIN planets ON orderplanetid = planets.planetid WHERE userID = ? AND fleetid = ? AND orderid > 0');
 	$query->bind_param('ii', $userid, $fleetid);
 	$query->execute();
