@@ -17,7 +17,7 @@ function viewFleetBody()
 	$query = $mysqli->prepare('SELECT orderid,systemid,orbit,orderticks,fuel,totalfuelbay,fueluse,fleets.metal,fleets.deuterium,totalcargo FROM fleets LEFT JOIN planets ON orderplanetid = planets.planetid WHERE userID = ? AND fleetid = ? AND orderid > 0');
 	$query->bind_param('ii', $userid, $fleetid);
 	$query->execute();
-	$query->bind_result($fleetid, $orderid, $ordersystemid, $orderorbit, $orderticks, $fuel, $totalfuelbay, $fueluse, $fleetmetal, $fleetdeuterium, $totalcargo);
+	$query->bind_result($orderid, $ordersystemid, $orderorbit, $orderticks, $fuel, $totalfuelbay, $fueluse, $fleetmetal, $fleetdeuterium, $totalcargo);
 	$result = $query->fetch();
 	$query->close();
 	if (!$result)
