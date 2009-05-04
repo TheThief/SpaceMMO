@@ -9,126 +9,38 @@ $mysqli->autocommit(false);
 
 $query = $mysqli->prepare('UPDATE colonies SET metal=LEAST(metal+metalproduction, maxmetal), deuterium=LEAST(deuterium+deuteriumproduction, maxdeuterium), energy=LEAST(energy+energyproduction, maxenergy)'
                         .' WHERE metal+metalproduction >= 0 AND deuterium+deuteriumproduction >= 0 AND energy+energyproduction >= 0');
-if (!$query)
-{
-	echo 'error: ', $mysqli->error, $eol;
-	exit;
-}
-
 $result = $query->execute();
-if (!$result)
-{
-	echo 'error: ', $query->error, $eol;
-	exit;
-}
 $query->close();
-
 $mysqli->commit();
 
 // Ship construction
 
 $query = $mysqli->prepare('SELECT userid,planetid,shipconstruction FROM colonies WHERE shipconstruction > 0');
-if (!$query)
-{
-	echo 'error: ', $mysqli->error, $eol;
-	exit;
-}
-
-$result = $query->execute();
-if (!$result)
-{
-	echo 'error: ', $query->error, $eol;
-	exit;
-}
-
+$query->execute();
 $query->bind_result($userid, $planetid, $buildrate);
 $query->store_result();
 
 $deletequery = $mysqli->prepare('DELETE FROM shipbuildqueue WHERE planetID=? AND queueID<?');
-if (!$deletequery)
-{
-	echo 'error: ', $mysqli->error, $eol;
-	exit;
-}
 $deletequery->bind_param('ii', $planetid, $queueid);
 
 $updatequery = $mysqli->prepare('UPDATE shipbuildqueue SET count=?,buildprogress=? WHERE queueID=?');
-if (!$updatequery)
-{
-	echo 'error: ', $mysqli->error, $eol;
-	exit;
-}
 $updatequery->bind_param('iii', $count, $progress, $queueid);
 
 $query2 = $mysqli->prepare('SELECT queueid,designid,metalcost,count,buildprogress FROM shipbuildqueue LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE planetID=? ORDER BY queueID');
-if (!$query2)
-{
-	echo 'error: ', $mysqli->error, $eol;
-	exit;
-}
 $query2->bind_param('i', $planetid);
 
-function getFleetID($userid, $planetid)
-{
-	global $mysqli, $eol;
-
-	$fleetquery = $mysqli->prepare('SELECT fleetid FROM fleets WHERE userID = ? AND planetID = ? AND orderID = 0');
-	if (!$fleetquery)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
-	$fleetquery->bind_param('ii', $userid, $planetid);
-	$result = $fleetquery->execute();
-	if (!$result)
-	{
-		echo 'error: ', $fleetquery->error, $eol;
-		exit;
-	}
-	$fleetquery->bind_result($fleetid);
-	$fleetquery->fetch();
-	$fleetquery->close();
-	
-	if (!$fleetid)
-	{
-		$fleetquery = $mysqli->prepare('INSERT INTO fleets (userID, planetID) VALUE (?,?)');
-		if (!$fleetquery)
-		{
-			echo 'error: ', $mysqli->error, $eol;
-			exit;
-		}
-		$fleetquery->bind_param('ii', $userid, $planetid);
-		$result = $fleetquery->execute();
-		if (!$result)
-		{
-			echo 'error: ', $fleetquery->error, $eol;
-			exit;
-		}
-		$fleetquery->close();
-
-		$fleetid = $mysqli->insert_id;
-	}
-
-	return $fleetid;
-}
+$fleetquery = $mysqli->prepare('SELECT fleetid FROM fleets WHERE userID = ? AND planetID = ? AND orderID = 0');
+$fleetquery->bind_param('ii', $userid, $planetid);
+$fleetquery->execute();
+$fleetquery->bind_result($fleetid);
 
 function addToFleet($fleetid, $designid, $count)
 {
 	global $mysqli, $eol;
 
 	$fleetquery = $mysqli->prepare('SELECT 1 FROM fleetships WHERE fleetID = ? AND designID = ? FOR UPDATE');
-	if (!$fleetquery)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
 	$fleetquery->bind_param('ii', $fleetid, $designid);
 	$result = $fleetquery->execute();
-	if (!$result)
-	{
-		echo 'error: ', $fleetquery->error, $eol;
-		exit;
-	}
 	$fleetquery->bind_result($fleetexists);
 	$fleetquery->fetch();
 	$fleetquery->close();
@@ -136,35 +48,15 @@ function addToFleet($fleetid, $designid, $count)
 	if ($fleetexists)
 	{
 		$fleetquery = $mysqli->prepare('UPDATE fleetships SET count = count + ? WHERE fleetID = ? AND designID = ?');
-		if (!$fleetquery)
-		{
-			echo 'error: ', $mysqli->error, $eol;
-			exit;
-		}
 		$fleetquery->bind_param('iii', $count, $fleetid, $designid);
-		$result = $fleetquery->execute();
-		if (!$result)
-		{
-			echo 'error: ', $fleetquery->error, $eol;
-			exit;
-		}
+		$fleetquery->execute();
 		$fleetquery->close();
 	}
 	else
 	{
 		$fleetquery = $mysqli->prepare('INSERT INTO fleetships (fleetID, designID, count) VALUE (?,?,?)');
-		if (!$fleetquery)
-		{
-			echo 'error: ', $mysqli->error, $eol;
-			exit;
-		}
 		$fleetquery->bind_param('iii', $fleetid, $designid, $count);
-		$result = $fleetquery->execute();
-		if (!$result)
-		{
-			echo 'error: ', $fleetquery->error, $eol;
-			exit;
-		}
+		$fleetquery->execute();
 		$fleetquery->close();
 	}
 }
@@ -172,12 +64,6 @@ function addToFleet($fleetid, $designid, $count)
 while ($query->fetch())
 {
 	$result = $query2->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query2->error, $eol;
-		exit;
-	}
-
 	$query2->bind_result($queueid, $designid, $cost, $count, $progress);
 	$query2->store_result();
 
@@ -212,7 +98,12 @@ while ($query->fetch())
 		{
 			if (!$fleet)
 			{
-				$fleet = getFleetID($userid, $planetid);
+				$result = $fleetquery->fetch();
+				if (!$result)
+				{
+					echo 'error: No "unassigned" fleet on planet ',$planetid, $eol;
+					break;
+				}
 			}
 			addToFleet($fleet, $designid, $built);
 		}
@@ -221,27 +112,18 @@ while ($query->fetch())
 	if ($done)
 	{
 		// need to update the last row we built from
-		$result = $updatequery->execute();
-		if (!$result)
-		{
-			echo 'error: ', $query2->error, $eol;
-			exit;
-		}
+		$updatequery->execute();
 	}
 	else
 	{
 		// ran out of queue, need to increment the queue id so we delete the one we were on last
 		$queueid++;
 	}
-	$result = $deletequery->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query2->error, $eol;
-		exit;
-	}
+	$deletequery->execute();
 }
-$updatequery->close;
-$deletequery->close;
+$fleetquery->close();
+$updatequery->close();
+$deletequery->close();
 $query2->close();
 $query->close();
 
@@ -253,22 +135,17 @@ $query = $mysqli->prepare('UPDATE fleets SET fuel = fuel - fueluse * LEAST('.SMA
 $query->execute();
 $query->close();
 
-$mysqli->commit();
-
 // Order 2 - Move
-//$query = $mysqli->prepare('UPDATE colonies INNER JOIN (SELECT orderplanetid AS planetid, SUM(metal) AS fleetmetal, SUM(deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid >= 2 GROUP BY orderplanetid) fleetresources USING (planetid) SET metal=LEAST(metal+fleetmetal,maxmetal), deuterium=LEAST(deuterium+fleetdeuterium,maxdeuterium)');
-//$query->execute();
-//$query->close();
-$mysqli->query('UPDATE colonies INNER JOIN (SELECT orderplanetid AS planetid, SUM(metal) AS fleetmetal, SUM(deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid >= 2 AND orderid <= 3 GROUP BY orderplanetid) fleetresources USING (planetid) SET metal=LEAST(metal+fleetmetal,maxmetal), deuterium=LEAST(deuterium+fleetdeuterium,maxdeuterium)');
-
-$query = $mysqli->prepare('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, metal = 0, deuterium = 0 WHERE orderticks <= 0 AND orderid = 2');
+// Unloading on a move is temporary
+$mysqli->query('UPDATE colonies INNER JOIN (SELECT orderplanetid AS planetid, SUM(metal) AS fleetmetal, SUM(deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid == 2 GROUP BY orderplanetid) fleetresources USING (planetid) SET metal=LEAST(metal+fleetmetal,maxmetal), deuterium=LEAST(deuterium+fleetdeuterium,maxdeuterium)');
+$query = $mysqli->prepare('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, totalorderticks = 0, metal = 0, deuterium = 0 WHERE orderticks <= 0 AND orderid = 2');
 $query->execute();
 $query->close();
 
+$mysqli->commit();
+
 // Order 3 - Transport
-//$query = $mysqli->prepare('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, metal = 0, deuterium = 0 WHERE orderticks <= 0 AND orderid = 3');
-//$query->execute();
-//$query->close();
+$mysqli->query('UPDATE colonies INNER JOIN (SELECT orderplanetid AS planetid, SUM(metal) AS fleetmetal, SUM(deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid == 3 GROUP BY orderplanetid) fleetresources USING (planetid) SET metal=LEAST(metal+fleetmetal,maxmetal), deuterium=LEAST(deuterium+fleetdeuterium,maxdeuterium)');
 $mysqli->query('UPDATE fleets SET fleets.orderplanetid = fleets.planetid, fleets.orderid = 2, fleets.orderticks = fleets.totalorderticks, fleets.metal = 0, fleets.deuterium = 0 WHERE fleets.orderticks <= 0 AND fleets.orderid = 3');
 
 $mysqli->commit();
