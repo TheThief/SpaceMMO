@@ -155,6 +155,7 @@ function viewShipsBody()
 		echo '<select name="orderplanet" id="opd0" onchange="updateOtherP(0);">', $eol;
 		if (count($bookmarks) > 0)
 		{
+			//echo '<option value="0" disabled>Bookmarks</option>', $eol;
 			echo "<optgroup label=\"Bookmarks\">" .$eol;
 			foreach ($bookmarks as $orderplanetid => $string)
 			{
@@ -168,6 +169,7 @@ function viewShipsBody()
 		}
 		if (count($destinations) > 0)
 		{
+			//echo '<option value="0" disabled>Colonies</option>', $eol;
 			echo "<optgroup label=\"Colonies\">" .$eol;
 			foreach ($destinations as $orderplanetid => $string)
 			{
@@ -179,6 +181,7 @@ function viewShipsBody()
 		{
 			echo '<option value="0" disabled>No Colonies</option>', $eol;
 		}
+		//echo '<option value="0" disabled>Other</option>', $eol;
 		echo "<optgroup label=\"Other\">" .$eol;
 		echo '<option value="0">Other...</option>', $eol;
 		echo "</optgroup>" .$eol;
