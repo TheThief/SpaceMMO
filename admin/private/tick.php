@@ -31,7 +31,6 @@ $query2->bind_param('i', $planetid);
 
 $fleetquery = $mysqli->prepare('SELECT fleetid FROM fleets WHERE userID = ? AND planetID = ? AND orderID = 0');
 $fleetquery->bind_param('ii', $userid, $planetid);
-$fleetquery->execute();
 $fleetquery->bind_result($fleetid);
 
 function addToFleet($fleetid, $designid, $count)
@@ -63,7 +62,7 @@ function addToFleet($fleetid, $designid, $count)
 
 while ($query->fetch())
 {
-	$result = $query2->execute();
+	$query2->execute();
 	$query2->bind_result($queueid, $designid, $cost, $count, $progress);
 	$query2->store_result();
 
@@ -98,6 +97,7 @@ while ($query->fetch())
 		{
 			if (!$fleet)
 			{
+				$fleetquery->execute();
 				$result = $fleetquery->fetch();
 				if (!$result)
 				{
