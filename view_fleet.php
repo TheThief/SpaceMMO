@@ -106,7 +106,7 @@ function viewFleetBody()
 		{
 			$bookmarks[$orderplanetid] = systemcode($ordersystemid, $orderorbit).' ('.number_format($orderdistance,2).' PC)';
 		}
-		$querybookmarks->closeCursor();
+		$pquerybookmarks->closeCursor();
 		$querydestinations = $mysqli->prepare('SELECT systemid,orbit,planetid, (ROUND(spacemmo.distance(x,y,?,?),2)) AS cdistance FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY cdistance ASC');
 		$querydestinations->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
 		$querydestinations->execute();
