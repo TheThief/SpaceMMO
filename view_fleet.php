@@ -26,6 +26,14 @@ function viewFleetBody()
 		echo 'error: You don\'t have a fleet by this id', $eol;
 		exit;
 	}
+	
+	$querysys = $mysqli->prepare('SELECT x,y FROM systems WHERE systemid = ?');
+	$querysys->bind_param('i', $planetid);
+	$queryssys->bind_result($sysx,$sysy);
+	$queryssys->execute();
+	$queryships->fetch()
+	$queryships->close();
+	
 	$range = shiprange($speed, $fueluse*SMALLTICKS_PH, $totalfuelbay);
 
 	echo '<h2>Ships in Fleet</h2>', $eol;
@@ -88,7 +96,7 @@ function viewFleetBody()
 
 		$bookmarks = array();
 		$destinations = array();
-		echo $sysx . ",".$sysy;
+		
 		$querybookmarks = $mysqli->prepare('SELECT systemid,orbit,planetid,(ROUND(SQRT(POW(x-?,2)+POW(y-?,2)),2)) AS distance FROM bookmarks LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY distance ASC');
 		$querybookmarks->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
 		$querybookmarks->execute();
