@@ -9,7 +9,7 @@ template('Fleet Details', 'viewFleetBody');
 
 function viewFleetBody()
 {
-	global $eol, $mysqli, $lookups;
+	global $eol, $mysqli, $lookups, $psql;
 
 	$userid = $_SESSION['userid'];
 	$fleetid = $_GET['fleet'];
