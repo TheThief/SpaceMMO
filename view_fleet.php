@@ -96,7 +96,7 @@ function viewFleetBody()
 
 		$bookmarks = array();
 		$destinations = array();
-		
+		echo $sysx.",".$sysy;
 		$querybookmarks = $mysqli->prepare('SELECT systemid,orbit,planetid,(ROUND(SQRT(POW(x-?,2)+POW(y-?,2)),2)) AS distance FROM bookmarks LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY distance ASC');
 		$querybookmarks->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
 		$querybookmarks->execute();
