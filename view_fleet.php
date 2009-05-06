@@ -89,7 +89,7 @@ function viewFleetBody()
 		$bookmarks = array();
 		$destinations = array();
 
-		$querybookmarks = $mysqli->prepare('SELECT systemid,orbit,planetid, (ROUND(spacemmo.distance(x,y,?,?),2)) AS cdistance FROM bookmarks LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY cdistance ASC');
+		$querybookmarks = $mysqli->prepare('SELECT systemid,orbit,planetid, (spacemmo.distance(x,y,?,?)) AS cdistance FROM bookmarks LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY cdistance ASC');
 		$querybookmarks->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
 		$querybookmarks->execute();
 		$querybookmarks->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance);
