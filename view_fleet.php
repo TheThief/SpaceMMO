@@ -89,7 +89,7 @@ function viewFleetBody()
 		$bookmarks = array();
 		$destinations = array();
 
-		$querybookmarks = $mysqli->prepare('SELECT systemid,orbit,planetid, ROUND(distance(x,?,y,?),2) AS cdistance FROM bookmarks LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY distance ASC');
+		$querybookmarks = $mysqli->prepare('SELECT systemid,orbit,planetid, ROUND(distance(x,?,y,?),2) AS cdistance FROM bookmarks LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY cdistance ASC');
 		$querybookmarks->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
 		$querybookmarks->execute();
 		$querybookmarks->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance);
@@ -98,7 +98,7 @@ function viewFleetBody()
 			$bookmarks[$orderplanetid] = systemcode($ordersystemid, $orderorbit).' ('.number_format($orderdistance,2).' PC)';
 		}
 		$querybookmarks->close();
-		$querydestinations = $mysqli->prepare('SELECT systemid,orbit,planetid, ROUND(distance(x,?,y,?),2) AS cdistance FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY distance ASC');
+		$querydestinations = $mysqli->prepare('SELECT systemid,orbit,planetid, ROUND(distance(x,?,y,?),2) AS cdistance FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY cdistance ASC');
 		$querydestinations->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
 		$querydestinations->execute();
 		$querydestinations->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance);
