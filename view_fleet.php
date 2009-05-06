@@ -31,8 +31,8 @@ function viewFleetBody()
 	$querysys->bind_param('i', $planetid);
 	$queryssys->bind_result($sysx,$sysy);
 	$queryssys->execute();
-	$queryships->fetch()
-	$queryships->close();
+	$queryssys->fetch()
+	$queryssys->close();
 	
 	$range = shiprange($speed, $fueluse*SMALLTICKS_PH, $totalfuelbay);
 
