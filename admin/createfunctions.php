@@ -36,7 +36,7 @@ else
 //	READS SQL DATA
 //	BEGIN
 //		DECLARE cost FLOAT;
-//		SELECT mult_exp(level,metalcostbase,metalcostlinear,metalcostmultiplier) INTO cost FROM buildings WHERE buildingid=id;
+//		SELECT round_sf(mult_exp(level,metalcostbase,metalcostlinear,metalcostmultiplier),3) INTO cost FROM buildings WHERE buildingid=id;
 //		RETURN cost;
 //	END
 
@@ -46,7 +46,7 @@ else
 //	READS SQL DATA
 //	BEGIN
 //		DECLARE consumes FLOAT;
-//		SELECT mult_exp(level,consumesbase,consumeslinear,consumesmultiplier) INTO consumes FROM buildings WHERE buildingid=id;
+//		SELECT round_sf(mult_exp(level,consumesbase,consumeslinear,consumesmultiplier),3) INTO consumes FROM buildings WHERE buildingid=id;
 //		RETURN consumes;
 //	END
 
@@ -76,7 +76,7 @@ else
 //	READS SQL DATA
 //	BEGIN
 //		DECLARE effect FLOAT;
-//		SELECT mult_exp(level,effectbase,effectlinear,effectmultiplier) INTO effect FROM buildings WHERE buildingid=id;
+//		SELECT round_sf(mult_exp(level,effectbase,effectlinear,effectmultiplier),3) INTO effect FROM buildings WHERE buildingid=id;
 //		RETURN effect;
 //	END
 
