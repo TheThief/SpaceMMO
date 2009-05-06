@@ -88,7 +88,7 @@ function viewFleetBody()
 
 		$bookmarks = array();
 		$destinations = array();
-
+		var_dump($psql);
 		$pquerybookmarks = $psql->prepare('SELECT systemid,orbit,planetid, (spacemmo.distance(x,y,?,?)) AS cdistance FROM bookmarks LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY cdistance ASC');
 		$pquerybookmarks->bindParam(1,$sysx,PDO::PARAM_INT);
 		$pquerybookmarks->bindParam(2,$sysy,PDO::PARAM_INT);
