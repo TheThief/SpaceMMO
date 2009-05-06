@@ -19,6 +19,17 @@ else
 	echo 'error: ', $mysqli->error, $eol;
 }
 
+//$result = $mysqli->query('DROP FUNCTION round_sf');
+$result = $mysqli->query('CREATE FUNCTION round_sf(number FLOAT, sf INT) returns FLOAT DETERMINISTIC NO SQL RETURN ROUND(number, sf-CEIL(LOG10(number)))');
+if ($result)
+{
+	echo 'function \'round_sf\' created successfully', $eol;
+}
+else
+{
+	echo 'error: ', $mysqli->error, $eol;
+}
+
 //CREATE FUNCTION building_cost(id INT, level INT)
 //	RETURNS FLOAT
 //	DETERMINISTIC
