@@ -27,7 +27,7 @@ function viewFleetBody()
 		exit;
 	}
 	
-	$querysys = $mysqli->prepare('SELECT x,y FROM systems WHERE systemid = ?');
+	$querysys = $mysqli->prepare('SELECT x,y FROM planets LEFT JOIN systems using (systemid) WHERE planetid = ?');
 	$querysys->bind_param('i', $planetid);
 	$querysys->bind_result($sysx,$sysy);
 	$querysys->execute();
