@@ -95,6 +95,7 @@ function viewFleetBody()
 		$querybookmarks->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance);
 		while ($querybookmarks->fetch())
 		{
+			echo "$orderdistance<br>\n";
 			$bookmarks[$orderplanetid] = systemcode($ordersystemid, $orderorbit).' ('.number_format($orderdistance,2).' PC)';
 		}
 		$querybookmarks->close();
