@@ -29,10 +29,10 @@ function viewFleetBody()
 	
 	$querysys = $mysqli->prepare('SELECT x,y FROM systems WHERE systemid = ?');
 	$querysys->bind_param('i', $planetid);
-	$queryssys->bind_result($sysx,$sysy);
-	$queryssys->execute();
-	$queryssys->fetch();
-	$queryssys->close();
+	$querysys->bind_result($sysx,$sysy);
+	$querysys->execute();
+	$querysys->fetch();
+	$querysys->close();
 	
 	$range = shiprange($speed, $fueluse*SMALLTICKS_PH, $totalfuelbay);
 
