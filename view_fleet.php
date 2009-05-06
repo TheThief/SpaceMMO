@@ -89,15 +89,24 @@ function viewFleetBody()
 		$bookmarks = array();
 		$destinations = array();
 
-		$querybookmarks = $mysqli->prepare('SELECT systemid,orbit,planetid, (spacemmo.distance(x,y,?,?)) AS cdistance FROM bookmarks LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY cdistance ASC');
-		$querybookmarks->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
-		$querybookmarks->execute();
-		$querybookmarks->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance);
-		while ($querybookmarks->fetch())
+		$pquerybookmarks = $psql->prepare('SELECT systemid,orbit,planetid, (spacemmo.distance(x,y,?,?)) AS cdistance FROM bookmarks LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY cdistance ASC');
+		$pquerybookmarks->bindParam(1,$sysx,PDO::PARAM_INT);
+		$pquerybookmarks->bindParam(2,$sysy,PDO::PARAM_INT);
+		$pquerybookmarks->bindParam(3,$userid,PDO::PARAM_INT);
+		$pquerybookmarks->bindParam(4,$planetid,PDO::PARAM_INT);
+		$pquerybookmarks->bindColumn(1, $ordersystemid);
+		$pquerybookmarks->bindColumn(2, $orderorbit);
+		$pquerybookmarks->bindColumn(3, $orderplanetid);
+		$pquerybookmarks->bindColumn(4, $orderdistance);
+		//$querybookmarks = $mysqli->prepare('SELECT systemid,orbit,planetid, (spacemmo.distance(x,y,?,?)) AS cdistance FROM bookmarks LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY cdistance ASC');
+		//$querybookmarks->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
+		//$querybookmarks->execute();
+		//$querybookmarks->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance);
+		while ($pquerybookmarks->fetch(PDO::FETCH_BOUND))
 		{
 			$bookmarks[$orderplanetid] = systemcode($ordersystemid, $orderorbit).' ('.number_format($orderdistance,2).' PC)';
 		}
-		$querybookmarks->close();
+		$querybookmarks->closeCursor();
 		$querydestinations = $mysqli->prepare('SELECT systemid,orbit,planetid, (ROUND(spacemmo.distance(x,y,?,?),2)) AS cdistance FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY cdistance ASC');
 		$querydestinations->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
 		$querydestinations->execute();
