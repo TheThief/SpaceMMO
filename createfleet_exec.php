@@ -114,7 +114,7 @@ function fleetOrderBody()
 	$query->fetch();
 	$query->close();
 
-	$query = $mysqli->prepare('SELECT SUM(count * CEIL(engines * ? / speed)) AS fueluse FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
+	$query = $mysqli->prepare('SELECT SUM(count * fueluse * CEIL(engines * ? / speed) / engines) AS fueluse FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');
 	$query->bind_param('di', $minspeed, $fleetid);
 	$query->execute();
 	$query->bind_result($fueluse);
@@ -122,7 +122,7 @@ function fleetOrderBody()
 	$query->close();
 
 	$query = $mysqli->prepare('UPDATE fleets SET speed=?, totalcargo=?, totalfuelbay=?, fueluse=? WHERE fleetid=?');
-	$query->bind_param('diiii', $minspeed, $totalcargobay, $totalfuelbay, $fueluse, $fleetid);
+	$query->bind_param('diisi', $minspeed, $totalcargobay, $totalfuelbay, $fueluse, $fleetid);
 	$query->execute();
 	$query->close();
 

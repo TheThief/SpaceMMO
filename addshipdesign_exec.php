@@ -93,25 +93,15 @@ function addShipDesignBody()
 		exit;
 	}
 
-	$query = $mysqli->prepare('INSERT INTO shipdesigns (userid,hullid,shipname,engines,fuel,cargo,weapons,shields,speed,fuelcapacity,cargocapacity,defense) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)');
-	if (!$query)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
-
-	$query->bind_param('iisiiiiiiiii', $userid,$hullid,$shipname,$engines,$fuel,$cargo,$weapons,$shields,$speed,$fuelcapacity,$cargocapacity,$defense);
+	$query = $mysqli->prepare('INSERT INTO shipdesigns (userid,hullid,shipname,engines,fuel,cargo,weapons,shields,speed,fueluse,fuelcapacity,cargocapacity,defense) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
+	$query->bind_param('iisiiiiiidiii', $userid,$hullid,$shipname,$engines,$fuel,$cargo,$weapons,$shields,$speed,$fueluse,$fuelcapacity,$cargocapacity,$defense);
 	$speed = speed($size, $engines);
+	$fueluse = fueluse($size, $engines)/SMALLTICKS_PH;
 	$fuelcapacity = fuelCapacity($fuel);
 	$cargocapacity = cargoCapacity($cargo);
 	$defense = defense($size, $shields);
 
-	$result = $query->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query->error, $eol;
-		exit;
-	}
+	$query->execute();
 
 	header('HTTP/1.1 303 See Other');
 	header('Location: list_shipdesigns.php');

@@ -1,6 +1,8 @@
 <?
 include_once('functions.inc.php');
 
+include_once('ships.inc.php');
+
 /**********************************
 * Keep in sync with ships.inc.php *
 **********************************/
@@ -33,23 +35,23 @@ function defense(size, shields)
 // Speed in PC/h
 function speed(size, engines)
 {
-	return (engines*24) / size;
+	return <?=SPEEDCONST?> * Math.pow(size/4,<?=SPEEDPOWER?>) * engines / (size/4);
 }
 
 // Fuel use in D/h
-function fuelUse(engines)
+function fuelUse(size, engines)
 {
-	return engines * 60;
+	return <?=FUELUSECONST?> * Math.pow(size/4,<?=FUELUSEPOWER?>) * engines / (size/4);
 }
 
 // Range in PC
 function shiprange(size, engines, fuelbay)
 {
-	return speed(size, engines) * Math.floor(<?=SMALLTICKS_PH?> * fuelCapacity(fuelbay) / fuelUse(engines)) / <?=SMALLTICKS_PH?>;
+	return speed(size, engines) * Math.floor(<?=SMALLTICKS_PH?> * fuelCapacity(fuelbay) / fuelUse(size, engines)) / <?=SMALLTICKS_PH?>;
 }
 
 // Return range in PC
 function returnrange(size, engines, fuelbay)
 {
-	return speed(size, engines) * Math.floor(<?=SMALLTICKS_PH?> * fuelCapacity(fuelbay) / fuelUse(engines) / 2) / <?=SMALLTICKS_PH?>;
+	return speed(size, engines) * Math.floor(<?=SMALLTICKS_PH?> * fuelCapacity(fuelbay) / fuelUse(size, engines) / 2) / <?=SMALLTICKS_PH?>;
 }

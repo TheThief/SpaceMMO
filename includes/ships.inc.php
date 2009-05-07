@@ -5,6 +5,11 @@ include_once('functions.inc.php');
 * Keep in sync with ships.js.php  *
 **********************************/
 
+define('SPEEDCONST',25);
+define('SPEEDPOWER',-0.5);
+define('FUELUSECONST',100);
+define('FUELUSEPOWER',-1.1);
+
 // Cargo capacity in units of M or D
 function cargoCapacity($cargobay)
 {
@@ -32,19 +37,19 @@ function defense($size, $shields)
 // Speed in PC/h
 function speed($size, $engines)
 {
-	return ($engines*24) / $size;
+	return SPEEDCONST * pow($size/4,SPEEDPOWER) * $engines / ($size/4);
 }
 
 // Fuel use in D/h
-function fuelUse($engines)
+function fuelUse($size, $engines)
 {
-	return $engines * 60;
+	return FUELUSECONST * pow($size/4,FUELUSEPOWER) * $engines;
 }
 
 // Range in PC based on ship design
 function shiprangeraw($size, $engines, $fuelbay)
 {
-	return shiprange(speed($size, $engines), fuelUse($engines), fuelCapacity($fuelbay));
+	return shiprange(speed($size, $engines), fuelUse($size, $engines), fuelCapacity($fuelbay));
 }
 
 // Range in PC.
@@ -58,7 +63,7 @@ function shiprange($speed, $fueluse, $fuel)
 // Return range in PC based on ship design
 function returnrangeraw($size, $engines, $fuelbay)
 {
-	return returnrange(speed($size, $engines), fuelUse($engines), fuelCapacity($fuelbay));
+	return returnrange(speed($size, $engines), fuelUse($size, $engines), fuelCapacity($fuelbay));
 }
 
 // Return range in PC
