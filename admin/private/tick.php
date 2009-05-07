@@ -138,15 +138,15 @@ $query->close();
 // Order 2 - Move
 // Unloading on a move is temporary
 $mysqli->query('UPDATE colonies INNER JOIN (SELECT orderplanetid AS planetid, SUM(metal) AS fleetmetal, SUM(deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid = 2 GROUP BY orderplanetid) fleetresources USING (planetid) SET metal=LEAST(metal+fleetmetal,maxmetal), deuterium=LEAST(deuterium+fleetdeuterium,maxdeuterium)');
-$query = $mysqli->prepare('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, totalorderticks = 0, metal = 0, deuterium = 0 WHERE orderticks <= 0 AND orderid = 2');
-$query->execute();
-$query->close();
+$mysqli->query('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, totalorderticks = 0, metal = 0, deuterium = 0 WHERE orderticks <= 0 AND orderid = 2 AND NOT breturn');
+$mysqli->query('UPDATE fleets SET orderplanetid = planetid, orderid = 2, orderticks = totalorderticks, breturn = FALSE, metal = 0, deuterium = 0 WHERE orderticks <= 0 AND orderid = 2 AND breturn');
 
 $mysqli->commit();
 
 // Order 3 - Transport
 $mysqli->query('UPDATE colonies INNER JOIN (SELECT orderplanetid AS planetid, SUM(metal) AS fleetmetal, SUM(deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid = 3 GROUP BY orderplanetid) fleetresources USING (planetid) SET metal=LEAST(metal+fleetmetal,maxmetal), deuterium=LEAST(deuterium+fleetdeuterium,maxdeuterium)');
-$mysqli->query('UPDATE fleets SET fleets.orderplanetid = fleets.planetid, fleets.orderid = 2, fleets.orderticks = fleets.totalorderticks, fleets.metal = 0, fleets.deuterium = 0 WHERE fleets.orderticks <= 0 AND fleets.orderid = 3');
+$mysqli->query('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, totalorderticks = 0, metal = 0, deuterium = 0 WHERE orderticks <= 0 AND orderid = 3 AND NOT breturn');
+$mysqli->query('UPDATE fleets SET orderplanetid = planetid, orderid = 2, orderticks = totalorderticks, breturn = FALSE, metal = 0, deuterium = 0 WHERE orderticks <= 0 AND orderid = 3 AND breturn');
 
 $mysqli->commit();
 
@@ -166,7 +166,9 @@ $transferquery1 = $mysqli->prepare('UPDATE colonies SET metal=LEAST(metal+?-?,ma
 $transferquery1->bind_param('iiii', $fleetmetal, $metalcost, $fleetdeuterium, $planetid);
 $transferquery2 = $mysqli->prepare('UPDATE fleets SET metal=0, deuterium=0 WHERE orderticks <= 0 AND orderid = 4 AND orderplanetid = ?');
 $transferquery2->bind_param('i', $planetid);
-$returnquery = $mysqli->prepare('UPDATE fleets SET orderplanetid = planetid, orderid = 2, orderticks = totalorderticks WHERE orderticks <= 0 AND orderid = 4 AND orderplanetid = ?');
+$donequery = $mysqli->prepare('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, totalorderticks = 0 WHERE orderticks <= 0 AND orderid = 4 AND NOT breturn AND orderplanetid = ?');
+$donequery->bind_param('i', $planetid);
+$returnquery = $mysqli->prepare('UPDATE fleets SET orderplanetid = planetid, orderid = 2, orderticks = totalorderticks, breturn = FALSE WHERE orderticks <= 0 AND orderid = 4 AND breturn AND orderplanetid = ?');
 $returnquery->bind_param('i', $planetid);
 
 while ($query->fetch())
@@ -187,6 +189,7 @@ while ($query->fetch())
 		$transferquery1->execute();
 		$transferquery2->execute();
 	}
+	$donequery->execute();
 	$returnquery->execute();
 }
 

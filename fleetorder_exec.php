@@ -17,6 +17,7 @@ function fleetOrderBody()
 	$orderplanetid = $_POST['orderplanet'];
 	$transportmetal = $_POST['metal'];
 	$transportdeuterium = $_POST['deuterium'];
+	$breturn = $_POST['breturn'];
 
 	if ($orderid < 2 || $orderid > 4)
 	{
@@ -30,7 +31,6 @@ function fleetOrderBody()
 		exit;
 	}
 
-	$fuelmult = 1;
 	if ($orderid == 3)
 	{
 		if ($transportmetal + $transportdeuterium <= 0)
@@ -38,8 +38,6 @@ function fleetOrderBody()
 			echo 'Error: A "transport" order requires <i>some</i> resources to be transported.', $eol;
 			exit;
 		}
-
-		$fuelmult = 2;
 	}
 	else if ($orderid == 4)
 	{
@@ -49,8 +47,6 @@ function fleetOrderBody()
 			echo 'Transporting extra to allow you to build the colony\'s first mine and generator isn\'t a bad idea either.', $eol;
 			exit;
 		}
-
-		$fuelmult = 2;
 	}
 
 	if (!$orderplanetid)
@@ -177,7 +173,11 @@ function fleetOrderBody()
 	}
 
 	$totalfuelneed = $fueluse * $orderticks;
-	$totalfuelneed *= $fuelmult;
+
+	if ($breturn)
+	{
+		$totalfuelneed *= 2;
+	}
 
 	if ($totalfuelneed > $fuel)
 	{
@@ -205,8 +205,8 @@ function fleetOrderBody()
 		exit;
 	}
 
-	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, totalorderticks=?, fuel=?, metal=?, deuterium=? WHERE fleetid=?');
-	$query->bind_param('iiiiiiii', $orderid, $orderplanetid, $orderticks, $orderticks, $fuel, $transportmetal, $transportdeuterium, $fleetid);
+	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, totalorderticks=?, breturn=?, fuel=?, metal=?, deuterium=? WHERE fleetid=?');
+	$query->bind_param('iiiiiiiii', $orderid, $orderplanetid, $orderticks, $orderticks, $breturn, $fuel, $transportmetal, $transportdeuterium, $fleetid);
 	$query->execute();
 	$query->close();
 
