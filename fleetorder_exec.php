@@ -92,6 +92,11 @@ function fleetOrderBody()
 			echo 'Error: You can\'t transport resources to uncolonised planets, try a "colonise" order.', $eol;
 			exit;
 		}
+		if (!breturn && $userid != $ordercolonyuserid)
+		{
+			echo 'Error: You can\'t issue a one-way transport order to an enemy planet. Try ticking "and Return".', $eol;
+			exit;
+		}
 	}
 	else if ($orderid == 4)
 	{
