@@ -19,7 +19,7 @@ function cargoCapacity($cargobay)
 // Fuel capacity in D
 function fuelCapacity($fuelbay)
 {
-	return $fuelbay * 100;
+	return $fuelbay * 10;
 }
 
 // Attack damage
