@@ -205,7 +205,7 @@ function fleetOrderBody()
 		exit;
 	}
 
-	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, totalorderticks=?, breturn=?, fuel=?, metal=?, deuterium=? WHERE fleetid=?');
+	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, totalorderticks=?, breturnorder=?, fuel=?, metal=?, deuterium=? WHERE fleetid=?');
 	$query->bind_param('iiiiiiiii', $orderid, $orderplanetid, $orderticks, $orderticks, $breturn, $fuel, $transportmetal, $transportdeuterium, $fleetid);
 	$query->execute();
 	$query->close();
