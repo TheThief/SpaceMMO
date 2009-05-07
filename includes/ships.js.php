@@ -41,7 +41,7 @@ function speed(size, engines)
 // Fuel use in D/h
 function fuelUse(size, engines)
 {
-	return <?=FUELUSECONST?> * Math.pow(size/4,<?=FUELUSEPOWER?>) * engines / (size/4);
+	return <?=FUELUSECONST?> * Math.pow(size/4,<?=FUELUSEPOWER?>) * engines;
 }
 
 // Range in PC
