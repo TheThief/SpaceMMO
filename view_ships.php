@@ -153,15 +153,16 @@ function viewShipsBody()
 		echo '<option value="4">Colonise</option>', $eol;
 		echo '<option value="5" disabled>Attack</option>', $eol;
 		echo '</select>', $eol;
-		echo '<select name="orderplanet" id="opd0" onchange="updateOtherP(0);">', $eol;
+		echo '<label><input name="breturn" type="checkbox"> and Return</label><br>', $eol;
+		echo 'Destination: <select name="orderplanet" id="opd0" onchange="updateOtherP(0);">', $eol;
 		if (count($bookmarks) > 0)
 		{
-			echo "<optgroup label=\"Bookmarks\">" .$eol;
+			echo '<optgroup label="Bookmarks">', $eol;
 			foreach ($bookmarks as $orderplanetid => $string)
 			{
 				echo '<option value="', $orderplanetid, '">', $string, '</option>', $eol;
 			}
-			echo "</optgroup>" .$eol;
+			echo '</optgroup>', $eol;
 		}
 		else
 		{
@@ -169,20 +170,20 @@ function viewShipsBody()
 		}
 		if (count($destinations) > 0)
 		{
-			echo "<optgroup label=\"Colonies\">" .$eol;
+			echo '<optgroup label="Colonies">', $eol;
 			foreach ($destinations as $orderplanetid => $string)
 			{
 				echo '<option value="', $orderplanetid, '">', $string, '</option>', $eol;
 			}
-			echo "</optgroup>" .$eol;
+			echo '</optgroup>', $eol;
 		}
 		else
 		{
 			echo '<option value="0" disabled>No Colonies</option>', $eol;
 		}
-		echo "<optgroup label=\"Other\">" .$eol;
+		echo '<optgroup label="Other">', $eol;
 		echo '<option value="0">Other...</option>', $eol;
-		echo "</optgroup>" .$eol;
+		echo '</optgroup>', $eol;
 		echo '</select>', $eol;
 		echo '<input type="text" size="4" maxlen="4" name="orderplanetother" id="opo0"><br>', $eol;
 
@@ -190,10 +191,6 @@ function viewShipsBody()
 		echo '<input type="text" size="4" name="deuterium"> deuterium<br>', $eol;
 		echo '<input type="submit" value="Dispatch">', $eol;
 		echo '</form>', $eol;
-		//echo '<form action="disbandfleet_exec.php" method="post">', $eol;
-		//echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
-		//echo '<input type="submit" value="Disband">', $eol;
-		//echo '</form>', $eol;
 		echo '<script type="text/javascript">updateOtherP(0);</script>', $eol;
 	}
 
@@ -271,7 +268,7 @@ function viewShipsBody()
 		echo '<h2>Incoming Fleets</h2>', $eol;
 		echo '<form action="fleetorder_exec.php" method="post">', $eol;
 		echo '<table>', $eol;
-		echo '<tr><th></th><th>Ships</th><th>Order</th><th>From</th><th>Fuel</th><th>Cargo</th><th>Time</th></tr>', $eol;
+		echo '<tr><th></th><th>Ships</th><th>Order</th><th>From</th><th>Fuel</th><th>Cargo</th><th>ETA</th></tr>', $eol;
 		do
 		{
 			echo '<tr>';
