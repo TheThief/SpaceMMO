@@ -15,10 +15,10 @@ function viewFleetBody()
 	$fleetid = $_GET['fleet'];
 	$planetid = $_SESSION['colony'];
 	
-	$query = $mysqli->prepare('SELECT orderid,systemid,orbit,orderticks,fuel,totalfuelbay,fueluse,fleets.metal,fleets.deuterium,totalcargo FROM fleets LEFT JOIN planets ON orderplanetid = planets.planetid WHERE userID = ? AND fleetid = ? AND orderid > 0');
+	$query = $mysqli->prepare('SELECT orderid,systemid,orbit,orderticks,breturnorder,fuel,totalfuelbay,fueluse,fleets.metal,fleets.deuterium,totalcargo FROM fleets LEFT JOIN planets ON orderplanetid = planets.planetid WHERE userID = ? AND fleetid = ? AND orderid > 0');
 	$query->bind_param('ii', $userid, $fleetid);
 	$query->execute();
-	$query->bind_result($orderid, $ordersystemid, $orderorbit, $orderticks, $fuel, $totalfuelbay, $fueluse, $fleetmetal, $fleetdeuterium, $totalcargo);
+	$query->bind_result($orderid, $ordersystemid, $orderorbit, $orderticks, $breturn, $fuel, $totalfuelbay, $fueluse, $fleetmetal, $fleetdeuterium, $totalcargo);
 	$result = $query->fetch();
 	$query->close();
 	if (!$result)
@@ -54,7 +54,7 @@ function viewFleetBody()
 	echo '</form>', $eol;
 
 	echo '<h2>Orders</h2>', $eol;
-	echo '',$lookups['order'][$orderid],' ',systemcode($ordersystemid,$orderorbit),'<br>', $eol;
+	echo '',$lookups['order'][$orderid],' ',systemcode($ordersystemid,$orderorbit),($breturn?' and Return':''),'<br>', $eol;
 
 	//echo '<td>',number_format($speed,2),' PC/h</td>';
 	//echo '<td>',number_format($range,2),' PC</td>';

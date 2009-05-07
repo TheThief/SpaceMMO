@@ -194,10 +194,10 @@ function viewShipsBody()
 		echo '<script type="text/javascript">updateOtherP(0);</script>', $eol;
 	}
 
-	$query = $mysqli->prepare('SELECT fleetid,orderid,systemid,orbit,orderticks,fuel,totalfuelbay,fleets.metal,fleets.deuterium,totalcargo FROM fleets LEFT JOIN planets ON orderplanetid = planets.planetid WHERE fleets.userID = ? AND fleets.planetid = ? AND fleets.orderid > 1');
+	$query = $mysqli->prepare('SELECT fleetid,orderid,systemid,orbit,orderticks, breturnorder,fuel,totalfuelbay,fleets.metal,fleets.deuterium,totalcargo FROM fleets LEFT JOIN planets ON orderplanetid = planets.planetid WHERE fleets.userID = ? AND fleets.planetid = ? AND fleets.orderid > 1');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($fleetid, $orderid, $ordersystemid, $orderorbit, $orderticks, $fuel, $totalfuelbay, $fleetmetal, $fleetdeuterium, $totalcargo);
+	$query->bind_result($fleetid, $orderid, $ordersystemid, $orderorbit, $orderticks, $breturn, $fuel, $totalfuelbay, $fleetmetal, $fleetdeuterium, $totalcargo);
 	$query->store_result();
 
 	if($query->fetch())
@@ -222,7 +222,7 @@ function viewShipsBody()
 				}
 			}
 			echo '</td>';
-			echo '<td>',$lookups['order'][$orderid],' ',systemcode($ordersystemid,$orderorbit),'</td>', $eol;
+			echo '<td>',$lookups['order'][$orderid],' ',systemcode($ordersystemid,$orderorbit),($breturn?' and Return':''),'</td>', $eol;
 			echo '<td>',$fuel,' / ',$totalfuelbay,' D</td>';
 			if ($totalcargo)
 			{
@@ -257,10 +257,10 @@ function viewShipsBody()
 		echo '</form>', $eol;
 	}
 
-	$query = $mysqli->prepare('SELECT fleetid,orderid,orderticks,systemid,orbit,fuel,totalfuelbay,fleets.metal,fleets.deuterium,totalcargo FROM fleets LEFT JOIN planets USING (planetid) WHERE fleets.userID = ? AND fleets.orderplanetid = ? AND fleets.orderid > 1');
+	$query = $mysqli->prepare('SELECT fleetid,orderid,orderticks,breturnorder,systemid,orbit,fuel,totalfuelbay,fleets.metal,fleets.deuterium,totalcargo FROM fleets LEFT JOIN planets USING (planetid) WHERE fleets.userID = ? AND fleets.orderplanetid = ? AND fleets.orderid > 1');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($fleetid, $orderid, $orderticks, $fromsystemid, $fromorbit, $fuel, $totalfuelbay, $fleetmetal, $fleetdeuterium, $totalcargo);
+	$query->bind_result($fleetid, $orderid, $orderticks, $breturn, $fromsystemid, $fromorbit, $fuel, $totalfuelbay, $fleetmetal, $fleetdeuterium, $totalcargo);
 	$query->store_result();
 
 	if($query->fetch())
@@ -285,7 +285,7 @@ function viewShipsBody()
 				}
 			}
 			echo '</td>';
-			echo '<td>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</td>', $eol;
+			echo '<td>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),($breturn?' and Return':''),'</td>', $eol;
 			echo '<td>',systemcode($fromsystemid,$fromorbit),'</td>', $eol;
 			echo '<td>',$fuel,' / ',$totalfuelbay,' D</td>';
 			if ($totalcargo)
