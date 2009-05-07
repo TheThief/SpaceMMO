@@ -1,8 +1,7 @@
 <?include_once 'includes/admin.inc.php';checkIsAdmin();
 include_once '../includes/ships.inc.php';$mysqli->autocommit(false);$updatequery = $mysqli->prepare('UPDATE shipdesigns SET speed=?,fuelcapacity=?,fueluse=?,cargocapacity=?,defense=? WHERE designid=?');$updatequery->bind_param('didiii', $speed, $fuelcapacity, $fueluse, $cargocapacity, $defense, $designid);
 $query = $mysqli->prepare('SELECT designid,size,engines,fuel,cargo,weapons,shields FROM shipdesigns LEFT JOIN shiphulls USING (hullid)');$query->bind_result($designid, $size, $engines, $fuel, $cargo, $weapons, $shields);$query->execute();$query->store_result();while ($query->fetch()){	$speed = speed($size, $engines);	$fuelcapacity = fuelCapacity($fuel);	$fueluse = fuelUse($size, $engines)/SMALLTICKS_PH;	$cargocapacity = cargoCapacity($cargo);	$defense = defense($size, $shields);	$updatequery->execute();}
-
-$mysqli->commit();
-
-echo 'update success!', $eol;
+$query->close();
+$updatequery->close();$mysqli->commit();
+echo 'ships update success!', $eol;$query = $mysqli->prepare('SELECT MIN(speed) AS minspeed, SUM(count*cargocapacity) AS totalcargobay, SUM(count*fuelcapacity) AS totalfuelbay FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) GROUP BY fleetid');$query->bind_result($minspeed,$totalcargobay,$totalfuelbay);$query->execute();$query->store_result();$fuelusequery = $mysqli->prepare('SELECT SUM(count * fueluse * CEIL(engines * ? / speed) / engines) AS fueluse FROM fleetships LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING (hullid) WHERE fleetid = ?');$fuelusequery->bind_param('di', $minspeed, $fleetid);$fuelusequery->bind_result($fueluse);$updatequery = $mysqli->prepare('UPDATE fleets SET speed=?, totalcargo=?, totalfuelbay=?, fueluse=? WHERE fleetid=?');$updatequery->bind_param('diisi', $minspeed, $totalcargobay, $totalfuelbay, $fueluse, $fleetid);while ($query->fetch()){	$fuelusequery->execute();	$fuelusequery->fetch();	$updatequery->execute();}$query->close();$fuelusequery->close();$updatequery->close();$mysqli->commit();echo 'fleets update success!', $eol;
 ?>
