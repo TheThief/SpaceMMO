@@ -93,6 +93,7 @@ function viewFleetBody()
 	else
 	{
 		echo '<form action="fleetorder_exec.php" method="post">', $eol;
+		echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 
 		$bookmarks = array();
 		$destinations = array();
