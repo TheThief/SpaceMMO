@@ -59,7 +59,7 @@ function viewShipsBody()
 	}
 	else
 	{
-		echo '<tr><td colspan="2">None! Might want to <a href="build_ships.php?planet=',$planetid,'">build</a> some.</td></tr>';
+		echo '<tr><td colspan="3">None! Might want to <a href="build_ships.php?planet=',$planetid,'">build</a> some.</td></tr>';
 		echo '</table>', $eol;
 	}
 	echo '</form>', $eol;
