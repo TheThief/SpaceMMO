@@ -1,4 +1,4 @@
-<?
+﻿<?
 include_once 'includes/start.inc.php';
 checkLoggedIn();
 
@@ -208,7 +208,7 @@ function viewShipsBody()
 		echo '<h2>Active Fleets</h2>', $eol;
 		echo '<form action="fleetorder_exec.php" method="post">', $eol;
 		echo '<table>', $eol;
-		echo '<tr><th></th><th>Ships</th><th>Order</th><th>Fuel</th><th>Cargo</th><th>Time</th></tr>', $eol;
+		echo '<tr><th></th><th>Ships</th><th>Order</th><th>Fuel</th><th>Cargo</th><th>ETA</th></tr>', $eol;
 		do
 		{
 			echo '<tr>';
