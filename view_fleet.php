@@ -123,7 +123,7 @@ function viewFleetBody()
 		echo '<option value="4">Colonise</option>', $eol;
 		echo '<option value="5" disabled>Attack</option>', $eol;
 		echo '</select>', $eol;
-		echo '<label for="breturn"><input name="breturn" type="checkbox"> and Return</label><br>', $eol;
+		echo '<label><input name="breturn" type="checkbox"> and Return</label><br>', $eol;
 		echo 'Destination: <select name="orderplanet" id="opd0" onchange="updateOtherP(0);">', $eol;
 		if (count($bookmarks) > 0)
 		{
