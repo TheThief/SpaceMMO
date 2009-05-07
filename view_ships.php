@@ -1,4 +1,4 @@
-﻿<?
+<?
 include_once 'includes/start.inc.php';
 checkLoggedIn();
 
@@ -349,7 +349,7 @@ function viewShipsBody()
 			$queryships->execute();
 			while ($queryships->fetch())
 			{
-				// &#215; = ×
+				// &#215; = �
 				echo '<li>',$count,' &#215; ',$shipname,'</li>', $eol;
 			}
 			echo '</ul>', $eol;
