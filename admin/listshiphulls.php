@@ -43,5 +43,6 @@ function adminListShipHullsBody()
 	echo '</tr>', $eol;
 	echo '</form>', $eol;
 	echo '</table>', $eol;
+	echo '<a href="updateships.php">Update ships and fleets</a> with new stats.', $eol;
 }
 ?>
