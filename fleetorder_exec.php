@@ -17,7 +17,7 @@ function fleetOrderBody()
 	$orderplanetid = $_POST['orderplanet'];
 	$transportmetal = $_POST['metal'];
 	$transportdeuterium = $_POST['deuterium'];
-	$breturn = $_POST['breturn'];
+	$breturn = isset($_POST['breturn']);
 
 	if ($orderid < 2 || $orderid > 4)
 	{
