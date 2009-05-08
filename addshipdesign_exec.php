@@ -94,7 +94,7 @@ function addShipDesignBody()
 	}
 
 	$query = $mysqli->prepare('INSERT INTO shipdesigns (userid,hullid,shipname,engines,fuel,cargo,weapons,shields,speed,fueluse,fuelcapacity,cargocapacity,defense) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
-	$query->bind_param('iisiiiiiidiii', $userid,$hullid,$shipname,$engines,$fuel,$cargo,$weapons,$shields,$speed,$fueluse,$fuelcapacity,$cargocapacity,$defense);
+	$query->bind_param('iisiiiiiddiii', $userid,$hullid,$shipname,$engines,$fuel,$cargo,$weapons,$shields,$speed,$fueluse,$fuelcapacity,$cargocapacity,$defense);
 	$speed = speed($size, $engines);
 	$fueluse = fueluse($size, $engines)/SMALLTICKS_PH;
 	$fuelcapacity = fuelCapacity($fuel);
