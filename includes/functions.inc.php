@@ -314,4 +314,17 @@ function planetChanger($current=NULL,$page=NULL){
 	}
 	?> </select><input type="Submit" value="Go"></form> <?
 }
+
+function generateAPIKey(){
+	global $eol, $mysqli;
+	$userid = $_SESSION['userid'];
+	$queryapi = $mysqli->prepare('SELECT username,lastlogin FROM users WHERE userid = ?');
+	$queryapi->bind_param('i', $userid);
+	$queryapi->bind_result($username,$lastlogin);
+	$queryapi->execute();
+	$queryapi->fetch();
+	$queryapi->close();
+	$apikey = mt_rand() .$username . mt_rand() . $lastlogin . time();
+	return $apikey;
+}
 ?>

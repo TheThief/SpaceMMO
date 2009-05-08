@@ -3,6 +3,10 @@ include_once "../includes/start.inc.php";
 //prodDropdown(0.5,1,1);
 //prodDropdown(1,1,1);
 //echo formatSeconds("h:i:n",0);
+echo generateAPIKey() ."<br>";
+echo generateAPIKey() ."<br>";
+echo generateAPIKey() ."<br>";
+echo generateAPIKey() ."<br>";
 echo $_SERVER["PHP_SELF"];
 foreach (range(0.0, 1.0, 0.1) as $number) {
     echo $number . "\n";
