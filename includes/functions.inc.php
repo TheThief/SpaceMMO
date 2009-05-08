@@ -97,7 +97,14 @@ function isLoggedIn($forceUpdate=false)
 		{
 			$query = $mysqli->prepare('SELECT 1 from users WHERE userid=? AND phpsessionid=UNHEX(?)');
 			$query->bind_param('ss', $userid, $sessionid);
-			$userid = $_SESSION['userid'];
+			if (isset($_SESSION['adminuserid']))
+			{
+				$userid = $_SESSION['adminuserid'];
+			}
+			else
+			{
+				$userid = $_SESSION['userid'];
+			}
 			$sessionid = session_id();
 
 			$result = $query->execute();
@@ -109,6 +116,7 @@ function isLoggedIn($forceUpdate=false)
 
 			$query->bind_result($isLoggedIn);
 			$query->fetch();
+			$query->close();
 		}
 
 		$isLoggedInSet = true;
