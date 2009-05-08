@@ -186,7 +186,7 @@ function fleetOrderBody()
 
 	if ($totalfuelneed > $fuel)
 	{
-		$deuteriumneed = $totalfuelneed - $fuel;
+		$deuteriumneed = ceil($totalfuelneed - $fuel);
 		if ($deuteriumneed > $deuterium)
 		{
 			echo 'Error: You don\'t have enough deuterium to fuel that flight.<br>', $eol;
@@ -211,7 +211,7 @@ function fleetOrderBody()
 	}
 
 	$query = $mysqli->prepare('UPDATE fleets SET orderid=?, orderplanetid=?, orderticks=?, totalorderticks=?, breturnorder=?, fuel=?, metal=?, deuterium=? WHERE fleetid=?');
-	$query->bind_param('iiiiiiiii', $orderid, $orderplanetid, $orderticks, $orderticks, $breturn, $fuel, $transportmetal, $transportdeuterium, $fleetid);
+	$query->bind_param('iiiiifiii', $orderid, $orderplanetid, $orderticks, $orderticks, $breturn, $fuel, $transportmetal, $transportdeuterium, $fleetid);
 	$query->execute();
 	$query->close();
 
