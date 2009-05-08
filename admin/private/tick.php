@@ -104,6 +104,7 @@ while ($query->fetch())
 					echo 'error: No "unassigned" fleet on planet ',$planetid, $eol;
 					break;
 				}
+				$fleetquery->reset();
 			}
 			addToFleet($fleet, $designid, $built);
 		}
