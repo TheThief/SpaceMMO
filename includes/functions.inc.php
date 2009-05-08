@@ -143,7 +143,14 @@ function isAdmin()
 	}
 
 	$query->bind_param('ss', $userid, $sessionid);
-	$userid = $_SESSION['userid'];
+	if (isset($_SESSION['adminuserid']))
+	{
+		$userid = $_SESSION['adminuserid'];
+	}
+	else
+	{
+		$userid = $_SESSION['userid'];
+	}
 	$sessionid = session_id();
 
 	$result = $query->execute();
