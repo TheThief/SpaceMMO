@@ -7,19 +7,21 @@ include_once('functions.inc.php');
 
 define('SPEEDCONST',25);
 define('SPEEDPOWER',-0.5);
-define('FUELUSECONST',100);
+define('FUELUSECONST',1000);
 define('FUELUSEPOWER',-1.1);
+define('FUELCONST',100);
+define('CARGOCONST',100);
 
 // Cargo capacity in units of M or D
 function cargoCapacity($cargobay)
 {
-	return $cargobay * 100;
+	return $cargobay * CARGOCONST;
 }
 
 // Fuel capacity in D
 function fuelCapacity($fuelbay)
 {
-	return $fuelbay * 10;
+	return $fuelbay * FUELCONST;
 }
 
 // Attack damage
