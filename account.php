@@ -31,6 +31,6 @@ function accountBody()
 	</form>
 	<h3>API info</h3>
 	API key: <? echo $apikey;?> <a href="regenapikey_exec.php">Generate new API key</a> <a href="removeapikey_exec.php">Remove API key</a><br>
-	API url: <a href="http://vps.dynamicarcade.co.uk/SpaceMMO/api/api.php">http://vps.dynamicarcade.co.uk/SpaceMMO/api/api.php?wsdl</a>
+	API url: http://vps.dynamicarcade.co.uk/SpaceMMO/api/api.php?wsdl
 	<?
 }
