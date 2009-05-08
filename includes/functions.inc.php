@@ -325,6 +325,6 @@ function generateAPIKey(){
 	$queryapi->fetch();
 	$queryapi->close();
 	$apikey = mt_rand() .$username . mt_rand() . $lastlogin . time();
-	return $apikey;
+	return md5($apikey);
 }
 ?>
