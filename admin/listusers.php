@@ -21,8 +21,8 @@ function adminListUsersBody()
 		echo '<tr><td>',$userid,'</td><td>',$username,'</td><td>',$bisadmin?'Yes':'','</td><td>',$colonies,'</td><td>';
 		if (!$bisadmin)
 		{
-			echo '<a href="makeadmin.php?userid=',$userid,'">Make Admin</a>';
-			echo '<br>', $eol;
+			echo '<a href="makeadmin.php?userid=',$userid,'">Make Admin</a><br>';
+			echo '<a href="impersonate.php?userid=',$userid,'">Impersonate</a><br>';
 			echo '<a href="deleteuser_exec.php?userid=',$userid,'">Delete User</a>';
 		}
 		echo '</td></tr>', $eol;
