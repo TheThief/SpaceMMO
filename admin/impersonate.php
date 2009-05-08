@@ -12,6 +12,7 @@ if (isset($_GET['userid']))
 		$_SESSION['adminuserid'] = $_SESSION['userid'];
 	}
 	$_SESSION['userid'] = $_GET['userid'];
+	echo 'Now impersonating user \'', $_SESSION['userid'], '\'', $eol;
 }
 else
 {
@@ -19,6 +20,7 @@ else
 	{
 		$_SESSION['userid'] = $_SESSION['adminuserid'];
 		unset($_SESSION['adminuserid']);
+		echo 'Back to yourself', $eol;
 	}
 	else
 	{
@@ -27,5 +29,4 @@ else
 	}
 }
 
-echo 'Now impersonating user \'', $userid, '\'', $eol;
 ?>
