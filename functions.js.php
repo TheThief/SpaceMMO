@@ -224,3 +224,12 @@ function changePage(id,page,pid){
 		document.location = "./" + page + "?planet=" + selval;
 	}
 }
+
+function checkPasswords(){
+	var newpw = document.getElementById("newpw").value;
+	var conpw = document.getElementById("conpw").value;
+	if(newpw==conpw) return true;
+	alert("New Password and Confirm Password do not match");
+	return false;
+}
+
