@@ -10,13 +10,14 @@ function accountBody()
 	global $eol, $mysqli;
 	$userid = $_SESSION['userid'];
 	
-	$querysys = $mysqli->prepare('SELECT UNHEX(apikey) FROM users WHERE userid = ?');
-	$querysys->bind_param('i', $userid);
-	$querysys->bind_result($apikey);
-	$querysys->execute();
-	$querysys->fetch();
-	$querysys->close();
+	$queryapi = $mysqli->prepare('SELECT UNHEX(apikey) FROM users WHERE userid = ?');
+	$queryapi->bind_param('i', $userid);
+	$queryapi->bind_result($apikey);
+	$queryapi->execute();
+	$queryapi->fetch();
+	$queryapi->close();
 	
+	var_dump($apikey);
 	?>
 	<form action="changepasswd_exec.php" method="post" onsubmit="return checkPasswords();">
 	<fieldset>
@@ -25,7 +26,7 @@ function accountBody()
 	
 	New Password: <input type="password" id="newpw" name="newpassword"><br>
 	Confirm Password: <input type="password" id="conpw" name="confirmpassword"><br>
-	<input type="submit" value="change">
+	<input type="submit" value="Change Password">
 	</fieldset>
 	</form>
 	<h3>API info</h3>
