@@ -13,10 +13,10 @@ function fleetOrderBody()
 
 	$mysqli->autocommit(false);
 
-	$query = $mysqli->prepare('SELECT orderid,fuel,planetid FROM fleets WHERE userID = ? AND fleetid = ? FOR UPDATE');
+	$query = $mysqli->prepare('SELECT orderid,fuel,planetid,metal,deuterium FROM fleets WHERE userID = ? AND fleetid = ? FOR UPDATE');
 	$query->bind_param('ii', $userid, $fleetid);
 	$query->execute();
-	$query->bind_result($fleetorderid, $fuel, $planetid);
+	$query->bind_result($fleetorderid, $fuel, $planetid, $fleetmetal, $fleetdeuterium);
 	$result = $query->fetch();
 	if (!$result)
 	{
@@ -82,18 +82,13 @@ function fleetOrderBody()
 	}
 	$query->close();
 
-	//$query = $mysqli->prepare('DELETE FROM fleetships WHERE fleetid = ?');
-	//$query->bind_param('i', $fleetid);
-	//$query->execute();
-	//$query->close();
-
 	$query = $mysqli->prepare('DELETE FROM fleets WHERE fleetid = ?');
 	$query->bind_param('i', $fleetid);
 	$query->execute();
 	$query->close();
 
-	$query = $mysqli->prepare('UPDATE colonies SET deuterium = LEAST(deuterium+?, maxdeuterium) WHERE planetid = ?');
-	$query->bind_param('ii', $fuel, $planetid);
+	$query = $mysqli->prepare('UPDATE colonies SET metal = LEAST(metal+?, maxmetal), deuterium = LEAST(deuterium+?+?, maxdeuterium) WHERE planetid = ?');
+	$query->bind_param('ii', $fleetmetal, $fleetdeuterium, $fuel, $planetid);
 	$query->execute();
 	$query->close();
 
