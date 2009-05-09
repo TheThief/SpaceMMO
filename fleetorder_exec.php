@@ -25,10 +25,18 @@ function fleetOrderBody()
 		exit;
 	}
 
-	if ($transportmetal < 0 || $transportdeuterium < 0)
+	if ($orderid == 3 || $orderid == 4)
 	{
-		echo 'Error: Transport "negative" resources you say. How does that work then?', $eol;
-		exit;
+		if ($transportmetal < 0 || $transportdeuterium < 0)
+		{
+			echo 'Error: Transport "negative" resources you say. How does that work then?', $eol;
+			exit;
+		}
+	}
+	else
+	{
+		$transportmetal = 0;
+		$transportdeuterium = 0;
 	}
 
 	if ($orderid == 3)
@@ -41,12 +49,12 @@ function fleetOrderBody()
 	}
 	else if ($orderid == 4)
 	{
-		if ($transportmetal < COLONY_COST)
-		{
-			echo 'Error: A "colonise" order requires you to transport ',COLONY_COST,' metal to construct the colony with.<br>', $eol;
-			echo 'Transporting extra to allow you to build the colony\'s first mine and generator isn\'t a bad idea either.', $eol;
-			exit;
-		}
+		//if ($transportmetal < COLONY_COST)
+		//{
+		//	echo 'Error: A "colonise" order requires you to transport ',COLONY_COST,' metal to construct the colony with.<br>', $eol;
+		//	echo 'Transporting extra to allow you to build the colony\'s first mine and generator isn\'t a bad idea either.', $eol;
+		//	exit;
+		//}
 	}
 
 	if (!$orderplanetid)
@@ -139,6 +147,23 @@ function fleetOrderBody()
 	{
 		echo 'Error: Fleet does not have enough cargo space to carry that much cargo.', $eol;
 		exit;
+	}
+
+	if ($orderid == 4)
+	{
+		if (COLONY_COST > $totalcargo)
+		{
+			echo 'Error: Fleet does not have enough cargo space to carry the ',COLONY_COST,' Metal needed to colonise a new planet.', $eol;
+			exit;
+		}
+
+		if ($transportmetal + $transportdeuterium + COLONY_COST > $totalcargo)
+		{
+			echo 'Error: Fleet does not have enough cargo space to carry that much cargo in addition to the ',COLONY_COST,' Metal needed to colonise a new planet.', $eol;
+			exit;
+		}
+
+		$transportmetal += COLONY_COST;
 	}
 
 	$query = $mysqli->prepare('SELECT colonies.metal,colonies.deuterium,x,y FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userid=? AND planetID = ? FOR UPDATE');
