@@ -10,7 +10,7 @@ function accountBody()
 	global $eol, $mysqli;
 	$userid = $_SESSION['userid'];
 	
-	$queryapi = $mysqli->prepare('SELECT UNHEX(apikey) FROM users WHERE userid = ?');
+	$queryapi = $mysqli->prepare('SELECT HEX(apikey) FROM users WHERE userid = ?');
 	$queryapi->bind_param('i', $userid);
 	$queryapi->bind_result($apikey);
 	$queryapi->execute();
@@ -30,7 +30,7 @@ function accountBody()
 	</fieldset>
 	</form>
 	<h3>API info</h3>
-	API key: <? echo $apikey;?> <a href="regenapikey_exec.php">Generate new API key</a> <a href="removeapikey_exec.php">Remove API key</a><br>
+	API key: <? echo $apikey;?> <a href="changeapikey_exec.php">Generate new API key</a> <a href="changeapikey_exec.php?clear=1">Remove API key</a><br>
 	API url: http://vps.dynamicarcade.co.uk/SpaceMMO/api/api.php?wsdl
 	<?
 }
