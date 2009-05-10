@@ -9,7 +9,7 @@ function apikeyBody()
 {
 	global $eol, $mysqli;
 	$userid = $_SESSION['userid'];
-	$clear = (is_set($_GET["clear"]))?$_GET["clear"]:0;
+	$clear = (isset($_GET["clear"]))?$_GET["clear"]:0;
 	if($clear == 1){
 		$query = $mysqli->prepare('UPDATE users SET apikey=NULL WHERE userID = ?');
 	}else{
