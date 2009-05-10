@@ -59,7 +59,7 @@ function apikeyBody()
 	
 	$newpasshash = sha1($newpwd);
 	
-	$query = $mysqli->prepare('UPDATE users SET password=? WHERE userID = ?');
+	$query = $mysqli->prepare('UPDATE users SET passhash=UNHEX(?) WHERE userID = ?');
 	if (!$query)
 	{
 		echo 'error: ', $mysqli->error, $eol;
