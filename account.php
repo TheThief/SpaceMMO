@@ -9,6 +9,7 @@ function accountBody()
 {
 	global $eol, $mysqli;
 	$userid = $_SESSION['userid'];
+	$error = $_GET['error'];
 	
 	$queryapi = $mysqli->prepare('SELECT HEX(apikey) FROM users WHERE userid = ?');
 	$queryapi->bind_param('i', $userid);
@@ -17,12 +18,27 @@ function accountBody()
 	$queryapi->fetch();
 	$queryapi->close();
 	if(is_null($apikey)) $apikey = "None Set";
-
+	
+	if ($error)
+	{
+		echo '<p class="error">';
+		switch ($error)
+		{
+			case 1:
+				echo 'Current password incorrect';
+			break;
+			case 2:
+				echo 'New password and confirm password must match';
+			break;
+		}
+		echo '</p>', $eol;
+	}
+	
 	?>
 	<form action="changepasswd_exec.php" method="post" onsubmit="return checkPasswords();">
 	<fieldset>
 	<legend>Change Password:</legend>
-	Current Password: <input type="password" name="password"><br><br>
+	Current Password: <input type="password" name="oldpassword"><br><br>
 	
 	New Password: <input type="password" id="newpw" name="newpassword"><br>
 	Confirm Password: <input type="password" id="conpw" name="confirmpassword"><br>
