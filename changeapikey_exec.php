@@ -37,7 +37,7 @@ function apikeyBody()
 
 
 	header('HTTP/1.1 303 See Other');
-	header('Location: account.php';
+	header('Location: account.php');
 
 	echo 'API Key updated', $eol;
 	echo '<a href="account.php">Return</a> to account info.', $eol;
