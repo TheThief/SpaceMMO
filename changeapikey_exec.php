@@ -21,7 +21,7 @@ function apikeyBody()
 		exit;
 	}
 	if($clear==1){
-		$query->bind_param('i', $userid;
+		$query->bind_param('i', $userid);
 	}else{
 		$apikey = generateAPIKey();
 		$query->bind_param('si', $apikey, $userid);
