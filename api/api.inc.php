@@ -5,8 +5,10 @@ include_once("../includes/functions.inc.php");
 function getColonies($apikey){
 	global $mysqli;
 	
+	if(strlen($apikey)!=32) return NULL;
+	
 	$temparray= array();
-	$query = $mysqli->prepare('SELECT userid FROM users WHERE username = ?;');
+	$query = $mysqli->prepare('SELECT userid FROM users WHERE apikey = UNHEX(?);');
 	if (!$query)
 	{
 		echo 'error: ', $mysqli->error, $eol;
