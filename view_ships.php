@@ -30,7 +30,12 @@ function viewShipsBody()
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
 	$query->bind_result($fleetid);
-	$query->fetch();
+	$result = $query->fetch();
+	if (!$result)
+	{
+		echo 'Error: Unassigned ships fleet not found.', $eol;
+		exit;
+	}
 	$query->close();
 
 	$queryships = $mysqli->prepare('SELECT designid,shipname,count FROM fleetships LEFT JOIN shipdesigns USING (designid) WHERE fleetid = ?');
