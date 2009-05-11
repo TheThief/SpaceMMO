@@ -39,10 +39,10 @@ function accountBody()
 	<fieldset>
 	<legend>Change Password:</legend>
 	<table border="0" class="noborder">
-	<tr><td class="noborder">Current Password:</td><td class="noborder"><input type="password" name="oldpassword"></td></tr>
+	<tr><td>Current Password:</td><td><input type="password" name="oldpassword"></td></tr>
 	<tr><td colspan="2" class="noborder">&nbsp;</td></tr>
-	<tr><td class="noborder">New Password:</td><td class="noborder"><input type="password" id="newpw" name="newpassword"></td></tr>
-	<tr><td class="noborder">Confirm Password:</td><td class="noborder"><input type="password" id="conpw" name="confirmpassword"></td></tr>
+	<tr><td>New Password:</td><td><input type="password" id="newpw" name="newpassword"></td></tr>
+	<tr><td>Confirm Password:</td><td><input type="password" id="conpw" name="confirmpassword"></td></tr>
 	<tr><td colspan="2" class="noborder" align="right"><input type="submit" value="Change Password"></td></tr>
 	</table>
 	</fieldset>
