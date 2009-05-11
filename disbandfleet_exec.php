@@ -88,7 +88,7 @@ function fleetOrderBody()
 	$query->close();
 
 	$query = $mysqli->prepare('UPDATE colonies SET metal = LEAST(metal+?, maxmetal), deuterium = LEAST(deuterium+?+?, maxdeuterium) WHERE planetid = ?');
-	$query->bind_param('ii', $fleetmetal, $fleetdeuterium, $fuel, $planetid);
+	$query->bind_param('iisi', $fleetmetal, $fleetdeuterium, $fuel, $planetid);
 	$query->execute();
 	$query->close();
 
