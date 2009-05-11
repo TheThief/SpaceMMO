@@ -53,11 +53,11 @@ th {
 	font-weight: bold;
 }
 
-table.noborder{
+table.noborder {
 	border: 0px;
 }
 
-td.noborder{
+table.noborder td {
 	border: 0px;
 }
 
