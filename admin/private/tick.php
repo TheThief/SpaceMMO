@@ -66,7 +66,7 @@ while ($query->fetch())
 	$query2->bind_result($queueid, $designid, $cost, $count, $progress);
 	$query2->store_result();
 
-	$fleet = 0;
+	$fleetid = 0;
 
 	$done = false;
 	while ($buildrate > 0 && $query2->fetch())
@@ -95,7 +95,7 @@ while ($query->fetch())
 		// if we built any ships we add them to an idle fleet orbiting the planet they were built at
 		if ($built)
 		{
-			if (!$fleet)
+			if (!$fleetid)
 			{
 				$fleetquery->execute();
 				$result = $fleetquery->fetch();
@@ -106,7 +106,7 @@ while ($query->fetch())
 				}
 				$fleetquery->reset();
 			}
-			addToFleet($fleet, $designid, $built);
+			addToFleet($fleetid, $designid, $built);
 		}
 	}
 
