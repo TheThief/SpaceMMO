@@ -52,6 +52,15 @@ th {
 	text-align: center;
 	font-weight: bold;
 }
+
+table.noborder{
+	border: 0px;
+}
+
+td.noborder{
+	border: 0px;
+}
+
 @media print
 {
 	table {

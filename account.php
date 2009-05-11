@@ -38,12 +38,12 @@ function accountBody()
 	<form action="changepasswd_exec.php" method="post" onsubmit="return checkPasswords();">
 	<fieldset>
 	<legend>Change Password:</legend>
-	<table border="0" style="border: 0px;">
-	<tr><td style="border: 0px;">Current Password:</td><td style="border: 0px;"><input type="password" name="oldpassword"></td></tr>
-	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td>New Password:</td><td><input type="password" id="newpw" name="newpassword"></td></tr>
-	<tr><td>Confirm Password:</td><td><input type="password" id="conpw" name="confirmpassword"></td></tr>
-	<tr><td colspan="2"><input type="submit" value="Change Password" style="right: 0;"></td></tr>
+	<table border="0" class="noborder">
+	<tr><td class="noborder">Current Password:</td><td class="noborder"><input type="password" name="oldpassword"></td></tr>
+	<tr><td colspan="2" class="noborder">&nbsp;</td></tr>
+	<tr><td class="noborder">New Password:</td><td class="noborder"><input type="password" id="newpw" name="newpassword"></td></tr>
+	<tr><td class="noborder">Confirm Password:</td><td class="noborder"><input type="password" id="conpw" name="confirmpassword"></td></tr>
+	<tr><td colspan="2" class="noborder"><input type="submit" value="Change Password"></td></tr>
 	</table>
 	</fieldset>
 	</form>
