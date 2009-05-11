@@ -43,7 +43,7 @@ function accountBody()
 	<tr><td colspan="2" class="noborder">&nbsp;</td></tr>
 	<tr><td class="noborder">New Password:</td><td class="noborder"><input type="password" id="newpw" name="newpassword"></td></tr>
 	<tr><td class="noborder">Confirm Password:</td><td class="noborder"><input type="password" id="conpw" name="confirmpassword"></td></tr>
-	<tr><td colspan="2" class="noborder"><input type="submit" value="Change Password" style="right:0px;"></td></tr>
+	<tr><td colspan="2" class="noborder"><input type="submit" value="Change Password" style="position: absolute;right:0px;"></td></tr>
 	</table>
 	</fieldset>
 	</form>
