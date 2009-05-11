@@ -41,7 +41,7 @@ function accountBody()
 	<table border="0">
 	<tr><td>Current Password:</td><td><input type="password" name="oldpassword"></td></tr>
 	<tr><td colspan="2">&nbsp;</td></tr>
-	<tr><td>New Password:</td><td><input type="password" id="newpw" name="newpassword">/<td></tr>
+	<tr><td>New Password:</td><td><input type="password" id="newpw" name="newpassword"></td></tr>
 	<tr><td>Confirm Password:</td><td><input type="password" id="conpw" name="confirmpassword"></td></tr>
 	<tr><td colspan="2"><input type="submit" value="Change Password"></td></tr>
 	</table>
