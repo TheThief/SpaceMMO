@@ -91,11 +91,25 @@ function colonyBuildingsBody()
 			echo '<br>';
 			if ($effecttype && $effecttype != 4)
 			{
-				echo $lookups["buildingEffect"][$effecttype], ': <span id="effsp',$buildingid,'">', $effect*TICKS_PH, '</span> ';
+				if ($effecttype<=3)
+				{
+					echo $lookups["buildingEffect"][$effecttype], ': <span id="effsp',$buildingid,'">', $effect*TICKS_PH, '</span> ';
+				}
+				else
+				{
+					echo $lookups["buildingEffect"][$effecttype], ': <span id="effsp',$buildingid,'">', $effect, '</span> ';
+				}
 			}
 			if ($consumestype)
 			{
-				echo $lookups["resourceType"][$consumestype], ' Use: <span id="conssp',$buildingid,'">', $consumes*TICKS_PH,'</span><br>';
+				if ($consumestype<=3)
+				{
+					echo $lookups["resourceType"][$consumestype], ' Use: <span id="conssp',$buildingid,'">', $consumes*TICKS_PH,'</span><br>';
+				}
+				else
+				{
+					echo $lookups["resourceType"][$consumestype], ' Use: <span id="conssp',$buildingid,'">', $consumes,'</span><br>';
+				}
 				prodDropdown($output,$planetid,$buildingid,$maxconsumes,$maxeffect);
 			}
 		}
@@ -166,11 +180,25 @@ function colonyBuildingsBody()
 			}
 			if ($effecttype)
 			{
-				echo '<br>', $lookups["buildingEffect"][$effecttype], ': +', $effectdelta*TICKS_PH;
+				if ($effecttype<=3)
+				{
+					echo '<br>', $lookups["buildingEffect"][$effecttype], ': +', $effectdelta*TICKS_PH;
+				}
+				else
+				{
+					echo '<br>', $lookups["buildingEffect"][$effecttype], ': +', $effectdelta;
+				}
 			}
 			if ($consumestype)
 			{
-				echo '<br>', $lookups["resourceType"][$consumestype], ' Use: +', $consumesdelta*TICKS_PH;
+				if ($consumestype<=3)
+				{
+					echo '<br>', $lookups["resourceType"][$consumestype], ' Use: +', $consumesdelta*TICKS_PH;
+				}
+				else
+				{
+					echo '<br>', $lookups["resourceType"][$consumestype], ' Use: +', $consumesdelta;
+				}
 			}
 		}
 		echo '</td>';
