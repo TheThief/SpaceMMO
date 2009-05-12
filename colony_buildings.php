@@ -14,20 +14,8 @@ function colonyBuildingsBody()
 	$planetid = $_GET['planet'];
 	$countpoint=0;
 	$query = $mysqli->prepare('SELECT colonylevel,metal,maxmetal,metalproduction,deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction FROM colonies WHERE colonies.userid=? AND colonies.planetID = ?;');
-	if (!$query)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
 	$query->bind_param('ii', $userid, $planetid);
-
-	$result = $query->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query->error, $eol;
-		exit;
-	}
-
+	$query->execute();
 	$query->bind_result($colonylevel,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod);
 	$result = $query->fetch();
 	if (!$result)
@@ -40,7 +28,7 @@ function colonyBuildingsBody()
 	echo '<table>', $eol;
 	echo '<tr><th>Metal</th><th>Deuterium</th><th>Energy</th></tr>', $eol;
 	echo '<tr>';
-	echo "<td>$metal/$maxmetal (".getSigned($metalprod).")";
+	echo "<td>$metal/$maxmetal (".getSigned($metalprod)*TICKS_PH.")";
 	if($metalprod<0 && $metal>abs($metalprod)) {
 		$mptime=(floor(abs($metal/$metalprod))*TICK)-getTickElapsed();
 		$countarray[$countpoint]=$mptime;
@@ -48,7 +36,7 @@ function colonyBuildingsBody()
 	}
 	if($metalprod < 0 && $metal < abs($metalprod)) echo '<br><span class="error">',($metal==0)?"No":"Low",' Metal</span>';
 	echo "</td>";
-	echo "<td>$deuterium/$maxdeuterium (".getSigned($deuteriumprod).")";
+	echo "<td>$deuterium/$maxdeuterium (".getSigned($deuteriumprod)*TICKS_PH.")";
 	if($deuteriumprod<0 && $deuterium>abs($deuteriumprod)) {
                 $dptime=(floor(abs($deuterium/$deuteriumprod))*TICK)-getTickElapsed();
                 $countarray[$countpoint]=$dptime;
@@ -57,7 +45,7 @@ function colonyBuildingsBody()
 	if($deuteriumprod < 0 && $deuterium < abs($deuteriumprod)) echo '<br><span class="error">',($deuterium==0)?"No":"Low",' Deuterium</span>';
         echo "</td>";
 
-	echo "<td>$energy/$maxenergy (".getSigned($energyprod).")";
+	echo "<td>$energy/$maxenergy (".getSigned($energyprod)*TICKS_PH.")";
         if($energyprod<0 && $energy>abs($energyprod)) {
                 $eptime=(floor(abs($energy/$energyprod))*TICK)-getTickElapsed();
                 $countarray[$countpoint]=$eptime;
