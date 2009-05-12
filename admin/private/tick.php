@@ -14,7 +14,9 @@ $query->close();
 $mysqli->commit();
 
 // shield hp
-$mysqli->query('UPDATE colonies SET hp = LEAST(maxhp, hp + energy), energy = GREATEST(energy-(maxhp-hp), 0)');
+$query = $mysqli->prepare('UPDATE colonies LEFT JOIN colonies AS old USING (planetid) SET colonies.hp = LEAST(old.maxhp, old.hp + old.energy), colonies.energy = GREATEST(old.energy-(old.maxhp-old.hp), 0)');
+$query->execute();
+$query->bind_result($userid, $planetid, $buildrate);
 $mysqli->commit();
 
 // Ship construction
