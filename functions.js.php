@@ -14,8 +14,8 @@ function updateProdVals(id,output,maxc,maxe){
 	pval = pval/100;
 	var cc = parseInt(maxc * output);
 	var ce = parseInt(maxe * output);
-	var nc = parseInt(maxc * pval);
-	var ne = parseInt(maxe * pval);
+	var nc = parseInt(maxc * pval)*<? echo TICKS_PH;?>;
+	var ne = parseInt(maxe * pval)*<? echo TICKS_PH;?>;
 	var ed =0;
 	var cd=0;
 	if(cc==nc && ce==ne){
