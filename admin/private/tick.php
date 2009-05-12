@@ -9,7 +9,13 @@ $mysqli->autocommit(false);
 
 $query = $mysqli->prepare('UPDATE colonies SET metal=LEAST(metal+metalproduction, maxmetal), deuterium=LEAST(deuterium+deuteriumproduction, maxdeuterium), energy=LEAST(energy+energyproduction, maxenergy)'
                         .' WHERE metal+metalproduction >= 0 AND deuterium+deuteriumproduction >= 0 AND energy+energyproduction >= 0');
-$result = $query->execute();
+$query->execute();
+$query->close();
+$mysqli->commit();
+
+// shield hp
+$query = $mysqli->prepare('UPDATE colonies SET hp = LEAST(maxhp, hp + energy), energy = GREATEST(energy-(maxhp-hp), 0)');
+$query->execute();
 $query->close();
 $mysqli->commit();
 
