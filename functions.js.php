@@ -12,8 +12,8 @@ function updateProdVals(id,output,maxc,maxe){
 	var index = document.getElementById("pdd"+id).selectedIndex;
 	var pval = parseFloat(document.getElementById("pdd"+id)[index].value);
 	pval = pval/100;
-	var cc = parseInt(maxc * output);
-	var ce = parseInt(maxe * output);
+	var cc = parseInt(maxc * output)*<? echo TICKS_PH;?>;
+	var ce = parseInt(maxe * output)*<? echo TICKS_PH;?>;
 	var nc = parseInt(maxc * pval)*<? echo TICKS_PH;?>;
 	var ne = parseInt(maxe * pval)*<? echo TICKS_PH;?>;
 	var ed =0;
