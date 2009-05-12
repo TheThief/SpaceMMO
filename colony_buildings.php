@@ -29,7 +29,7 @@ function colonyBuildingsBody()
 	echo '<table>', $eol;
 	echo '<tr><th>Metal</th><th>Deuterium</th><th>Energy</th></tr>', $eol;
 	echo '<tr>';
-	echo "<td>$metal/$maxmetal (".getSigned($metalprod)*TICKS_PH.")";
+	echo "<td>$metal/$maxmetal (".getSigned($metalprod*TICKS_PH).")";
 	if($metalprod<0 && $metal>abs($metalprod)) {
 		$mptime=(floor(abs($metal/$metalprod))*TICK)-getTickElapsed();
 		$countarray[$countpoint]=$mptime;
@@ -37,7 +37,7 @@ function colonyBuildingsBody()
 	}
 	if($metalprod < 0 && $metal < abs($metalprod)) echo '<br><span class="error">',($metal==0)?"No":"Low",' Metal</span>';
 	echo "</td>";
-	echo "<td>$deuterium/$maxdeuterium (".getSigned($deuteriumprod)*TICKS_PH.")";
+	echo "<td>$deuterium/$maxdeuterium (".getSigned($deuteriumprod*TICKS_PH).")";
 	if($deuteriumprod<0 && $deuterium>abs($deuteriumprod)) {
                 $dptime=(floor(abs($deuterium/$deuteriumprod))*TICK)-getTickElapsed();
                 $countarray[$countpoint]=$dptime;
@@ -46,7 +46,7 @@ function colonyBuildingsBody()
 	if($deuteriumprod < 0 && $deuterium < abs($deuteriumprod)) echo '<br><span class="error">',($deuterium==0)?"No":"Low",' Deuterium</span>';
         echo "</td>";
 
-	echo "<td>$energy/$maxenergy (".getSigned($energyprod)*TICKS_PH.")";
+	echo "<td>$energy/$maxenergy (".getSigned($energyprod*TICKS_PH).")";
         if($energyprod<0 && $energy>abs($energyprod)) {
                 $eptime=(floor(abs($energy/$energyprod))*TICK)-getTickElapsed();
                 $countarray[$countpoint]=$eptime;
