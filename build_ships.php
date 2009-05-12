@@ -14,41 +14,22 @@ function buildShipsBody()
 	$orderarray = array();
 	$pcarray = array();
 	$query = $mysqli->prepare('SELECT metal,maxmetal,metalproduction,shipconstruction FROM colonies WHERE userid =? AND planetid = ?;');
-	if (!$query)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
 	$query->bind_param('ii',$userid, $planetid);
-	$result = $query->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query->error, $eol;
-		exit;
-	}
+	$query->execute();
 	$query->bind_result($metal,$maxmetal,$metalprod,$shipprod);
-	$result=$query->fetch();
+	$result = $query->fetch();
 	if (!$result)
 	{
 		echo 'Error: Not your planet!', $eol;
 		exit;
 	}
 	$query->close();
+
 	$query = $mysqli->prepare('SELECT level FROM colonybuildings WHERE buildingid = 9 AND planetid = ?;');
-	if (!$query)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
 	$query->bind_param('i', $planetid);
-	$result = $query->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query->error, $eol;
-		exit;
-	}
+	$query->execute();
 	$query->bind_result($ddlevel);
-	$result=$query->fetch();
+	$result = $query->fetch();
 	if (!$result)
 	{
 		echo 'Error: You need a drydock to build ships.', $eol;
@@ -58,7 +39,7 @@ function buildShipsBody()
 
 	echo '<table>', $eol;
 	echo '<tr><th>Metal</th><th>Build Rate</th></tr>', $eol;
-	echo '<tr><td>',$metal,'/',$maxmetal,' (',getSigned($metalprod),')','</td><td>',$shipprod,'</td></tr>';
+	echo '<tr><td>',$metal,'/',$maxmetal,' (',getSigned($metalprod*TICKS_PH),')','</td><td>',$shipprod*TICKS_PH,'</td></tr>';
 	echo '</table>', $eol;
 
 	$query = $mysqli->prepare('SELECT shipname,count,buildprogress,metalcost,queueid FROM shipbuildqueue LEFT JOIN shipdesigns USING (designid) LEFT JOIN shiphulls USING(hullid) WHERE planetID = ? ORDER BY queueID ASC;');
