@@ -14,7 +14,7 @@ function prodSummary($id, $current, $max, $delta)
 	{
 		$symbol = '-';
 	}
-	$title = thousands($current).'/'.thousands($max).' ('.getSigned($delta*TICKS_PH).')';
+	$title = thousands($current).'/'.thousands($max).' ('.getSigned($delta*TICKS_PH).'/hour)';
 	return '<span id="'.$id.'" title="'.$title.'">'.thousands($current).' '.$symbol.'</span>';
 }
 

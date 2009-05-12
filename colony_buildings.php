@@ -12,6 +12,7 @@ function colonyBuildingsBody()
 	global $eol, $mysqli, $countarray, $lookups;
 	$userid = $_SESSION['userid'];
 	$planetid = $_GET['planet'];
+
 	$countpoint=0;
 	$query = $mysqli->prepare('SELECT colonylevel,metal,maxmetal,metalproduction,deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction FROM colonies WHERE colonies.userid=? AND colonies.planetID = ?;');
 	$query->bind_param('ii', $userid, $planetid);
@@ -66,21 +67,8 @@ function colonyBuildingsBody()
 		effecttype, effect, IF(level,colony_building_effect_max(planetid,buildingid,level+1)-colony_building_effect_max(planetid,buildingid,level),colony_building_effect_max(?,buildingid,1)) AS effectdelta, colony_building_consumes_max(planetid,buildingid,level) AS maxconsumes, colony_building_effect_max(planetid,buildingid,level) AS maxeffect
 		FROM (SELECT planetid,buildingid,level,output,colony_building_consumes(planetid,buildingid) AS consumes,colony_building_effect(planetid,buildingid) AS effect FROM colonybuildings WHERE planetid = ?) dtable
 		RIGHT JOIN buildings USING (buildingid)');
-	if (!$query)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
 	$query->bind_param('ii', $planetid, $planetid);
-	$planetid = $_GET['planet'];
-
-	$result = $query->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query->error, $eol;
-		exit;
-	}
-
+	$query->execute();
 	$query->bind_result($buildingid,$level,$output,$name,$description,$mincolonylevel,$maxlevel,$cost,$consumestype,$consumes,$consumesdelta,$effecttype,$effect,$effectdelta,$maxconsumes,$maxeffect);
 
 	while($query->fetch())
@@ -103,13 +91,12 @@ function colonyBuildingsBody()
 			echo '<br>';
 			if ($effecttype && $effecttype != 4)
 			{
-				echo $lookups["buildingEffect"][$effecttype], ': <span id="effsp',$buildingid,'">', $effect, '</span> ';
+				echo $lookups["buildingEffect"][$effecttype], ': <span id="effsp',$buildingid,'">', $effect*TICKS_PH, '</span> ';
 			}
 			if ($consumestype)
 			{
-				echo $lookups["resourceType"][$consumestype], ' Use: <span id="conssp',$buildingid,'">', $consumes,'</span><br>';
+				echo $lookups["resourceType"][$consumestype], ' Use: <span id="conssp',$buildingid,'">', $consumes*TICKS_PH,'</span><br>';
 				prodDropdown($output,$planetid,$buildingid,$maxconsumes,$maxeffect);
-				
 			}
 		}
 		echo '</td>';
@@ -179,11 +166,11 @@ function colonyBuildingsBody()
 			}
 			if ($effecttype)
 			{
-				echo '<br>', $lookups["buildingEffect"][$effecttype], ': +', $effectdelta;
+				echo '<br>', $lookups["buildingEffect"][$effecttype], ': +', $effectdelta*TICKS_PH;
 			}
 			if ($consumestype)
 			{
-				echo '<br>', $lookups["resourceType"][$consumestype], ' Use: +', $consumesdelta;
+				echo '<br>', $lookups["resourceType"][$consumestype], ' Use: +', $consumesdelta*TICKS_PH;
 			}
 		}
 		echo '</td>';
