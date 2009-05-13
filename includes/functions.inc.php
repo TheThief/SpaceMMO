@@ -49,7 +49,7 @@ $lookups["buildingEffectColumn"]=array(
 		7 => "maxenergy",
 		8 => "shipconstruction",
 		9 => "maxhp",
-		9 => "whrange");
+		10 => "whrange");
 
 $lookups["order"]=array(
 		0 => "Unassigned",
