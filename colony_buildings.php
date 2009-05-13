@@ -64,12 +64,12 @@ function colonyBuildingsBody()
 	$query = $mysqli->prepare('SELECT buildingID,level,output,buildingname,buildingdescription,mincolonylevel,maxbuildinglevel,
 		building_cost(buildingid,IF(level,level+1,1)) AS cost,
 		consumestype, consumes, IF(level,colony_building_consumes_max(planetid,buildingid,level+1)-colony_building_consumes_max(planetid,buildingid,level),colony_building_consumes_max(planetid,buildingid,1)) AS consumesdelta,
-		effecttype, effect, IF(level,colony_building_effect_max(planetid,buildingid,level+1)-colony_building_effect_max(planetid,buildingid,level),colony_building_effect_max(?,buildingid,1)) AS effectdelta, colony_building_consumes_max(planetid,buildingid,level) AS maxconsumes, colony_building_effect_max(planetid,buildingid,level) AS maxeffect
+		effecttype, effect, IF(level,colony_building_effect_max(planetid,buildingid,level+1)-colony_building_effect_max(planetid,buildingid,level),colony_building_effect_max(?,buildingid,1)) AS effectdelta, colony_building_consumes_max(planetid,buildingid,level) AS maxconsumes, colony_building_effect_max(planetid,buildingid,level) AS maxeffect, bignorecolonylevel
 		FROM (SELECT planetid,buildingid,level,output,colony_building_consumes(planetid,buildingid) AS consumes,colony_building_effect(planetid,buildingid) AS effect FROM colonybuildings WHERE planetid = ?) dtable
 		RIGHT JOIN buildings USING (buildingid)');
 	$query->bind_param('ii', $planetid, $planetid);
 	$query->execute();
-	$query->bind_result($buildingid,$level,$output,$name,$description,$mincolonylevel,$maxlevel,$cost,$consumestype,$consumes,$consumesdelta,$effecttype,$effect,$effectdelta,$maxconsumes,$maxeffect);
+	$query->bind_result($buildingid,$level,$output,$name,$description,$mincolonylevel,$maxlevel,$cost,$consumestype,$consumes,$consumesdelta,$effecttype,$effect,$effectdelta,$maxconsumes,$maxeffect,$bignorecolonylevel);
 
 	while($query->fetch())
 	{
@@ -131,7 +131,7 @@ function colonyBuildingsBody()
 				echo 'Build level 1:';
 			}
 			$bCanBuild = true;
-			if ($buildingid !=1 && $level+1 > $colonylevel)
+			if ($buildingid !=1 && $level+1 > $colonylevel && !$bignorecolonylevel)
 			{
 				echo '<br><span class="error">Colony level too low</span>', $eol;
 				$bCanBuild = false;
