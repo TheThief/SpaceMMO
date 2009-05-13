@@ -12,7 +12,7 @@ if (!$query)
 	exit;
 }
 
-$query->bind_param('siisiddiiddiiddi', $name, $mincolonylevel, $maxlevel, $description, $costbase, $costlinear, $costmult, $consumestype, $consumesbase, $consumeslinear, $consumesmult, $effecttype, $effectbase, $effectlinear, $effectmult, $multiplybyplanet,$bignorecolonylevel);
+$query->bind_param('siisiddiiddiiddii', $name, $mincolonylevel, $maxlevel, $description, $costbase, $costlinear, $costmult, $consumestype, $consumesbase, $consumeslinear, $consumesmult, $effecttype, $effectbase, $effectlinear, $effectmult, $multiplybyplanet,$bignorecolonylevel);
 $name = $_POST['name'];
 $mincolonylevel = $_POST['mincolonylevel'];
 $maxlevel = $_POST['maxlevel'];
