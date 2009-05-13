@@ -71,10 +71,10 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 			$_SESSION['colony'] = $colonyid;
 		}
 
-		$query = $mysqli->prepare('SELECT systemid,orbit,type,colonylevel,colonies.metal,maxmetal,metalproduction,colonies.deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction,shipconstruction FROM colonies LEFT JOIN planets USING (planetid) WHERE userid=? AND planetid=?');
+		$query = $mysqli->prepare('SELECT systemid,orbit,type,colonylevel,colonies.metal,maxmetal,metalproduction,colonies.deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction,shipconstruction,hp,maxhp FROM colonies LEFT JOIN planets USING (planetid) WHERE userid=? AND planetid=?');
 		$query->bind_param('ii', $userid, $colonyid);
 		$query->execute();
-		$query->bind_result($systemid,$orbit,$planettype,$colonylevel,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod,$shipconstruction);
+		$query->bind_result($systemid,$orbit,$planettype,$colonylevel,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod,$shipconstruction,$colonyhp,$colonymaxhp);
 		$result = $query->fetch();
 		$query->close();
 
@@ -87,6 +87,14 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 			echo '<li>Metal: ',prodSummary('summary_metal', $metal, $maxmetal, $metalprod),'</li>', $eol;
 			echo '<li>Deuterium: ',prodSummary('summary_deuterium', $deuterium, $maxdeuterium, $deuteriumprod),'</li>', $eol;
 			echo '<li>Energy: ',prodSummary('summary_energy', $energy, $maxenergy, $energyprod),'</li>', $eol;
+			if ($colonymaxhp)
+			{
+				echo '<li>Shield: ',thousands($colonyhp),'/',thousands($colonymaxhp),'</li>', $eol;
+			}
+			else
+			{
+				echo '<li>Shield: none</li>', $eol;
+			}
 			echo '</ul>', $eol;
 			colonyMenu();
 		}
