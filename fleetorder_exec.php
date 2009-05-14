@@ -20,13 +20,13 @@ function fleetOrderBody()
 	$breturn = isset($_POST['breturn']);
 	
 	if ($orderid == 6 && $breturn) $breturn = false;
-	if ($orderid < 2 || $orderid > 4)
+	if ($orderid < 2 || $orderid = 5)
 	{
 		echo 'Error: Invalid order.', $eol;
 		exit;
 	}
 
-	if ($orderid == 3 || $orderid == 4)
+	if ($orderid == 3 || $orderid == 4 || $orderid == 6)
 	{
 		if ($transportmetal < 0 || $transportdeuterium < 0)
 		{
