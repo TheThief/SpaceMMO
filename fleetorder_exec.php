@@ -18,7 +18,8 @@ function fleetOrderBody()
 	$transportmetal = $_POST['metal'];
 	$transportdeuterium = $_POST['deuterium'];
 	$breturn = isset($_POST['breturn']);
-
+	
+	if ($orderid == 6 && $breturn) $breturn = false;
 	if ($orderid < 2 || $orderid > 4)
 	{
 		echo 'Error: Invalid order.', $eol;
@@ -74,10 +75,10 @@ function fleetOrderBody()
 		}
 	}
 
-	$query = $mysqli->prepare('SELECT userid FROM colonies WHERE planetid = ?');
+	$query = $mysqli->prepare('SELECT userid, whrange FROM colonies WHERE planetid = ?');
 	$query->bind_param('i', $orderplanetid);
 	$query->execute();
-	$query->bind_result($ordercolonyuserid);
+	$query->bind_result($ordercolonyuserid,$destwhrange);
 	$result = $query->fetch();
 	$query->close();
 	if ($orderid == 2)
@@ -166,10 +167,10 @@ function fleetOrderBody()
 		$transportmetal += COLONY_COST;
 	}
 
-	$query = $mysqli->prepare('SELECT colonies.metal,colonies.deuterium,x,y FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userid=? AND planetID = ? FOR UPDATE');
+	$query = $mysqli->prepare('SELECT colonies.metal,colonies.deuterium,colonies.energy,x,y,whrange FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userid=? AND planetID = ? FOR UPDATE');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($metal,$deuterium,$sysx,$sysy);
+	$query->bind_result($metal,$deuterium,$energy,$sysx,$sysy,$currentwhrange);
 	$result = $query->fetch();
 	if (!$result)
 	{
@@ -184,7 +185,7 @@ function fleetOrderBody()
 		exit;
 	}
 
-	$query = $mysqli->prepare('SELECT (ROUND(SQRT(POW(x-?,2)+POW(y-?,2)),2)) AS distance FROM planets LEFT JOIN systems USING (systemid) WHERE planetid = ?');
+	$query = $mysqli->prepare('SELECT (ROUND(distance(x,y,?,?),2)) AS distance FROM planets LEFT JOIN systems USING (systemid) WHERE planetid = ?');
 	$query->bind_param('iii', $sysx, $sysy, $orderplanetid);
 	$query->execute();
 	$query->bind_result($orderdistance);
@@ -195,9 +196,17 @@ function fleetOrderBody()
 		exit;
 	}
 	$query->close();
-
+	
+	if ($orderid ==6 && !checkWHRange($orderdistance,$currentwhrange,$destwhrange)){
+		echo 'Error: You do not have a high enough level wormhole generator on both planets.', $eol;
+		exit;
+	}
+	
 	$orderticks = 1;
-	if ($orderdistance > 0)
+	if ($orderid == 6){
+		$orderticks=0;
+	}
+	elseif ($orderdistance > 0)
 	{
 		$orderticks = ceil($orderdistance/$fleetspeed * SMALLTICKS_PH);
 	}
@@ -228,7 +237,24 @@ function fleetOrderBody()
 		$fuel = $totalfuelneed;
 		$deuterium = $deuterium - $deuteriumneed;
 	}
-
+	
+	$whjumpcost = 0;
+	if ($orderid == 6) $whjumpcost = ceil(WH_COST_PER_PC*$orderdistance);
+	
+	if ($whjumpcost > $deuterium){
+		echo 'Error: You need ', $whjumpcost ,' deuterium to open this wormhole.', $eol;
+		exit;
+	}else{
+		$deuterium -= $whjumpcost;
+	}
+	
+	if ($whjumpcost > $energy){
+		echo 'Error: You need ', $whjumpcost ,' energy to open this wormhole.', $eol;
+		exit;
+	}else{
+		$energy -= $whjumpcost;
+	}
+	
 	if ($transportdeuterium > $deuterium)
 	{
 		echo 'Error: After fueling your fleet for the journey, you don\'t have that much deuterium left to transport.', $eol;
@@ -242,8 +268,8 @@ function fleetOrderBody()
 
 	$metal = $metal - $transportmetal;
 	$deuterium = $deuterium - $transportdeuterium;
-	$query = $mysqli->prepare('UPDATE colonies SET metal = ?, deuterium = ? WHERE userid = ? AND planetID = ?');
-	$query->bind_param('iiii', $metal, $deuterium, $userid, $planetid);
+	$query = $mysqli->prepare('UPDATE colonies SET metal = ?, deuterium = ?, energy = ? WHERE userid = ? AND planetID = ?');
+	$query->bind_param('iiiii', $metal, $deuterium, $energy, $userid, $planetid);
 	$query->execute();
 	$query->close();
 

@@ -2,6 +2,7 @@
 if (!defined('COLONY_DEBUG')) define('COLONY_DEBUG',DEBUG);
 
 define('COLONY_COST',4000);
+define('WH_COST_PER_PC',5000);
 
 function colonise($planetid, $userid, $metal=0)
 {
