@@ -57,7 +57,8 @@ $lookups["order"]=array(
 		2 => "Move to",
 		3 => "Transport to",
 		4 => "Colonise",
-		5 => "Attack");
+		5 => "Attack",
+		6 => "Wormhole jump");
 
 function checkLoggedIn_failed()
 {
