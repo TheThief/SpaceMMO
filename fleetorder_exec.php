@@ -20,7 +20,7 @@ function fleetOrderBody()
 	$breturn = isset($_POST['breturn']);
 	
 	if ($orderid == 6 && $breturn) $breturn = false;
-	if ($orderid < 2 || $orderid = 5)
+	if ($orderid < 2 || $orderid == 5)
 	{
 		echo 'Error: Invalid order.', $eol;
 		exit;
