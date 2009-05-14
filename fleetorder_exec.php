@@ -123,7 +123,19 @@ function fleetOrderBody()
 			}
 		}
 	}
-
+	else if ($orderid == 6)
+	{
+		if (!$ordercolonyuserid)
+		{
+			echo 'Error: You can\'t open an wormhole to uncolonised planets, you need to colonise it and build a matching wormhole generator.', $eol;
+			exit;
+		}
+		if ($userid != $ordercolonyuserid)
+		{
+			echo 'Error: You can\'t use a wormhole generator belonging to another player.', $eol;
+			exit;
+		}
+	}
 	$mysqli->autocommit(false);
 
 	$query = $mysqli->prepare('SELECT orderid,fuel,planetid,speed,totalfuelbay,totalcargo,fueluse FROM fleets WHERE userID = ? AND fleetid = ? FOR UPDATE');
