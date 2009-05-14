@@ -119,11 +119,13 @@ function viewFleetBody()
 		$querydestinations->execute();
 		$querydestinations->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance,$whrange);
 		$canwhj = false;
+		$whm = "";
 		while ($querydestinations->fetch())
 		{
 			$canwhj = false;
 			if(checkWHRange($orderdistance,$whrange,$cwhrange)) $canwhj = true;
-			$destinations[$orderplanetid] = systemcode($ordersystemid, $orderorbit).' ('.number_format($orderdistance,2).' PC)'.($canwhj)?" W":"";
+			$whm = ($canwhj)?" W":"";
+			$destinations[$orderplanetid] = systemcode($ordersystemid, $orderorbit).' ('.number_format($orderdistance,2).' PC)' . $whm;
 		}
 		$querydestinations->close();
 
