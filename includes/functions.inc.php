@@ -331,4 +331,10 @@ function generateAPIKey(){
 	$apikey = mt_rand() .$username . mt_rand() . $lastlogin . time();
 	return md5($apikey);
 }
+
+function checkWHRange($dist,$range1,$range2){
+	$canwhj = false;
+	if(($range1 >= $dist) && ($range2 >= $dist)) $canwhj = true;
+	return $canwhj;
+}
 ?>
