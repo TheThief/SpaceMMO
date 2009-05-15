@@ -25,6 +25,13 @@ function viewShipsBody()
 		exit;
 	}
 	$query->close();
+	
+	$querywh = $mysqli->prepare('SELECT whrange FROM colonies WHERE planetid = ?');
+	$querywh->bind_param('i', $planetid);
+	$querywh->bind_result($cwhrange);
+	$querywh->execute();
+	$querywh->fetch();
+	$querywh->close();
 
 	$query = $mysqli->prepare('SELECT fleetid FROM fleets WHERE fleets.userID = ? AND planetid = ? AND orderid = 0');
 	$query->bind_param('ii', $userid, $planetid);
@@ -141,13 +148,16 @@ function viewShipsBody()
 			$bookmarks[$orderplanetid] = systemcode($ordersystemid, $orderorbit).' ('.number_format($orderdistance,2).' PC)';
 		}
 		$querybookmarks->close();
-		$querydestinations = $mysqli->prepare('SELECT systemid,orbit,planetid,(ROUND(distance(x,y,?,?),2)) AS distance FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY distance ASC');
+		$querydestinations = $mysqli->prepare('SELECT systemid,orbit,planetid,(ROUND(distance(x,y,?,?),2)) AS distance, whrange FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetid != ? ORDER BY distance ASC');
 		$querydestinations->bind_param('iiii', $sysx, $sysy, $userid, $planetid);
 		$querydestinations->execute();
-		$querydestinations->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance);
+		$querydestinations->bind_result($ordersystemid,$orderorbit,$orderplanetid,$orderdistance,$whrange);
 		while ($querydestinations->fetch())
 		{
-			$destinations[$orderplanetid] = systemcode($ordersystemid, $orderorbit).' ('.number_format($orderdistance,2).' PC)';
+			$canwhj = false;
+			if(checkWHRange($orderdistance,$whrange,$cwhrange)) $canwhj = true;
+			$whm = ($canwhj)?" W":"";
+			$destinations[$orderplanetid] = systemcode($ordersystemid, $orderorbit).' ('.number_format($orderdistance,2).' PC)' . $whm;
 		}
 		$querydestinations->close();
 
@@ -157,6 +167,7 @@ function viewShipsBody()
 		echo '<option value="3">Transport to</option>', $eol;
 		echo '<option value="4">Colonise</option>', $eol;
 		echo '<option value="5" disabled>Attack</option>', $eol;
+		echo '<option value="6" >Wormhole Jump</option>', $eol;
 		echo '</select>', $eol;
 		echo '<label>and Return <input name="breturn" type="checkbox"></label><br>', $eol;
 		echo 'Destination: <select name="orderplanet" id="opd0" onchange="updateOtherP(0);">', $eol;
