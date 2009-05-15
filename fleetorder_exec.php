@@ -222,7 +222,7 @@ function fleetOrderBody()
 	elseif ($orderid == 6) {
 		$orderticks = 0;
 	}
-
+	echo "Ticks: $orderticks";
 	$totalfuelneed = $fueluse * $orderticks;
 	
 	if ($breturn)
