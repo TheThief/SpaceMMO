@@ -215,16 +215,15 @@ function fleetOrderBody()
 	}
 	
 	$orderticks = 1;
-	if ($orderid != 6 && $orderdistance > 0)
+	if ($orderdistance > 0)
 	{
 		$orderticks = ceil($orderdistance/$fleetspeed * SMALLTICKS_PH);
 	}
-
-	if ($orderid ==6){
-		$totalfuelneed = 0;
-	}else{
-		$totalfuelneed = $fueluse * $orderticks;
+	elseif ($orderid == 6) {
+		$orderticks = 0;
 	}
+
+	$totalfuelneed = $fueluse * $orderticks;
 	
 	if ($breturn)
 	{
