@@ -66,7 +66,6 @@ function buildBuildingBody()
 	}
 	if ($cost>$metal)
 	{
-		echo "cost= $cost , metal = $metal";
 		echo 'Error: Not enough metal.', $eol;
 		exit;
 	}
