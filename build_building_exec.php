@@ -17,21 +17,8 @@ function buildBuildingBody()
 	$upgrade = $_GET['upgrade'];
 
 	$query = $mysqli->prepare('SELECT metal,colonylevel FROM colonies WHERE colonies.userid=? AND colonies.planetID = ?');
-	if (!$query)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
-
 	$query->bind_param('ii', $userid, $planetid);
-
-	$result = $query->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query->error, $eol;
-		exit;
-	}
-
+	$query->execute();
 	$query->bind_result($metal,$colonylevel);
 	$result = $query->fetch();
 	if (!$result)
@@ -41,22 +28,9 @@ function buildBuildingBody()
 	}
 	$query->close();
 
-	$query = $mysqli->prepare('SELECT metalcostbase*POW(metalcostmultiplier,IFNULL(level,0)) AS cost, consumestype, effecttype, level, mincolonylevel, maxbuildinglevel,bignorecolonylevel FROM buildings LEFT JOIN (SELECT buildingid,level FROM colonybuildings WHERE colonybuildings.planetid = ?) dtable USING (buildingid) WHERE buildingid=?');
-	if (!$query)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
-
+	$query = $mysqli->prepare('SELECT building_cost(buildingid,IFNULL(level,0)+1) AS cost, consumestype, effecttype, level, mincolonylevel, maxbuildinglevel,bignorecolonylevel FROM buildings LEFT JOIN (SELECT buildingid,level FROM colonybuildings WHERE colonybuildings.planetid = ?) dtable USING (buildingid) WHERE buildingid=?');
 	$query->bind_param('ii', $planetid, $buildingid);
-
-	$result = $query->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query->error, $eol;
-		exit;
-	}
-
+	$query->execute();
 	$query->bind_result($cost,$consumestype,$effecttype,$level,$mincolonylevel,$maxlevel,$bignorecolonylevel);
 	$result = $query->fetch();
 	if (!$result)
