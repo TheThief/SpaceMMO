@@ -9,28 +9,16 @@ template('Admin List Ship Hulls', 'adminListShipHullsBody');
 function adminListShipHullsBody()
 {
 	global $eol, $mysqli;
-	$query = $mysqli->prepare('SELECT hullid,hullname,hulldescription,metalcost,size,maxweapons FROM shiphulls ORDER BY hullid');
-	if (!$query)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
-
-	$result = $query->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query->error, $eol;
-		exit;
-	}
-
-	$query->bind_result($hullid,$hullname,$hulldescription,$hullcost,$hullsize,$maxweapons);
+	$query = $mysqli->prepare('SELECT hullid,hullname,hulldescription,metalcost,size,maxweapons,mindrydock FROM shiphulls ORDER BY hullid');
+	$query->execute();
+	$query->bind_result($hullid,$hullname,$hulldescription,$hullcost,$hullsize,$maxweapons,$mindrydock);
 
 	echo '<table>', $eol;
-	echo '<tr><th>Hull ID</th><th>Name</th><th>Description</th><th>Cost</th><th>Size</th><th>Max Weapons</th><th>Actions</th></tr>', $eol;
+	echo '<tr><th>Hull ID</th><th>Name</th><th>Description</th><th>Cost</th><th>Size</th><th>Max Weapons</th><th>Min Drydock Lvl</th><th>Actions</th></tr>', $eol;
 
 	while($query->fetch())
 	{
-		echo "<tr><td>$hullid</td><td>$hullname</td><td>$hulldescription</td><td>$hullcost</td><td>$hullsize</td><td>$maxweapons</td><td></td></tr>", $eol;
+		echo "<tr><td>$hullid</td><td>$hullname</td><td>$hulldescription</td><td>$hullcost</td><td>$hullsize</td><td>$maxweapons</td><td>$mindrydock</td><td></td></tr>", $eol;
 	}
 	echo '<form action="addshiphull_exec.php" method="post">', $eol;
 	echo '<tr><td></td>', $eol;
@@ -39,6 +27,7 @@ function adminListShipHullsBody()
 	echo '<td><input type="text" name="cost" size="4"></td>', $eol;
 	echo '<td><input type="text" name="size" size="4"></td>', $eol;
 	echo '<td><input type="text" name="maxweapons" size="4"></td>', $eol;
+	echo '<td><input type="text" name="mindrydock" size="4"></td>', $eol;
 	echo '<td><input type="submit" value="Add"></td>', $eol;
 	echo '</tr>', $eol;
 	echo '</form>', $eol;

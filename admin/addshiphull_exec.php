@@ -5,26 +5,16 @@ checkIsAdmin();
 $eol = "\n";
 header('Content-type: text/plain');
 
-$query = $mysqli->prepare('INSERT INTO shiphulls (hullname,hulldescription,metalcost,size,maxweapons) VALUES (?,?,?,?,?)');
-if (!$query)
-{
-	echo 'error: ', $mysqli->error, $eol;
-	exit;
-}
-
-$query->bind_param('ssiii', $name,$description,$cost,$size,$maxweapons);
+$query = $mysqli->prepare('INSERT INTO shiphulls (hullname,hulldescription,metalcost,size,maxweapons,mindrydock) VALUES (?,?,?,?,?,?)');
+$query->bind_param('ssiii', $name,$description,$cost,$size,$maxweapons,$mindrydock);
 $name = $_POST['name'];
 $description = $_POST['description'];
 $cost = $_POST['cost'];
 $size = $_POST['size'];
 $maxweapons = $_POST['maxweapons'];
+$mindrydock = $_POST['mindrydock'];
 
-$result = $query->execute();
-if (!$result)
-{
-	echo 'error: ', $query->error, $eol;
-	exit;
-}
+$query->execute();
 
 echo 'Ship Hull \'', $name, '\' added successfully', $eol;
 ?>
