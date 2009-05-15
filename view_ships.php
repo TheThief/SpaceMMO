@@ -252,6 +252,7 @@ function viewShipsBody()
 			{
 				echo '<td>-</td>';
 			}
+			if ($orderticks <=0) $orderticks = 1;
 			echo '<td><span id="count',$countpoint,'">',formatSeconds('h:i:s',ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed()),'</span></td>', $eol;
 			$countarray[$countpoint++] = ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed();
 			echo '</tr>', $eol;
