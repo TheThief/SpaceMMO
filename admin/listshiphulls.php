@@ -14,6 +14,7 @@ function adminListShipHullsBody()
 	$query->bind_result($hullid,$hullname,$hulldescription,$hullcost,$hullsize,$maxweapons,$mindrydock);
 
 	echo '<table>', $eol;
+	echo '<col><col><col style="width: 20em;"><col><col><col><col><col>', $eol;
 	echo '<tr><th>Hull ID</th><th>Name</th><th>Description</th><th>Cost</th><th>Size</th><th>Max Weapons</th><th>Min Drydock Lvl</th><th>Actions</th></tr>', $eol;
 
 	while($query->fetch())
