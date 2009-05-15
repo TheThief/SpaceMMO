@@ -6,7 +6,7 @@ $eol = "\n";
 header('Content-type: text/plain');
 
 $query = $mysqli->prepare('INSERT INTO shiphulls (hullname,hulldescription,metalcost,size,maxweapons,mindrydock) VALUES (?,?,?,?,?,?)');
-$query->bind_param('ssiii', $name,$description,$cost,$size,$maxweapons,$mindrydock);
+$query->bind_param('ssiiii', $name,$description,$cost,$size,$maxweapons,$mindrydock);
 $name = $_POST['name'];
 $description = $_POST['description'];
 $cost = $_POST['cost'];
