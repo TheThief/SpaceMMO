@@ -14,10 +14,10 @@ function viewShipsBody()
 	$planetid = $_GET['planet'];
 	$countarray=array();
 	$cointpoint=0;
-	$query = $mysqli->prepare('SELECT x,y,systemid,orbit FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetID = ?');
+	$query = $mysqli->prepare('SELECT x,y,systemid,orbit,sensorrange FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? AND planetID = ?');
 	$query->bind_param('ii', $userid, $planetid);
 	$result = $query->execute();
-	$query->bind_result($sysx,$sysy,$systemid,$orbit);
+	$query->bind_result($sysx,$sysy,$systemid,$orbit,$sensorrange);
 	$result = $query->fetch();
 	if (!$result)
 	{
@@ -339,7 +339,7 @@ function viewShipsBody()
 		echo '</form>', $eol;
 	}
 
-	$scandistance = 2;
+	$scandistance = $sensorrange+10;
 
 	$query = $mysqli->prepare('SELECT fleetid,username,orderid,orderticks FROM fleets LEFT JOIN users USING (userid) WHERE fleets.userID != ? AND fleets.orderplanetid = ? AND fleets.orderid > 1 AND orderticks <= ?');
 	$query->bind_param('iii', $userid, $planetid, $scandistance);
