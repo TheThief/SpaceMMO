@@ -11,6 +11,21 @@ $black = imagecolorallocate($imgmask,0,0,0);
 
 //checkIsAdmin();
 
+function distanceToZero($x, $y)
+{
+    return sqrt($x*$x + $y*$y);
+}
+
+function cmp($a, $b)
+{
+	$ad = distanceToZero($a->x,$a->y);
+	$bd = distanceToZero($b->x,$b->y);
+    if ($ad == $bd) {
+        return 0;
+    }
+    return ($ad < $bd) ? -1 : 1;
+}
+
 class Planet {
 	public $orbit;
 	public $type;
@@ -115,8 +130,8 @@ for($i=0;$i<1000;$i++){
 	$systems[] = new System($sysco[0],$sysco[1],$planets);
 }
 
-
-//var_dump($systems);
+usort($systems,cmp);
+if ($tcount) var_dump($systems);
 
 foreach($systems as $sys){
 imagesetpixel($img,($sys->x*$scale)+50,($sys->y*$scale)+50,$syscolour);
