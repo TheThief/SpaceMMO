@@ -122,15 +122,15 @@ usort($systems,cmp);
 
 //var_dump($systems);
 $sid =0;
-foreach($systems as $sys){
+/*foreach($systems as $sys){
 	$sysid = 0;
 	$mysqli->query("INSERT INTO systemsb values (NULL," . $sys->x ."," . $sys->y .")");
 	$sysid = $mysqli->insert_id;
 	echo "System ID " .$sid++." (".$sysid.") created @ ".$sys->x.",".$sys->y. "<br>";
 	foreach($sys->planets as $plan){
-		//$mysqli->query("INSERT INTO planets values (NULL," . $sysid ."," . $plan->orbit .",".$plan->type.",".$plan->metal.",".$plan->deuterium.")");
-		//echo "Planet created in $sysid Orbit=".$plan->orbit." Type=" .$plan->type ." M=".$plan->metal." D=".$plan->deuterium."<br>";
+		$mysqli->query("INSERT INTO planets values (NULL," . $sysid ."," . $plan->orbit .",".$plan->type.",".$plan->metal.",".$plan->deuterium.")");
+		echo "Planet created in $sysid Orbit=".$plan->orbit." Type=" .$plan->type ." M=".$plan->metal." D=".$plan->deuterium."<br>";
 	}
-}
+}*/
 ?>
 Done
