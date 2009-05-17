@@ -58,7 +58,7 @@ $coords = array();
 $count =0;
 for ($gx=0;$gx<imagesx($imgmask);$gx++){
 	for ($gy=0;$gy<imagesy($imgmask);$gy++){
-		if(imagecolorat($imgmask,$gx,$gy)==$black) {
+		if(imagecolorat($imgmask,$gx,$gy)<$white/2) {
 			$count++;
 			$coords[] = array($gx-50,$gy-50);
 		}
