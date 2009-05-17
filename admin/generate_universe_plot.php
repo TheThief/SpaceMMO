@@ -1,7 +1,7 @@
 <?
 //include 'includes/admin.inc.php';
 $scale = 1;
-//header("Content-type: image/png");
+header("Content-type: image/png");
 $img = imagecreatetruecolor(100*$scale,100*$scale);
 $syscolour = imagecolorallocate($img,255,255,255);
 $imgmask = imagecreatefrompng('mask.png');
@@ -118,6 +118,6 @@ foreach($systems as $sys){
 imagesetpixel($img,($sys->x*$scale)+50,($sys->y*$scale)+50,$syscolour);
 }
 
-//imagepng($img);
-//imagedestroy($img);
+imagepng($img);
+imagedestroy($img);
 ?>
