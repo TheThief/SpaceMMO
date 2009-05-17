@@ -2,6 +2,25 @@
 include_once 'includes/admin.inc.php';
 checkIsAdmin();
 
+$imgmask = imagecreatefrompng('mask.png');
+$white = imagecolorallocate($imgmask,255,255,255);
+$black = imagecolorallocate($imgmask,0,0,0);
+
+function distanceToZero($x, $y)
+{
+    return sqrt($x*$x + $y*$y);
+}
+
+function cmp($a, $b)
+{
+	$ad = distanceToZero($a->x,$a->y);
+	$bd = distanceToZero($b->x,$b->y);
+    if ($ad == $bd) {
+        return 0;
+    }
+    return ($ad < $bd) ? -1 : 1;
+}
+
 class Planet {
 	public $orbit;
 	public $type;
@@ -41,11 +60,18 @@ $systems[] = new System(7,3,$plantestb);
 */
 
 $coords = array();
-for ($gx=-50;$gx<=50;$gx++){
+/*for ($gx=-50;$gx<=50;$gx++){
     for ($gy=-50;$gy<=50;$gy++){
         $coords[] = array($gx,$gy);
 	}
+}*/
+
+for ($gx=0;$gx<imagesx($imgmask);$gx++){
+	for ($gy=0;$gy<imagesy($imgmask);$gy++){
+		if(imagecolorat($imgmask,$gx,$gy)<$white/2) $coords[] = array($gx-50,$gy-50);
+	}
 }
+
 shuffle($coords);
 $totPlan =0;
 for($i=0;$i<1000;$i++){
@@ -92,14 +118,15 @@ for($i=0;$i<1000;$i++){
 	$systems[] = new System($sysco[0],$sysco[1],$planets);
 }
 
+usort($systems,cmp);
 
 //var_dump($systems);
 $sid =0;
 foreach($systems as $sys){
 	$sysid = 0;
-	//$mysqli->query("INSERT INTO systems values (NULL," . $sys->x ."," . $sys->y .")");
-	//$sysid = $mysqli->insert_id;
-	//echo "System ID " .$sid++." (".$sysid.") created @ ".$sys->x.",".$sys->y. "<br>";
+	$mysqli->query("INSERT INTO systemsb values (NULL," . $sys->x ."," . $sys->y .")");
+	$sysid = $mysqli->insert_id;
+	echo "System ID " .$sid++." (".$sysid.") created @ ".$sys->x.",".$sys->y. "<br>";
 	foreach($sys->planets as $plan){
 		//$mysqli->query("INSERT INTO planets values (NULL," . $sysid ."," . $plan->orbit .",".$plan->type.",".$plan->metal.",".$plan->deuterium.")");
 		//echo "Planet created in $sysid Orbit=".$plan->orbit." Type=" .$plan->type ." M=".$plan->metal." D=".$plan->deuterium."<br>";
