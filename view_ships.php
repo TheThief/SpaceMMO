@@ -26,9 +26,9 @@ function viewShipsBody()
 	}
 	$query->close();
 	
-	$querywh = $mysqli->prepare('SELECT whrange FROM colonies WHERE planetid = ?');
+	$querywh = $mysqli->prepare('SELECT whrange, systemid FROM colonies LEFT JOIN planets USING (planetid) WHERE planetid = ?');
 	$querywh->bind_param('i', $planetid);
-	$querywh->bind_result($cwhrange);
+	$querywh->bind_result($cwhrange,$csid);
 	$querywh->execute();
 	$querywh->fetch();
 	$querywh->close();
@@ -156,6 +156,7 @@ function viewShipsBody()
 		{
 			$canwhj = false;
 			if(checkWHRange($orderdistance,$whrange,$cwhrange)) $canwhj = true;
+			if($csid == $ordersystemid) $canwhj = false;
 			$whm = ($canwhj)?" W":"";
 			$destinations[$orderplanetid] = systemcode($ordersystemid, $orderorbit).' ('.number_format($orderdistance,2).' PC)' . $whm;
 		}

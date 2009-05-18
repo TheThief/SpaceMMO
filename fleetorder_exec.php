@@ -75,10 +75,10 @@ function fleetOrderBody()
 		}
 	}
 
-	$query = $mysqli->prepare('SELECT userid, whrange FROM colonies WHERE planetid = ?');
+	$query = $mysqli->prepare('SELECT userid, whrange,systemid FROM colonies LEFT JOIN planets USING (planetid) WHERE planetid = ?');
 	$query->bind_param('i', $orderplanetid);
 	$query->execute();
-	$query->bind_result($ordercolonyuserid,$destwhrange);
+	$query->bind_result($ordercolonyuserid,$destwhrange,$dsid);
 	$result = $query->fetch();
 	$query->close();
 	if ($orderid == 2)
@@ -179,10 +179,10 @@ function fleetOrderBody()
 		$transportmetal += COLONY_COST;
 	}
 
-	$query = $mysqli->prepare('SELECT colonies.metal,colonies.deuterium,colonies.energy,x,y,whrange FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userid=? AND planetID = ? FOR UPDATE');
+	$query = $mysqli->prepare('SELECT colonies.metal,colonies.deuterium,colonies.energy,x,y,whrange,systemid FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userid=? AND planetID = ? FOR UPDATE');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($metal,$deuterium,$energy,$sysx,$sysy,$currentwhrange);
+	$query->bind_result($metal,$deuterium,$energy,$sysx,$sysy,$currentwhrange,$csid);
 	$result = $query->fetch();
 	if (!$result)
 	{
@@ -211,6 +211,11 @@ function fleetOrderBody()
 	
 	if ($orderid ==6 && !checkWHRange($orderdistance,$currentwhrange,$destwhrange)){
 		echo 'Error: You do not have a high enough level wormhole generator on both planets.', $eol;
+		exit;
+	}
+	
+	if ($orderid ==6 && $csid == $dsid){
+		echo 'Error: You can not use a wormhole to travel within a system.', $eol;
 		exit;
 	}
 	
