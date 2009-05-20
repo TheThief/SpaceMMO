@@ -1,28 +1,20 @@
 <?php
 function updateEffect($effecttype, $planetid)
 {
-	global $mysqli;
-	$query = $mysqli->prepare('SELECT SUM(colony_building_effect(planetid,buildingid)) AS effect FROM (SELECT planetid,buildingid FROM colonybuildings WHERE planetid = ?) dtable LEFT JOIN buildings USING (buildingid) WHERE effecttype=?');
-	if (!$query)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
+	global $mysqli, $lookups;
 
+	$query = $mysqli->prepare('SELECT SUM(colony_building_effect(planetid,buildingid)) AS effect FROM colonybuildings LEFT JOIN buildings USING (buildingid) WHERE planetid=? AND effecttype=?');
 	$query->bind_param('ii', $planetid, $effecttype);
-
-	$result = $query->execute();
+	$query->execute();
+	$query->bind_result($effect);
+	$result = $query->fetch();
 	if (!$result)
 	{
-		echo 'error: ', $query->error, $eol;
-		exit;
+		//echo 'error: ', $eol;
+		//exit;
 	}
-
-	$query->bind_result($effect);
-	$query->fetch();
 	$query->close();
 
-	global $lookups;
 	$effectname = $lookups["buildingEffectColumn"][$effecttype];
 	if ($effecttype >= 5 && $effecttype <= 7)
 	{
@@ -30,44 +22,24 @@ function updateEffect($effecttype, $planetid)
 	}
 	if ($effectype <= 3)
 	{
-		$query = $mysqli->prepare('SELECT SUM(colony_building_consumes(planetid,buildingid)) AS consumes FROM (SELECT planetid,buildingid FROM colonybuildings WHERE planetid = ?) dtable LEFT JOIN buildings USING (buildingid) WHERE consumestype=?');
-		if (!$query)
-		{
-			echo 'error: ', $mysqli->error, $eol;
-			exit;
-		}
-
+		$query = $mysqli->prepare('SELECT SUM(colony_building_consumes(planetid,buildingid)) AS consumes FROM colonybuildings LEFT JOIN buildings USING (buildingid) WHERE planetid=? AND consumestype=?');
 		$query->bind_param('ii', $planetid, $effecttype);
-
-		$result = $query->execute();
+		$query->execute();
+		$query->bind_result($consumes);
+		$result = $query->fetch();
 		if (!$result)
 		{
-			echo 'error: ', $query->error, $eol;
-			exit;
+			//echo 'error: ', $eol;
+			//exit;
 		}
-
-		$query->bind_result($consumes);
-		$query->fetch();
 		$query->close();
-		
+
 		$effect -= $consumes;
 	}
 
 	$query = $mysqli->prepare('UPDATE colonies SET '.$effectname.' = ? WHERE colonies.planetID = ?');
-	if (!$query)
-	{
-		echo 'error: ', $mysqli->error, $eol;
-		exit;
-	}
-
 	$query->bind_param('ii', $effect, $planetid);
-
-	$result = $query->execute();
-	if (!$result)
-	{
-		echo 'error: ', $query->error, $eol;
-		exit;
-	}
+	$query->execute();
 	$query->close();
 }
 ?>
