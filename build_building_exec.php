@@ -16,6 +16,8 @@ function buildBuildingBody()
 
 	$upgrade = $_GET['upgrade'];
 
+	$mysqli->autocommit(false);
+
 	$query = $mysqli->prepare('SELECT metal,colonylevel FROM colonies WHERE colonies.userid=? AND colonies.planetID = ?');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
@@ -111,6 +113,8 @@ function buildBuildingBody()
 	{
 		updateEffect($consumestype, $planetid);
 	}
+
+	$mysqli->commit();
 
 	header('HTTP/1.1 303 See Other');
 	header('Location: colony_buildings.php?planet='.$planetid);
