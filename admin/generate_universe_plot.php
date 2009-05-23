@@ -131,7 +131,7 @@ for($i=0;$i<1000;$i++){
 }
 
 usort($systems,cmp);
-if ($tcount) var_dump($systems);
+//if ($tcount) var_dump($systems);
 
 foreach($systems as $sys){
 imagesetpixel($img,($sys->x*$scale)+50,($sys->y*$scale)+50,$syscolour);
