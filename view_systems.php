@@ -95,7 +95,7 @@ function viewSystemsBody()
 	$stmt->bind_result($systemid,$sysX,$sysY,$colonies,$othercolonies);
 	?>
 	
-	<form action="view_systems.php?zoom=<? echo $zoom;?>" method="get">System Code: <input name="syscode" size="4" maxlength="4" value="<? echo $syscode:?>"><input type="Submit" value="Jump To"></form><br>
+	<form action="view_systems.php?zoom=<? echo $zoom;?>" method="get">System Code: <input name="syscode" size="4" maxlength="4" value="<? echo $syscode;?>"><input type="Submit" value="Jump To"></form><br>
 	
 	<?
 	echo '<div class="starmap" style="width: ', $viewsize+2, 'em; height: ', $viewsize+2, 'em;">', $eol;
