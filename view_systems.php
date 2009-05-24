@@ -11,7 +11,8 @@ function viewSystemsBody()
 	$userid = $_SESSION['userid'];
 	$x = $_GET['x'];
 	$y = $_GET['y'];
-
+	$syscode = $_GET['syscode'];
+	
 	$viewsize = 30; // in em
 	$minstarsize = 1.2;// in em
 	$maxstarsize = 2;  // in em
@@ -30,6 +31,9 @@ function viewSystemsBody()
 	if (!is_numeric($x) || !is_numeric($y))
 	{
 		$systemid = $_GET['system'];
+		if(!is_numeric($systemid) && (strlen($syscode)==3 || strlen($syscode)==4)){
+			$systemid = systemid($syscode);
+		}
 
 		if (is_numeric($systemid))
 		{
@@ -89,7 +93,11 @@ function viewSystemsBody()
 	$stmt->bind_param('iiiiii',$userid,$userid,$xmin,$xmax,$ymin,$ymax);
 	$stmt->execute();
 	$stmt->bind_result($systemid,$sysX,$sysY,$colonies,$othercolonies);
-
+	?>
+	
+	<form action="view_systems.php?zoom=<? echo $zoom;?>" method="get">System Code: <input name="syscode" size="4" maxlength="4" value="<? echo $syscode:?>"><input type="Submit" value="Jump To"></form><br>
+	
+	<?
 	echo '<div class="starmap" style="width: ', $viewsize+2, 'em; height: ', $viewsize+2, 'em;">', $eol;
 
 	echo '<a href="view_systems.php?x=', $x, '&y=', $y-$scroll, '&zoom=', $zoom, '"><img class="navtop" src="images/up.png" alt="Up"></a>', $eol;
