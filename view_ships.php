@@ -170,7 +170,7 @@ function viewShipsBody()
 		echo '<option value="5" disabled>Attack</option>', $eol;
 		echo '<option value="6" >Wormhole jump</option>', $eol;
 		echo '</select>', $eol;
-		echo '<label>and Return <input name="breturn" type="checkbox"></label><br>', $eol;
+		echo '<label>and Return <input name="breturn" type="checkbox" checked></label><br>', $eol;
 		echo 'Destination: <select name="orderplanet" id="opd0" onchange="updateOtherP(0);">', $eol;
 		if (count($bookmarks) > 0)
 		{
