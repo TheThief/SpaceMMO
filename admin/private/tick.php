@@ -16,7 +16,6 @@ $mysqli->commit();
 // shield hp
 $query = $mysqli->prepare('UPDATE colonies LEFT JOIN colonies AS old USING (planetid) SET colonies.hp = LEAST(old.maxhp, old.hp + old.energy), colonies.energy = GREATEST(old.energy-(old.maxhp-old.hp), 0)');
 $query->execute();
-$query->bind_result($userid, $planetid, $buildrate);
 $mysqli->commit();
 
 // Ship construction
@@ -204,50 +203,50 @@ $mysqli->commit();
 
 // Order 5 - Combat
 $query = $mysqli->prepare('SELECT colonies.planetid,hp FROM colonies LEFT JOIN fleets ON orderplanetid = colonies.planetid WHERE orderticks <= 0 AND orderid=5 GROUP BY colonies.planetid ORDER BY NULL');
-$query->bind_result($colonyid);
+$query->bind_result($colonyid, $colonyhp);
 $query->execute();
 $query->store_result();
 
 $attacktotals = $mysqli->prepare('SELECT SUM(count * weapons), SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderticks <= 0 AND orderid=5 AND orderplanetid=?');
-$attacktotals->bind_param($colonyid);
+$attacktotals->bind_param('i', $colonyid);
 $attacktotals->bind_result($totalweaponsattack,$totaldefenseattack);
 
 $defendtotals = $mysqli->prepare('SELECT SUM(count * weapons), SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderid<=1 AND orderplanetid=?');
-$defendtotals->bind_param($colonyid);
+$defendtotals->bind_param('i', $colonyid);
 $defendtotals->bind_result($totalweaponsdefend,$totaldefensedefend);
 
 $attackfleets = $mysqli->prepare('SELECT fleetid, SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderticks <= 0 AND orderid=5 AND orderplanetid=? GROUP BY fleetid ORDER BY orderid DESC, RANDOM()');
-$attackfleets->bind_param($colonyid);
+$attackfleets->bind_param('i', $colonyid);
 $attackfleets->bind_result($fleetid, $fleetdefense);
 
 $defendfleets = $mysqli->prepare('SELECT fleetid, orderid, SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderid<=1 AND orderplanetid=? GROUP BY fleetid ORDER BY orderid DESC, RANDOM()');
-$defendfleets->bind_param($colonyid);
+$defendfleets->bind_param('i', $colonyid);
 $defendfleets->bind_result($fleetid, $orderid, $fleetdefense);
 
 $fleetships = $mysqli->prepare('SELECT designid, count, defense FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleetid=? ORDER BY RANDOM()');
-$fleetships->bind_param($fleetid);
+$fleetships->bind_param('i', $fleetid);
 $fleetships->bind_result($designid, $count, $defense);
 
 $deleteallattack = $mysqli->prepare('DELETE fleets,fleetships FROM fleets LEFT JOIN fleetships USING (fleetid) WHERE orderticks <= 0 AND orderid=5 AND orderplanetid = ?');
-$deleteallattack->bind_param($colonyid);
+$deleteallattack->bind_param('i', $colonyid);
 
 // "delete all defend" is split because we don't want to delete the "unassigned" (order id 0) fleet, but we do want to delete its ships
 $deletealldefend1 = $mysqli->prepare('DELETE fleetships FROM fleets LEFT JOIN fleetships USING (fleetid) WHERE orderid <= 1 AND orderplanetid = ?');
-$deletealldefend1->bind_param($colonyid);
+$deletealldefend1->bind_param('i', $colonyid);
 $deletealldefend2 = $mysqli->prepare('DELETE FROM fleets WHERE orderid = 1 AND orderplanetid = ?');
-$deletealldefend2->bind_param($colonyid);
+$deletealldefend2->bind_param('i', $colonyid);
 
 // first is for attackers or defenders with orderids > 0, second is for defending "unassigned" (order id 0) fleet
 $deletefleet = $mysqli->prepare('DELETE fleets,fleetships FROM fleets LEFT JOIN fleetships USING (fleetid) WHERE fleetid = ?');
-$deletefleet->bind_param($fleetid);
+$deletefleet->bind_param('i', $fleetid);
 $deletefleetships = $mysqli->prepare('DELETE fleetships FROM fleets LEFT JOIN fleetships USING (fleetid) WHERE fleetid = ?');
-$deletefleetships->bind_param($fleetid);
+$deletefleetships->bind_param('i', $fleetid);
 
 $deleteships = $mysqli->prepare('DELETE FROM fleetships WHERE fleetid = ? AND designid = ?');
-$deleteships->bind_param($fleetid, $designid);
+$deleteships->bind_param('ii', $fleetid, $designid);
 
 $updateships = $mysqli->prepare('UPDATE fleetships SET count = ? WHERE fleetid = ? AND designid = ?');
-$updateships->bind_param($newcount, $fleetid, $designid);
+$updateships->bind_param('iii', $newcount, $fleetid, $designid);
 
 while ($query->fetch())
 {
