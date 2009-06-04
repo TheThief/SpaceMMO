@@ -138,9 +138,7 @@ $mysqli->commit();
 
 // Fleet movement
 
-$query = $mysqli->prepare('UPDATE fleets SET fuel = fuel - fueluse * LEAST('.SMALL_PER_TICK.',orderticks), orderticks = orderticks - '.SMALL_PER_TICK.' WHERE orderid > 1 AND fuel >= fueluse * LEAST('.SMALL_PER_TICK.',orderticks) AND orderticks > 0');
-$query->execute();
-$query->close();
+$mysqli->query('UPDATE fleets LEFT JOIN (SELECT fleetid, LEAST('.SMALL_PER_TICK.',orderticks,FLOOR(fuel / fueluse)) AS ticks FROM fleets) ticktable USING (fleetid) SET fuel = fuel - fueluse * ticks, orderticks = orderticks - ticks WHERE orderid > 1 AND orderticks > 0 AND fuel >= fueluse');
 
 // Order 2 - Move
 $mysqli->query('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, totalorderticks = 0 WHERE orderticks <= 0 AND orderid = 2 AND NOT breturnorder');
@@ -201,6 +199,151 @@ while ($query->fetch())
 	$donequery->execute();
 	$returnquery->execute();
 }
+
+$mysqli->commit();
+
+// Order 5 - Combat
+$query = $mysqli->prepare('SELECT colonies.planetid,hp FROM colonies LEFT JOIN fleets ON orderplanetid = colonies.planetid WHERE orderticks <= 0 AND orderid=5 GROUP BY colonies.planetid ORDER BY NULL');
+$query->bind_result($colonyid);
+$query->execute();
+$query->store_result();
+
+$attacktotals = $mysqli->prepare('SELECT SUM(count * weapons), SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderticks <= 0 AND orderid=5 AND orderplanetid=?');
+$attacktotals->bind_param($colonyid);
+$attacktotals->bind_result($totalweaponsattack,$totaldefenseattack);
+
+$defendtotals = $mysqli->prepare('SELECT SUM(count * weapons), SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderid<=1 AND orderplanetid=?');
+$defendtotals->bind_param($colonyid);
+$defendtotals->bind_result($totalweaponsdefend,$totaldefensedefend);
+
+$attackfleets = $mysqli->prepare('SELECT fleetid, SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderticks <= 0 AND orderid=5 AND orderplanetid=? GROUP BY fleetid ORDER BY orderid DESC, RANDOM()');
+$attackfleets->bind_param($colonyid);
+$attackfleets->bind_result($fleetid, $fleetdefense);
+
+$defendfleets = $mysqli->prepare('SELECT fleetid, orderid, SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderid<=1 AND orderplanetid=? GROUP BY fleetid ORDER BY orderid DESC, RANDOM()');
+$defendfleets->bind_param($colonyid);
+$defendfleets->bind_result($fleetid, $orderid, $fleetdefense);
+
+$fleetships = $mysqli->prepare('SELECT designid, count, defense FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleetid=? ORDER BY RANDOM()');
+$fleetships->bind_param($fleetid);
+$fleetships->bind_result($designid, $count, $defense);
+
+$deleteallattack = $mysqli->prepare('DELETE fleets,fleetships FROM fleets LEFT JOIN fleetships USING (fleetid) WHERE orderticks <= 0 AND orderid=5 AND orderplanetid = ?');
+$deleteallattack->bind_param($colonyid);
+
+// "delete all defend" is split because we don't want to delete the "unassigned" (order id 0) fleet, but we do want to delete its ships
+$deletealldefend1 = $mysqli->prepare('DELETE fleetships FROM fleets LEFT JOIN fleetships USING (fleetid) WHERE orderid <= 1 AND orderplanetid = ?');
+$deletealldefend1->bind_param($colonyid);
+$deletealldefend2 = $mysqli->prepare('DELETE FROM fleets WHERE orderid = 1 AND orderplanetid = ?');
+$deletealldefend2->bind_param($colonyid);
+
+// first is for attackers or defenders with orderids > 0, second is for defending "unassigned" (order id 0) fleet
+$deletefleet = $mysqli->prepare('DELETE fleets,fleetships FROM fleets LEFT JOIN fleetships USING (fleetid) WHERE fleetid = ?');
+$deletefleet->bind_param($fleetid);
+$deletefleetships = $mysqli->prepare('DELETE fleetships FROM fleets LEFT JOIN fleetships USING (fleetid) WHERE fleetid = ?');
+$deletefleetships->bind_param($fleetid);
+
+$deleteships = $mysqli->prepare('DELETE FROM fleetships WHERE fleetid = ? AND designid = ?');
+$deleteships->bind_param($fleetid, $designid);
+
+$updateships = $mysqli->prepare('UPDATE fleetships SET count = ? WHERE fleetid = ? AND designid = ?');
+$updateships->bind_param($newcount, $fleetid, $designid);
+
+while ($query->fetch())
+{
+	$attacktotals->execute();
+	$attacktotals->fetch();
+	$defendtotals->execute();
+	$defendtotals->fetch();
+
+	if ($totalweaponsattack >= $totaldefensedefend)
+	{
+		$deletealldefend1->execute();
+		$deletealldefend2->execute();
+	}
+	else
+	{
+		$defendfleets->execute();
+		$defendfleets->store_result();
+		while ($totalweaponsattack > 0 && $defendfleets->fetch())
+		{
+			if ($totalweaponsattack >= $fleetdefense)
+			{
+				$totalweaponsattack -= $fleetdefense;
+				if ($orderid > 0)
+				{
+					$deletefleet->execute();
+				}
+				else
+				{
+					$deletefleetships->execute();
+				}
+			}
+			else
+			{
+				$fleetships->execute();
+				$fleetships->store_result();
+				while ($totalweaponsattack > 0 && $fleetships->fetch())
+				{
+					if ($totalweaponsattack >= $count * $defense)
+					{
+						$totalweaponsattack -= $count * $defense;
+						$deleteships->execute();
+					}
+					else
+					{
+						$newcount = $count - floor($totalweaponsattack / $defense);
+						$totalweaponsattack = 0;
+						$updateships->execute();
+					}
+				}
+
+				// TODO: Update fleet's stats
+			}
+		}
+	}
+
+	if ($totalweaponsdefend >= $totaldefenseattack)
+	{
+		$deleteallattack->execute();
+	}
+	else
+	{
+		$attackfleets->execute();
+		$attackfleets->store_result();
+		while ($totalweaponsdefend > 0 && $attackfleets->fetch())
+		{
+			if ($totalweaponsdefend >= $fleetdefense)
+			{
+				$totalweaponsdefend -= $fleetdefense;
+				$deletefleet->execute();
+			}
+			else
+			{
+				$fleetships->execute();
+				$fleetships->store_result();
+				while ($totalweaponsdefend > 0 && $fleetships->fetch())
+				{
+					if ($totalweaponsdefend >= $count * $defense)
+					{
+						$totalweaponsdefend -= $count * $defense;
+						$deleteships->execute();
+					}
+					else
+					{
+						$newcount = $count - floor($totalweaponsdefend / $defense);
+						$totalweaponsdefend = 0;
+						$updateships->execute();
+					}
+				}
+
+				// TODO: Update fleet's stats
+			}
+		}
+	}
+}
+
+// Wow.
 
 $mysqli->commit();
 

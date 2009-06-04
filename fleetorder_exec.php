@@ -20,7 +20,7 @@ function fleetOrderBody()
 	$breturn = isset($_POST['breturn']);
 	
 	if ($orderid == 6 && $breturn) $breturn = false;
-	if ($orderid < 2 || $orderid == 5)
+	if ($orderid < 2 || $orderid > 6)
 	{
 		echo 'Error: Invalid order.', $eol;
 		exit;
@@ -123,6 +123,19 @@ function fleetOrderBody()
 			}
 		}
 	}
+	else if ($orderid == 5)
+	{
+		if (!$ordercolonyuserid)
+		{
+			echo 'Error: What\'s the point in asking to attack a planet with no colony on it? I mean really...', $eol;
+			exit;
+		}
+		if ($userid == $ordercolonyuserid)
+		{
+			echo 'Error: I have to object, that\'s one of your own colonies. Attacking it would be wrong.', $eol;
+			exit;
+		}
+	}
 	else if ($orderid == 6)
 	{
 		if (!$ordercolonyuserid)
@@ -208,17 +221,17 @@ function fleetOrderBody()
 		exit;
 	}
 	$query->close();
-	
+
 	if ($orderid ==6 && !checkWHRange($orderdistance,$currentwhrange,$destwhrange)){
 		echo 'Error: You do not have a high enough level wormhole generator on both planets.', $eol;
 		exit;
 	}
-	
+
 	if ($orderid ==6 && $csid == $dsid){
 		echo 'Error: You can not use a wormhole to travel within a system.', $eol;
 		exit;
 	}
-	
+
 	$orderticks = 1;
 	if ($orderid == 6) {
 		$orderticks = 0;
@@ -228,7 +241,7 @@ function fleetOrderBody()
 		$orderticks = ceil($orderdistance/$fleetspeed * SMALLTICKS_PH);
 	}
 	$totalfuelneed = $fueluse * $orderticks;
-	
+
 	if ($breturn)
 	{
 		$totalfuelneed *= 2;
@@ -253,24 +266,24 @@ function fleetOrderBody()
 		$fuel = $totalfuelneed;
 		$deuterium = $deuterium - $deuteriumneed;
 	}
-	
+
 	$whjumpcost = 0;
 	if ($orderid == 6) $whjumpcost = ceil(WH_COST_PER_PC*$orderdistance);
-	
+
 	if ($whjumpcost > $deuterium){
 		echo 'Error: You need ', $whjumpcost ,' deuterium to open this wormhole.', $eol;
 		exit;
 	}else{
 		$deuterium -= $whjumpcost;
 	}
-	
+
 	if ($whjumpcost > $energy){
 		echo 'Error: You need ', $whjumpcost ,' energy to open this wormhole.', $eol;
 		exit;
 	}else{
 		$energy -= $whjumpcost;
 	}
-	
+
 	if ($transportdeuterium > $deuterium)
 	{
 		echo 'Error: After fueling your fleet for the journey, you don\'t have that much deuterium left to transport.', $eol;

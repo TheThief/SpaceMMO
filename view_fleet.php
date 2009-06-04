@@ -135,7 +135,7 @@ function viewFleetBody()
 		echo '<option value="2" selected>Move to</option>', $eol;
 		echo '<option value="3">Transport to</option>', $eol;
 		echo '<option value="4">Colonise</option>', $eol;
-		echo '<option value="5" disabled>Attack</option>', $eol;
+		echo '<option value="5">Attack</option>', $eol;
 		echo '<option value="6">Wormhole jump</option>', $eol;
 		echo '</select>', $eol;
 		echo '<label>and Return <input name="breturn" type="checkbox" checked></label><br>', $eol;
