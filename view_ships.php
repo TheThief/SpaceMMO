@@ -264,9 +264,16 @@ function viewShipsBody()
 			{
 				echo '<td>-</td>';
 			}
-			if ($orderticks <=0) $orderticks = 1;
-			echo '<td><span id="count',$countpoint,'">',formatSeconds('h:i:s',ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed()),'</span></td>', $eol;
-			$countarray[$countpoint++] = ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed();
+			if ($orderid == 5 && $orderticks <=0)
+			{
+				echo '<td>In Combat</td>';
+			}
+			else
+			{
+				if ($orderticks <=0) $orderticks = 1;
+				echo '<td><span id="count',$countpoint,'">',formatSeconds('h:i:s',ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed()),'</span></td>', $eol;
+				$countarray[$countpoint++] = ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed();
+			}
 			echo '</tr>', $eol;
 		} while ($query->fetch());
 		echo '</table>', $eol;
@@ -329,9 +336,16 @@ function viewShipsBody()
 			{
 				echo '<td>-</td>';
 			}
-			if ($orderticks <=0) $orderticks = 1;
-			echo '<td><span id="count',$countpoint,'">',formatSeconds('h:i:s',ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed()),'</span></td>', $eol;
-			$countarray[$countpoint++] = ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed();
+			if ($orderid == 5 && $orderticks <=0)
+			{
+				echo '<td>In Combat</td>';
+			}
+			else
+			{
+				if ($orderticks <=0) $orderticks = 1;
+				echo '<td><span id="count',$countpoint,'">',formatSeconds('h:i:s',ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed()),'</span></td>', $eol;
+				$countarray[$countpoint++] = ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed();
+			}
 			echo '</tr>', $eol;
 		} while ($query->fetch());
 		echo '</table>', $eol;
@@ -358,9 +372,16 @@ function viewShipsBody()
 			//echo '<input type="hidden" name="fleet" value="',$fleetid,'">', $eol;
 			echo '<h3>',$lookups['order'][$orderid],' ',systemcode($systemid,$orbit),'</h3>', $eol;
 			echo 'Owner: ',$username,'<br>', $eol;
-			if ($orderticks <=0) $orderticks = 1;
-			echo '<span id="count',$countpoint,'">',formatSeconds('h:i:s',ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed()),'</span><br>', $eol;
-			$countarray[$countpoint++] = ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed();
+			if ($orderid == 5 && $orderticks <=0)
+			{
+				echo '<td>In Combat</td>';
+			}
+			else
+			{
+				if ($orderticks <=0) $orderticks = 1;
+				echo '<span id="count',$countpoint,'">',formatSeconds('h:i:s',ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed()),'</span><br>', $eol;
+				$countarray[$countpoint++] = ceil($orderticks/SMALL_PER_TICK)*TICK-getTickElapsed();
+			}
 
 			echo '<ul>', $eol;
 			$queryships->execute();
