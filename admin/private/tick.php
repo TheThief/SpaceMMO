@@ -251,8 +251,10 @@ $updateships->bind_param('iii', $newcount, $fleetid, $designid);
 while ($query->fetch())
 {
 	$attacktotals->execute();
+	$attacktotals->store_result();
 	$attacktotals->fetch();
 	$defendtotals->execute();
+	$defendtotals->store_result();
 	$defendtotals->fetch();
 
 	if ($totalweaponsattack >= $totaldefensedefend)
