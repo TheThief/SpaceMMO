@@ -215,15 +215,15 @@ $defendtotals = $mysqli->prepare('SELECT SUM(count * weapons), SUM(count * defen
 $defendtotals->bind_param('i', $colonyid);
 $defendtotals->bind_result($totalweaponsdefend,$totaldefensedefend);
 
-$attackfleets = $mysqli->prepare('SELECT fleetid, SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderticks <= 0 AND orderid=5 AND orderplanetid=? GROUP BY fleetid ORDER BY orderid DESC, RANDOM()');
+$attackfleets = $mysqli->prepare('SELECT fleetid, SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderticks <= 0 AND orderid=5 AND orderplanetid=? GROUP BY fleetid ORDER BY orderid DESC, RAND()');
 $attackfleets->bind_param('i', $colonyid);
 $attackfleets->bind_result($fleetid, $fleetdefense);
 
-$defendfleets = $mysqli->prepare('SELECT fleetid, orderid, SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderid<=1 AND orderplanetid=? GROUP BY fleetid ORDER BY orderid DESC, RANDOM()');
+$defendfleets = $mysqli->prepare('SELECT fleetid, orderid, SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderid<=1 AND orderplanetid=? GROUP BY fleetid ORDER BY orderid DESC, RAND()');
 $defendfleets->bind_param('i', $colonyid);
 $defendfleets->bind_result($fleetid, $orderid, $fleetdefense);
 
-$fleetships = $mysqli->prepare('SELECT designid, count, defense FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleetid=? ORDER BY RANDOM()');
+$fleetships = $mysqli->prepare('SELECT designid, count, defense FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE fleetid=? ORDER BY RAND()');
 $fleetships->bind_param('i', $fleetid);
 $fleetships->bind_result($designid, $count, $defense);
 
