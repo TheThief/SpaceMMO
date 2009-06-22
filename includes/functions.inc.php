@@ -61,6 +61,11 @@ $lookups["order"]=array(
 		4 => "Colonise",
 		5 => "Attack",
 		6 => "Wormhole jump");
+		
+$lookups["shipclass"]=array(
+		1 => "Fighter",
+		2 => "Cruiser",
+		3 => "Capital");
 
 function checkLoggedIn_failed()
 {
