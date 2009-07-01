@@ -42,27 +42,10 @@ function addToFleet($fleetid, $designid, $count)
 {
 	global $mysqli, $eol;
 
-	$fleetquery = $mysqli->prepare('SELECT 1 FROM fleetships WHERE fleetID = ? AND designID = ? FOR UPDATE');
-	$fleetquery->bind_param('ii', $fleetid, $designid);
-	$result = $fleetquery->execute();
-	$fleetquery->bind_result($fleetexists);
-	$fleetquery->fetch();
+	$fleetquery = $mysqli->prepare('INSERT INTO fleetships (fleetID, designID, count) VALUE (?,?,?) ON DUPLICATE KEY UPDATE count = count + VALUES(count)');
+	$fleetquery->bind_param('iii', $fleetid, $designid, $count);
+	$fleetquery->execute();
 	$fleetquery->close();
-
-	if ($fleetexists)
-	{
-		$fleetquery = $mysqli->prepare('UPDATE fleetships SET count = count + ? WHERE fleetID = ? AND designID = ?');
-		$fleetquery->bind_param('iii', $count, $fleetid, $designid);
-		$fleetquery->execute();
-		$fleetquery->close();
-	}
-	else
-	{
-		$fleetquery = $mysqli->prepare('INSERT INTO fleetships (fleetID, designID, count) VALUE (?,?,?)');
-		$fleetquery->bind_param('iii', $fleetid, $designid, $count);
-		$fleetquery->execute();
-		$fleetquery->close();
-	}
 }
 
 while ($query->fetch())
