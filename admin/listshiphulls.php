@@ -8,7 +8,7 @@ template('Admin List Ship Hulls', 'adminListShipHullsBody');
 
 function adminListShipHullsBody()
 {
-	global $eol, $mysqli;
+	global $eol, $mysqli,$lookups;
 	$query = $mysqli->prepare('SELECT hullid,hullname,hulldescription,metalcost,size,maxweapons,mindrydock,class FROM shiphulls ORDER BY hullid');
 	$query->execute();
 	$query->bind_result($hullid,$hullname,$hulldescription,$hullcost,$hullsize,$maxweapons,$mindrydock,$hullclass);
@@ -19,7 +19,7 @@ function adminListShipHullsBody()
 
 	while($query->fetch())
 	{
-		echo "<tr><td>$hullid</td><td>$hullname</td><td>$hulldescription</td><td>$hullcost</td><td>$hullsize</td><td>$maxweapons</td><td>$mindrydock</td><td>$hullclass</td><td></td></tr>", $eol;
+		echo "<tr><td>$hullid</td><td>$hullname</td><td>$hulldescription</td><td>$hullcost</td><td>$hullsize</td><td>$maxweapons</td><td>$mindrydock</td><td>{$lookups['shipclass'][$hullclass]}</td><td></td></tr>", $eol;
 	}
 	echo '<form action="addshiphull_exec.php" method="post">', $eol;
 	echo '<tr><td></td>', $eol;
