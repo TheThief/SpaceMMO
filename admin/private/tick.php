@@ -242,9 +242,9 @@ $updatecolony->bind_param('ii', $colonyhp, $colonyid);
 
 // Ships idling
 $donequery = $mysqli->prepare('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, totalorderticks = 0 WHERE orderticks <= 0 AND orderid = 5 AND NOT breturnorder AND orderplanetid = ? AND userid = ?');
-$donequery->bind_param('ii', $planetid, $attackuserid);
+$donequery->bind_param('ii', $colonyid, $attackuserid);
 $returnquery = $mysqli->prepare('UPDATE fleets SET orderplanetid = planetid, orderid = 2, orderticks = totalorderticks, breturnorder = FALSE WHERE orderticks <= 0 AND orderid = 5 AND breturnorder AND orderplanetid = ? AND userid = ?');
-$returnquery->bind_param('ii', $planetid, $attackuserid);
+$returnquery->bind_param('ii', $colonyid, $attackuserid);
 
 while ($query->fetch())
 {
