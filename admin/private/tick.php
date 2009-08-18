@@ -238,7 +238,7 @@ $updateships->bind_param('iii', $newcount, $fleetid, $designid);
 
 // Colony damage
 $updatecolony = $mysqli->prepare('UPDATE colonies SET hp = ? WHERE planetid = ?');
-$updatecolony->bind_param('i', $colonyhp);
+$updatecolony->bind_param('ii', $colonyhp, $colonyid);
 
 // Ships idling
 $donequery = $mysqli->prepare('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, totalorderticks = 0 WHERE orderticks <= 0 AND orderid = 5 AND NOT breturnorder AND orderplanetid = ? AND userid = ?');
