@@ -190,14 +190,16 @@ $query->bind_result($colonyid, $colonyhp);
 $query->execute();
 $query->store_result();
 
-$attacktotals = $mysqli->prepare('SELECT SUM(count * weapons), SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderticks <= 0 AND orderid=5 AND orderplanetid=?');
+// Totals stats
+$attacktotals = $mysqli->prepare('SELECT MIN(userid), SUM(count * weapons), SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderticks <= 0 AND orderid=5 AND orderplanetid=?');
 $attacktotals->bind_param('i', $colonyid);
-$attacktotals->bind_result($totalweaponsattack,$totaldefenseattack);
+$attacktotals->bind_result($attackuserid, $totalweaponsattack,$totaldefenseattack);
 
 $defendtotals = $mysqli->prepare('SELECT SUM(count * weapons), SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderid<=1 AND orderplanetid=?');
 $defendtotals->bind_param('i', $colonyid);
 $defendtotals->bind_result($totalweaponsdefend,$totaldefensedefend);
 
+// Fleets stats
 $attackfleets = $mysqli->prepare('SELECT fleetid, SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderticks <= 0 AND orderid=5 AND orderplanetid=? GROUP BY fleetid ORDER BY orderid DESC, RAND()');
 $attackfleets->bind_param('i', $colonyid);
 $attackfleets->bind_result($fleetid, $fleetdefense);
@@ -210,6 +212,7 @@ $fleetships = $mysqli->prepare('SELECT designid, count, defense FROM fleets LEFT
 $fleetships->bind_param('i', $fleetid);
 $fleetships->bind_result($designid, $count, $defense);
 
+// Total force destruction
 $deleteallattack = $mysqli->prepare('DELETE fleets,fleetships FROM fleets LEFT JOIN fleetships USING (fleetid) WHERE orderticks <= 0 AND orderid=5 AND orderplanetid = ?');
 $deleteallattack->bind_param('i', $colonyid);
 
@@ -219,17 +222,29 @@ $deletealldefend1->bind_param('i', $colonyid);
 $deletealldefend2 = $mysqli->prepare('DELETE FROM fleets WHERE orderid = 1 AND orderplanetid = ?');
 $deletealldefend2->bind_param('i', $colonyid);
 
+// Total fleet destruction
 // first is for attackers or defenders with orderids > 0, second is for defending "unassigned" (order id 0) fleet
 $deletefleet = $mysqli->prepare('DELETE fleets,fleetships FROM fleets LEFT JOIN fleetships USING (fleetid) WHERE fleetid = ?');
 $deletefleet->bind_param('i', $fleetid);
 $deletefleetships = $mysqli->prepare('DELETE fleetships FROM fleets LEFT JOIN fleetships USING (fleetid) WHERE fleetid = ?');
 $deletefleetships->bind_param('i', $fleetid);
 
+// Partial fleet destruction
 $deleteships = $mysqli->prepare('DELETE FROM fleetships WHERE fleetid = ? AND designid = ?');
 $deleteships->bind_param('ii', $fleetid, $designid);
 
 $updateships = $mysqli->prepare('UPDATE fleetships SET count = ? WHERE fleetid = ? AND designid = ?');
 $updateships->bind_param('iii', $newcount, $fleetid, $designid);
+
+// Colony damage
+$updatecolony = $mysqli->prepare('UPDATE colonies SET shieldhp = ? WHERE planetid = ?');
+$updatecolony->bind_param('i', $colonyhp);
+
+// Ships idling
+$donequery = $mysqli->prepare('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderticks = 0, totalorderticks = 0 WHERE orderticks <= 0 AND orderid = 5 AND NOT breturnorder AND orderplanetid = ? AND userid = ?');
+$donequery->bind_param('ii', $planetid, $attackuserid);
+$returnquery = $mysqli->prepare('UPDATE fleets SET orderplanetid = planetid, orderid = 2, orderticks = totalorderticks, breturnorder = FALSE WHERE orderticks <= 0 AND orderid = 5 AND breturnorder AND orderplanetid = ? AND userid = ?');
+$returnquery->bind_param('ii', $planetid, $attackuserid);
 
 while ($query->fetch())
 {
@@ -239,11 +254,15 @@ while ($query->fetch())
 	$defendtotals->execute();
 	$defendtotals->store_result();
 	$defendtotals->fetch();
+	$attackersdead = false;
+	$defendersdead = false;
 
 	if ($totalweaponsattack >= $totaldefensedefend)
 	{
 		$deletealldefend1->execute();
 		$deletealldefend2->execute();
+		$totalweaponsattack -= $totaldefensedefend;
+		$defendersdead = true;
 	}
 	else
 	{
@@ -290,6 +309,8 @@ while ($query->fetch())
 	if ($totalweaponsdefend >= $totaldefenseattack)
 	{
 		$deleteallattack->execute();
+		$totalweaponsdefend -= $totaldefenseattack;
+		$attackersdead = true;
 	}
 	else
 	{
@@ -323,6 +344,24 @@ while ($query->fetch())
 
 				// TODO: Update fleet's stats
 			}
+		}
+	}
+
+	// Defenders all died, all attackers didn't, attackers win
+	// if all attackers AND defenders die, the attackers don't get to attack the colony itself
+	// even if they had leftover firepower
+	if ($totalweaponsattack > 0 && $defendersdead && !$attackersdead)
+	{
+		if ($totalweaponsattack <= $colonyhp)
+		{
+			$colonyhp -= $totalweaponsattack;
+			$updatecolony->execute();
+		}
+		else
+		{
+			claim_colony($colonyid, $attackuserid);
+			$donequery->execute();
+			$returnquery->execute();
 		}
 	}
 }

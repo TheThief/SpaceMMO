@@ -29,4 +29,39 @@ function colonise($planetid, $userid, $metal=0)
 
 	if (COLONY_DEBUG) echo 'Unassigned fleet at \'', $planetid, '\' added successfully', $eol;
 }
+
+function claim_colony($planetid, $userid)
+{
+	global $mysqli, $eol;
+
+	$query = $mysqli->prepare('DELETE FROM colonybuildings WHERE planetid = ?');
+	$query->bind_param('i', $planetid);
+	$query->execute();
+	$query->close();
+
+	if (COLONY_DEBUG) echo 'Buildings of colony \'', $planetid, '\' deleted', $eol;
+
+	$query = $mysqli->prepare('DELETE FROM shipbuildqueue WHERE planetid = ?');
+	$query->bind_param('i', $planetid);
+	$query->execute();
+	$query->close();
+
+	if (COLONY_DEBUG) echo 'Ship build queue of colony \'', $planetid, '\' deleted', $eol;
+
+	$query = $mysqli->prepare('DELETE FROM fleets WHERE planetID=? AND orderid=0');
+	$query->bind_param('i', $planetid);
+	$query->execute();
+	$query->close();
+
+	if (COLONY_DEBUG) echo 'Unassigned fleet at \'', $planetid, '\' deleted', $eol;
+
+	$query = $mysqli->prepare('DELETE FROM colonies WHERE planetid = ?');
+	$query->bind_param('i', $planetid);
+	$query->execute();
+	$query->close();
+
+	if (COLONY_DEBUG) echo 'Colony \'', $planetid, '\' deleted', $eol;
+
+	colonise($planetid, $userid);
+}
 ?>
