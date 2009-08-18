@@ -191,7 +191,7 @@ $query->execute();
 $query->store_result();
 
 // Totals stats
-$attacktotals = $mysqli->prepare('SELECT MIN(userid), SUM(count * weapons), SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderticks <= 0 AND orderid=5 AND orderplanetid=?');
+$attacktotals = $mysqli->prepare('SELECT MIN(fleets.userid), SUM(count * weapons), SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderticks <= 0 AND orderid=5 AND orderplanetid=?');
 $attacktotals->bind_param('i', $colonyid);
 $attacktotals->bind_result($attackuserid, $totalweaponsattack,$totaldefenseattack);
 
