@@ -39,7 +39,7 @@ $query = $mysqli->prepare('SELECT buildingid,consumestype,consumesbase,consumesl
 			}
 	}
 	
-		foreach($effects as $effect){
+		/*foreach($effects as $effect){
 		$mysqli->query("INSERT INTO effects values (NULL," . $effect[0] ."," . $effect[1] .",".$effect[2].",".$effect[3].",".$effect[4].")");
-		}
+		}*/
 ?>
