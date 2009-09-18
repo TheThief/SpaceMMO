@@ -195,7 +195,7 @@ $attacktotals = $mysqli->prepare('SELECT MIN(fleets.userid), SUM(count * weapons
 $attacktotals->bind_param('i', $colonyid);
 $attacktotals->bind_result($attackuserid, $totalweaponsattack,$totaldefenseattack);
 
-$defendtotals = $mysqli->prepare('SELECT SUM(count * weapons), SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderid<=1 AND orderplanetid=?');
+$defendtotals = $mysqli->prepare('SELECT SUM(count * weapons), SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderid<=1 AND planetid=?');
 $defendtotals->bind_param('i', $colonyid);
 $defendtotals->bind_result($totalweaponsdefend,$totaldefensedefend);
 
@@ -204,7 +204,7 @@ $attackfleets = $mysqli->prepare('SELECT fleetid, SUM(count * defense) FROM flee
 $attackfleets->bind_param('i', $colonyid);
 $attackfleets->bind_result($fleetid, $fleetdefense);
 
-$defendfleets = $mysqli->prepare('SELECT fleetid, orderid, SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderid<=1 AND orderplanetid=? GROUP BY fleetid ORDER BY orderid DESC, RAND()');
+$defendfleets = $mysqli->prepare('SELECT fleetid, orderid, SUM(count * defense) FROM fleets LEFT JOIN fleetships USING (fleetid) LEFT JOIN shipdesigns USING (designid) WHERE orderid<=1 AND planetid=? GROUP BY fleetid ORDER BY orderid DESC, RAND()');
 $defendfleets->bind_param('i', $colonyid);
 $defendfleets->bind_result($fleetid, $orderid, $fleetdefense);
 
@@ -217,9 +217,9 @@ $deleteallattack = $mysqli->prepare('DELETE fleets,fleetships FROM fleets LEFT J
 $deleteallattack->bind_param('i', $colonyid);
 
 // "delete all defend" is split because we don't want to delete the "unassigned" (order id 0) fleet, but we do want to delete its ships
-$deletealldefend1 = $mysqli->prepare('DELETE fleetships FROM fleets LEFT JOIN fleetships USING (fleetid) WHERE orderid <= 1 AND orderplanetid = ?');
+$deletealldefend1 = $mysqli->prepare('DELETE fleetships FROM fleets LEFT JOIN fleetships USING (fleetid) WHERE orderid <= 1 AND planetid = ?');
 $deletealldefend1->bind_param('i', $colonyid);
-$deletealldefend2 = $mysqli->prepare('DELETE FROM fleets WHERE orderid = 1 AND orderplanetid = ?');
+$deletealldefend2 = $mysqli->prepare('DELETE FROM fleets WHERE orderid = 1 AND planetid = ?');
 $deletealldefend2->bind_param('i', $colonyid);
 
 // Total fleet destruction
