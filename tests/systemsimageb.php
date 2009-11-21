@@ -1,5 +1,6 @@
 <?
 include_once "../includes/start.inc.php";
+$whlinks = getWHLinks($_SESSION["userid"]);
 $scale = 5;
 $stmt = $mysqli->prepare("SELECT * FROM systems;");
 $stmt->execute();
@@ -8,7 +9,7 @@ $stmt->bind_result($systemID,$sysX,$sysY);
 $img = imagecreatetruecolor(101*$scale,101*$scale);
 $syscolour = imagecolorallocate($img,255,255,255);
 $whcolour = imagecolorallocate($img,0,0,255);
-$whlinks = getWHLinks($_SESSION["userid"]);
+
 
 while($stmt->fetch()){
 	//imagesetpixel($img,($sysX*$scale)+50,($sysY*$scale)+50,$syscolour);
