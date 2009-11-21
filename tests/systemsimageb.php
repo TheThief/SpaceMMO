@@ -2,6 +2,7 @@
 include_once "../includes/start.inc.php";
 $whlinks = getWHLinks($_SESSION["userid"]);
 $scale = 5;
+if (isset($_GET["scale"])) $scale = $_GET["scale"];
 $stmt = $mysqli->prepare("SELECT * FROM systems;");
 $stmt->execute();
 $stmt->bind_result($systemID,$sysX,$sysY);
