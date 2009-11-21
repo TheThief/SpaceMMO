@@ -5,7 +5,7 @@ $scale = 5;
 $stmt = $mysqli->prepare("SELECT * FROM systems;");
 $stmt->execute();
 $stmt->bind_result($systemID,$sysX,$sysY);
-//header("Content-type: image/png");
+header("Content-type: image/png");
 $img = imagecreatetruecolor(101*$scale,101*$scale);
 $syscolour = imagecolorallocate($img,255,255,255);
 $whcolour = imagecolorallocate($img,0,0,255);
