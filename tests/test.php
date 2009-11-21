@@ -6,7 +6,7 @@ include_once "../includes/start.inc.php";
 foreach($_SESSION as $key => $value){
 	echo "$key = $value \n";
 }
-
+ 
 $linkstest = getWHLinks($_SESSION["userid"]);
 echo "\n";
 var_dump($linkstest);
