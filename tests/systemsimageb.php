@@ -1,10 +1,6 @@
 <?
 include_once "../includes/start.inc.php";
-if (isset($_GET["allusers"]) && $_GET["allusers"] == "y" && isAdmin()){
-$whlinks = getALLWHLinks();
-}else{
 $whlinks = getWHLinks($_SESSION["userid"]);
-}
 $scale = 5;
 if (isset($_GET["scale"])) $scale = $_GET["scale"];
 $stmt = $mysqli->prepare("SELECT * FROM systems;");
