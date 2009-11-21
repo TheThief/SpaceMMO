@@ -16,7 +16,7 @@ while($stmt->fetch()){
 	imagefilledellipse($img,($sysX+50.5)*$scale,($sysY+50.5)*$scale,$scale-1,$scale-1,$syscolour);
 }
 //test
-foreach($links as $link){
+foreach($whlinks as $link){
 	$x1 = $link["x"];
 	$y1 = $link["y"];
 	foreach($link as $endkey => $endvalue){

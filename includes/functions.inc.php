@@ -359,7 +359,7 @@ function getWHLinks($userid){
 	$stmt->execute();
 	$stmt->bind_result($systemID1,$systemID2,$sysX1,$sysY1,$sysX2,$sysY2);
 	while($stmt->fetch()){
-		echo $systemID1 . "@" . $sysX1 . "," . $sysY1 . " links to " . $systemID2 . "@" . $sysX2 . "," . $sysY2 . "<br>";
+		//echo $systemID1 . "@" . $sysX1 . "," . $sysY1 . " links to " . $systemID2 . "@" . $sysX2 . "," . $sysY2 . "<br>";
 		if(!isset($links[$systemID1])){
 			if(!isset($links[$systemID2])){
 				$links[$systemID1] = array("x" => $sysX1, "y" => $sysY1);
