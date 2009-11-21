@@ -7,6 +7,9 @@ foreach($_SESSION as $key => $value){
 	echo "$key = $value \n";
 }
 
+$linkstest = getWHLinks($_SESSION["userid"]);
+var_dump($linkstest);
+
 echo $_SERVER["PHP_SELF"];
 foreach (range(0.0, 1.0, 0.1) as $number) {
     echo $number . "\n";

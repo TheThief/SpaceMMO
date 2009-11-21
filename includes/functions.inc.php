@@ -345,4 +345,23 @@ function checkWHRange($dist,$range1,$range2){
 	if(($range1 >= $dist) && ($range2 >= $dist)) $canwhj = true;
 	return $canwhj;
 }
+
+function getWHLinks($userid){
+	global $eol, $mysqli;
+	$links = array();
+	$stmt = $mysqli->prepare("SELECT planetid1,planetid2,x1,y1,x2,y2 FROM 
+	(SELECT planetid as planetid1, x as x1 ,y as y1, whrange FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? and whrange > 0) sys1, 
+	(SELECT planetid as planetid2, x as x2 ,y as y2, whrange FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE userID = ? and whrange > 0) sys2 
+	WHERE sys1.planetid1 < sys2.planetid2 
+    and distance(sys1.x1,sys1.y1,sys2.x2,sys2.y2) <= sys1.whrange 
+    and distance(sys1.x1,sys1.y1,sys2.x2,sys2.y2) <= sys2.whrange;");
+	$stmt->bind_param('ii',$userid, $userid);
+	$stmt->execute();
+	$stmt->bind_result($systemID1,$systemID2,$sysX1,$sysY1,$sysX2,$sysY2);
+	while($stmt->fetch()){
+		echo $systemID1 . "@" . $sysX1 . "," . $sysY1 . " links to " . $systemID2 . "@" . $sysX2 . "," . $sysY2 . "<br>";
+	}
+	return $links;
+}
+
 ?>
