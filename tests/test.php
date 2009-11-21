@@ -8,6 +8,7 @@ foreach($_SESSION as $key => $value){
 }
 
 $linkstest = getWHLinks($_SESSION["userid"]);
+echo "\n";
 var_dump($linkstest);
 
 echo $_SERVER["PHP_SELF"];
