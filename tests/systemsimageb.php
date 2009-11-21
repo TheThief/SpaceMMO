@@ -11,7 +11,6 @@ $img = imagecreatetruecolor(101*$scale,101*$scale);
 $syscolour = imagecolorallocate($img,255,255,255);
 $whcolour = imagecolorallocate($img,0,0,255);
 
-
 while($stmt->fetch()){
 	//imagesetpixel($img,($sysX*$scale)+50,($sysY*$scale)+50,$syscolour);
 	imagefilledellipse($img,($sysX+50.5)*$scale,($sysY+50.5)*$scale,$scale-1,$scale-1,$syscolour);
