@@ -152,6 +152,10 @@ div.starmap {
 	margin: 0;
 }
 
+div.starmap img{
+	position: absolute;
+}
+
 .navtop, .navbottom, .navleft, .navright {
 border: 0;
 }
