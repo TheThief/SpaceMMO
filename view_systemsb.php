@@ -143,10 +143,10 @@ function viewSystemsBody()
 
 		$starsize = (floor($systemid/4)%4)/4 * ($maxstarsize-$minstarsize) + $minstarsize;
 		echo '<a href="view_planets.php?system=', $systemid, '">', $eol;
-		echo '<img src="', $image, '" style="width: ', $starsize, 'em; height: ', $starsize, 'em; position: absolute; left: ', ($sysX-$xmin+0.5)*$gridsize-$starsize/2 + $indent, 'em; top: ', ($sysY-$ymin+0.5)*$gridsize-$starsize/2 + $indent, 'em;" title="',$tooltip,'">', $eol;
+		echo '<img src="', $image, '" style="width: ', $starsize, 'em; height: ', $starsize, 'em; left: ', ($sysX-$xmin+0.5)*$gridsize-$starsize/2 + $indent, 'em; top: ', ($sysY-$ymin+0.5)*$gridsize-$starsize/2 + $indent, 'em;" title="',$tooltip,'">', $eol;
 		if ($image2)
 		{
-			echo '<img src="', $image2, '" style="width: ', $gridsize, 'em; height: ', $gridsize, 'em; position: absolute; left: ', ($sysX-$xmin)*$gridsize + $indent, 'em; top: ', ($sysY-$ymin)*$gridsize + $indent, 'em;" title="',$tooltip,'">', $eol;
+			echo '<img src="', $image2, '" style="width: ', $gridsize, 'em; height: ', $gridsize, 'em; left: ', ($sysX-$xmin)*$gridsize + $indent, 'em; top: ', ($sysY-$ymin)*$gridsize + $indent, 'em;" title="',$tooltip,'">', $eol;
 		}
 		echo '</a>', $eol;
 	}
