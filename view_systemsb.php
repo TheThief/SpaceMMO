@@ -68,8 +68,8 @@ function viewSystemsBody()
 		}
 	}
 
-	$x = clamp($x, -50, 50);
-	$y = clamp($y, -50, 50);
+	$x = clamp($x, -UNI_CENTRE_X, UNI_CENTRE_X);
+	$y = clamp($y, -UNI_CENTRE_Y, UNI_CENTRE_Y);
 
 	$colonyid = $_SESSION['colony'];
 	$query = $mysqli->prepare('SELECT systemid,x,y FROM planets LEFT JOIN systemsb USING(systemid) WHERE planetid=?');
