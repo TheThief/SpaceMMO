@@ -110,7 +110,7 @@ function viewSystemsBody()
 	}
 	if ($zoomp < $maxzoomp)
 	{
-		echo '<a href="view_systemsb.php?x=', $x, '&y=', $y, '&zoom=', $zoomp+1, '"><img class="zoomin" src="images/out.png" alt="Out"></a>', $eol;
+		echo '<a href="view_systemsb.php?x=', $x, '&y=', $y, '&zoom=', $zoomp+1, '"><img class="zoomout" src="images/out.png" alt="Out"></a>', $eol;
 	}
 	else
 	{
@@ -162,7 +162,8 @@ function viewSystemsBody()
 		$starsize = (floor($systemid/4)%4)/4 * ($maxstarsize-$minstarsize) + $minstarsize;
 		if ($zoomp > $maxzoomp_links)
 		{
-			$starsize *= 2;
+			// keep stars at the maxzoomp_links size
+			$starsize *= pow(2, $zoomp - $maxzoomp_links);
 			echo '<img src="', $image, '" style="width: ', $starsize, 'em; height: ', $starsize, 'em; left: ', ($sysX-$xmin+0.5)*$gridsize-$starsize/2 + $indent, 'em; top: ', ($sysY-$ymin+0.5)*$gridsize-$starsize/2 + $indent, 'em;">', $eol;
 		}
 		else
