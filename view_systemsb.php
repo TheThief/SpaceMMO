@@ -17,9 +17,13 @@ function viewSystemsBody()
 	$maxstarsize = 2;  // in em
 	$gridsize = 2;     // in em
 	$scroll = 3;       // in grid squares
+	$minzoomp = 0;
+	$maxzoomp = 5;
+	$maxzoomp_links = 3;
 
-	$zoom = $_GET['zoom']; if (!is_numeric($zoom)) $zoom=1;
-	$zoom = clamp($zoom, 0.0625, 2);
+	$zoomp = $_GET['zoom']; if (!is_numeric($zoomp)) $zoomp=1;
+	$zoomp = clamp($zoomp, $minzoomp, $maxzoomp);
+	$zoom = pow(2, 1 - $zoomp);
 	$gridsize *= $zoom;
 	$viewdistance = floor(($viewsize/$gridsize - 1) / 2); // in grid squares
 	$indent = ($viewsize - ($viewdistance * 2 + 1) * $gridsize) / 2; // in em
@@ -96,8 +100,22 @@ function viewSystemsBody()
 	echo '<a href="view_systemsb.php?x=', $x, '&y=', $y+$scroll, '&zoom=', $zoom, '"><img class="navbottom" src="images/down.png" alt="Down"></a>', $eol;
 	echo '<a href="view_systemsb.php?x=', $x-$scroll, '&y=', $y, '&zoom=', $zoom, '"><img class="navleft" src="images/left.png" alt="Left"></a>', $eol;
 	echo '<a href="view_systemsb.php?x=', $x+$scroll, '&y=', $y, '&zoom=', $zoom, '"><img class="navright" src="images/right.png" alt="Right"></a>', $eol;
-	echo '<a href="view_systemsb.php?x=', $x, '&y=', $y, '&zoom=', $zoom*2, '"><img class="zoomin" src="images/in.png" alt="In"></a>', $eol;
-	echo '<a href="view_systemsb.php?x=', $x, '&y=', $y, '&zoom=', $zoom/2, '"><img class="zoomout" src="images/out.png" alt="Out"></a>', $eol;
+	if ($zoomp > $minzoomp)
+	{
+		echo '<a href="view_systemsb.php?x=', $x, '&y=', $y, '&zoom=', $zoomp-1, '"><img class="zoomin" src="images/in.png" alt="In"></a>', $eol;
+	}
+	else
+	{
+		echo '<img class="zoomin" src="images/in_disabled.png" alt="In">', $eol;
+	}
+	if ($zoomp < $maxzoomp)
+	{
+		echo '<a href="view_systemsb.php?x=', $x, '&y=', $y, '&zoom=', $zoomp+1, '"><img class="zoomin" src="images/out.png" alt="Out"></a>', $eol;
+	}
+	else
+	{
+		echo '<img class="zoomout" src="images/out_disabled.png" alt="Out">', $eol;
+	}
 
 	echo '<div class="starmap" style="width: ', $viewsize, 'em; height: ', $viewsize, 'em; position: absolute; left: 1em; top: 1em; background: url(images/starbg.png) center center;">', $eol;
 
@@ -142,13 +160,21 @@ function viewSystemsBody()
 		}
 
 		$starsize = (floor($systemid/4)%4)/4 * ($maxstarsize-$minstarsize) + $minstarsize;
-		echo '<a href="view_planets.php?system=', $systemid, '">', $eol;
-		echo '<img src="', $image, '" style="width: ', $starsize, 'em; height: ', $starsize, 'em; left: ', ($sysX-$xmin+0.5)*$gridsize-$starsize/2 + $indent, 'em; top: ', ($sysY-$ymin+0.5)*$gridsize-$starsize/2 + $indent, 'em;" title="',$tooltip,'">', $eol;
-		if ($image2)
+		if ($zoomp > $maxzoomp_links)
 		{
-			echo '<img src="', $image2, '" style="width: ', $gridsize, 'em; height: ', $gridsize, 'em; left: ', ($sysX-$xmin)*$gridsize + $indent, 'em; top: ', ($sysY-$ymin)*$gridsize + $indent, 'em;" title="',$tooltip,'">', $eol;
+			$starsize *= 2;
+			echo '<img src="', $image, '" style="width: ', $starsize, 'em; height: ', $starsize, 'em; left: ', ($sysX-$xmin+0.5)*$gridsize-$starsize/2 + $indent, 'em; top: ', ($sysY-$ymin+0.5)*$gridsize-$starsize/2 + $indent, 'em;">', $eol;
 		}
-		echo '</a>', $eol;
+		else
+		{
+			echo '<a href="view_planets.php?system=', $systemid, '">', $eol;
+			echo '<img src="', $image, '" style="width: ', $starsize, 'em; height: ', $starsize, 'em; left: ', ($sysX-$xmin+0.5)*$gridsize-$starsize/2 + $indent, 'em; top: ', ($sysY-$ymin+0.5)*$gridsize-$starsize/2 + $indent, 'em;" title="',$tooltip,'">', $eol;
+			if ($image2)
+			{
+				echo '<img src="', $image2, '" style="width: ', $gridsize, 'em; height: ', $gridsize, 'em; left: ', ($sysX-$xmin)*$gridsize + $indent, 'em; top: ', ($sysY-$ymin)*$gridsize + $indent, 'em;" title="',$tooltip,'">', $eol;
+			}
+			echo '</a>', $eol;
+		}
 	}
 	$stmt->close();
 	echo '</div>', $eol;
