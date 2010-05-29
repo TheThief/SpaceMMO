@@ -98,10 +98,10 @@ function viewSystemsBody()
 
 	echo '<div class="starmap" style="width: ', $viewsize+2, 'em; height: ', $viewsize+2, 'em;">', $eol;
 
-	echo '<a href="view_systemsb.php?x=', $x, '&y=', $y-$scroll, '&zoom=', $zoom, '"><img class="navtop" src="images/up.png" alt="Up"></a>', $eol;
-	echo '<a href="view_systemsb.php?x=', $x, '&y=', $y+$scroll, '&zoom=', $zoom, '"><img class="navbottom" src="images/down.png" alt="Down"></a>', $eol;
-	echo '<a href="view_systemsb.php?x=', $x-$scroll, '&y=', $y, '&zoom=', $zoom, '"><img class="navleft" src="images/left.png" alt="Left"></a>', $eol;
-	echo '<a href="view_systemsb.php?x=', $x+$scroll, '&y=', $y, '&zoom=', $zoom, '"><img class="navright" src="images/right.png" alt="Right"></a>', $eol;
+	echo '<a href="view_systemsb.php?x=', $x, '&y=', $y-$scroll, '&zoom=', $zoomp, '"><img class="navtop" src="images/up.png" alt="Up"></a>', $eol;
+	echo '<a href="view_systemsb.php?x=', $x, '&y=', $y+$scroll, '&zoom=', $zoomp, '"><img class="navbottom" src="images/down.png" alt="Down"></a>', $eol;
+	echo '<a href="view_systemsb.php?x=', $x-$scroll, '&y=', $y, '&zoom=', $zoomp, '"><img class="navleft" src="images/left.png" alt="Left"></a>', $eol;
+	echo '<a href="view_systemsb.php?x=', $x+$scroll, '&y=', $y, '&zoom=', $zoomp, '"><img class="navright" src="images/right.png" alt="Right"></a>', $eol;
 	if ($zoomp > $minzoomp)
 	{
 		echo '<a href="view_systemsb.php?x=', $x, '&y=', $y, '&zoom=', $zoomp-1, '"><img class="zoomin" src="images/in.png" alt="In"></a>', $eol;
