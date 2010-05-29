@@ -60,15 +60,19 @@ $systems[] = new System(7,3,$plantestb);
 */
 
 $coords = array();
-/*for ($gx=-50;$gx<=50;$gx++){
+/*$width = 101; $mx = 50;
+$height = 101; $my = 50;
+for ($gx=-50;$gx<=50;$gx++){
     for ($gy=-50;$gy<=50;$gy++){
         $coords[] = array($gx,$gy);
 	}
 }*/
 
-for ($gx=0;$gx<imagesx($imgmask);$gx++){
-	for ($gy=0;$gy<imagesy($imgmask);$gy++){
-		if(imagecolorat($imgmask,$gx,$gy)<$white/2) $coords[] = array($gx-50,$gy-50);
+$width = imagesx($imgmask); $mx = floor($width/2);
+$height = imagesy($imgmask); $my = floor($height/2);
+for ($gx=0;$gx<width;$gx++){
+	for ($gy=0;$gy<height;$gy++){
+		if(imagecolorat($imgmask,$gx,$gy)>=$white/2) $coords[] = array($gx-$mx,$gy-$my);
 	}
 }
 

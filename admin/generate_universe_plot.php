@@ -3,11 +3,11 @@
 $scale = 1;
 $tcount = (isset($_GET["count"]))?$_GET["count"]:0;
 if (!$tcount) header("Content-type: image/png");
-$img = imagecreatetruecolor(100*$scale,100*$scale);
-$syscolour = imagecolorallocate($img,255,255,255);
 $imgmask = imagecreatefrompng('mask.png');
 $white = imagecolorallocate($imgmask,255,255,255);
 $black = imagecolorallocate($imgmask,0,0,0);
+$img = imagecreatetruecolor(imagesx($imgmask)*$scale,imagesy($imgmask)*$scale);
+$syscolour = imagecolorallocate($img,255,255,255);
 
 //checkIsAdmin();
 
@@ -65,22 +65,27 @@ $systems[] = new System(7,3,$plantestb);
 */
 
 $coords = array();
-/*for ($gx=-50;$gx<=50;$gx++){
+/*$width = 101; $mx = 50;
+$height = 101; $my = 50;
+for ($gx=-50;$gx<=50;$gx++){
     for ($gy=-50;$gy<=50;$gy++){
         $coords[] = array($gx,$gy);
 	}
-}
-*/
+}*/
+
 $count =0;
-for ($gx=0;$gx<imagesx($imgmask);$gx++){
-	for ($gy=0;$gy<imagesy($imgmask);$gy++){
-		if(imagecolorat($imgmask,$gx,$gy)<$white/2) {
+$width = imagesx($imgmask); $mx = floor($width/2);
+$height = imagesy($imgmask); $my = floor($height/2);
+for ($gx=0;$gx<width;$gx++){
+	for ($gy=0;$gy<height;$gy++){
+		if(imagecolorat($imgmask,$gx,$gy)>=$white/2) {
 			$count++;
-			$coords[] = array($gx-50,$gy-50);
+			$coords[] = array($gx-$mx,$gy-$my);
 		}
 		//;
 	}
 }
+
 if ($tcount) echo $count;
 
 
@@ -134,7 +139,7 @@ usort($systems,cmp);
 //if ($tcount) var_dump($systems);
 
 foreach($systems as $sys){
-imagesetpixel($img,($sys->x*$scale)+50,($sys->y*$scale)+50,$syscolour);
+imagesetpixel($img,($sys->x+$mx)*$scale,($sys->y+$my)*$scale,$syscolour);
 }
 
 if (!$tcount) imagepng($img);
