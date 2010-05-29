@@ -9,9 +9,11 @@ $black = imagecolorallocate($imgmask,0,0,0);
 $img = imagecreatetruecolor(imagesx($imgmask)*$scale,imagesy($imgmask)*$scale);
 $syscolour = imagecolorallocate($img,255,255,255);
 
-echo $white;
-echo '\n';
-echo $black;
+if ($tcount)
+{
+	echo $white, "\n";
+	echo $black, "\n";
+}
 
 //checkIsAdmin();
 
