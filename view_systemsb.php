@@ -19,7 +19,9 @@ function viewSystemsBody()
 	$scroll = 3;       // in grid squares
 	$minzoomp = 0;
 	$maxzoomp = 5;
-	$maxzoomp_links = 3;
+	$minzoomp_rescale = 3;
+	$zoom_rescale = 1.5;
+	$maxzoomp_links = 4;
 
 	$zoomp = $_GET['zoom']; if (!is_numeric($zoomp)) $zoomp=1;
 	$zoomp = clamp($zoomp, $minzoomp, $maxzoomp);
@@ -160,10 +162,12 @@ function viewSystemsBody()
 		}
 
 		$starsize = (floor($systemid/4)%4)/4 * ($maxstarsize-$minstarsize) + $minstarsize;
+		if ($zoomp > $minzoomp_rescale)
+		{
+			$starsize *= pow($zoom_rescale, $zoomp - $minzoomp_rescale);
+		}
 		if ($zoomp > $maxzoomp_links)
 		{
-			// keep stars at the maxzoomp_links size
-			$starsize *= pow(2, $zoomp - $maxzoomp_links);
 			echo '<img src="', $image, '" style="width: ', $starsize, 'em; height: ', $starsize, 'em; left: ', ($sysX-$xmin+0.5)*$gridsize-$starsize/2 + $indent, 'em; top: ', ($sysY-$ymin+0.5)*$gridsize-$starsize/2 + $indent, 'em;">', $eol;
 		}
 		else
