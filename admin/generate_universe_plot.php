@@ -9,6 +9,10 @@ $black = imagecolorallocate($imgmask,0,0,0);
 $img = imagecreatetruecolor(imagesx($imgmask)*$scale,imagesy($imgmask)*$scale);
 $syscolour = imagecolorallocate($img,255,255,255);
 
+echo $white;
+echo '\n';
+echo $black;
+
 //checkIsAdmin();
 
 function distanceToZero($x, $y)
@@ -65,19 +69,11 @@ $systems[] = new System(7,3,$plantestb);
 */
 
 $coords = array();
-/*$width = 101; $mx = 50;
-$height = 101; $my = 50;
-for ($gx=-50;$gx<=50;$gx++){
-    for ($gy=-50;$gy<=50;$gy++){
-        $coords[] = array($gx,$gy);
-	}
-}*/
-
 $count =0;
 $width = imagesx($imgmask); $mx = floor($width/2);
 $height = imagesy($imgmask); $my = floor($height/2);
-for ($gx=0;$gx<width;$gx++){
-	for ($gy=0;$gy<height;$gy++){
+for ($gx=0;$gx<$width;$gx++){
+	for ($gy=0;$gy<$height;$gy++){
 		if(imagecolorat($imgmask,$gx,$gy)>=$white/2) {
 			$count++;
 			$coords[] = array($gx-$mx,$gy-$my);
