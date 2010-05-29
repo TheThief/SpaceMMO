@@ -19,7 +19,7 @@ function viewSystemsBody()
 	$scroll = 3;       // in grid squares
 
 	$zoom = $_GET['zoom']; if (!is_numeric($zoom)) $zoom=1;
-	$zoom = clamp($zoom, 0.125, 2);
+	$zoom = clamp($zoom, 0.0625, 2);
 	$gridsize *= $zoom;
 	$viewdistance = floor(($viewsize/$gridsize - 1) / 2); // in grid squares
 	$indent = ($viewsize - ($viewdistance * 2 + 1) * $gridsize) / 2; // in em
