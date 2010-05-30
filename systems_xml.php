@@ -24,7 +24,7 @@ while($stmt->fetch()){
 	$system->setAttribute("x", $sysX);
 	$system->setAttribute("y", $sysY);
 }
-header("Content-type: text/xml"); 
-echo $dom->saveXML();
-//var_dump(getWHLinks($userid));
+//header("Content-type: text/xml"); 
+//echo $dom->saveXML();
+var_dump(getWHLinks($userid));
 ?>
