@@ -24,7 +24,27 @@ while($stmt->fetch()){
 	$system->setAttribute("x", $sysX);
 	$system->setAttribute("y", $sysY);
 }
-//header("Content-type: text/xml"); 
-//echo $dom->saveXML();
-var_dump(getWHLinks($userid));
+$wormholes = $dom->createElement('Wormholes');
+$wormholes = $root->appendChild($wormholes);
+
+$wholes = getWHLinks($userid);
+foreach($wholes as $systemID => $info){
+	$startX = $info["x"];
+	$startY = $info["y"];
+	foreach($info as $destID => $dest){
+		if($destID != "x" && $destID != "y"){
+			$wh = $dom->createElement('Wormhole');
+			$wh = $wormholes->appendChild($wh);
+			$wh->setAttribute("id", $systemID);
+			$wh->setAttribute("x1", $startX);
+			$wh->setAttribute("y1", $startY);
+			$wh->setAttribute("destID", $destID);
+			$wh->setAttribute("x2", $dest["x"]);
+			$wh->setAttribute("y2", $dest["y"]);
+		}
+	}
+}
+header("Content-type: text/xml"); 
+echo $dom->saveXML();
+
 ?>
