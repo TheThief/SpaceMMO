@@ -13,7 +13,7 @@ $root->setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
 $systems = $dom->createElement('Systems');
 $systems = $root->appendChild($systems);
 
-$stmt = $mysqli->prepare("SELECT * FROM systems ORDER BY systemID;");
+$stmt = $mysqli->prepare("SELECT * FROM systemsb ORDER BY systemID;");
 $stmt->execute();
 $stmt->bind_result($systemID,$sysX,$sysY);
 
