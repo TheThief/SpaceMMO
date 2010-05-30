@@ -61,7 +61,7 @@ for (i = 0; i < x.length; i++){
 	var image;
 	system = x[i].attributes;
 	image = (system.getNamedItem("id").nodeValue%4)+1;
-	output.innerHTML = output.innerHTML + system.getNamedItem("id").nodeValue + "=" + system.getNamedItem("x").nodeValue + "," + system.getNamedItem("y").nodeValue + "(" + image + ") <br/>";
+	//output.innerHTML = output.innerHTML + system.getNamedItem("id").nodeValue + "=" + system.getNamedItem("x").nodeValue + "," + system.getNamedItem("y").nodeValue + "(" + image + ") <br/>";
 	var star = document.getElementById("star"+image);
 	ctx.drawImage(star, scale(system.getNamedItem("x").nodeValue)-4, scale(system.getNamedItem("y").nodeValue)-4,8,8);
 }
