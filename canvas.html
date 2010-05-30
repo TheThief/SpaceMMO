@@ -1,0 +1,80 @@
+<html>
+ <head>
+  <script type="application/javascript">
+	function scale(pos){
+		return (pos+50.5)* 8;
+	}
+	function loadXMLDoc(dname){
+		if (window.XMLHttpRequest){
+		  xhttp=new XMLHttpRequest();
+		}else{
+		  xhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xhttp.open("GET",dname,false);
+		xhttp.send();
+		return xhttp.responseXML;
+	} 
+ function draw() {
+xmlDoc=loadXMLDoc("systems_xml.php");
+
+ var systems = new Array(2);
+ systems[0] = new Array(2);
+ systems[0]["x"] = 10;
+ systems[0]["y"] = 10;
+ systems[1] = new Array(2);
+ systems[1]["x"] = -10;
+ systems[1]["y"] = 10;
+ systems[2] = new Array(2);
+ systems[2]["x"] = -10;
+ systems[2]["y"] = -10;
+ systems[3] = new Array(2);
+ systems[3]["x"] = 10;
+ systems[3]["y"] = -10;
+ var wormholes = new Array(2);
+ wormholes[0] = new Array(4);
+ wormholes[0]["x1"] = 10;
+ wormholes[0]["y1"] = 10;
+ wormholes[0]["x2"] = -10;
+ wormholes[0]["y2"] = -10;
+ wormholes[1] = new Array(4);
+ wormholes[1]["x1"] = -10;
+ wormholes[1]["y1"] = 10;
+ wormholes[1]["x2"] = 10;
+ wormholes[1]["y2"] = -10;
+ var canvas = document.getElementById("canvas");
+  var output = document.getElementById("output");
+ var ctx = canvas.getContext("2d");
+ 
+ ctx.fillStyle = "rgb(0,0,0)";
+ ctx.fillRect (0, 0, 808, 808);
+/*for (i = 0; i < wormholes.length; i++){
+	ctx.lineWidth = 2
+	ctx.moveTo(scale(wormholes[i]["x1"]),scale(wormholes[i]["y1"]));
+	ctx.lineTo(scale(wormholes[i]["x2"]),scale(wormholes[i]["y2"]));
+	ctx.strokeStyle = "#0000FF";
+	ctx.stroke();
+}*/
+
+x=xmlDoc.getElementsByTagName("System");
+
+for (i = 0; i < x.length; i++){
+	var image;
+	system = x[i].attributes;
+	image = (system.getNamedItem("id").nodeValue%4)+1;
+	//output.innerHTML = output.innerHTML + "http://vps.dynamicarcade.co.uk/SpaceMMO/images/star" + image + ".png<br/>";
+	var star = document.getElementById("star"+image);
+	ctx.drawImage(star, scale(system.getNamedItem("x").nodeValue)-4, scale(system.getNamedItem("y").nodeValue)-4,8,8);
+}
+ 
+}
+  </script>
+ </head>
+ <body onload="draw()">
+	<img src="http://vps.dynamicarcade.co.uk/SpaceMMO/images/star1.png" id="star1" style="display:none;"/>
+	<img src="http://vps.dynamicarcade.co.uk/SpaceMMO/images/star2.png" id="star2" style="display:none;"/>
+	<img src="http://vps.dynamicarcade.co.uk/SpaceMMO/images/star3.png" id="star3" style="display:none;"/>
+	<img src="http://vps.dynamicarcade.co.uk/SpaceMMO/images/star4.png" id="star4" style="display:none;"/>
+	<div id="output"></div>
+   <canvas id="canvas" width="808" height="808"></canvas>
+ </body>
+</html>
