@@ -24,6 +24,6 @@ while($stmt->fetch()){
 	$system->setAttribute("x", $sysX);
 	$system->setAttribute("iy", $sysY);
 }
-echo $dom-saveXML();
+echo $dom->saveXML();
 //var_dump(getWHLinks($userid));
 ?>
