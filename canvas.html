@@ -2,7 +2,7 @@
  <head>
   <script type="application/javascript">
 	function scale(pos){
-		return (parseInt(pos)+100.5)* 4;
+		return (parseInt(pos)+50.5)* 8;
 	}
 	function loadXMLDoc(dname){
 		if (window.XMLHttpRequest){
@@ -47,7 +47,6 @@ xmlDoc=loadXMLDoc("systems_xml.php");
  
  ctx.fillStyle = "rgb(0,0,0)";
  ctx.fillRect (0, 0, 808, 808);
- //ctx.fillRect (0, 0, 1616, 1616);
 /*for (i = 0; i < wormholes.length; i++){
 	ctx.lineWidth = 2
 	ctx.moveTo(scale(wormholes[i]["x1"]),scale(wormholes[i]["y1"]));
@@ -64,7 +63,7 @@ for (i = 0; i < x.length; i++){
 	image = (system.getNamedItem("id").nodeValue%4)+1;
 	//output.innerHTML = output.innerHTML + system.getNamedItem("id").nodeValue + "=" + system.getNamedItem("x").nodeValue + "," + system.getNamedItem("y").nodeValue + "(" + image + ") <br/>";
 	var star = document.getElementById("star"+image);
-	ctx.drawImage(star, scale(system.getNamedItem("x").nodeValue)-4, scale(system.getNamedItem("y").nodeValue)-4,4,4);
+	ctx.drawImage(star, scale(system.getNamedItem("x").nodeValue)-4, scale(system.getNamedItem("y").nodeValue)-4,8,8);
 }
  
 }
