@@ -22,7 +22,7 @@ while($stmt->fetch()){
 	$system = $systems->appendChild($system);
 	$system->setAttribute("id", $systemID);
 	$system->setAttribute("x", $sysX);
-	$system->setAttribute("iy", $sysY);
+	$system->setAttribute("y", $sysY);
 }
 header("Content-type: text/xml"); 
 echo $dom->saveXML();
