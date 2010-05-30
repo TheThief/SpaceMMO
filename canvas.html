@@ -16,50 +16,27 @@
 	} 
  function draw() {
 xmlDoc=loadXMLDoc("systems_xml.php");
-
- var systems = new Array(2);
- systems[0] = new Array(2);
- systems[0]["x"] = 10;
- systems[0]["y"] = 10;
- systems[1] = new Array(2);
- systems[1]["x"] = -10;
- systems[1]["y"] = 10;
- systems[2] = new Array(2);
- systems[2]["x"] = -10;
- systems[2]["y"] = -10;
- systems[3] = new Array(2);
- systems[3]["x"] = 10;
- systems[3]["y"] = -10;
- var wormholes = new Array(2);
- wormholes[0] = new Array(4);
- wormholes[0]["x1"] = 10;
- wormholes[0]["y1"] = 10;
- wormholes[0]["x2"] = -10;
- wormholes[0]["y2"] = -10;
- wormholes[1] = new Array(4);
- wormholes[1]["x1"] = -10;
- wormholes[1]["y1"] = 10;
- wormholes[1]["x2"] = 10;
- wormholes[1]["y2"] = -10;
- var canvas = document.getElementById("canvas");
-  var output = document.getElementById("output");
- var ctx = canvas.getContext("2d");
+var canvas = document.getElementById("canvas");
+var output = document.getElementById("output");
+var ctx = canvas.getContext("2d");
  
  ctx.fillStyle = "rgb(0,0,0)";
  ctx.fillRect (0, 0, 808, 808);
-/*for (i = 0; i < wormholes.length; i++){
+w=xmlDoc.getElementsByTagName("Wormhole");
+ for (i = 0; i < w.length; i++){
+	wormhole = w[i].attributes;
 	ctx.lineWidth = 2
-	ctx.moveTo(scale(wormholes[i]["x1"]),scale(wormholes[i]["y1"]));
-	ctx.lineTo(scale(wormholes[i]["x2"]),scale(wormholes[i]["y2"]));
+	ctx.moveTo(scale(wormhole.getNamedItem("x1").nodeValue),scale(wormhole.getNamedItem("y1").nodeValue));
+	ctx.lineTo(scale(wormhole.getNamedItem("x2").nodeValue),scale(wormhole.getNamedItem("y2").nodeValue));
 	ctx.strokeStyle = "#0000FF";
 	ctx.stroke();
-}*/
+}
 
-x=xmlDoc.getElementsByTagName("System");
+s=xmlDoc.getElementsByTagName("System");
 
-for (i = 0; i < x.length; i++){
+for (i = 0; i < s.length; i++){
 	var image;
-	system = x[i].attributes;
+	system = s[i].attributes;
 	image = (system.getNamedItem("id").nodeValue%4)+1;
 	//output.innerHTML = output.innerHTML + system.getNamedItem("id").nodeValue + "=" + system.getNamedItem("x").nodeValue + "," + system.getNamedItem("y").nodeValue + "(" + image + ") <br/>";
 	var star = document.getElementById("star"+image);
