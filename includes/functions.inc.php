@@ -374,4 +374,10 @@ function getWHLinks($userid){
 	}
 	return $links;
 }
+
+function addChild($doc, $node, $name, $value){
+	$element = $node->appendChild($doc->createElement($name));
+	$element->appendChild($doc->createTextNode($value));
+}
+
 ?>
