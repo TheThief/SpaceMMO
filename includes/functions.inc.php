@@ -356,7 +356,8 @@ function getWHLinks($userid){
     and distance(sys1.x1,sys1.y1,sys2.x2,sys2.y2) <= sys1.whrange 
     and distance(sys1.x1,sys1.y1,sys2.x2,sys2.y2) <= sys2.whrange;");
 	//$stmt->bind_param('ii',$userid, $userid);
-	$stmt->bind_param('ii',1, 1);
+	$ben = 1;
+	$stmt->bind_param('ii',$ben, $ben);
 	$stmt->execute();
 	$stmt->bind_result($systemID1,$systemID2,$sysX1,$sysY1,$sysX2,$sysY2);
 	while($stmt->fetch()){
