@@ -1,6 +1,6 @@
 <?
 include_once 'includes/start.inc.php';
-//checkLoggedIn();
+checkLoggedIn();
 $userid = $_SESSION['userid'];
 
 $dom = new DomDocument('1.0','UTF-8');
