@@ -18,10 +18,10 @@ function buildBuildingBody()
 
 	$mysqli->autocommit(false);
 
-	$query = $mysqli->prepare('SELECT metal,colonylevel FROM colonies WHERE colonies.userid=? AND colonies.planetID = ?');
+	$query = $mysqli->prepare('SELECT metal,colonylevel,planets.size FROM colonies LEFT JOIN planets USING (planetID) WHERE userid=? AND planetID = ?');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($metal,$colonylevel);
+	$query->bind_result($metal,$colonylevel,$planetsize);
 	$result = $query->fetch();
 	if (!$result)
 	{
@@ -40,6 +40,11 @@ function buildBuildingBody()
 		echo 'Error: No such building.', $eol;
 		exit;
 	}
+	if ($level+1>$planetsize && !$bignorecolonylevel)
+	{
+		echo 'Error: Planet is too small, no room to upgrade.', $eol;
+		exit;
+	}
 	if ($cost>$metal)
 	{
 		echo 'Error: Not enough metal.', $eol;
@@ -47,7 +52,7 @@ function buildBuildingBody()
 	}
 	if ($buildingid!=1 && $level+1>$colonylevel && !$bignorecolonylevel)
 	{
-		echo 'Error: Colony level too low, no room to upgrade.', $eol;
+		echo 'Error: Colony dome is too small, no room to upgrade.', $eol;
 		exit;
 	}
 	if ($buildingid!=1 && $mincolonylevel>$colonylevel)
