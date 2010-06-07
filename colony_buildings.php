@@ -14,10 +14,10 @@ function colonyBuildingsBody()
 	$planetid = $_GET['planet'];
 
 	$countpoint=0;
-	$query = $mysqli->prepare('SELECT colonylevel,metal,maxmetal,metalproduction,deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction FROM colonies WHERE colonies.userid=? AND colonies.planetID = ?;');
+	$query = $mysqli->prepare('SELECT planets.size,colonylevel,colonies.metal,maxmetal,metalproduction,colonies.deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction FROM colonies LEFT JOIN planets USING (planetid) WHERE userid=? AND planetID = ?;');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
-	$query->bind_result($colonylevel,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod);
+	$query->bind_result($planetsize,$colonylevel,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod);
 	$result = $query->fetch();
 	if (!$result)
 	{
@@ -119,6 +119,10 @@ function colonyBuildingsBody()
 		if ($level >= $maxlevel)
 		{
 			echo '<span>Max Level</span>', $eol;
+		}
+		else if ($level >= $planetsize)
+		{
+			echo '<span>Max Level for Planet</span>', $eol;
 		}
 		else
 		{
