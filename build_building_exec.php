@@ -18,7 +18,7 @@ function buildBuildingBody()
 
 	$mysqli->autocommit(false);
 
-	$query = $mysqli->prepare('SELECT metal,colonylevel,planets.size FROM colonies LEFT JOIN planets USING (planetID) WHERE userid=? AND planetID = ?');
+	$query = $mysqli->prepare('SELECT colonies.metal,colonylevel,planets.size FROM colonies LEFT JOIN planets USING (planetID) WHERE userid=? AND planetID = ?');
 	$query->bind_param('ii', $userid, $planetid);
 	$query->execute();
 	$query->bind_result($metal,$colonylevel,$planetsize);
