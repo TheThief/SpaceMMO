@@ -120,7 +120,7 @@ function colonyBuildingsBody()
 		{
 			echo '<span>Max Level</span>', $eol;
 		}
-		else if ($level >= $planetsize)
+		else if ($level >= $planetsize && !$bignorecolonylevel)
 		{
 			echo '<span>Max Level for Planet</span>', $eol;
 		}
