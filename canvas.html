@@ -43,6 +43,19 @@ for (i = 0; i < s.length; i++){
 	ctx.drawImage(star, scale(system.getNamedItem("x").nodeValue)-4, scale(system.getNamedItem("y").nodeValue)-4,8,8);
 }
  
+c=xmlDoc.getElementsByTagName("Colony");
+
+for (i = 0; i < c.length; i++){
+	var image;
+	colony = c[i].attributes;
+	image = (system.getNamedItem("id").nodeValue%4)+1;
+    ctx.strokeStyle = "#00FF00";
+    ctx.lineWidth = 2
+    ctx.beginPath();
+    ctx.arc(scale(colony.getNamedItem("x").nodeValue),scale(colony.getNamedItem("y").nodeValue),8,0,Math.PI*2,true);
+    ctx.closePath();
+}
+
 }
   </script>
  </head>
