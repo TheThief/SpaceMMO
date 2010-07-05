@@ -51,7 +51,7 @@ for (i = 0; i < c.length; i++){
     if(colony.getNamedItem("own").nodeValue > 0) ctx.strokeStyle = "#00FF00";
     if(colony.getNamedItem("others").nodeValue > 0) ctx.strokeStyle = "#FF0000";
     if(colony.getNamedItem("own").nodeValue > 0 && colony.getNamedItem("others").nodeValue > 0) ctx.strokeStyle = "#FFFF00";
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.arc(scale(colony.getNamedItem("x").nodeValue),scale(colony.getNamedItem("y").nodeValue),4,0,Math.PI*2,true);
     ctx.closePath();
