@@ -53,13 +53,15 @@ $stmt->bind_result($systemid,$sysX,$sysY,$coloniesCount,$othercoloniesCount);
 $colonies = $dom->createElement('Colonies');
 $colonies = $root->appendChild($colonies);
 while ($stmt->fetch()){
-    $colony = $dom->createElement('Colony');
-	$colony = $colonies->appendChild($colony);
-	$colony->setAttribute("id", $systemID);
-	$colony->setAttribute("x", $sysX);
-	$colony->setAttribute("y", $sysY);
-    $colony->setAttribute("own", $coloniesCount);
-    $colony->setAttribute("others", $othercoloniesCount);
+    if(($coloniesCount + $othercoloniesCount) > 0){
+        $colony = $dom->createElement('Colony');
+    	$colony = $colonies->appendChild($colony);
+    	$colony->setAttribute("id", $systemID);
+    	$colony->setAttribute("x", $sysX);
+    	$colony->setAttribute("y", $sysY);
+        $colony->setAttribute("own", $coloniesCount);
+        $colony->setAttribute("others", $othercoloniesCount);
+    }
 }
    
 header("Content-type: text/xml"); 
