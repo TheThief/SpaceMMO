@@ -51,7 +51,7 @@ for (i = 0; i < c.length; i++){
     ctx.strokeStyle = "#00FF00";
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.arc(scale(colony.getNamedItem("x").nodeValue),scale(colony.getNamedItem("y").nodeValue),8,0,Math.PI*2,true);
+    ctx.arc(scale(colony.getNamedItem("x").nodeValue),scale(colony.getNamedItem("y").nodeValue),4,0,Math.PI*2,true);
     ctx.closePath();
     ctx.stroke();
 }
