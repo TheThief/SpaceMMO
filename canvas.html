@@ -25,7 +25,7 @@ var ctx = canvas.getContext("2d");
 w=xmlDoc.getElementsByTagName("Wormhole");
  for (i = 0; i < w.length; i++){
 	wormhole = w[i].attributes;
-	ctx.lineWidth = 2
+	ctx.lineWidth = 2;
 	ctx.moveTo(scale(wormhole.getNamedItem("x1").nodeValue),scale(wormhole.getNamedItem("y1").nodeValue));
 	ctx.lineTo(scale(wormhole.getNamedItem("x2").nodeValue),scale(wormhole.getNamedItem("y2").nodeValue));
 	ctx.strokeStyle = "#0000FF";
@@ -49,10 +49,11 @@ for (i = 0; i < c.length; i++){
 	var image;
 	colony = c[i].attributes;
     ctx.strokeStyle = "#00FF00";
-    ctx.lineWidth = 2
+    ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.arc(scale(colony.getNamedItem("x").nodeValue),scale(colony.getNamedItem("y").nodeValue),8,0,Math.PI*2,true);
     ctx.closePath();
+    context.stroke();
 }
 
 }
