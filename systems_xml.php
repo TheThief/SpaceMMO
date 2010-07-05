@@ -44,6 +44,24 @@ foreach($wholes as $systemID => $info){
 		}
 	}
 }
+$stmt = $mysqli->prepare('SELECT systemid,x,y,COUNT(user_colonies.planetid),COUNT(other_colonies.planetid) FROM systems LEFT JOIN planets USING (systemid)
+LEFT JOIN (SELECT planetid FROM colonies WHERE userid=?) user_colonies USING (planetid)
+LEFT JOIN (SELECT planetid FROM colonies WHERE userid!=?) other_colonies USING (planetid) GROUP BY systemid ORDER BY NULL');
+$stmt->bind_param('ii',$userid,$userid);
+$stmt->execute();
+$stmt->bind_result($systemid,$sysX,$sysY,$coloniesCount,$othercoloniesCount);
+$colonies = $dom->createElement('Colonies');
+$colonies = $root->appendChild($colonies);
+while ($stmt->fetch()){
+    $colony = $dom->createElement('Colony');
+	$colony = $colonies->appendChild($colony);
+	$colony->setAttribute("id", $systemID);
+	$colony->setAttribute("x", $sysX);
+	$colony->setAttribute("y", $sysY);
+    $colony->setAttribute("own", $coloniesCount);
+    $colony->setAttribute("others", $othercoloniesCount);
+}
+   
 header("Content-type: text/xml"); 
 echo $dom->saveXML();
 
