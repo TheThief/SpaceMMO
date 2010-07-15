@@ -35,9 +35,10 @@ w=xmlDoc.getElementsByTagName("Wormhole");
 }
 
 f=xmlDoc.getElementsByTagName("Fleet");
+ ctx.fillStyle = "#FF00FF";
  for (i = 0; i < f.length; i++){
 	fleet = f[i].attributes;
-	ctx.strokeStyle = "#FFFF00";
+	ctx.strokeStyle = "#FF00FF";
 	ctx.lineWidth = 2;
 	ctx.beginPath();
 	ctx.moveTo(scale(fleet.getNamedItem("x1").nodeValue),scale(fleet.getNamedItem("y1").nodeValue));
@@ -49,6 +50,7 @@ f=xmlDoc.getElementsByTagName("Fleet");
     ctx.fill();
     ctx.stroke();
 }
+ctx.fillStyle = "#000000";
 s=xmlDoc.getElementsByTagName("System");
 
 for (i = 0; i < s.length; i++){
