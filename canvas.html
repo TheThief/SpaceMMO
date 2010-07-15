@@ -32,7 +32,7 @@ var ctx = canvas.getContext("2d");
 w=xmlDoc.getElementsByTagName("Wormhole");
  for (i = 0; i < w.length; i++){
 	wormhole = w[i].attributes;
-	ctx.lineWidth = 2;
+	ctx.lineWidth = scale(0.25);
 	ctx.beginPath();
 	ctx.moveTo(move(wormhole.getNamedItem("x1").nodeValue),move(wormhole.getNamedItem("y1").nodeValue));
 	ctx.lineTo(move(wormhole.getNamedItem("x2").nodeValue),move(wormhole.getNamedItem("y2").nodeValue));
