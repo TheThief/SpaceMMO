@@ -67,9 +67,11 @@ $stmt = $mysqli->prepare('SELECT fleetid,((totalorderticks-orderticks)/totalorde
 $stmt->bind_param('i',$userid);
 $stmt->execute();
 $stmt->bind_result($fleetid,$traveled,$startX,$startY,$endX,$endY,$distance,$currentX,$currentY);
+$fleets = $dom->createElement('Fleets');
+$fleets = $root->appendChild($fleets);
 while ($stmt->fetch()){
 	$fleet = $dom->createElement('Fleet');
-	$fleet = $colonies->appendChild($fleet);
+	$fleet = $fleets->appendChild($fleet);
 	$fleet->setAttribute("id", $fleetid);
 	$fleet->setAttribute("x1", $startX);
 	$fleet->setAttribute("y1", $startY);
