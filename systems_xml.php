@@ -1,4 +1,4 @@
-<?
+hen<?
 include_once 'includes/start.inc.php';
 checkLoggedIn();
 $userid = $_SESSION['userid'];
@@ -56,7 +56,7 @@ while ($stmt->fetch()){
     if(($coloniesCount + $othercoloniesCount) > 0){
         $colony = $dom->createElement('Colony');
     	$colony = $colonies->appendChild($colony);
-    	$colony->setAttribute("id", $systemID);
+    	$colony->setAttribute("id", $systemid);
     	$colony->setAttribute("x", $sysX);
     	$colony->setAttribute("y", $sysY);
         $colony->setAttribute("own", $coloniesCount);
