@@ -45,7 +45,7 @@ f=xmlDoc.getElementsByTagName("Fleet");
  ctx.fillStyle = "#FF00FF";
  for (i = 0; i < f.length; i++){
 	fleet = f[i].attributes;
-	ctx.lineWidth = 2;
+	ctx.lineWidth = scale(0.25);
 	ctx.strokeStyle = "#590059";
 	ctx.beginPath();
 	ctx.moveTo(move(fleet.getNamedItem("x1").nodeValue),move(fleet.getNamedItem("y1").nodeValue));
@@ -59,7 +59,7 @@ f=xmlDoc.getElementsByTagName("Fleet");
 	ctx.stroke();
 	ctx.closePath();
 	ctx.beginPath();
-    ctx.arc(move(fleet.getNamedItem("cx").nodeValue),move(fleet.getNamedItem("cy").nodeValue),2,0,Math.PI*2,true);
+    ctx.arc(move(fleet.getNamedItem("cx").nodeValue),move(fleet.getNamedItem("cy").nodeValue),scale(0.25),0,Math.PI*2,true);
     ctx.fill();
     ctx.stroke();
 }
@@ -72,7 +72,7 @@ for (i = 0; i < s.length; i++){
 	image = (system.getNamedItem("id").nodeValue%4)+1;
 	//output.innerHTML = output.innerHTML + system.getNamedItem("id").nodeValue + "=" + system.getNamedItem("x").nodeValue + "," + system.getNamedItem("y").nodeValue + "(" + image + ") <br/>";
 	var star = document.getElementById("star"+image);
-	ctx.drawImage(star, move(system.getNamedItem("x").nodeValue)-4, move(system.getNamedItem("y").nodeValue)-4,8,8);
+	ctx.drawImage(star, move(system.getNamedItem("x").nodeValue)-scale(0.5), move(system.getNamedItem("y").nodeValue)-scale(0.5),scale(1),scale(1));
 }
  
 c=xmlDoc.getElementsByTagName("Colony");
@@ -83,9 +83,9 @@ for (i = 0; i < c.length; i++){
     if(colony.getNamedItem("own").nodeValue > 0) ctx.strokeStyle = "#00FF00";
     if(colony.getNamedItem("others").nodeValue > 0) ctx.strokeStyle = "#FF0000";
     if(colony.getNamedItem("own").nodeValue > 0 && colony.getNamedItem("others").nodeValue > 0) ctx.strokeStyle = "#FFFF00";
-    ctx.lineWidth = 2;
+    ctx.lineWidth = scale(0.25);
     ctx.beginPath();
-    ctx.arc(move(colony.getNamedItem("x").nodeValue),move(colony.getNamedItem("y").nodeValue),4,0,Math.PI*2,true);
+    ctx.arc(move(colony.getNamedItem("x").nodeValue),move(colony.getNamedItem("y").nodeValue),scale(0.5),0,Math.PI*2,true);
     ctx.closePath();
     ctx.stroke();
 }
