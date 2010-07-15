@@ -33,7 +33,6 @@ w=xmlDoc.getElementsByTagName("Wormhole");
 }
 
 f=xmlDoc.getElementsByTagName("Fleet");
-ctx.fillStyle = "#FFFF00";
  for (i = 0; i < f.length; i++){
 	fleet = f[i].attributes;
 	ctx.lineWidth = 2;
@@ -46,7 +45,6 @@ ctx.fillStyle = "#FFFF00";
     ctx.fill();
     ctx.stroke();
 }
-ctx.fillStyle = "rgb(0,0,0)";
 s=xmlDoc.getElementsByTagName("System");
 
 for (i = 0; i < s.length; i++){
