@@ -38,7 +38,7 @@ f=xmlDoc.getElementsByTagName("Fleet");
 	ctx.lineWidth = 2;
 	ctx.moveTo(scale(fleet.getNamedItem("x1").nodeValue),scale(fleet.getNamedItem("y1").nodeValue));
 	ctx.lineTo(scale(fleet.getNamedItem("x2").nodeValue),scale(fleet.getNamedItem("y2").nodeValue));
-	ctx.strokeStyle = "#FFFF00";
+	//ctx.strokeStyle = "#FFFF00";
 	ctx.stroke();
 	ctx.beginPath();
     ctx.arc(scale(fleet.getNamedItem("cx").nodeValue),scale(fleet.getNamedItem("cy").nodeValue),2,0,Math.PI*2,true);
