@@ -1,8 +1,11 @@
 <html>
  <head>
   <script type="application/javascript">
+	function move(pos){
+		return scale((parseFloat(pos)+50.5));
+	}
 	function scale(pos){
-		return (parseFloat(pos)+50.5)* 8;
+		return pos*8;
 	}
 	function loadXMLDoc(dname){
 		if (window.XMLHttpRequest){
@@ -27,8 +30,8 @@ w=xmlDoc.getElementsByTagName("Wormhole");
 	wormhole = w[i].attributes;
 	ctx.lineWidth = 2;
 	ctx.beginPath();
-	ctx.moveTo(scale(wormhole.getNamedItem("x1").nodeValue),scale(wormhole.getNamedItem("y1").nodeValue));
-	ctx.lineTo(scale(wormhole.getNamedItem("x2").nodeValue),scale(wormhole.getNamedItem("y2").nodeValue));
+	ctx.moveTo(move(wormhole.getNamedItem("x1").nodeValue),move(wormhole.getNamedItem("y1").nodeValue));
+	ctx.lineTo(move(wormhole.getNamedItem("x2").nodeValue),move(wormhole.getNamedItem("y2").nodeValue));
 	ctx.strokeStyle = "#0000FF";
 	ctx.closePath();
 	ctx.stroke();
@@ -41,18 +44,18 @@ f=xmlDoc.getElementsByTagName("Fleet");
 	ctx.lineWidth = 2;
 	ctx.strokeStyle = "#590059";
 	ctx.beginPath();
-	ctx.moveTo(scale(fleet.getNamedItem("x1").nodeValue),scale(fleet.getNamedItem("y1").nodeValue));
-	ctx.lineTo(scale(fleet.getNamedItem("cx").nodeValue),scale(fleet.getNamedItem("cy").nodeValue));
+	ctx.moveTo(move(fleet.getNamedItem("x1").nodeValue),move(fleet.getNamedItem("y1").nodeValue));
+	ctx.lineTo(move(fleet.getNamedItem("cx").nodeValue),move(fleet.getNamedItem("cy").nodeValue));
 	ctx.stroke();
 	ctx.closePath();
 	ctx.strokeStyle = "#FF00FF";
 	ctx.beginPath();
-	ctx.moveTo(scale(fleet.getNamedItem("cx").nodeValue),scale(fleet.getNamedItem("cy").nodeValue));
-	ctx.lineTo(scale(fleet.getNamedItem("x2").nodeValue),scale(fleet.getNamedItem("y2").nodeValue));
+	ctx.moveTo(move(fleet.getNamedItem("cx").nodeValue),move(fleet.getNamedItem("cy").nodeValue));
+	ctx.lineTo(move(fleet.getNamedItem("x2").nodeValue),move(fleet.getNamedItem("y2").nodeValue));
 	ctx.stroke();
 	ctx.closePath();
 	ctx.beginPath();
-    ctx.arc(scale(fleet.getNamedItem("cx").nodeValue),scale(fleet.getNamedItem("cy").nodeValue),2,0,Math.PI*2,true);
+    ctx.arc(move(fleet.getNamedItem("cx").nodeValue),move(fleet.getNamedItem("cy").nodeValue),2,0,Math.PI*2,true);
     ctx.fill();
     ctx.stroke();
 }
@@ -65,7 +68,7 @@ for (i = 0; i < s.length; i++){
 	image = (system.getNamedItem("id").nodeValue%4)+1;
 	//output.innerHTML = output.innerHTML + system.getNamedItem("id").nodeValue + "=" + system.getNamedItem("x").nodeValue + "," + system.getNamedItem("y").nodeValue + "(" + image + ") <br/>";
 	var star = document.getElementById("star"+image);
-	ctx.drawImage(star, scale(system.getNamedItem("x").nodeValue)-4, scale(system.getNamedItem("y").nodeValue)-4,8,8);
+	ctx.drawImage(star, move(system.getNamedItem("x").nodeValue)-4, move(system.getNamedItem("y").nodeValue)-4,8,8);
 }
  
 c=xmlDoc.getElementsByTagName("Colony");
@@ -78,7 +81,7 @@ for (i = 0; i < c.length; i++){
     if(colony.getNamedItem("own").nodeValue > 0 && colony.getNamedItem("others").nodeValue > 0) ctx.strokeStyle = "#FFFF00";
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.arc(scale(colony.getNamedItem("x").nodeValue),scale(colony.getNamedItem("y").nodeValue),4,0,Math.PI*2,true);
+    ctx.arc(move(colony.getNamedItem("x").nodeValue),move(colony.getNamedItem("y").nodeValue),4,0,Math.PI*2,true);
     ctx.closePath();
     ctx.stroke();
 }
