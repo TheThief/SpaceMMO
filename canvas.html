@@ -29,6 +29,7 @@ w=xmlDoc.getElementsByTagName("Wormhole");
 	ctx.moveTo(scale(wormhole.getNamedItem("x1").nodeValue),scale(wormhole.getNamedItem("y1").nodeValue));
 	ctx.lineTo(scale(wormhole.getNamedItem("x2").nodeValue),scale(wormhole.getNamedItem("y2").nodeValue));
 	ctx.strokeStyle = "#0000FF";
+	ctx.closePath();
 	ctx.stroke();
 }
 
