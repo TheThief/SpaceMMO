@@ -4,6 +4,10 @@
 	function move(pos){
 		return scale((parseFloat(pos)+50.5));
 	}
+	function formdraw(){
+		draw();
+		return false;
+	}
 	function scale(pos){
 		return pos*parseFloat(document.getElementById("scale").value);
 	}
@@ -99,7 +103,7 @@ for (i = 0; i < c.length; i++){
 	<img src="http://vps.dynamicarcade.co.uk/SpaceMMO/images/star3.png" id="star3" style="display:none;"/>
 	<img src="http://vps.dynamicarcade.co.uk/SpaceMMO/images/star4.png" id="star4" style="display:none;"/>
 	<div id="output"></div>
-   <form action="" onsubmit="draw()">
+   <form action="" onsubmit="return formdraw()">
    Scale: <input type="text" name="scale" id="scale" value="8" /><input type="button" value="Draw" onclick="draw()"/>
    </form>
    <canvas id="canvas" width="808" height="808"></canvas>
