@@ -1,4 +1,4 @@
-hen<?
+<?
 include_once 'includes/start.inc.php';
 checkLoggedIn();
 $userid = $_SESSION['userid'];
