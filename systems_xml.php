@@ -63,7 +63,23 @@ while ($stmt->fetch()){
         $colony->setAttribute("others", $othercoloniesCount);
     }
 }
-   
+$stmt = $mysqli->prepare('SELECT fleetid,((totalorderticks-orderticks)/totalorderticks)*DISTANCE(s.x,s.y,os.x,os.y) as traveled,s.x as x1,s.y as y2, os.x as x2, os.y as y2, DISTANCE(s.x,s.y,os.x,os.y) as distance, (os.x-s.x)*((totalorderticks-orderticks)/totalorderticks) + s.x as currentx, (os.y-s.y)*((totalorderticks-orderticks)/totalorderticks) + s.y as currenty FROM fleets f LEFT JOIN planets p ON (f.planetID = p.planetID) LEFT JOIN planets op ON (f.orderplanetID = op.planetID) LEFT JOIN systems s ON (s.systemID = p.systemID) LEFT JOIN systems os ON (os.systemID = op.systemID) WHERE orderid > 1 and userid=?');
+$stmt->bind_param('i',$userid);
+$stmt->execute();
+$stmt->bind_result($fleetid,$traveled,$startX,$startY,$endX,$endY,$distance,$currentX,$currentY);
+while ($stmt->fetch()){
+	$fleet = $dom->createElement('Fleet');
+	$fleet = $colonies->appendChild($fleet);
+	$fleet->setAttribute("id", $fleetid);
+	$fleet->setAttribute("x1", $startX);
+	$fleet->setAttribute("y1", $startY);
+	$fleet->setAttribute("x2", $endX);
+	$fleet->setAttribute("y2", $endY);
+	$fleet->setAttribute("distance", $distance);
+	$fleet->setAttribute("traveled", $traveled);
+	$fleet->setAttribute("cx", $currentX);
+	$fleet->setAttribute("cy", $currentY);
+}
 header("Content-type: text/xml"); 
 echo $dom->saveXML();
 
