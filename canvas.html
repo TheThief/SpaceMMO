@@ -5,7 +5,7 @@
 		return scale((parseFloat(pos)+50.5));
 	}
 	function scale(pos){
-		return pos*parseFloat(document.getElementById("canvas").value);
+		return pos*parseFloat(document.getElementById("scale").value);
 	}
 	function loadXMLDoc(dname){
 		if (window.XMLHttpRequest){
@@ -22,7 +22,7 @@
 xmlDoc=loadXMLDoc("systems_xml.php");
 var canvas = document.getElementById("canvas");
 var output = document.getElementById("output");
-alert(canvas.height);
+//alert(canvas.height);
 //canvas.width = scale(101);
 //canvas.height = scale(101);
 var ctx = canvas.getContext("2d");
