@@ -5,7 +5,7 @@
 		return scale((parseFloat(pos)+50.5));
 	}
 	function scale(pos){
-		return pos*8;
+		return pos*parseFloat(document.getElementById("canvas").value);
 	}
 	function loadXMLDoc(dname){
 		if (window.XMLHttpRequest){
@@ -18,13 +18,16 @@
 		return xhttp.responseXML;
 	} 
  function draw() {
+ 
 xmlDoc=loadXMLDoc("systems_xml.php");
 var canvas = document.getElementById("canvas");
 var output = document.getElementById("output");
+canvas.width = scale(101);
+canvas.height = scale(101);
 var ctx = canvas.getContext("2d");
  
  ctx.fillStyle = "rgb(0,0,0)";
- ctx.fillRect (0, 0, 808, 808);
+ ctx.fillRect (0, 0, scale(101), scale(101));
 w=xmlDoc.getElementsByTagName("Wormhole");
  for (i = 0; i < w.length; i++){
 	wormhole = w[i].attributes;
@@ -95,6 +98,9 @@ for (i = 0; i < c.length; i++){
 	<img src="http://vps.dynamicarcade.co.uk/SpaceMMO/images/star3.png" id="star3" style="display:none;"/>
 	<img src="http://vps.dynamicarcade.co.uk/SpaceMMO/images/star4.png" id="star4" style="display:none;"/>
 	<div id="output"></div>
+   <form action="">
+   Scale: <input type="text" name="scale" id="scale" value="8" /><input type="button" onclick="draw()"/>
+   </form>
    <canvas id="canvas" width="808" height="808"></canvas>
  </body>
 </html>
