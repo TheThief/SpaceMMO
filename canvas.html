@@ -1,8 +1,11 @@
 <html>
  <head>
   <script type="application/javascript">
-	function move(pos){
-		return scale((parseFloat(pos)+50.5));
+	function move(pos,axis){
+		offset = 0;
+		if(axis == "y") offset = parseFloat(document.getElementById("posy").value);
+		if(axis == "x") offset = parseFloat(document.getElementById("posx").value);
+		return scale((parseFloat(pos)+(50.5+offset)));
 	}
 	function formdraw(){
 		draw();
@@ -26,9 +29,8 @@
 xmlDoc=loadXMLDoc("systems_xml.php");
 var canvas = document.getElementById("canvas");
 var output = document.getElementById("output");
-//alert(canvas.height);
-canvas.width = scale(101);
-canvas.height = scale(101);
+//canvas.width = scale(101);
+//canvas.height = scale(101);
 var ctx = canvas.getContext("2d");
  
  ctx.fillStyle = "rgb(0,0,0)";
@@ -38,8 +40,8 @@ w=xmlDoc.getElementsByTagName("Wormhole");
 	wormhole = w[i].attributes;
 	ctx.lineWidth = scale(0.25);
 	ctx.beginPath();
-	ctx.moveTo(move(wormhole.getNamedItem("x1").nodeValue),move(wormhole.getNamedItem("y1").nodeValue));
-	ctx.lineTo(move(wormhole.getNamedItem("x2").nodeValue),move(wormhole.getNamedItem("y2").nodeValue));
+	ctx.moveTo(move(wormhole.getNamedItem("x1").nodeValue,"x"),move(wormhole.getNamedItem("y1").nodeValue,"y"));
+	ctx.lineTo(move(wormhole.getNamedItem("x2").nodeValue,"x"),move(wormhole.getNamedItem("y2").nodeValue,"y"));
 	ctx.strokeStyle = "#0000FF";
 	ctx.closePath();
 	ctx.stroke();
@@ -52,18 +54,18 @@ f=xmlDoc.getElementsByTagName("Fleet");
 	ctx.lineWidth = scale(0.25);
 	ctx.strokeStyle = "#590059";
 	ctx.beginPath();
-	ctx.moveTo(move(fleet.getNamedItem("x1").nodeValue),move(fleet.getNamedItem("y1").nodeValue));
-	ctx.lineTo(move(fleet.getNamedItem("cx").nodeValue),move(fleet.getNamedItem("cy").nodeValue));
+	ctx.moveTo(move(fleet.getNamedItem("x1").nodeValue,"x"),move(fleet.getNamedItem("y1").nodeValue,"y"));
+	ctx.lineTo(move(fleet.getNamedItem("cx").nodeValue,"x"),move(fleet.getNamedItem("cy").nodeValue,"y"));
 	ctx.stroke();
 	ctx.closePath();
 	ctx.strokeStyle = "#FF00FF";
 	ctx.beginPath();
-	ctx.moveTo(move(fleet.getNamedItem("cx").nodeValue),move(fleet.getNamedItem("cy").nodeValue));
-	ctx.lineTo(move(fleet.getNamedItem("x2").nodeValue),move(fleet.getNamedItem("y2").nodeValue));
+	ctx.moveTo(move(fleet.getNamedItem("cx").nodeValue,"x"),move(fleet.getNamedItem("cy").nodeValue,"y"));
+	ctx.lineTo(move(fleet.getNamedItem("x2").nodeValue,"x"),move(fleet.getNamedItem("y2").nodeValue,"y"));
 	ctx.stroke();
 	ctx.closePath();
 	ctx.beginPath();
-    ctx.arc(move(fleet.getNamedItem("cx").nodeValue),move(fleet.getNamedItem("cy").nodeValue),scale(0.25),0,Math.PI*2,true);
+    ctx.arc(move(fleet.getNamedItem("cx").nodeValue,"x"),move(fleet.getNamedItem("cy").nodeValue,"y"),scale(0.25),0,Math.PI*2,true);
     ctx.fill();
     ctx.stroke();
 }
@@ -76,7 +78,7 @@ for (i = 0; i < s.length; i++){
 	image = (system.getNamedItem("id").nodeValue%4)+1;
 	//output.innerHTML = output.innerHTML + system.getNamedItem("id").nodeValue + "=" + system.getNamedItem("x").nodeValue + "," + system.getNamedItem("y").nodeValue + "(" + image + ") <br/>";
 	var star = document.getElementById("star"+image);
-	ctx.drawImage(star, move(system.getNamedItem("x").nodeValue)-scale(0.5), move(system.getNamedItem("y").nodeValue)-scale(0.5),scale(1),scale(1));
+	ctx.drawImage(star, move(system.getNamedItem("x").nodeValue,"x")-scale(0.5), move(system.getNamedItem("y").nodeValue,"y")-scale(0.5),scale(1),scale(1));
 }
  
 c=xmlDoc.getElementsByTagName("Colony");
@@ -89,7 +91,7 @@ for (i = 0; i < c.length; i++){
     if(colony.getNamedItem("own").nodeValue > 0 && colony.getNamedItem("others").nodeValue > 0) ctx.strokeStyle = "#FFFF00";
     ctx.lineWidth = scale(0.25);
     ctx.beginPath();
-    ctx.arc(move(colony.getNamedItem("x").nodeValue),move(colony.getNamedItem("y").nodeValue),scale(0.5),0,Math.PI*2,true);
+    ctx.arc(move(colony.getNamedItem("x").nodeValue,"x"),move(colony.getNamedItem("y").nodeValue,"y"),scale(0.5),0,Math.PI*2,true);
     ctx.closePath();
     ctx.stroke();
 }
@@ -104,7 +106,10 @@ for (i = 0; i < c.length; i++){
 	<img src="http://vps.dynamicarcade.co.uk/SpaceMMO/images/star4.png" id="star4" style="display:none;"/>
 	<div id="output"></div>
    <form action="" onsubmit="return formdraw()">
-   Scale: <input type="text" name="scale" id="scale" value="8" /><input type="button" value="Draw" onclick="draw()"/>
+   Scale: <input type="text" name="scale" id="scale" value="8" /><br/>
+   X: <input type="text" name="posx" id="posx" value="0" /><br/>
+   Y: <input type="text" name="posy" id="posy" value="0" /><br/>
+   <input type="button" value="Draw" onclick="draw()"/>
    </form>
    <canvas id="canvas" width="808" height="808"></canvas>
  </body>
