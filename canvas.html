@@ -16,11 +16,12 @@
 	}
 	function drag(event){
 			if(isdrag){
-				document.getElementById("posx").value = parseFloat(document.getElementById("posx").value) + ( startx - event.ScreenX);
-				document.getElementById("posy").value = parseFloat(document.getElementById("posy").value) + ( starty - event.ScreenY);
-				startx = event.ScreenX;
-				starty = event.ScreenY;
-				draw();
+				alert(event.ScreenX);
+				//document.getElementById("posx").value = parseFloat(document.getElementById("posx").value) + ( startx - event.ScreenX);
+				//document.getElementById("posy").value = parseFloat(document.getElementById("posy").value) + ( starty - event.ScreenY);
+				//startx = event.ScreenX;
+				//starty = event.ScreenY;
+				//draw();
 			}
 	}
 	function move(pos,axis){
