@@ -30,7 +30,7 @@
 		offset = 0;
 		if(axis == "y") offset = parseFloat(document.getElementById("posy").value);
 		if(axis == "x") offset = parseFloat(document.getElementById("posx").value);
-		return scale((parseFloat(pos)+(50.5+offset)));
+		return scale((parseFloat(pos)+(50.5)))+offset;
 	}
 	function formdraw(){
 		draw();
