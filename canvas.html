@@ -6,8 +6,8 @@
 	var starty = 0;
 	function startDrag(event){
 		isdrag = true;
-		startx = event.ScreenX;
-		starty = event.ScreenY;
+		startx = event.screenX;
+		starty = event.screenY;
 	}
 	function endDrag(event){
 		isdrag = false;
@@ -16,11 +16,10 @@
 	}
 	function drag(event){
 			if(isdrag){
-				alert(event.ScreenX);
-				//document.getElementById("posx").value = parseFloat(document.getElementById("posx").value) + ( startx - event.ScreenX);
-				//document.getElementById("posy").value = parseFloat(document.getElementById("posy").value) + ( starty - event.ScreenY);
-				//startx = event.ScreenX;
-				//starty = event.ScreenY;
+				document.getElementById("posx").value = parseFloat(document.getElementById("posx").value) + ( startx - event.screenX);
+				document.getElementById("posy").value = parseFloat(document.getElementById("posy").value) + ( starty - event.screenY);
+				startx = event.screenX;
+				starty = event.screenY;
 				//draw();
 			}
 	}
