@@ -20,8 +20,8 @@
 		 var minY = 0;
 		 var maxX = canvas.width;
 		 var maxY = canvas.height;
-		 if(x <= maxX && x >= minX && y <= maxY && y >= minY) retutn true;
-		 retutn false;
+		 if(x <= maxX && x >= minX && y <= maxY && y >= minY) return true;
+		 return false;
 	}
 	function loadXMLDoc(dname){
 		if (window.XMLHttpRequest){
