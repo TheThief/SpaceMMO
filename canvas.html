@@ -15,7 +15,7 @@
 		starty = 0;
 	}
 	function clamp(pos){
-		return Math.max(-50, Math.min(50,pos))
+		return Math.max(scale(-50), Math.min(scale(50),pos))
 	}
 	function drag(event){
 			if(isdrag){
