@@ -14,10 +14,13 @@
 		startx = 0;
 		starty = 0;
 	}
+	function clamp(pos){
+		return Math.Max(-50, Math.Min(50,pos))
+	}
 	function drag(event){
 			if(isdrag){
-				document.getElementById("posx").value = parseFloat(document.getElementById("posx").value) + ( startx - event.screenX);
-				document.getElementById("posy").value = parseFloat(document.getElementById("posy").value) + ( starty - event.screenY);
+				document.getElementById("posx").value = clamp(parseFloat(document.getElementById("posx").value) - ( startx - event.screenX));
+				document.getElementById("posy").value = clamp(parseFloat(document.getElementById("posy").value) - ( starty - event.screenY)_;
 				startx = event.screenX;
 				starty = event.screenY;
 				draw();
