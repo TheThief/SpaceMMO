@@ -41,10 +41,10 @@
 	}
 	function drawable(x,y){
 		 var canvas = document.getElementById("canvas");
-		 var minX = 0;
-		 var minY = 0;
-		 var maxX = canvas.width;
-		 var maxY = canvas.height;
+		 var minX = scale(-0.5);
+		 var minY = scale(-0.5);
+		 var maxX = canvas.width + scale(0.5);
+		 var maxY = canvas.height + scale(0.5);
 		 if(x <= maxX && x >= minX && y <= maxY && y >= minY) return true;
 		 return false;
 	}
