@@ -34,7 +34,7 @@ var output = document.getElementById("output");
 var ctx = canvas.getContext("2d");
  
  ctx.fillStyle = "rgb(0,0,0)";
- ctx.fillRect (0, 0, scale(101), scale(101));
+ ctx.fillRect (0, 0, canvas.width, canvas.height);
 w=xmlDoc.getElementsByTagName("Wormhole");
  for (i = 0; i < w.length; i++){
 	wormhole = w[i].attributes;
