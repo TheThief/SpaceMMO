@@ -109,6 +109,7 @@ for (i = 0; i < c.length; i++){
    Scale: <input type="text" name="scale" id="scale" value="8" /><br/>
    X: <input type="text" name="posx" id="posx" value="0" /><br/>
    Y: <input type="text" name="posy" id="posy" value="0" /><br/>
+   <input type="button" value="Left" onclick="document.getElementById('posx').value = parseFloat(document.getElementById('posx').value)-5;draw();"/>
    <input type="button" value="Draw" onclick="draw()"/>
    </form>
    <canvas id="canvas" width="808" height="808"></canvas>
