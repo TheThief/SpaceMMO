@@ -20,7 +20,7 @@
 	function drag(event){
 			if(isdrag){
 				document.getElementById("posx").value = clamp(parseFloat(document.getElementById("posx").value) - ( startx - event.screenX));
-				document.getElementById("posy").value = clamp(parseFloat(document.getElementById("posy").value) - ( starty - event.screenY)_;
+				document.getElementById("posy").value = clamp(parseFloat(document.getElementById("posy").value) - ( starty - event.screenY));
 				startx = event.screenX;
 				starty = event.screenY;
 				draw();
