@@ -172,6 +172,7 @@ function zoom(e)
   if(normal < 0) document.getElementById("scale").value = parseFloat(document.getElementById("scale").value)/2;
   if(normal > 0) document.getElementById("scale").value = parseFloat(document.getElementById("scale").value)*2;
   cancelEvent(e);
+  draw();
 }
 
 hookEvent('canvas', 'mousewheel', zoom);
