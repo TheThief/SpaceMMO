@@ -33,8 +33,9 @@
 		xhttp.send();
 		return xhttp.responseXML;
 	} 
+	var xmlDoc=loadXMLDoc("systems_xml.php");
  function draw() {
-xmlDoc=loadXMLDoc("systems_xml.php");
+
 var canvas = document.getElementById("canvas");
 var output = document.getElementById("output");
 //canvas.width = scale(101);
