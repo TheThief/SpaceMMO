@@ -1,6 +1,28 @@
 <html>
  <head>
   <script type="application/javascript">
+	var isdrag = false;
+	var startx = 0;
+	var starty = 0;
+	function startDrag(event){
+		isdrag = true;
+		startx = event.ScreenX;
+		starty = event.ScreenY;
+	}
+	function endDrag(event){
+		isdrag = false;
+		startx = 0;
+		starty = 0;
+	}
+	function drag(event){
+			if(isdrag){
+				document.getElementById("posx").value = parseFloat(document.getElementById("posx").value) + ( startx - event.ScreenX);
+				document.getElementById("posy").value = parseFloat(document.getElementById("posy").value) + ( starty - event.ScreenY);
+				startx = event.ScreenX;
+				starty = event.ScreenY;
+				draw();
+			}
+	}
 	function move(pos,axis){
 		offset = 0;
 		if(axis == "y") offset = parseFloat(document.getElementById("posy").value);
@@ -128,6 +150,6 @@ for (i = 0; i < c.length; i++){
    <input type="button" value="Down" onclick="document.getElementById('posy').value = parseFloat(document.getElementById('posy').value)-5;draw();"/><br/>
    <input type="button" value="Draw" onclick="draw()"/>
    </form>
-   <canvas id="canvas" width="808" height="808"></canvas>
+   <canvas id="canvas" width="808" height="808" onmousedown="startDrag(event);" onmouseup="endDrag(event);" onmousemove="drag(event);"></canvas>
  </body>
 </html>
