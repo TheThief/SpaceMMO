@@ -1,5 +1,7 @@
 <html>
  <head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+  <script src="jquery.mousewheel.min.js" type="text/javascript"></script>
   <script type="application/javascript">
 	var isdrag = false;
 	var startx = 0;
@@ -138,6 +140,21 @@ for (i = 0; i < c.length; i++){
 }
 
 }
+
+jQuery(function($) {
+    $('#canvas')
+        .bind('mousewheel', function(event, delta) {
+			if(delta > 0){
+			//Up
+				document.getElementById("scale").value = parseFloat(document.getElementById("scale").value) *2;
+			}else{
+			//Down
+				document.getElementById("scale").value = parseFloat(document.getElementById("scale").value) /2;
+			}
+			draw();
+            return false;
+        });
+});
   </script>
  </head>
  <body onload="draw()">
