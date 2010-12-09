@@ -3,3 +3,7 @@ RedirectMatch 403 /\.svn.*$
 <IfModule mod_deflate.c>
           AddOutputFilterByType DEFLATE text/css application/x-javascript
 </IfModule>
+
+<IfModule mod_expires.c>
+          ExpiresByType image/png "access plus 1 day"
+</IfModule>
