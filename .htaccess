@@ -1,1 +1,5 @@
 RedirectMatch 403 /\.svn.*$
+
+<IfModule mod_deflate.c>
+          AddOutputFilterByType DEFLATE text/css application/x-javascript
+</IfModule>
