@@ -7,4 +7,5 @@ RedirectMatch 403 /\.svn.*$
 <IfModule mod_expires.c>
           ExpiresActive on
           ExpiresByType image/png "access plus 1 days"
+          ExpiresByType text/css "access plus 1 days"
 </IfModule>
