@@ -45,18 +45,7 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 	echo '<img src="/SpaceMMO/images/logo.png" alt="Logo!">', $eol;
 	echo '</div>', $eol;
 	echo '', $eol;
-	echo '<div class="menu">', $eol;
-	echo '<h1>Menu</h1>', $eol;
-	include dirname(__FILE__).'/menu.inc.php';
-	if ($menufunc)
-	{
-		$menufunc();
-	}
-	if (isAdmin())
-	{
-		include(dirname(__FILE__).'/../admin/includes/adminmenu.inc.php');
-	}
-	echo '</div>', $eol;
+	
 	if (isLoggedIn())
 	{
 		$colonyid = $_SESSION['colony'];
@@ -104,6 +93,20 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 		}
 		echo '</div>', $eol;
 	}
+	
+	echo '<div class="menu">', $eol;
+	echo '<h1>Menu</h1>', $eol;
+	include dirname(__FILE__).'/menu.inc.php';
+	if ($menufunc)
+	{
+		$menufunc();
+	}
+	if (isAdmin())
+	{
+		include(dirname(__FILE__).'/../admin/includes/adminmenu.inc.php');
+	}
+	echo '</div>', $eol;
+	
 	echo '</div>', $eol;
 	echo '', $eol;
 	echo '<div class="bodyouter">', $eol;
