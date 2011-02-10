@@ -51,6 +51,7 @@ function buildingLevelsBody()
 	{
 		$result = $query->execute();
 		$result = $query->fetch();
+		$query->reset();
 		$tcost += $cost;
 		echo '<tr>';
 		echo '<td style="text-align: right">', $level, '</td>';
