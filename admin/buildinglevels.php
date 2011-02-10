@@ -21,10 +21,10 @@ function buildingLevelsBody()
 	echo '<table>', $eol;
 	echo '<tr><th>Level</th><th>Cost</th><th>Cumlative</th>', $eol;
 
-	$query = $mysqli->prepare('SELECT type FROM effects WHERE buildingid = ?');
+	$query = $mysqli->prepare('SELECT type,base FROM effects WHERE buildingid = ?');
 	$query->bind_param('i', $buildingid);
 	$query->execute();
-	$query->bind_result($effecttype);
+	$query->bind_result($effecttype,$effectbase);
 	while($query->fetch())
 	{
 		if ($effectbase < 0)
