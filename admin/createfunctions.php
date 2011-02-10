@@ -20,7 +20,7 @@ else
 }
 
 //$result = $mysqli->query('DROP FUNCTION round_sf');
-$result = $mysqli->query('CREATE FUNCTION round_sf(number FLOAT, sf INT) returns FLOAT DETERMINISTIC NO SQL RETURN ROUND(number, sf-CEIL(LOG10(number)))');
+$result = $mysqli->query('CREATE FUNCTION round_sf(number FLOAT, sf INT) returns FLOAT DETERMINISTIC NO SQL RETURN ROUND(number, sf-CEIL(LOG10(ABS(number))))');
 if ($result)
 {
 	echo 'function \'round_sf\' created successfully', $eol;
@@ -106,6 +106,48 @@ else
 //	BEGIN
 //		DECLARE effect INT;
 //		SELECT ROUND(output*colony_building_effect_max(colonyid, id, level)) INTO effect FROM colonybuildings WHERE planetid=colonyid AND buildingid=id;
+//		RETURN effect;
+//	END
+
+
+
+
+
+//CREATE FUNCTION building_effect2(id INT, level INT, effecttype INT)
+//	RETURNS FLOAT
+//	DETERMINISTIC
+//	READS SQL DATA
+//	BEGIN
+//		DECLARE effect INT;
+//		SELECT round_sf(mult_exp(level,base,linear,multiplier),3) INTO effect FROM effects WHERE buildingid=id AND type=effecttype;
+//		RETURN effect;
+//	END
+
+//CREATE FUNCTION colony_building_effect2_max(colonyid INT, id INT, level INT, effecttype INT)
+//	RETURNS INT
+//	DETERMINISTIC
+//	READS SQL DATA
+//	BEGIN
+//		DECLARE effect INT;
+//		DECLARE multiply BOOL;
+//		SELECT multiplybyplanet, ROUND(building_effect2(id, level, effecttype)) INTO multiply, effect FROM buildings INNER JOIN effects USING (buildingid) WHERE buildingid=id AND type=effecttype;
+//		IF multiply THEN
+//			CASE effecttype
+//				WHEN 1 THEN SELECT ROUND(effect*metal) INTO effect FROM planets WHERE planetid=colonyid;
+//				WHEN 2 THEN SELECT ROUND(effect*deuterium) INTO effect FROM planets WHERE planetid=colonyid;
+//				ELSE BEGIN END;
+//			END CASE;
+//		END IF;
+//		RETURN effect;
+//	END
+
+//CREATE FUNCTION colony_building_effect2(colonyid INT, id INT, effecttype INT)
+//	RETURNS INT
+//	DETERMINISTIC
+//	READS SQL DATA
+//	BEGIN
+//		DECLARE effect INT;
+//		SELECT ROUND(output*colony_building_effect2_max(colonyid, id, level, effecttype)) INTO effect FROM colonybuildings WHERE planetid=colonyid AND buildingid=id;
 //		RETURN effect;
 //	END
 
