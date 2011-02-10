@@ -43,7 +43,7 @@ function buildingLevelsBody()
 	$query->bind_param('ii', $level, $buildingid);
 	$query->bind_result($cost);
 	$query2 = $mysqli->prepare('SELECT building_effect2(buildingid,?,type) AS effect FROM effects WHERE buildingid = ?');
-	$query2->bind_param('i', $buildingid);
+	$query2->bind_param('ii', $level, $buildingid);
 	$query->bind_result($effect);
 
 	$tcost = 0;
@@ -64,4 +64,4 @@ function buildingLevelsBody()
 		echo '</tr>', $eol;
 	}
 }
-?>
+?>
