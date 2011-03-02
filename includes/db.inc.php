@@ -44,5 +44,5 @@ class space_mysqli_stmt extends mysqli_stmt{
 	}
 }
 
-$mysqli = new space_mysqli('127.0.0.1',$db_user,$db_pass,$db_db);
+$mysqli = new space_mysqli($db_server,$db_user,$db_pass,$db_db);
 ?>
