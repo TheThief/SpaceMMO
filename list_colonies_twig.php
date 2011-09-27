@@ -8,6 +8,7 @@ Twig_Autoloader::register();
 $loader = new Twig_Loader_Filesystem('templates');
 $twig = new Twig_Environment($loader, array(
     'cache' => 'templates/compiled',
+    'auto_reload' => true,
 ));
 $template = $twig->loadTemplate('colonies_list.html');
 
