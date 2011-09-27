@@ -11,5 +11,6 @@
     <tr><td><a href="{{ colony.systemLink }}">{{ colony.systemCode }}</a></td><td><a href="{{ colony.planetLink }}"><img src="{{ colony.planetImage }}" style="width:1em;height:1em;">{{ colony.planetType }}</a></td><td>{{ colony.metal }}/{{ colony.metalStorage }} ({{ colony.metalProduction }})</td><td>{{ colony.deuterium }}/{{ colony.deuteriumStorage }} ({{ colony.deuteriumProduction }})</td><td>{{ colony.energy }}/{{ colony.energyStorage }} ({{ colony.energyProduction }})</td><td>{% if colony.changeToLink %}<a href="{{ colony.changeToLink }}">Change to</a>{% endif %}</td></tr>
 {% endfor %}
 </table>
+<?php echo "Hello from PHP";?>
 </body>
 </html>
