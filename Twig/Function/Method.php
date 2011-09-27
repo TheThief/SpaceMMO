@@ -11,7 +11,7 @@
  */
 
 /**
- * Represents a method templates function.
+ * Represents a method template function.
  *
  * @package    twig
  * @author     Arnaud Le Blanc <arnaud.lb@gmail.com>

@@ -11,7 +11,7 @@
  */
 
 /**
- * Lexes a templates string.
+ * Lexes a template string.
  *
  * @package    twig
  * @author     Fabien Potencier <fabien@symfony.com>
@@ -128,14 +128,14 @@ class Twig_Lexer implements Twig_LexerInterface
             }
         }
 
-        // if no matches are left we return the rest of the templates as simple text token
+        // if no matches are left we return the rest of the template as simple text token
         if ($pos === $this->end) {
             $this->pushToken(Twig_Token::TEXT_TYPE, substr($this->code, $this->cursor));
             $this->cursor = $this->end;
             return;
         }
 
-        // push the templates text first
+        // push the template text first
         $text = $textContent = substr($this->code, $this->cursor, $pos - $this->cursor);
         if (true === $trimBlock) {
             $text = rtrim($text);

@@ -311,7 +311,7 @@ class Twig_Parser implements Twig_ParserInterface
             ||
             (!$node instanceof Twig_Node_Text && !$node instanceof Twig_Node_BlockReference && $node instanceof Twig_NodeOutputInterface)
         ) {
-            throw new Twig_Error_Syntax('A templates that extends another one cannot have a body.', $node->getLine(), $this->stream->getFilename());
+            throw new Twig_Error_Syntax('A template that extends another one cannot have a body.', $node->getLine(), $this->stream->getFilename());
         }
 
         // bypass "set" nodes as they "capture" the output

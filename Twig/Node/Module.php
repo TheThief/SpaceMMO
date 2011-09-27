@@ -124,14 +124,14 @@ class Twig_Node_Module extends Twig_Node
         if ($countTraits) {
             // traits
             foreach ($this->getNode('traits') as $i => $trait) {
-                $this->compileLoadTemplate($compiler, $trait->getNode('templates'), sprintf('$_trait_%s', $i));
+                $this->compileLoadTemplate($compiler, $trait->getNode('template'), sprintf('$_trait_%s', $i));
 
                 $compiler
-                    ->addDebugInfo($trait->getNode('templates'))
+                    ->addDebugInfo($trait->getNode('template'))
                     ->write(sprintf("if (!\$_trait_%s->isTraitable()) {\n", $i))
                     ->indent()
                     ->write("throw new Twig_Error_Runtime('Template \"'.")
-                    ->subcompile($trait->getNode('templates'))
+                    ->subcompile($trait->getNode('template'))
                     ->raw(".'\" cannot be used as a trait.');\n")
                     ->outdent()
                     ->write("}\n")
@@ -241,12 +241,12 @@ class Twig_Node_Module extends Twig_Node
 
     protected function compileIsTraitable(Twig_Compiler $compiler)
     {
-        // A templates can be used as a trait if:
+        // A template can be used as a trait if:
         //   * it has no parent
         //   * it has no macros
         //   * it has no body
         //
-        // Put another way, a templates can be used as a trait if it
+        // Put another way, a template can be used as a trait if it
         // only contains blocks and use statements.
         $traitable = null === $this->getNode('parent') && 0 === count($this->getNode('macros'));
         if ($traitable) {

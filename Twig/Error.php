@@ -26,8 +26,8 @@ class Twig_Error extends Exception
      * Constructor.
      *
      * @param string    $message  The error message
-     * @param integer   $lineno   The templates line where the error occurred
-     * @param string    $filename The templates file name where the error occurred
+     * @param integer   $lineno   The template line where the error occurred
+     * @param string    $filename The template file name where the error occurred
      * @param Exception $previous The previous exception
      */
     public function __construct($message, $lineno = -1, $filename = null, Exception $previous = null)
@@ -83,9 +83,9 @@ class Twig_Error extends Exception
     }
 
     /**
-     * Gets the templates line where the error occurred.
+     * Gets the template line where the error occurred.
      *
-     * @return integer The templates line
+     * @return integer The template line
      */
     public function getTemplateLine()
     {
@@ -93,9 +93,9 @@ class Twig_Error extends Exception
     }
 
     /**
-     * Sets the templates line where the error occurred.
+     * Sets the template line where the error occurred.
      *
-     * @param integer $lineno The templates line
+     * @param integer $lineno The template line
      */
     public function setTemplateLine($lineno)
     {

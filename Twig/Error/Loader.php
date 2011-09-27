@@ -10,7 +10,7 @@
  */
 
 /**
- * Exception thrown when an error occurs during templates loading.
+ * Exception thrown when an error occurs during template loading.
  *
  * @package    twig
  * @author     Fabien Potencier <fabien@symfony.com>

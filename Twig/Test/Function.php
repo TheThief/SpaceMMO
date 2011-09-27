@@ -10,7 +10,7 @@
  */
 
 /**
- * Represents a function templates test.
+ * Represents a function template test.
  *
  * @package    twig
  * @author     Fabien Potencier <fabien@symfony.com>

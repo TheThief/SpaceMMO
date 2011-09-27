@@ -36,9 +36,9 @@ abstract class Twig_Template implements Twig_TemplateInterface
     }
 
     /**
-     * Returns the templates name.
+     * Returns the template name.
      *
-     * @return string The templates name
+     * @return string The template name
      */
     abstract public function getTemplateName();
 
@@ -53,9 +53,9 @@ abstract class Twig_Template implements Twig_TemplateInterface
     }
 
     /**
-     * Returns the parent templates.
+     * Returns the parent template.
      *
-     * @return Twig_TemplateInterface|false The parent templates or false if there is no parent
+     * @return Twig_TemplateInterface|false The parent template or false if there is no parent
      */
     public function getParent(array $context)
     {
@@ -87,7 +87,7 @@ abstract class Twig_Template implements Twig_TemplateInterface
         if (false !== $parent = $this->getParent($context)) {
             $parent->displayBlock($name, $context, $blocks);
         } else {
-            throw new Twig_Error_Runtime('This templates has no parent', -1, $this->getTemplateName());
+            throw new Twig_Error_Runtime('This template has no parent', -1, $this->getTemplateName());
         }
     }
 
@@ -178,10 +178,10 @@ abstract class Twig_Template implements Twig_TemplateInterface
     }
 
     /**
-     * Displays the templates with the given context.
+     * Displays the template with the given context.
      *
-     * @param array $context An array of parameters to pass to the templates
-     * @param array $blocks  An array of blocks to pass to the templates
+     * @param array $context An array of parameters to pass to the template
+     * @param array $blocks  An array of blocks to pass to the template
      */
     public function display(array $context, array $blocks = array())
     {
@@ -190,16 +190,16 @@ abstract class Twig_Template implements Twig_TemplateInterface
         } catch (Twig_Error $e) {
             throw $e;
         } catch (Exception $e) {
-            throw new Twig_Error_Runtime(sprintf('An exception has been thrown during the rendering of a templates ("%s").', $e->getMessage()), -1, null, $e);
+            throw new Twig_Error_Runtime(sprintf('An exception has been thrown during the rendering of a template ("%s").', $e->getMessage()), -1, null, $e);
         }
     }
 
     /**
-     * Renders the templates with the given context and returns it as string.
+     * Renders the template with the given context and returns it as string.
      *
-     * @param array $context An array of parameters to pass to the templates
+     * @param array $context An array of parameters to pass to the template
      *
-     * @return string The rendered templates
+     * @return string The rendered template
      */
     public function render(array $context)
     {
@@ -219,10 +219,10 @@ abstract class Twig_Template implements Twig_TemplateInterface
     }
 
     /**
-     * Auto-generated method to display the templates with the given context.
+     * Auto-generated method to display the template with the given context.
      *
-     * @param array $context An array of parameters to pass to the templates
-     * @param array $blocks  An array of blocks to pass to the templates
+     * @param array $context An array of parameters to pass to the template
+     * @param array $blocks  An array of blocks to pass to the template
      */
     abstract protected function doDisplay(array $context, array $blocks = array());
 

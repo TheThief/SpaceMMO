@@ -55,13 +55,13 @@ class Twig_Environment
      *
      *  * charset: The charset used by the templates (default to utf-8).
      *
-     *  * base_template_class: The base templates class to use for generated
+     *  * base_template_class: The base template class to use for generated
      *                         templates (default to Twig_Template).
      *
      *  * cache: An absolute path where to store the compiled templates, or
      *           false to disable compilation cache (default)
      *
-     *  * auto_reload: Whether to reload the templates is the original source changed.
+     *  * auto_reload: Whether to reload the template is the original source changed.
      *                 If you don't provide the auto_reload option, it will be
      *                 determined automatically base on the debug value.
      *
@@ -111,9 +111,9 @@ class Twig_Environment
     }
 
     /**
-     * Gets the base templates class for compiled templates.
+     * Gets the base template class for compiled templates.
      *
-     * @return string The base templates class name
+     * @return string The base template class name
      */
     public function getBaseTemplateClass()
     {
@@ -121,9 +121,9 @@ class Twig_Environment
     }
 
     /**
-     * Sets the base templates class for compiled templates.
+     * Sets the base template class for compiled templates.
      *
-     * @param string $class The base templates class name
+     * @param string $class The base template class name
      */
     public function setBaseTemplateClass($class)
     {
@@ -230,9 +230,9 @@ class Twig_Environment
     }
 
     /**
-     * Gets the cache filename for a given templates.
+     * Gets the cache filename for a given template.
      *
-     * @param string $name The templates name
+     * @param string $name The template name
      *
      * @return string The cache file name
      */
@@ -248,11 +248,11 @@ class Twig_Environment
     }
 
     /**
-     * Gets the templates class associated with the given string.
+     * Gets the template class associated with the given string.
      *
-     * @param string $name The name for which to calculate the templates class name
+     * @param string $name The name for which to calculate the template class name
      *
-     * @return string The templates class name
+     * @return string The template class name
      */
     public function getTemplateClass($name)
     {
@@ -260,9 +260,9 @@ class Twig_Environment
     }
 
     /**
-     * Gets the templates class prefix.
+     * Gets the template class prefix.
      *
-     * @return string The templates class prefix
+     * @return string The template class prefix
      */
     public function getTemplateClassPrefix()
     {
@@ -270,12 +270,12 @@ class Twig_Environment
     }
 
     /**
-     * Renders a templates.
+     * Renders a template.
      *
-     * @param string $name    The templates name
-     * @param array  $context An array of parameters to pass to the templates
+     * @param string $name    The template name
+     * @param array  $context An array of parameters to pass to the template
      *
-     * @return string The rendered templates
+     * @return string The rendered template
      */
     public function render($name, array $context = array())
     {
@@ -283,11 +283,11 @@ class Twig_Environment
     }
 
     /**
-     * Loads a templates by name.
+     * Loads a template by name.
      *
-     * @param  string  $name  The templates name
+     * @param  string  $name  The template name
      *
-     * @return Twig_TemplateInterface A templates instance representing the given templates name
+     * @return Twig_TemplateInterface A template instance representing the given template name
      */
     public function loadTemplate($name)
     {
@@ -341,7 +341,7 @@ class Twig_Environment
     }
 
     /**
-     * Clears the internal templates cache.
+     * Clears the internal template cache.
      */
     public function clearTemplateCache()
     {
@@ -349,7 +349,7 @@ class Twig_Environment
     }
 
     /**
-     * Clears the templates cache files on the filesystem.
+     * Clears the template cache files on the filesystem.
      */
     public function clearCacheFiles()
     {
@@ -391,8 +391,8 @@ class Twig_Environment
     /**
      * Tokenizes a source code.
      *
-     * @param string $source The templates source code
-     * @param string $name   The templates name
+     * @param string $source The template source code
+     * @param string $name   The template name
      *
      * @return Twig_TokenStream A Twig_TokenStream instance
      */
@@ -474,10 +474,10 @@ class Twig_Environment
     }
 
     /**
-     * Compiles a templates source code.
+     * Compiles a template source code.
      *
-     * @param string $source The templates source code
-     * @param string $name   The templates name
+     * @param string $source The template source code
+     * @param string $name   The template name
      *
      * @return string The compiled PHP source code
      */
@@ -489,7 +489,7 @@ class Twig_Environment
             $e->setTemplateFile($name);
             throw $e;
         } catch (Exception $e) {
-            throw new Twig_Error_Runtime(sprintf('An exception has been thrown during the compilation of a templates ("%s").', $e->getMessage()), -1, $name, $e);
+            throw new Twig_Error_Runtime(sprintf('An exception has been thrown during the compilation of a template ("%s").', $e->getMessage()), -1, $name, $e);
         }
     }
 
@@ -514,7 +514,7 @@ class Twig_Environment
     }
 
     /**
-     * Sets the default templates charset.
+     * Sets the default template charset.
      *
      * @param string $charset The default charset
      */
@@ -524,7 +524,7 @@ class Twig_Environment
     }
 
     /**
-     * Gets the default templates charset.
+     * Gets the default template charset.
      *
      * @return string The default charset
      */

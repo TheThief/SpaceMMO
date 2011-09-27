@@ -10,7 +10,7 @@
  */
 
 /**
- * Represents a templates filter.
+ * Represents a template filter.
  *
  * @package    twig
  * @author     Fabien Potencier <fabien@symfony.com>

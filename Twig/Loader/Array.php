@@ -10,11 +10,11 @@
  */
 
 /**
- * Loads a templates from an array.
+ * Loads a template from an array.
  *
  * When using this loader with a cache mechanism, you should know that a new cache
- * key is generated each time a templates content "changes" (the cache key being the
- * source code of the templates). If you don't want to see your cache grows out of
+ * key is generated each time a template content "changes" (the cache key being the
+ * source code of the template). If you don't want to see your cache grows out of
  * control, you need to take care of clearing the old cache file by yourself.
  *
  * @package    twig
@@ -40,10 +40,10 @@ class Twig_Loader_Array implements Twig_LoaderInterface
     }
 
     /**
-     * Adds or overrides a templates.
+     * Adds or overrides a template.
      *
-     * @param string $name     The templates name
-     * @param string $template The templates source
+     * @param string $name     The template name
+     * @param string $template The template source
      */
     public function setTemplate($name, $template)
     {
@@ -51,11 +51,11 @@ class Twig_Loader_Array implements Twig_LoaderInterface
     }
 
     /**
-     * Gets the source code of a templates, given its name.
+     * Gets the source code of a template, given its name.
      *
-     * @param  string $name The name of the templates to load
+     * @param  string $name The name of the template to load
      *
-     * @return string The templates source code
+     * @return string The template source code
      */
     public function getSource($name)
     {
@@ -67,9 +67,9 @@ class Twig_Loader_Array implements Twig_LoaderInterface
     }
 
     /**
-     * Gets the cache key to use for the cache for a given templates name.
+     * Gets the cache key to use for the cache for a given template name.
      *
-     * @param  string $name The name of the templates to load
+     * @param  string $name The name of the template to load
      *
      * @return string The cache key
      */
@@ -83,10 +83,10 @@ class Twig_Loader_Array implements Twig_LoaderInterface
     }
 
     /**
-     * Returns true if the templates is still fresh.
+     * Returns true if the template is still fresh.
      *
-     * @param string    $name The templates name
-     * @param timestamp $time The last modification time of the cached templates
+     * @param string    $name The template name
+     * @param timestamp $time The last modification time of the cached template
      */
     public function isFresh($name, $time)
     {
