@@ -12,4 +12,5 @@
         <tr><td><a href="{{ colony.systemLink }}">{{ colony.systemCode }}</a></td><td><a href="{{ colony.planetLink }}"><img src="{{ colony.planetImage }}" style="width:1em;height:1em;">{{ colony.planetType }}</a></td><td>{{ colony.metal }}/{{ colony.metalStorage }} ({{ colony.metalProduction | signed }})</td><td>{{ colony.deuterium }}/{{ colony.deuteriumStorage }} ({{ colony.deuteriumProduction | signed }})</td><td>{{ colony.energy }}/{{ colony.energyStorage }} ({{ colony.energyProduction | signed }})</td><td>{% if colony.changeToLink is defined %}<a href="{{ colony.changeToLink }}">Change to</a>{% endif %}</td></tr>
     {% endfor %}
     </table>
+    {% if 2 = 2 and 3 = 3 %}Test{% endif %}
 {% endblock %}
