@@ -12,7 +12,18 @@
             <div class="logo">
                 <img src="/SpaceMMO/images/logo.png" alt="Logo!">
             </div>
-            {% include "includes/menu.html" ignore missing %}
+            {% if user.loggedIn == 'Y' %}
+                {% include "includes/colony_summary.html" ignore missing %}
+            {% endif %}
+            <div class="menu">
+                <h1>Menu</h1>
+                {% block menu %}
+                    {% include "includes/menu.html" ignore missing %}
+                {% endblock %}
+                {% if user.isAdmin == 'Y' %}
+                    {% include "includes/admin_menu.html" ignore missing %}
+                {% endif %}
+            </div>
         </div>
         <div class="bodyouter">
             <div class="title">
