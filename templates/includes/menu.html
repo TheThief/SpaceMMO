@@ -1,0 +1,37 @@
+{% if user.loggedIn == 'Y' %}
+    {% include "includes/colony_summary.html" ignore missing %}
+{% endif %}
+<div class="menu">
+    <h1>Menu</h1>
+    {% block menu %}
+        <ul>
+        {% if user.loggedIn == 'Y' %}
+            <li><a href="/SpaceMMO/list_colonies.php">Colonies List</a></li>
+            <li><a href="/SpaceMMO/list_bookmarks.php">Bookmarks List</a></li>
+            <li><a href="/SpaceMMO/list_shipdesigns.php">Ship Designs</a></li>
+            {% if current.systemID is defined %}
+                <li><a href="/SpaceMMO/view_systems.php?system={{ current.systemID }}">View Galaxy</a></li>
+            {% else %}
+                <li><a href="/SpaceMMO/view_systems.php">View Galaxy</a></li>
+            {% endif %}
+            <li><a href="/SpaceMMO/account.php">Account Info</a></li>
+            <li><a href="/SpaceMMO/help/getting_started.php">Help</a></li>
+        {% else %}
+            <li><a href="/SpaceMMO/login_form.php">Log In</a></li>
+        {% endif %}
+        </ul>
+    {% endblock %}
+    {% if user.isAdmin == 'Y' %}
+    <h3>Admin Menu</h3>
+    <ul>
+        {% if user.adminuserID is defined %}
+        <li><a href="/SpaceMMO/admin/impersonate.php">Stop Impersonating</a></li>
+        {% endif %}
+        <li><a href="/SpaceMMO/admin/listusers.php">Users List</a></li>
+        <li><a href="/SpaceMMO/admin/listsystems.php">Systems List</a></li>
+        <li><a href="/SpaceMMO/admin/listbuildings.php">Buildings List</a></li>
+        <li><a href="/SpaceMMO/admin/listshiphulls.php">Ship Hulls List</a></li>
+        <li><a href="/SpaceMMO/list_colonies_twig.php">Twig Test</a></li>
+    </ul>
+    {% endif %}
+</div>
