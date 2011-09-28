@@ -1,16 +1,10 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-<table>
-<tr><th>Location</th><th>Planet Type</th><th>Metal</th><th>Deuterium</th><th>Energy</th><th>Actions</th></tr>
-{% for colony in colonies %}
-    <tr><td><a href="{{ colony.systemLink }}">{{ colony.systemCode }}</a></td><td><a href="{{ colony.planetLink }}"><img src="{{ colony.planetImage }}" style="width:1em;height:1em;">{{ colony.planetType }}</a></td><td>{{ colony.metal }}/{{ colony.metalStorage }} ({{ colony.metalProduction }})</td><td>{{ colony.deuterium }}/{{ colony.deuteriumStorage }} ({{ colony.deuteriumProduction }})</td><td>{{ colony.energy }}/{{ colony.energyStorage }} ({{ colony.energyProduction }})</td><td>{% if colony.changeToLink is defined %}<a href="{{ colony.changeToLink }}">Change to</a>{% endif %}</td></tr>
-{% endfor %}
-</table>
-<?php echo "Hello from PHP";?>
-</body>
-</html>
+{% extends "layout.html" %}
+{% block title "Colonies List" %}
+{% block content %}
+    <table>
+    <tr><th>Location</th><th>Planet Type</th><th>Metal</th><th>Deuterium</th><th>Energy</th><th>Actions</th></tr>
+    {% for colony in colonies %}
+        <tr><td><a href="{{ colony.systemLink }}">{{ colony.systemCode }}</a></td><td><a href="{{ colony.planetLink }}"><img src="{{ colony.planetImage }}" style="width:1em;height:1em;">{{ colony.planetType }}</a></td><td>{{ colony.metal }}/{{ colony.metalStorage }} ({{ colony.metalProduction }})</td><td>{{ colony.deuterium }}/{{ colony.deuteriumStorage }} ({{ colony.deuteriumProduction }})</td><td>{{ colony.energy }}/{{ colony.energyStorage }} ({{ colony.energyProduction }})</td><td>{% if colony.changeToLink is defined %}<a href="{{ colony.changeToLink }}">Change to</a>{% endif %}</td></tr>
+    {% endfor %}
+    </table>
+{% endblock %}
