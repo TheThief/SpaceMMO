@@ -10,6 +10,7 @@ $twig = new Twig_Environment($loader, array(
     'cache' => 'templates/compiled',
     'auto_reload' => true,
 ));
+$twig->addFilter('signed', new Twig_Filter_Function('getSigned'));
 $template = $twig->loadTemplate('colonies_list.html');
 
 global $eol, $mysqli;
@@ -71,13 +72,13 @@ while($query->fetch())
     $temp["planetImage"] = 'images/planet'.$planettype.'.png';
     $temp["metal"] = $metal;
     $temp["metalStorage"] = $maxmetal;
-    $temp["metalProduction"] = getSigned($metalprod*TICKS_PH);
+    $temp["metalProduction"] = $metalprod*TICKS_PH;
     $temp["deuterium"] = $deuterium;
     $temp["deuteriumStorage"] = $maxdeuterium;
-    $temp["deuteriumProduction"] = getSigned($deuteriumprod*TICKS_PH);
+    $temp["deuteriumProduction"] = $deuteriumprod*TICKS_PH;
     $temp["energy"] = $energy;
     $temp["energyStorage"] = $maxenergy;
-    $temp["energyProduction"] = getSigned($energyprod*TICKS_PH);
+    $temp["energyProduction"] = $energyprod*TICKS_PH;
     if($_SESSION['colony'] != $planetid){
         $temp["isCurrent"] = 'N';
         $temp["changeToLink"] = 'change_colony.php?planet='.$planetid;
