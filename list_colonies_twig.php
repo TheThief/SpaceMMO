@@ -16,6 +16,43 @@ global $eol, $mysqli;
 global $lookups;
 $userid = $_SESSION['userid'];
 
+//User
+$user = array();
+$user["userID"] = $userid;
+$user["loggedIn"] = "N";
+if(isLoggedIn()) $user["loggedIn"] = "Y";
+$user["isAdmin"] = "N";
+if(isAdmin()) $user["isAdmin"] = "Y";
+if ($_SESSION['adminuserid']) $user["adminuserID"] = $_SESSION['adminuserid'];
+
+//Current
+$systemid = $_GET['system'];
+$planetid = $_GET['planet'];
+$current = array();
+if (!is_numeric($systemid) && is_numeric($planetid)){
+    $query = $mysqli->prepare('SELECT systemid FROM planets WHERE planetid=?');
+    if (!$query)
+    {
+        echo 'error: ', $mysqli->error, $eol;
+        exit;
+    }
+
+    $query->bind_param('i', $planetid);
+
+    $result = $query->execute();
+    if (!$result)
+    {
+        echo 'error: ', $query->error, $eol;
+        exit;
+    }
+
+    $query->bind_result($systemid);
+    $query->fetch();
+    $query->close();
+}
+if (is_numeric($systemid)) $current["systemID"] = $systemid;
+
+//Colonies
 $query = $mysqli->prepare('SELECT colonies.planetid,systemid,systems.x,systems.y,planets.orbit,planets.type,colonies.metal,colonies.maxmetal,colonies.metalproduction,colonies.deuterium,colonies.maxdeuterium,colonies.deuteriumproduction,colonies.energy,colonies.maxenergy,colonies.energyproduction FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE colonies.userID = ? ORDER BY creationtime ASC;');
 $query->bind_param('i', $userid);
 $query->execute();
@@ -50,5 +87,5 @@ while($query->fetch())
     $colonies[] = $temp;
 }
 
-echo $template->render(array('colonies' => $colonies));
+echo $template->render(array('colonies' => $colonies,'user' => $user,'current' => $current));
 ?>
