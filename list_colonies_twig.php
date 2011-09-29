@@ -10,6 +10,7 @@ $twig = new Twig_Environment($loader, array(
     'cache' => 'templates/compiled',
     'auto_reload' => true,
 ));
+$twig->addExtension(new Twig_Extension_Optimizer());
 $twig->addFilter('signed', new Twig_Filter_Function('getSigned'));
 $template = $twig->loadTemplate('colonies_list.html.twig');
 
