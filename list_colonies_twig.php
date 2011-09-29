@@ -20,7 +20,6 @@ $userid = $_SESSION['userid'];
 //User
 $user = array();
 $user["userID"] = $userid;
-$user["test"] = "userID";
 $user["loggedIn"] = "N";
 if(isLoggedIn()) $user["loggedIn"] = "Y";
 $user["isAdmin"] = "N";
