@@ -59,8 +59,9 @@ $query->bind_param('i', $userid);
 $query->execute();
 $query->bind_result($planetid,$systemid,$systemx,$systemy,$orbit,$planettype,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod);
 $colonies = array();
-while($query->fetch())
-{
+
+function getColonyArray($systemid, $orbit, $planetid, $planettype, $metal, $maxmetal, $metalprod, $deuterium, $maxdeuterium, $deuteriumprod, $energy, $maxenergy, $energyprod) {
+    global $lookups;
     $temp = array();
     $temp["systemID"] = $systemid;
     $temp["systemCode"] = systemcode($systemid, $orbit);
@@ -69,23 +70,29 @@ while($query->fetch())
     $temp["planetLink"] = 'view_planet.php?planet=' . $planetid;
     $temp["planetTypeID"] = $planettype;
     $temp["planetType"] = $lookups["planetType"][$planettype];
-    $temp["planetImage"] = 'images/planet'.$planettype.'.png';
+    $temp["planetImage"] = 'images/planet' . $planettype . '.png';
     $temp["metal"] = $metal;
     $temp["metalStorage"] = $maxmetal;
-    $temp["metalProduction"] = $metalprod*TICKS_PH;
+    $temp["metalProduction"] = $metalprod * TICKS_PH;
     $temp["deuterium"] = $deuterium;
     $temp["deuteriumStorage"] = $maxdeuterium;
-    $temp["deuteriumProduction"] = $deuteriumprod*TICKS_PH;
+    $temp["deuteriumProduction"] = $deuteriumprod * TICKS_PH;
     $temp["energy"] = $energy;
     $temp["energyStorage"] = $maxenergy;
-    $temp["energyProduction"] = $energyprod*TICKS_PH;
-    if($_SESSION['colony'] != $planetid){
+    $temp["energyProduction"] = $energyprod * TICKS_PH;
+    if ($_SESSION['colony'] != $planetid) {
         $temp["isCurrent"] = 'N';
-        $temp["changeToLink"] = 'change_colony.php?planet='.$planetid;
-    }else{
-         $temp["isCurrent"] = 'Y';
+        $temp["changeToLink"] = 'change_colony.php?planet=' . $planetid;
+        return $temp;
+    } else {
+        $temp["isCurrent"] = 'Y';
+        return $temp;
     }
-    $colonies[] = $temp;
+}
+
+while($query->fetch())
+{
+    $colonies[] = getColonyArray($systemid, $orbit, $planetid, $planettype, $metal, $maxmetal, $metalprod, $deuterium, $maxdeuterium, $deuteriumprod, $energy, $maxenergy, $energyprod);
 }
 
 echo $template->render(array('colonies' => $colonies,'user' => $user,'current' => $current));
