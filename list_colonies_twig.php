@@ -11,7 +11,7 @@ $twig = new Twig_Environment($loader, array(
     'auto_reload' => true,
 ));
 $twig->addFilter('signed', new Twig_Filter_Function('getSigned'));
-$template = $twig->loadTemplate('colonies_list.html');
+$template = $twig->loadTemplate('colonies_list.html.twig');
 
 global $eol, $mysqli;
 global $lookups;

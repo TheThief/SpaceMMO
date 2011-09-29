@@ -13,15 +13,15 @@
                 <img src="/SpaceMMO/images/logo.png" alt="Logo!">
             </div>
             {% if user.loggedIn == 'Y' %}
-                {% include "includes/colony_summary.html" ignore missing %}
+                {% include "includes/colony_summary.html.twig" ignore missing %}
             {% endif %}
             <div class="menu">
                 <h1>Menu</h1>
                 {% block menu %}
-                    {% include "includes/menu.html" ignore missing %}
+                    {% include "includes/menu.html.twig" ignore missing %}
                 {% endblock %}
                 {% if user.isAdmin == 'Y' %}
-                    {% include "includes/admin_menu.html" ignore missing %}
+                    {% include "includes/admin_menu.html.twig" ignore missing %}
                 {% endif %}
             </div>
         </div>
