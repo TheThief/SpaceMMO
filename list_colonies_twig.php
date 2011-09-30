@@ -103,6 +103,7 @@ if(is_numeric($colonyid)){
     $query->bind_param('i', $colonyid);
     $query->execute();
     $query->bind_result($systemid,$orbit,$planettype);
+    $query->fetch();
     var_dump($systemid);
     var_dump($orbit);
     var_dump($planettype);
