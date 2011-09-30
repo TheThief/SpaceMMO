@@ -99,17 +99,14 @@ if (is_numeric($systemid)) $current["systemID"] = $systemid;
 $current["colonyID"] = $colonyid;
 
 if(is_numeric($colonyid)){
-    $query = $mysqli->prepare('SELECT systemid,orbit,type FROM colonies LEFT JOIN planets USING (planetid) WHERE planetid=?');
+    $query = $mysqli->prepare('SELECT systemid,orbit,type,userid FROM colonies LEFT JOIN planets USING (planetid) WHERE planetid=?');
     $query->bind_param('i', $colonyid);
     $query->execute();
-    $query->bind_result($systemid,$orbit,$planettype);
+    $query->bind_result($systemid,$orbit,$planettype,$owner);
     $query->fetch();
-    var_dump($systemid);
-    var_dump($orbit);
-    var_dump($planettype);
-    var_dump($colonyid);
     $query->close();
     $current["colony"] = getColonyArray("b",$systemid,$colonyid,$orbit,$planettype);
+    if($owner == $user) $current["colony"]["playerOwned"] = "Y";
 }
 
 //Colonies
