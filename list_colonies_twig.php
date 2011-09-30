@@ -106,6 +106,7 @@ if(is_numeric($colonyid)){
     var_dump($systemid);
     var_dump($orbit);
     var_dump($planettype);
+    var_dump($colonyid);
     $query->close();
     $current["colony"] = getColonyArray("b",$systemid,$colonyid,$orbit,$planettype);
 }
