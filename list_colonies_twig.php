@@ -24,15 +24,15 @@ function getColonyArray($type,$systemid, $planetid, $orbit, $planettype, $metal 
     $temp["planetTypeID"] = $planettype;
     $temp["planetType"] = $lookups["planetType"][$planettype];
     $temp["planetImage"] = 'images/planet' . $planettype . '.png';
-    if($metal != null) $temp["metal"] = $metal;
-    if($maxmetal != null) $temp["metalStorage"] = $maxmetal;
-    if($metalprod != null) $temp["metalProduction"] = $metalprod * TICKS_PH;
+    $temp["metal"] = $metal;
+    $temp["metalStorage"] = $maxmetal;
+    $temp["metalProduction"] = $metalprod * TICKS_PH;
     $temp["deuterium"] = $deuterium;
-    if($maxdeuterium != null) $temp["deuteriumStorage"] = $maxdeuterium;
-    if($deuteriumprod != null) $temp["deuteriumProduction"] = $deuteriumprod * TICKS_PH;
-    if($energy != null) $temp["energy"] = $energy;
-    if($maxenergy != null) $temp["energyStorage"] = $maxenergy;
-    if($energyprod != null) $temp["energyProduction"] = $energyprod * TICKS_PH;
+    $temp["deuteriumStorage"] = $maxdeuterium;
+    $temp["deuteriumProduction"] = $deuteriumprod * TICKS_PH;
+    $temp["energy"] = $energy;
+    $temp["energyStorage"] = $maxenergy;
+    $temp["energyProduction"] = $energyprod * TICKS_PH;
     if($type == "f"){
         if ($_SESSION['colony'] != $planetid) {
             $temp["isCurrent"] = 'N';
