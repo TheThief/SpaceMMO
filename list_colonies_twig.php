@@ -106,7 +106,7 @@ if(is_numeric($colonyid)){
     $query->fetch();
     $query->close();
     $current["colony"] = getColonyArray("b",$systemid,$colonyid,$orbit,$planettype);
-    if($owner == $user) $current["colony"]["playerOwned"] = "Y";
+    if($owner == $userid) $current["colony"]["playerOwned"] = "Y";
 }
 
 //Colonies
