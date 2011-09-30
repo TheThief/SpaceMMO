@@ -13,9 +13,40 @@ $twig = new Twig_Environment($loader, array(
 $twig->addFilter('signed', new Twig_Filter_Function('getSigned'));
 $template = $twig->loadTemplate('colonies_list.html.twig');
 
-global $eol, $mysqli;
-global $lookups;
+function getColonyArray($type,$systemid, $planetid, $orbit, $planettype, $metal = null, $maxmetal = null, $metalprod = null, $deuterium = null, $maxdeuterium = null, $deuteriumprod = null, $energy = null, $maxenergy = null, $energyprod = null) {
+    global $lookups;
+    $temp = array();
+    $temp["systemID"] = $systemid;
+    $temp["planetID"] = $planetid;
+    $temp["systemCode"] = systemcode($systemid, $orbit);
+    $temp["systemLink"] = 'view_planets.php?system=' . $systemid;
+    $temp["planetLink"] = 'view_planet.php?planet=' . $planetid;
+    $temp["planetTypeID"] = $planettype;
+    $temp["planetType"] = $lookups["planetType"][$planettype];
+    $temp["planetImage"] = 'images/planet' . $planettype . '.png';
+    if($metal != null) $temp["metal"] = $metal;
+    if($maxmetal != null) $temp["metalStorage"] = $maxmetal;
+    if($metalprod != null) $temp["metalProduction"] = $metalprod * TICKS_PH;
+    if($deuterium != null) $temp["deuterium"] = $deuterium;
+    if($maxdeuterium != null) $temp["deuteriumStorage"] = $maxdeuterium;
+    if($deuteriumprod != null) $temp["deuteriumProduction"] = $deuteriumprod * TICKS_PH;
+    if($energy != null) $temp["energy"] = $energy;
+    if($maxenergy != null) $temp["energyStorage"] = $maxenergy;
+    if($energyprod != null) $temp["energyProduction"] = $energyprod * TICKS_PH;
+    if($type == "f"){
+        if ($_SESSION['colony'] != $planetid) {
+            $temp["isCurrent"] = 'N';
+            $temp["changeToLink"] = 'change_colony.php?planet=' . $planetid;
+        } else {
+            $temp["isCurrent"] = 'Y';
+        }
+    }
+    return $temp;
+}
+
+
 $userid = $_SESSION['userid'];
+
 
 //User
 $user = array();
@@ -29,6 +60,19 @@ if ($_SESSION['adminuserid']) $user["adminuserID"] = $_SESSION['adminuserid'];
 //Current
 $systemid = $_GET['system'];
 $planetid = $_GET['planet'];
+
+$colonyid = $_SESSION['colony'];
+if (!$colonyid)
+{
+    $query = $mysqli->prepare('SELECT planetid FROM colonies WHERE userid=? ORDER BY colonylevel DESC LIMIT 1');
+    $query->bind_param('i', $userid);
+    $query->execute();
+    $query->bind_result($colonyid);
+    $query->fetch();
+    $query->close();
+    $_SESSION['colony'] = $colonyid;
+}
+
 $current = array();
 if (!is_numeric($systemid) && is_numeric($planetid)){
     $query = $mysqli->prepare('SELECT systemid FROM planets WHERE planetid=?');
@@ -52,6 +96,16 @@ if (!is_numeric($systemid) && is_numeric($planetid)){
     $query->close();
 }
 if (is_numeric($systemid)) $current["systemID"] = $systemid;
+$current["colonyID"] = $colonyid;
+
+if(is_numeric($colonyid)){
+    $query = $mysqli->prepare('SELECT systemid,orbit,type FROM colonies LEFT JOIN planets USING (planetid) WHERE planetid=?');
+    $query->bind_param('i', $colonyid);
+    $query->execute();
+    $query->bind_result($systemid,$orbit,$planettype);
+    $query->close();
+    $current["colony"] = getColonyArray("b",$systemid,$colonyid,$orbit,$planettype);
+}
 
 //Colonies
 $query = $mysqli->prepare('SELECT colonies.planetid,systemid,systems.x,systems.y,planets.orbit,planets.type,colonies.metal,colonies.maxmetal,colonies.metalproduction,colonies.deuterium,colonies.maxdeuterium,colonies.deuteriumproduction,colonies.energy,colonies.maxenergy,colonies.energyproduction FROM colonies LEFT JOIN planets USING (planetid) LEFT JOIN systems USING (systemid) WHERE colonies.userID = ? ORDER BY creationtime ASC;');
@@ -60,39 +114,9 @@ $query->execute();
 $query->bind_result($planetid,$systemid,$systemx,$systemy,$orbit,$planettype,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod);
 $colonies = array();
 
-function getColonyArray($systemid, $orbit, $planetid, $planettype, $metal, $maxmetal, $metalprod, $deuterium, $maxdeuterium, $deuteriumprod, $energy, $maxenergy, $energyprod) {
-    global $lookups;
-    $temp = array();
-    $temp["systemID"] = $systemid;
-    $temp["systemCode"] = systemcode($systemid, $orbit);
-    $temp["planetID"] = $planetid;
-    $temp["systemLink"] = 'view_planets.php?system=' . $systemid;
-    $temp["planetLink"] = 'view_planet.php?planet=' . $planetid;
-    $temp["planetTypeID"] = $planettype;
-    $temp["planetType"] = $lookups["planetType"][$planettype];
-    $temp["planetImage"] = 'images/planet' . $planettype . '.png';
-    $temp["metal"] = $metal;
-    $temp["metalStorage"] = $maxmetal;
-    $temp["metalProduction"] = $metalprod * TICKS_PH;
-    $temp["deuterium"] = $deuterium;
-    $temp["deuteriumStorage"] = $maxdeuterium;
-    $temp["deuteriumProduction"] = $deuteriumprod * TICKS_PH;
-    $temp["energy"] = $energy;
-    $temp["energyStorage"] = $maxenergy;
-    $temp["energyProduction"] = $energyprod * TICKS_PH;
-    if ($_SESSION['colony'] != $planetid) {
-        $temp["isCurrent"] = 'N';
-        $temp["changeToLink"] = 'change_colony.php?planet=' . $planetid;
-        return $temp;
-    } else {
-        $temp["isCurrent"] = 'Y';
-        return $temp;
-    }
-}
-
 while($query->fetch())
 {
-    $colonies[] = getColonyArray($systemid, $orbit, $planetid, $planettype, $metal, $maxmetal, $metalprod, $deuterium, $maxdeuterium, $deuteriumprod, $energy, $maxenergy, $energyprod);
+    $colonies[$planetid] = getColonyArray("f",$systemid, $planetid, $orbit, $planettype, $metal, $maxmetal, $metalprod, $deuterium, $maxdeuterium, $deuteriumprod, $energy, $maxenergy, $energyprod);
 }
 
 echo $template->render(array('colonies' => $colonies,'user' => $user,'current' => $current));
