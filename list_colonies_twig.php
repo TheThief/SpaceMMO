@@ -27,7 +27,7 @@ function getColonyArray($type,$systemid, $planetid, $orbit, $planettype, $metal 
     if($metal != null) $temp["metal"] = $metal;
     if($maxmetal != null) $temp["metalStorage"] = $maxmetal;
     if($metalprod != null) $temp["metalProduction"] = $metalprod * TICKS_PH;
-    if($deuterium != null) $temp["deuterium"] = $deuterium;
+    $temp["deuterium"] = $deuterium;
     if($maxdeuterium != null) $temp["deuteriumStorage"] = $maxdeuterium;
     if($deuteriumprod != null) $temp["deuteriumProduction"] = $deuteriumprod * TICKS_PH;
     if($energy != null) $temp["energy"] = $energy;
