@@ -12,20 +12,25 @@ $twig = new Twig_Environment($loader, array(
 ));
 function prodSummary($id, $current, $max, $delta)
 {
-	$symbol = '.';
-	if ($delta > 0)
-	{
-		$symbol = '+';
-	}
-	else if ($delta < 0)
-	{
-		$symbol = '-';
-	}
+    $symbol = getSign($delta);
 	$title = thousands($current).'/'.thousands($max).' ('.getSigned($delta*TICKS_PH).'/hour)';
 	return '<span id="'.$id.'" title="'.$title.'">'.thousands($current).' '.$symbol.'</span>';
 }
+
+function getSign($delta) {
+    $symbol = '.';
+    if ($delta > 0) {
+        $symbol = '+';
+    } else if ($delta < 0) {
+        $symbol = '-';
+    }
+    return $symbol;
+}
+
 $twig->addFilter('signed', new Twig_Filter_Function('getSigned'));
-$twig->addFunction('prodSummary', new Twig_Function_Function('prodSummary'));
+$twig->addFilter('thousands', new Twig_Filter_Function('thousands'));
+$twig->addFilter('sign', new Twig_Filter_Function('getSign'));
+//$twig->addFunction('prodSummary', new Twig_Function_Function('prodSummary'));
 $template = $twig->loadTemplate('colonies_list.html.twig');
 
 function getColonyArray($type,$systemid, $planetid, $orbit, $planettype, $metal = null, $maxmetal = null, $metalprod = null, $deuterium = null, $maxdeuterium = null, $deuteriumprod = null, $energy = null, $maxenergy = null, $energyprod = null) {
@@ -140,6 +145,6 @@ while($query->fetch())
 {
     $colonies[$planetid] = getColonyArray("f",$systemid, $planetid, $orbit, $planettype, $metal, $maxmetal, $metalprod, $deuterium, $maxdeuterium, $deuteriumprod, $energy, $maxenergy, $energyprod);
 }
-
-echo $template->render(array('colonies' => $colonies,'user' => $user,'current' => $current));
+$ticks["perHour"] = TICKS_PH;
+echo $template->render(array('colonies' => $colonies,'user' => $user,'current' => $current,'ticks' => $ticks));
 ?>
