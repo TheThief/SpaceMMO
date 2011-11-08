@@ -33,7 +33,7 @@ $twig->addFilter('sign', new Twig_Filter_Function('getSign'));
 //$twig->addFunction('prodSummary', new Twig_Function_Function('prodSummary'));
 $template = $twig->loadTemplate('colonies_list.html.twig');
 
-function getColonyArray($type,$systemid, $planetid, $orbit, $planettype, $metal = null, $maxmetal = null, $metalprod = null, $deuterium = null, $maxdeuterium = null, $deuteriumprod = null, $energy = null, $maxenergy = null, $energyprod = null) {
+function getColonyArray($type,$systemid, $planetid, $orbit, $planettype, $metal = null, $maxmetal = null, $metalprod = null, $deuterium = null, $maxdeuterium = null, $deuteriumprod = null, $energy = null, $maxenergy = null, $energyprod = null,$colonyhp = null ,$colonymaxhp = null) {
     global $lookups;
     $temp = array();
     $temp["systemID"] = $systemid;
@@ -53,6 +53,8 @@ function getColonyArray($type,$systemid, $planetid, $orbit, $planettype, $metal 
     $temp["energy"] = $energy;
     $temp["energyStorage"] = $maxenergy;
     $temp["energyProduction"] = $energyprod * TICKS_PH;
+    $temp["hp"] = $colonyhp;
+    $temp["maxHP"] = $colonymaxhp;
     if($type == "f"){
         if ($_SESSION['colony'] != $planetid) {
             $temp["isCurrent"] = 'N';
@@ -126,7 +128,7 @@ if(is_numeric($colonyid)){
     $result = $query->fetch();
     $query->close();
     if($owner == $userid){
-        $current["colony"] = getColonyArray("f",$systemid, $planetid, $orbit, $planettype, $metal, $maxmetal, $metalprod, $deuterium, $maxdeuterium, $deuteriumprod, $energy, $maxenergy, $energyprod);
+        $current["colony"] = getColonyArray("f",$systemid, $planetid, $orbit, $planettype, $metal, $maxmetal, $metalprod, $deuterium, $maxdeuterium, $deuteriumprod, $energy, $maxenergy, $energyprod,$colonyhp,$colonymaxhp);
         $current["colony"]["playerOwned"] = "Y";
     }else{
         $current["colony"] = getColonyArray("b",$systemid,$colonyid,$orbit,$planettype);
