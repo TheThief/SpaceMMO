@@ -6,7 +6,7 @@
             <li>Deuterium: <span id="summary_deuterium" title="{{current.colony.deuterium|thousands}}/{{ current.colony.deuteriumStorage|thousands }} ({{ current.colony.deuteriumProduction|signed }}/hour)">{{ current.colony.deuterium|thousands }} {{ current.colony.deuteriumProduction|sign }}</span></li>
             <li>Energy: <span id="summary_energy" title="{{current.colony.energy|thousands}}/{{ current.colony.energyStorage|thousands }} ({{ current.colony.energyProduction|signed }}/hour)">{{ current.colony.energy|thousands }} {{ current.colony.energyProduction|sign }}</span></li>
             {% if current.colony.maxHP and current.colony.maxHP > 0 %}
-                <li>Shield: {{ current.colony.hp|thousands }}/{{ current.colony.maxHP|thoudsands }}</li>
+                <li>Shield: {{ current.colony.hp|thousands }}/{{ current.colony.maxHP|thousands }}</li>
             {% else %}
                 <li>Shield: none</li>
             {% endif %}
