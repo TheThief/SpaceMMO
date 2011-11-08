@@ -25,7 +25,7 @@ function prodSummary($id, $current, $max, $delta)
 	return '<span id="'.$id.'" title="'.$title.'">'.thousands($current).' '.$symbol.'</span>';
 }
 $twig->addFilter('signed', new Twig_Filter_Function('getSigned'));
-$twig->addFilter('prodSummary', new Twig_Filter_Function('prodSummary'));
+$twig->addFunction('prodSummary', new Twig_Function_Function('prodSummary'));
 $template = $twig->loadTemplate('colonies_list.html.twig');
 
 function getColonyArray($type,$systemid, $planetid, $orbit, $planettype, $metal = null, $maxmetal = null, $metalprod = null, $deuterium = null, $maxdeuterium = null, $deuteriumprod = null, $energy = null, $maxenergy = null, $energyprod = null) {
