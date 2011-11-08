@@ -10,7 +10,22 @@ $twig = new Twig_Environment($loader, array(
     'cache' => 'templates/compiled',
     'auto_reload' => true,
 ));
+function prodSummary($id, $current, $max, $delta)
+{
+	$symbol = '.';
+	if ($delta > 0)
+	{
+		$symbol = '+';
+	}
+	else if ($delta < 0)
+	{
+		$symbol = '-';
+	}
+	$title = thousands($current).'/'.thousands($max).' ('.getSigned($delta*TICKS_PH).'/hour)';
+	return '<span id="'.$id.'" title="'.$title.'">'.thousands($current).' '.$symbol.'</span>';
+}
 $twig->addFilter('signed', new Twig_Filter_Function('getSigned'));
+$twig->addFilter('prodSummary', new Twig_Filter_Function('prodSummary'));
 $template = $twig->loadTemplate('colonies_list.html.twig');
 
 function getColonyArray($type,$systemid, $planetid, $orbit, $planettype, $metal = null, $maxmetal = null, $metalprod = null, $deuterium = null, $maxdeuterium = null, $deuteriumprod = null, $energy = null, $maxenergy = null, $energyprod = null) {
@@ -99,14 +114,19 @@ if (is_numeric($systemid)) $current["systemID"] = $systemid;
 $current["colonyID"] = $colonyid;
 
 if(is_numeric($colonyid)){
-    $query = $mysqli->prepare('SELECT systemid,orbit,type,userid FROM colonies LEFT JOIN planets USING (planetid) WHERE planetid=?');
+    $query = $mysqli->prepare('SELECT systemid,orbit,type,colonylevel,colonies.metal,maxmetal,metalproduction,colonies.deuterium,maxdeuterium,deuteriumproduction,energy,maxenergy,energyproduction,shipconstruction,hp,maxhp,userid FROM colonies LEFT JOIN planets USING (planetid) WHERE planetid=?');
     $query->bind_param('i', $colonyid);
     $query->execute();
-    $query->bind_result($systemid,$orbit,$planettype,$owner);
-    $query->fetch();
+    $query->bind_result($systemid,$orbit,$planettype,$colonylevel,$metal,$maxmetal,$metalprod,$deuterium,$maxdeuterium,$deuteriumprod,$energy,$maxenergy,$energyprod,$shipconstruction,$colonyhp,$colonymaxhp,$owner);
+    $result = $query->fetch();
     $query->close();
-    $current["colony"] = getColonyArray("b",$systemid,$colonyid,$orbit,$planettype);
-    if($owner == $userid) $current["colony"]["playerOwned"] = "Y";
+    if($owner == $userid){
+        $current["colony"] = getColonyArray("f",$systemid, $planetid, $orbit, $planettype, $metal, $maxmetal, $metalprod, $deuterium, $maxdeuterium, $deuteriumprod, $energy, $maxenergy, $energyprod);
+        $current["colony"]["playerOwned"] = "Y";
+    }else{
+        $current["colony"] = getColonyArray("b",$systemid,$colonyid,$orbit,$planettype);
+        $current["colony"]["playerOwned"] = "N";
+    }
 }
 
 //Colonies
