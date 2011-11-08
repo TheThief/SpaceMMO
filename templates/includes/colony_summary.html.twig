@@ -2,7 +2,7 @@
     <h2><img src="{{ current.colony.planetImage }}" style="width:1em;height:1em;">{{ current.colony.systemCode }}</h2>
     {% if current.colony.playerOwned == "Y" %}
         <ul>
-            <li>Metal: <span id="summary_metal" title="{{current.colony.metal|thousands}}/{{ current.colony.metalStorage|thousands }} ({{ current.colony.metalProduction*ticks.perHour }}/hour {{current.colony.metalProduction}}:{{ticks.perHour}})">{{ current.colony.metal|thousands }} {{ current.colony.metalProduction|sign }}</span></li>
+            <li>Metal: <span id="summary_metal" title="{{current.colony.metal|thousands}}/{{ current.colony.metalStorage|thousands }} ({{ current.colony.metalProduction|signed }}/hour)">{{ current.colony.metal|thousands }} {{ current.colony.metalProduction|sign }}</span></li>
         </ul>
     {% else %}
         You've lost this colony, choose another.

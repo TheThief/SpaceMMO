@@ -145,6 +145,6 @@ while($query->fetch())
 {
     $colonies[$planetid] = getColonyArray("f",$systemid, $planetid, $orbit, $planettype, $metal, $maxmetal, $metalprod, $deuterium, $maxdeuterium, $deuteriumprod, $energy, $maxenergy, $energyprod);
 }
-$ticks["perHour"] = TICKS_PH;
-echo $template->render(array('colonies' => $colonies,'user' => $user,'current' => $current,'ticks' => $ticks));
+
+echo $template->render(array('colonies' => $colonies,'user' => $user,'current' => $current));
 ?>
