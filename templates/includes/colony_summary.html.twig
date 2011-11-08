@@ -11,6 +11,12 @@
                 <li>Shield: none</li>
             {% endif %}
         </ul>
+        <h3>Colony Menu</h3>
+        <ul>
+        <li><a href="/SpaceMMO/colony_buildings.php?planet={{ current.colonyID }}">Upgrade Buildings</a></li>
+        <li><a href="/SpaceMMO/build_ships.php?planet={{ current.colonyID }}">Build Ships</a></li>
+        <li><a href="/SpaceMMO/view_ships.php?planet={{ current.colonyID }}">Ships in Orbit</a></li>
+        </ul>
     {% else %}
         You've lost this colony, choose another.
     {% endif %}
