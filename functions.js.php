@@ -1,10 +1,8 @@
+<?php
 header("Content-Type: application/x-javascript");
 
-<?
 include_once("./includes/functions.inc.php");
-?>
 
-<?
 include_once("./includes/ships.js.php");
 ?>
 
