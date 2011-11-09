@@ -1,6 +1,7 @@
 {% macro prodSummary(id, current, max, delta) %}
   <span id="{{id}}" title="{{current|thousands}}/{{ max|thousands }} ({{ delta|signed }}/hour)">{{ current|thousands }} {{ delta|sign }}</span>
 {% endmacro %}
+
 <div class="colonysummary">
     <h2><img src="{{ current.colony.planetImage }}" style="width:1em;height:1em;">{{ current.colony.systemCode }}</h2>
     {% if current.colony.playerOwned == "Y" %}
