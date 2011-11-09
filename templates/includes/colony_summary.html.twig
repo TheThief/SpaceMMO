@@ -5,7 +5,7 @@
 <div class="colonysummary">
     <h2><img src="{{ current.colony.planetImage }}" style="width:1em;height:1em;">{{ current.colony.systemCode }}</h2>
     <form action="change_colony.php" method="get">
-		<select name="planet" id="pcddCS" onchange="changePage('CS','change_colony.php',{{current.colonyID}}})">
+		<select name="planet" id="pcddCS" onchange="changePage('CS','change_colony.php',{{current.colonyID}})">
 		    {% for colony in colonies %}
 		    <option value="{{colony.planetID}}" {% if colony.planetID == current.colonyID %}"selected"{% endif %}>{{colony.systemCode}}</option>
 		    {% endfor %}
