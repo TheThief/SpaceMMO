@@ -7,7 +7,7 @@
     <form action="change_colony.php" method="get">
 		<select name="planet" id="pcddCS" onchange="changePage('CS','change_colony.php',{{current.colonyID}})">
 		    {% for colony in colonies %}
-		    <option value="{{colony.planetID}}" {% if colony.planetID == current.colonyID %}"selected"{% endif %}>{{colony.systemCode}}</option>
+		    <option value="{{colony.planetID}}" {% if colony.planetID == current.colonyID %}selected="selected"{% endif %}>{{colony.systemCode}}</option>
 		    {% endfor %}
 		</select><input type="Submit" value="Go">
 	</form>
