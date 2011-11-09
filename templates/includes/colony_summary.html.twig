@@ -1,8 +1,12 @@
+{% macro prodSummary(id, current, max, delta) %}
+  <span id="{{id}}" title="{{current|thousands}}/{{ max|thousands }} ({{ delta|signed }}/hour)">{{ current|thousands }} {{ delta|sign }}</span>
+{% endmacro %}
 <div class="colonysummary">
     <h2><img src="{{ current.colony.planetImage }}" style="width:1em;height:1em;">{{ current.colony.systemCode }}</h2>
     {% if current.colony.playerOwned == "Y" %}
         <ul>
             <li>Metal: <span id="summary_metal" title="{{current.colony.metal|thousands}}/{{ current.colony.metalStorage|thousands }} ({{ current.colony.metalProduction|signed }}/hour)">{{ current.colony.metal|thousands }} {{ current.colony.metalProduction|sign }}</span></li>
+            <li>Metal: {{_self.prodSummary('summary_metal',current.colony.metal,current.colony.metalStorage,current.colony.metalProduction)}}</li>
             <li>Deuterium: <span id="summary_deuterium" title="{{current.colony.deuterium|thousands}}/{{ current.colony.deuteriumStorage|thousands }} ({{ current.colony.deuteriumProduction|signed }}/hour)">{{ current.colony.deuterium|thousands }} {{ current.colony.deuteriumProduction|sign }}</span></li>
             <li>Energy: <span id="summary_energy" title="{{current.colony.energy|thousands}}/{{ current.colony.energyStorage|thousands }} ({{ current.colony.energyProduction|signed }}/hour)">{{ current.colony.energy|thousands }} {{ current.colony.energyProduction|sign }}</span></li>
             {% if current.colony.maxHP and current.colony.maxHP > 0 %}
