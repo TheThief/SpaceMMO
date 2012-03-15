@@ -96,7 +96,7 @@ function viewSystemsBody()
 	?>
 	
 	<form action="view_systems.php" method="get"><input type="hidden" name="zoom" value="<? echo $zoom;?>">System Code: <input name="syscode" size="4" maxlength="4" value="<? echo $syscode;?>"><input type="Submit" value="Jump To"></form><br>
-	
+
 	<?
 	echo '<div class="starmap" style="width: ', $viewsize+2, 'em; height: ', $viewsize+2, 'em;">', $eol;
 
@@ -114,49 +114,55 @@ function viewSystemsBody()
 		$image = 'images/star'.($systemid%4 +1).'.png';
 		$image2 = null;
 		$syscode = systemcode($systemid);
-		$tooltip = $syscode .' Not colonised';
+		$systeminfo = 'Not colonised'. $eol;
 		if ($systemid == $colonysystemid)
 		{
 			if ($othercolonies)
 			{
 				$image2 ='images/star-oc+cc.png';
-				$tooltip = $syscode .' Current System (Contested). Your colonies: '.$colonies.' Other colonies: '.$othercolonies;
+				$systeminfo = 'Current System (Contested).<br/>Your colonies: '.$colonies.'</br/>Other colonies: '.$othercolonies . $eol;
 			}
 			else
 			{
 				$image2 = 'images/star-c.png';
-				$tooltip = $syscode .' Current system. Colonised planets: '.$colonies;
+				$systeminfo = 'Current system.<br/>Colonised planets: '.$colonies . $eol;
 			}
 		}
 		else if ($colonies && $othercolonies)
 		{
 			$image2 ='images/star-oc+c.png';
-			$tooltip = $syscode .' Contested System. Your colonies: '.$colonies.' Other colonies: '.$othercolonies;
+			$systeminfo = 'Contested System.<br/>Your colonies: '.$colonies.'<br/>Other colonies: '.$othercolonies . $eol;
 		}
 		else if ($colonies)
 		{
 			$image2 = 'images/star-c.png';
-			$tooltip = $syscode .' Your system. Colonised planets: '.$colonies;
+			$systeminfo = 'Your system.<br/>Colonised planets: '.$colonies . $eol;
 		}
 		else if ($othercolonies)
 		{
 			$image2 = 'images/star-oc.png';
-			$tooltip = $syscode .' Enemy system. Colonised planets: '.$othercolonies;
+			$systeminfo = 'Enemy system.<br/>Colonised planets: '.$othercolonies . $eol;
 		}
 
 		if ($systemid != $colonysystemid)
 		{
-			$tooltip .= ' Distance: '.number_format(distance($sysX-$colonyx, $sysY-$colonyy), 2).'PC';
+			$systeminfo .= '<br/>Distance: '.number_format(distance($sysX-$colonyx, $sysY-$colonyy), 2).'PC';
 		}
 
 		$starsize = (floor($systemid/4)%4)/4 * ($maxstarsize-$minstarsize) + $minstarsize;
-		echo '<a href="view_planets.php?system=', $systemid, '">', $eol;
-		echo '<img src="', $image, '" style="width: ', $starsize, 'em; height: ', $starsize, 'em; left: ', ($sysX-$xmin+0.5)*$gridsize-$starsize/2 + $indent, 'em; top: ', ($sysY-$ymin+0.5)*$gridsize-$starsize/2 + $indent, 'em;" title="',$tooltip,'">', $eol;
+		echo '<div class="systemcontainer" style="width: ', $gridsize, 'em; height: ', $gridsize, 'em; left: ', ($sysX-$xmin)*$gridsize + $indent, 'em; top: ', ($sysY-$ymin)*$gridsize + $indent, 'em;">', $eol;
+        echo '<a href="view_planets.php?system=', $systemid, '">', $eol;
+		echo '<img src="', $image, '" style="width: ', $starsize, 'em; height: ', $starsize, 'em; left: ', ($gridsize-$starsize)/2, 'em; top: ', ($gridsize-$starsize)/2, 'em;">', $eol;
 		if ($image2)
 		{
-			echo '<img src="', $image2, '" style="width: ', $gridsize, 'em; height: ', $gridsize, 'em; left: ', ($sysX-$xmin)*$gridsize + $indent, 'em; top: ', ($sysY-$ymin)*$gridsize + $indent, 'em;" title="',$tooltip,'">', $eol;
+			echo '<img src="', $image2, '" style="width: ', $gridsize, 'em; height: ', $gridsize, 'em;"">', $eol;
 		}
 		echo '</a>', $eol;
+        echo '<div class="info" style="padding-top: ',$gridsize+0.3,'em;">';
+        echo '<h3>',$syscode,'</h3>', $eol;
+        echo $systeminfo, $eol;
+        echo '</div>', $eol;
+        echo '</div>', $eol;
 	}
 	$stmt->close();
 	echo '</div>', $eol;

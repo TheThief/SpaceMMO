@@ -156,6 +156,31 @@ div.starmap img{
 	position: absolute;
 }
 
+div.systemcontainer {
+    border: 0;
+    background: none;
+    margin:0;
+    position: absolute;
+}
+
+div.systemcontainer .info{
+    visibility: hidden;
+    position: absolute;
+    margin:0;
+    left: -0.3em;
+    top: -0.3em;
+    padding: 0.3em;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+div.systemcontainer:hover .info{
+    visibility: visible;
+}
+div.systemcontainer:hover img{
+    z-index: 11;
+}
+
 .navtop, .navbottom, .navleft, .navright {
 border: 0;
 }
