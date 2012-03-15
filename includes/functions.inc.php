@@ -79,7 +79,7 @@ function checkLoggedIn_failed()
 	exit;
 }
 
-function checkLoggedIn()
+function checkLoggedIn($redirect=false)
 {
 	if (isLoggedIn())
 	{
@@ -87,7 +87,8 @@ function checkLoggedIn()
 	}
 	else
 	{
-		checkLoggedIn_failed();
+		if($redirect) checkLoggedIn_failed();
+        return false;
 	}
 }
 
@@ -384,7 +385,6 @@ function getVersionedFilePath($file){
     $validExtensions = array("css","js");
     $path = $_SERVER['DOCUMENT_ROOT'] . $file;
     $ext = pathinfo($path,PATHINFO_EXTENSION);
-    //$_SERVER['DOCUMENT_ROOT']
     if(!file_exists($path)|| !in_array($ext,$validExtensions)) return $file;
     $mtime = filemtime($path);
     $path = str_replace("." . $ext,".v" . $mtime . "." . $ext,$file);

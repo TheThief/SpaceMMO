@@ -155,6 +155,10 @@ div.starmap {
 div.starmap img{
 	position: absolute;
 }
+div.starmap img.star{
+	left: 50%;
+    top:50%;
+}
 
 div.systemcontainer {
     border: 0;

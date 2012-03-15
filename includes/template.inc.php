@@ -38,6 +38,8 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 		$headerfunc();
 	}
 	echo '<script type="text/javascript" src="functions.js.php"></script>';
+	//echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>';
+	//echo '<script type="text/javascript" src="default.js"></script>';
 	echo '</head>', $eol;
 	echo '<body>', $eol;
 	echo '', $eol;
