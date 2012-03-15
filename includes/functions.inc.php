@@ -380,4 +380,15 @@ function addChild($doc, $node, $name, $value){
 	$element->appendChild($doc->createTextNode($value));
 }
 
+function getVersionedFilePath($file){
+    $validExtensions = array("css","js");
+    $path = $_SERVER['DOCUMENT_ROOT'] . $file;
+    $ext = pathinfo($path,PATHINFO_EXTENSION);
+    //$_SERVER['DOCUMENT_ROOT']
+    if(!file_exists($path)|| !in_array($ext,$validExtensions)) return $file;
+    $mtime = filemtime($path);
+    $path = str_replace("." . $ext,".v" . $mtime . "." . $ext,$file);
+    return $path;
+}
+
 ?>
