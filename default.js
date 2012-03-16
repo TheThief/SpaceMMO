@@ -5,10 +5,9 @@ $(document).ready(function(){
         var jsonurl = hrefurl + (hrefurl.indexOf("?")<0?"?":"&") + "api=json";
         $.getJSON(jsonurl,function(data){
             if(data.status=="ok"){
-		if(window.history.replaceState){
+		        if(window.history.replaceState){
                     window.history.replaceState(null,null,hrefurl);
                 }
-
                 $(".navbutton.up").attr("href",data.navbuttons.up);
                 $(".navbutton.down").attr("href",data.navbuttons.down);
                 $(".navbutton.right").attr("href",data.navbuttons.right);
