@@ -52,26 +52,4 @@ $(document).ready(function(){
         });
         return false;
     });
-    $(document).keydown(function(e){
-        switch(e.keyCode){
-            case 37:
-                $(".navbutton.left").click();
-                return false;
-                break;
-            case 38:
-                $(".navbutton.up").click();
-                return false;
-                break;
-            case 39:
-                $(".navbutton.right").click();
-                return false;
-                break;
-            case 40:
-                $(".navbutton.down").click();
-                return false;
-                break;
-            default:
-                break;
-        }
-    });
 });

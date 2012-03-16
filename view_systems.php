@@ -334,4 +334,30 @@ function viewSystemsBody()
 	$stmt->close();
 	echo '</div>', $eol;
 	echo '</div>', $eol;
+    echo '<script type="text/javascript">', $eol;
+    ?>
+    $(document).keydown(function(e){
+        switch(e.keyCode){
+            case 37:
+                $(".navbutton.left").click();
+                return false;
+                break;
+            case 38:
+                $(".navbutton.up").click();
+                return false;
+                break;
+            case 39:
+                $(".navbutton.right").click();
+                return false;
+                break;
+            case 40:
+                $(".navbutton.down").click();
+                return false;
+                break;
+            default:
+                break;
+        }
+    });
+    <?php
+    echo '</script>', $eol;
 }
