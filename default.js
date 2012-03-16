@@ -6,6 +6,10 @@ $(document).ready(function(){
         url = url+"&api=json";
         $.getJSON(url,function(data){
             if(data.status=="ok"){
+		if(window.history.replacestate){
+                    window.history.replacestate(null,null,$(this).attr("href"));
+                }
+
                 $(".navbutton.up").attr("href",data.navbuttons.up);
                 $(".navbutton.down").attr("href",data.navbuttons.down);
                 $(".navbutton.right").attr("href",data.navbuttons.right);
