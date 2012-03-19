@@ -2,8 +2,7 @@ $(document).ready(function(){
     $(".navbutton").click(function(){
         event.preventDefault();
         var hrefurl = $(this).attr("href");
-        var jsonurl = hrefurl + (hrefurl.indexOf("?")<0?"?":"&") + "api=json";
-        $.getJSON(jsonurl,function(data){
+        $.getJSON(hrefurl,function(data){
             if(data.status=="ok"){
                 if(window.history.replaceState){
                     window.history.replaceState(null,null,hrefurl);

@@ -2,10 +2,10 @@
 include_once 'includes/start.inc.php';
 checkLoggedIn();
 
-require_once 'Twig/Autoloader.php';
+require_once 'includes/Twig/Autoloader.php';
 Twig_Autoloader::register();
 
-$loader = new Twig_Loader_Filesystem('templates');
+$loader = new Twig_Loader_Filesystem('templates/spacemmo');
 $twig = new Twig_Environment($loader, array(
     'cache' => 'templates/compiled',
     'auto_reload' => true,

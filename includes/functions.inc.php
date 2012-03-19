@@ -79,22 +79,31 @@ function checkLoggedIn_failed()
 	exit;
 }
 
-function checkLoggedIn($redirect=false)
+function checkLoggedIn()
 {
+    global $api;
 	if (isLoggedIn())
 	{
 		return true;
 	}
 	else
 	{
-		if($redirect) checkLoggedIn_failed();
+		if(IS_API_CALL){
+            $results["status"] = "error";
+            $results["error"] = "Not Logged In";
+            $results["errorCode"] = "NOTAUTHED";
+            $api->output($results);
+            exit;
+        } else {
+            checkLoggedIn_failed();
+        }
         return false;
 	}
 }
 
 function isLoggedIn($forceUpdate=false)
 {
-	global $mysqli;
+	global $mysqli,$eol;
 
 	static $isLoggedIn = false;
 	static $isLoggedInSet = false;
@@ -140,7 +149,7 @@ function isLoggedIn($forceUpdate=false)
 
 function isAdmin()
 {
-	global $mysqli;
+	global $mysqli,$eol;
 
 	$userid = $_SESSION['userid'];
 	if (!$userid)
@@ -297,7 +306,7 @@ function orbit($systemcode)
 }
 
 function planetChanger($current=NULL,$page=NULL){
-	global $planetChangeID, $mysqli;
+	global $planetChangeID, $mysqli,$eol;
 	$userid = $_SESSION['userid'];
 	if (is_null($current)) $current = $_GET['planet'];
 	if (is_null($page)) $page = basename($_SERVER["PHP_SELF"]);
@@ -375,7 +384,12 @@ function getWHLinks($userid){
 	}
 	return $links;
 }
-
+/**
+ * @param DomDocument $doc
+ * @param DOMElement $node
+ * @param string $name
+ * @param string $value
+ */
 function addChild($doc, $node, $name, $value){
 	$element = $node->appendChild($doc->createElement($name));
 	$element->appendChild($doc->createTextNode($value));

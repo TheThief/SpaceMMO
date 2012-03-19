@@ -3,6 +3,7 @@ include_once "../includes/start.inc.php";
 //prodDropdown(0.5,1,1);
 //prodDropdown(1,1,1);
 //echo formatSeconds("h:i:n",0);
+//
 foreach($_SESSION as $key => $value){
 	echo "$key = $value \n";
 }
@@ -60,6 +61,6 @@ for ($i=1;$i<200;$i++)
 {
 	echo $i,'=',systemcode($i),'=',systemid(systemcode($i)),', ';
 }
-
+//test3
 ?>
 

@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>SpaceMMO - {% block title %}{% endblock %}</title>
+        <link rel="stylesheet" type="text/css" href="/SpaceMMO/style.css">
+        {% block header %}{% endblock %}
+        <script type="text/javascript" src="../../functions.js.php"></script>
+    </head>
+    <body>
+        <div class="menuouter">
+            <div class="logo">
+                <img src="/SpaceMMO/images/logo.png" alt="Logo!">
+            </div>
+            {% if user.loggedIn == 'Y' %}
+                {% include "includes/colony_summary.html.twig" ignore missing %}
+            {% endif %}
+            <div class="menu">
+                <h1>Menu</h1>
+                {% block menu %}
+                    {% include "includes/menu.html.twig" ignore missing %}
+                {% endblock %}
+                {% if user.isAdmin == 'Y' %}
+                    {% include "includes/admin_menu.html.twig" ignore missing %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="bodyouter">
+            <div class="title">
+                <h1>{{ block('title') }}</h1>
+            </div>
+            <div class="body">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </body>
+</html>

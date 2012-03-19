@@ -1,12 +1,10 @@
 <?
 include_once 'includes/start.inc.php';
-$isAPICall = false;
-if(isset($_GET["api"]) && $_GET["api"]=="json") $isAPICall = true;
-$loggedIn = checkLoggedIn(!$isAPICall);
+$loggedIn = checkLoggedIn();
 
 include_once 'includes/template.inc.php';
-if(!$isAPICall) template('View Galaxy', 'viewSystemsBody');
-if($isAPICall){
+if(!IS_API_CALL) template('View Galaxy', 'viewSystemsBody');
+else{
     $results=array();
     if($loggedIn){
         $userid = $_SESSION['userid'];
@@ -48,7 +46,7 @@ if($isAPICall){
                     $results["status"] = "error";
                     $results["error"] = "Invalid System ID";
                     $results["errorCode"] = "INVALIDSYSTEM";
-                    echo json_encode($results);
+                    $api->output($results);
                     exit;
                 }
                 $query->close();
@@ -65,7 +63,7 @@ if($isAPICall){
                     $results["status"] = "error";
                     $results["error"] = "You have no colonies";
                     $results["errorCode"] = "NOCOLONIES";
-                    echo json_encode($results);
+                    $api->output($results);
                     exit;
                 }
 
@@ -87,7 +85,7 @@ if($isAPICall){
             $results["status"] = "error";
             $results["error"] = "Invalid Colony";
             $results["errorCode"] = "INVALIDCOLONY";
-            echo json_encode($results);
+            $api->output($results);
             exit;
         }
         $query->close();
@@ -170,7 +168,7 @@ if($isAPICall){
         $results["error"] = "Not Logged In";
         $results["errorCode"] = "NOTAUTHED";
     }
-    echo json_encode($results);
+    $api->output($results);
 }
 function viewSystemsBody()
 {
