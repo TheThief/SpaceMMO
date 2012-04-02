@@ -7,7 +7,7 @@ class space_mysqli extends mysqli {
 		if ($this->connect_error) {
 			//ob_clean();
 			debug_print_backtrace();
-			echo '<b>mysqli connect error:</b> (' . $this->connect_errno . ') ' . $this->connect_error . '\n';
+			echo '<b>mysqli connect error:</b> (' . $this->connect_errno . ') ' . $this->connect_error . "\n";
 			ob_flush();
 			die();
 		}
@@ -15,7 +15,7 @@ class space_mysqli extends mysqli {
 		if($this->error) {
 			//ob_clean();
 			debug_print_backtrace();
-			echo '<b>mysqli set_charset error:</b> ' . $this->error.'\n';
+			echo '<b>mysqli set_charset error:</b> ' . $this->error . "\n";
 			ob_flush();
 			die();
 		}
@@ -26,7 +26,7 @@ class space_mysqli extends mysqli {
 		if($this->error) {
 			//ob_clean();
 			debug_print_backtrace();
-			echo '<b>mysqli query error:</b> ' . $this->error.'\n';
+			echo '<b>mysqli query error:</b> ' . $this->error . "\n";
 			ob_flush();
 			die();
 		} else {
@@ -39,7 +39,7 @@ class space_mysqli extends mysqli {
 		if($this->error) {
 			//ob_clean();
 			debug_print_backtrace();
-			echo '<b>mysqli prepare error:</b> ' . $this->error.'\n';
+			echo '<b>mysqli prepare error:</b> ' . $this->error."\n";
 			ob_flush();
 			die();
 		} else {
@@ -55,7 +55,7 @@ class space_mysqli_stmt extends mysqli_stmt {
 		if($this->error) {
 			//ob_clean();
 			debug_print_backtrace();
-			echo '<b>mysqli_stmt execute error:</b> ' . $this->error.'\n'; 
+			echo '<b>mysqli_stmt execute error:</b> ' . $this->error."\n"; 
 			ob_flush();
 			die();
 		} else {

@@ -17,7 +17,7 @@ print($_SERVER['CONTENT_TYPE']);
 
 unset($_POST['test']['a'],$_POST['test']['b'],$_POST['test']['c'],$_POST['test']['d']);
 
-echo '\n' . count($_POST['test']);
+echo "\n" . count($_POST['test']);
 
 ?>
 <form action="testpost.php" method="post" accept-charset="utf-8">
