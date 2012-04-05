@@ -177,9 +177,8 @@ function viewSystemsBody()
 {
 	global $eol, $mysqli;
 	$userid = $_SESSION['userid'];
-	$x = $_GET['x'];
-	$y = $_GET['y'];
-	$syscode = $_GET['syscode'];
+	$x = isset($_GET['x']) ? $_GET['x'] : '';
+	$y = isset($_GET['y']) ? $_GET['y'] : '';
 	
 	$viewsize = 30; // in em
 	$minstarsize = 1.2;// in em
@@ -198,8 +197,10 @@ function viewSystemsBody()
 
 	if (!is_numeric($x) || !is_numeric($y))
 	{
-		$systemid = $_GET['system'];
-		if(!is_numeric($systemid) && (strlen($syscode)==3 || strlen($syscode)==4)){
+		$systemid = isset($_GET['system']) ? $_GET['system'] : '';
+		$syscode = isset($_GET['syscode']) ? $_GET['syscode'] : '';
+		if(!is_numeric($systemid) && (strlen($syscode) == 3 || strlen($syscode) == 4))
+		{
 			$systemid = systemid($syscode);
 		}
 
