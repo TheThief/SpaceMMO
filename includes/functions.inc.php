@@ -88,7 +88,7 @@ function checkLoggedIn($redirect=false)
 	else
 	{
 		if($redirect) checkLoggedIn_failed();
-        return false;
+		return false;
 	}
 }
 
@@ -101,7 +101,7 @@ function isLoggedIn($forceUpdate=false)
 
 	if (!$isLoggedInSet || $forceUpdate)
 	{
-		$userid = $_SESSION['userid'];
+		$userid = isset($_SESSION['userid']) ? $_SESSION['userid'] : false;
 		if (!$userid)
 		{
 			$isLoggedIn = false;
@@ -142,7 +142,7 @@ function isAdmin()
 {
 	global $mysqli;
 
-	$userid = $_SESSION['userid'];
+	$userid = isset($_SESSION['userid']) ? $_SESSION['userid'] : false;
 	if (!$userid)
 	{
 		return false;
