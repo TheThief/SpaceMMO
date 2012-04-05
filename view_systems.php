@@ -19,7 +19,7 @@ if($isAPICall){
 		$gridsize = 2;     // in em
 		$scroll = 3;       // in grid squares
 
-		$zoom = $_GET['zoom']; if (!is_numeric($zoom)) $zoom=1;
+		$zoom = isset($_GET['zoom']) ? $_GET['zoom'] : ''; if (!is_numeric($zoom)) $zoom=1;
 		$zoom = clamp($zoom, 0.25, 2);
 		$gridsize *= $zoom;
 		$viewdistance = floor(($viewsize/$gridsize - 1) / 2); // in grid squares
@@ -186,7 +186,7 @@ function viewSystemsBody()
 	$gridsize = 2;     // in em
 	$scroll = 3;       // in grid squares
 
-	$zoom = $_GET['zoom']; if (!is_numeric($zoom)) $zoom=1;
+	$zoom = isset($_GET['zoom']) ? $_GET['zoom'] : ''; if (!is_numeric($zoom)) $zoom=1;
 	$zoom = clamp($zoom, 0.25, 2);
 	$gridsize *= $zoom;
 	$viewdistance = floor(($viewsize/$gridsize - 1) / 2); // in grid squares
