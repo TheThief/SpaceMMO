@@ -5,34 +5,35 @@ $loggedIn = checkLoggedIn();
 include_once 'includes/template.inc.php';
 if(!IS_API_CALL) template('View Galaxy', 'viewSystemsBody');
 else{
-    $results=array();
-    if($loggedIn){
-        $userid = $_SESSION['userid'];
-        $x = $_GET['x'];
-        $y = $_GET['y'];
-        $syscode = $_GET['syscode'];
+	$results=array();
+	if($loggedIn){
+		$userid = $_SESSION['userid'];
+		$x = isset($_GET['x']) ? $_GET['x'] : '';
+		$y = isset($_GET['y']) ? $_GET['y'] : '';
 
-        $viewsize = 30; // in em
-        $minstarsize = 1.2;// in em
-        $maxstarsize = 2;  // in em
-        $gridsize = 2;     // in em
-        $scroll = 3;       // in grid squares
+		$viewsize = 30; // in em
+		$minstarsize = 1.2;// in em
+		$maxstarsize = 2;  // in em
+		$gridsize = 2;     // in em
+		$scroll = 3;       // in grid squares
 
-        $zoom = $_GET['zoom']; if (!is_numeric($zoom)) $zoom=1;
-        $zoom = clamp($zoom, 0.25, 2);
-        $gridsize *= $zoom;
-        $viewdistance = floor(($viewsize/$gridsize - 1) / 2); // in grid squares
-        $indent = ($viewsize - ($viewdistance * 2 + 1) * $gridsize) / 2; // in em
-        $minstarsize *= $zoom;
-        $maxstarsize *= $zoom;
-        $scroll = floor($scroll/$zoom);
+		$zoom = isset($_GET['zoom']) ? $_GET['zoom'] : ''; if (!is_numeric($zoom)) $zoom=1;
+		$zoom = clamp($zoom, 0.25, 2);
+		$gridsize *= $zoom;
+		$viewdistance = floor(($viewsize/$gridsize - 1) / 2); // in grid squares
+		$indent = ($viewsize - ($viewdistance * 2 + 1) * $gridsize) / 2; // in em
+		$minstarsize *= $zoom;
+		$maxstarsize *= $zoom;
+		$scroll = floor($scroll/$zoom);
 
-        if (!is_numeric($x) || !is_numeric($y))
-        {
-            $systemid = $_GET['system'];
-            if(!is_numeric($systemid) && (strlen($syscode)==3 || strlen($syscode)==4)){
-                $systemid = systemid($syscode);
-            }
+		if (!is_numeric($x) || !is_numeric($y))
+		{
+			$systemid = isset($_GET['system']) ? $_GET['system'] : '';
+			$syscode = isset($_GET['syscode']) ? $_GET['syscode'] : '';
+			if (!is_numeric($systemid) && (strlen($syscode) == 3 || strlen($syscode) == 4))
+			{
+				$systemid = systemid($syscode);
+			}
 
             if (is_numeric($systemid))
             {
@@ -67,12 +68,12 @@ else{
                     exit;
                 }
 
-                $query->close();
-            }
-        }
+				$query->close();
+			}
+		}
 
-        $x = clamp($x, -UNI_CENTRE_X, UNI_CENTRE_X);
-        $y = clamp($y, -UNI_CENTRE_Y, UNI_CENTRE_Y);
+		$x = clamp($x, -UNI_CENTRE_X, UNI_CENTRE_X);
+		$y = clamp($y, -UNI_CENTRE_Y, UNI_CENTRE_Y);
 
         $colonyid = $_SESSION['colony'];
         $query = $mysqli->prepare('SELECT systemid,x,y FROM planets LEFT JOIN systems USING(systemid) WHERE planetid=?');
@@ -90,65 +91,65 @@ else{
         }
         $query->close();
 
-        $stmt = $mysqli->prepare('SELECT systemid,x,y,COUNT(user_colonies.planetid),COUNT(other_colonies.planetid) FROM systems LEFT JOIN planets USING (systemid)
-        LEFT JOIN (SELECT planetid FROM colonies WHERE userid=?) user_colonies USING (planetid)
-        LEFT JOIN (SELECT planetid FROM colonies WHERE userid!=?) other_colonies USING (planetid)
-        WHERE x>=? AND x<=? AND y>=? AND y<=? GROUP BY systemid ORDER BY NULL');
-        $xmin = $x-$viewdistance;
-        $xmax = $x+$viewdistance;
-        $ymin = $y-$viewdistance;
-        $ymax = $y+$viewdistance;
-        $stmt->bind_param('iiiiii',$userid,$userid,$xmin,$xmax,$ymin,$ymax);
-        $stmt->execute();
-        $stmt->bind_result($systemid,$sysX,$sysY,$colonies,$othercolonies);
+		$stmt = $mysqli->prepare('SELECT systemid,x,y,COUNT(user_colonies.planetid),COUNT(other_colonies.planetid) FROM systems LEFT JOIN planets USING (systemid)
+		LEFT JOIN (SELECT planetid FROM colonies WHERE userid=?) user_colonies USING (planetid)
+		LEFT JOIN (SELECT planetid FROM colonies WHERE userid!=?) other_colonies USING (planetid)
+		WHERE x>=? AND x<=? AND y>=? AND y<=? GROUP BY systemid ORDER BY NULL');
+		$xmin = $x-$viewdistance;
+		$xmax = $x+$viewdistance;
+		$ymin = $y-$viewdistance;
+		$ymax = $y+$viewdistance;
+		$stmt->bind_param('iiiiii',$userid,$userid,$xmin,$xmax,$ymin,$ymax);
+		$stmt->execute();
+		$stmt->bind_result($systemid,$sysX,$sysY,$colonies,$othercolonies);
 
-        $results["status"] = "ok";
-        $results["navbuttons"]["up"]='view_systems.php?x=' . $x . '&y=' .  ($y-$scroll) . '&zoom='. $zoom;
-        $results["navbuttons"]["down"]='view_systems.php?x=' . $x . '&y=' .  ($y+$scroll) . '&zoom='. $zoom;
-        $results["navbuttons"]["left"]='view_systems.php?x=' . ($x-$scroll) . '&y=' .  $y . '&zoom='. $zoom;
-        $results["navbuttons"]["right"]='view_systems.php?x=' . ($x+$scroll) . '&y=' .  $y . '&zoom='. $zoom;
-        $results["navbuttons"]["zoomin"]='view_systems.php?x=' . $x . '&y=' .  $y . '&zoom='. ($zoom*2);
-        $results["navbuttons"]["zoomout"]='view_systems.php?x=' . $x . '&y=' .  $y . '&zoom='. ($zoom/2);
-        $results["systems"] = array();
-        while ($stmt->fetch())
-        {
-            $image = 'images/star'.($systemid%4 +1).'.png';
-            $image2 = null;
-            $syscode = systemcode($systemid);
-            $systeminfo = 'Not colonised'. $eol;
-            if ($systemid == $colonysystemid)
-            {
-                if ($othercolonies)
-                {
-                    $image2 ='images/star-oc+cc.png';
-                    $systeminfo = 'Current System (Contested).<br/>Your colonies: '.$colonies.'</br/>Other colonies: '.$othercolonies . $eol;
-                }
-                else
-                {
-                    $image2 = 'images/star-c.png';
-                    $systeminfo = 'Current system.<br/>Colonised planets: '.$colonies . $eol;
-                }
-            }
-            else if ($colonies && $othercolonies)
-            {
-                $image2 ='images/star-oc+c.png';
-                $systeminfo = 'Contested System.<br/>Your colonies: '.$colonies.'<br/>Other colonies: '.$othercolonies . $eol;
-            }
-            else if ($colonies)
-            {
-                $image2 = 'images/star-c.png';
-                $systeminfo = 'Your system.<br/>Colonised planets: '.$colonies . $eol;
-            }
-            else if ($othercolonies)
-            {
-                $image2 = 'images/star-oc.png';
-                $systeminfo = 'Enemy system.<br/>Colonised planets: '.$othercolonies . $eol;
-            }
+		$results['status'] = 'ok';
+		$results['navbuttons']['up']      ='view_systems.php?x=' . $x . '&y=' .  ($y-$scroll) . '&zoom='. $zoom;
+		$results['navbuttons']['down']    ='view_systems.php?x=' . $x . '&y=' .  ($y+$scroll) . '&zoom='. $zoom;
+		$results['navbuttons']['left']    ='view_systems.php?x=' . ($x-$scroll) . '&y=' .  $y . '&zoom='. $zoom;
+		$results['navbuttons']['right']   ='view_systems.php?x=' . ($x+$scroll) . '&y=' .  $y . '&zoom='. $zoom;
+		$results['navbuttons']['zoomin']  ='view_systems.php?x=' . $x . '&y=' .  $y . '&zoom='. ($zoom*2);
+		$results['navbuttons']['zoomout'] ='view_systems.php?x=' . $x . '&y=' .  $y . '&zoom='. ($zoom/2);
+		$results['systems'] = array();
+		while ($stmt->fetch())
+		{
+			$image = 'images/star'.($systemid%4 +1).'.png';
+			$image2 = null;
+			$syscode = systemcode($systemid);
+			$systeminfo = 'Not colonised'. $eol;
+			if ($systemid == $colonysystemid)
+			{
+				if ($othercolonies)
+				{
+					$image2 ='images/star-oc+cc.png';
+					$systeminfo = 'Current System (Contested).<br/>Your colonies: '.$colonies.'</br/>Other colonies: '.$othercolonies . $eol;
+				}
+				else
+				{
+					$image2 = 'images/star-c.png';
+					$systeminfo = 'Current system.<br/>Colonised planets: '.$colonies . $eol;
+				}
+			}
+			else if ($colonies && $othercolonies)
+			{
+				$image2 ='images/star-oc+c.png';
+				$systeminfo = 'Contested System.<br/>Your colonies: '.$colonies.'<br/>Other colonies: '.$othercolonies . $eol;
+			}
+			else if ($colonies)
+			{
+				$image2 = 'images/star-c.png';
+				$systeminfo = 'Your system.<br/>Colonised planets: '.$colonies . $eol;
+			}
+			else if ($othercolonies)
+			{
+				$image2 = 'images/star-oc.png';
+				$systeminfo = 'Enemy system.<br/>Colonised planets: '.$othercolonies . $eol;
+			}
 
-            if ($systemid != $colonysystemid)
-            {
-                $systeminfo .= '<br/>Distance: '.number_format(distance($sysX-$colonyx, $sysY-$colonyy), 2).'PC';
-            }
+			if ($systemid != $colonysystemid)
+			{
+				$systeminfo .= '<br/>Distance: '.number_format(distance($sysX-$colonyx, $sysY-$colonyy), 2).'PC';
+			}
 
             $starsize = (floor($systemid/4)%4)/4 * ($maxstarsize-$minstarsize) + $minstarsize;
             $temp = Array();
@@ -174,9 +175,8 @@ function viewSystemsBody()
 {
 	global $eol, $mysqli;
 	$userid = $_SESSION['userid'];
-	$x = $_GET['x'];
-	$y = $_GET['y'];
-	$syscode = $_GET['syscode'];
+	$x = isset($_GET['x']) ? $_GET['x'] : '';
+	$y = isset($_GET['y']) ? $_GET['y'] : '';
 	
 	$viewsize = 30; // in em
 	$minstarsize = 1.2;// in em
@@ -184,7 +184,7 @@ function viewSystemsBody()
 	$gridsize = 2;     // in em
 	$scroll = 3;       // in grid squares
 
-	$zoom = $_GET['zoom']; if (!is_numeric($zoom)) $zoom=1;
+	$zoom = isset($_GET['zoom']) ? $_GET['zoom'] : ''; if (!is_numeric($zoom)) $zoom=1;
 	$zoom = clamp($zoom, 0.25, 2);
 	$gridsize *= $zoom;
 	$viewdistance = floor(($viewsize/$gridsize - 1) / 2); // in grid squares
@@ -195,8 +195,10 @@ function viewSystemsBody()
 
 	if (!is_numeric($x) || !is_numeric($y))
 	{
-		$systemid = $_GET['system'];
-		if(!is_numeric($systemid) && (strlen($syscode)==3 || strlen($syscode)==4)){
+		$systemid = isset($_GET['system']) ? $_GET['system'] : '';
+		$syscode = isset($_GET['syscode']) ? $_GET['syscode'] : '';
+		if(!is_numeric($systemid) && (strlen($syscode) == 3 || strlen($syscode) == 4))
+		{
 			$systemid = systemid($syscode);
 		}
 

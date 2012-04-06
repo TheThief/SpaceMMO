@@ -10,27 +10,14 @@ else
 	echo '<li><a href="/SpaceMMO/list_bookmarks.php">Bookmarks List</a></li>', $eol;
 	echo '<li><a href="/SpaceMMO/list_shipdesigns.php">Ship Designs</a></li>', $eol;
 
-	$systemid = $_GET['system'];
-	$planetid = $_GET['planet'];
+	$systemid = isset($_GET['system']) ? $_GET['system'] : '';
+	$planetid = isset($_GET['planet']) ? $_GET['planet'] : '';
 	if (!is_numeric($systemid) && is_numeric($planetid))
 	{
 		$query = $mysqli->prepare('SELECT systemid FROM planets WHERE planetid=?');
-		if (!$query)
-		{
-			echo 'error: ', $mysqli->error, $eol;
-			exit;
-		}
-
 		$query->bind_param('i', $planetid);
-
-		$result = $query->execute();
-		if (!$result)
-		{
-			echo 'error: ', $query->error, $eol;
-			exit;
-		}
-
 		$query->bind_result($systemid);
+		$result = $query->execute();
 		$query->fetch();
 		$query->close();
 	}

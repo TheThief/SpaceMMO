@@ -21,7 +21,6 @@ function prodSummary($id, $current, $max, $delta)
 function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 {
 	global $eol, $mysqli;
-	$userid = $_SESSION['userid'];
 
 	/*echo '<?xml version="1.0" encoding="utf-8"?>', $eol;*/
 	//echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">', $eol;
@@ -50,6 +49,7 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 	
 	if (isLoggedIn())
 	{
+		$userid = $_SESSION['userid'];
 		$colonyid = $_SESSION['colony'];
 		if (!$colonyid)
 		{

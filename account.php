@@ -9,7 +9,7 @@ function accountBody()
 {
 	global $eol, $mysqli;
 	$userid = $_SESSION['userid'];
-	$error = $_GET['error'];
+	$error = isset($_GET['error']) ? $_GET['error'] : '';
 	
 	$queryapi = $mysqli->prepare('SELECT HEX(apikey) FROM users WHERE userid = ?');
 	$queryapi->bind_param('i', $userid);
@@ -17,7 +17,7 @@ function accountBody()
 	$queryapi->execute();
 	$queryapi->fetch();
 	$queryapi->close();
-	if(is_null($apikey)) $apikey = "None Set";
+	if (is_null($apikey)) $apikey = 'None Set';
 	
 	if ($error)
 	{
