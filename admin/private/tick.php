@@ -1,6 +1,6 @@
 #!/usr/bin/php
 <?php
-include_once '/var/www/www.dynamicarcade.co.uk/SpaceMMO/includes/start.inc.php';
+include_once '/var/www/spacemmo.dynamicarcade.co.uk/includes/start.inc.php';
 //mail("mark@gethyper.co.uk","Tick",date("H:i:s"));
 
 // Colony production
@@ -139,7 +139,7 @@ $mysqli->query('UPDATE fleets SET planetid = orderplanetid, orderid = 1, orderti
 
 $mysqli->commit();
 
-include_once '/var/www/www.dynamicarcade.co.uk/SpaceMMO/includes/colony.inc.php';
+include_once '/var/www/www.dynamicarcade.co.uk/includes/colony.inc.php';
 
 // Order 4 - Colonise
 $query = $mysqli->prepare('SELECT userid, orderplanetid, SUM(fleets.metal) AS fleetmetal, SUM(fleets.deuterium) AS fleetdeuterium FROM fleets WHERE orderticks <= 0 AND orderid = 4 GROUP BY userid,orderplanetid');

@@ -30,7 +30,7 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 	echo '<head>', $eol;
 	echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">', $eol;
 	echo '<title>SpaceMMO - ', $title, '</title>', $eol;
-	echo '<link rel="stylesheet" type="text/css" href="',getVersionedFilePath("/SpaceMMO/style.css"),'">', $eol;
+	echo '<link rel="stylesheet" type="text/css" href="',getVersionedFilePath("/style.css"),'">', $eol;
 	if ($headerfunc)
 	{
 		$headerfunc();
@@ -43,7 +43,7 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 	echo '', $eol;
 	echo '<div class="menuouter">', $eol;
 	echo '<div class="logo">', $eol;
-	echo '<img src="/SpaceMMO/images/logo.png" alt="Logo!">', $eol;
+	echo '<img src="/images/logo.png" alt="Logo!">', $eol;
 	echo '</div>', $eol;
 	echo '', $eol;
 	
