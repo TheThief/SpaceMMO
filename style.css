@@ -54,11 +54,11 @@ th {
 }
 
 table.noborder {
-	border: 0px;
+	border: 0;
 }
 
 table.noborder td {
-	border: 0px;
+	border: 0;
 }
 
 @media print
@@ -128,7 +128,7 @@ div.body {
 	display: none;
 	}
 	div.bodyouter {
-	left: 0em;
+	left: 0;
 	}
 }
 
@@ -241,3 +241,5 @@ right: 1.8em;
 .zoomout {
 right: 0.35em;
 }
+
+#updatebanner{position: absolute; top:0; width:100%; text-align: center; background-color: rgba(255,255,0,0.7); color: #000000; z-index: 10; border:0; margin: 0;}

@@ -40,6 +40,7 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 	echo '<script type="text/javascript" src="default.js"></script>';
 	echo '</head>', $eol;
 	echo '<body>', $eol;
+    echo '<div id="updatebanner">This Page needs updating to TWIG template system</div>';
 	echo '', $eol;
 	echo '<div class="menuouter">', $eol;
 	echo '<div class="logo">', $eol;
@@ -70,7 +71,7 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 		$query->close();
 
 		echo '<div class="colonysummary">', $eol;
-		echo '<h2><img src="images/planet',$planettype,'.png" style="width:1em;height:1em;">',systemcode($systemid,$orbit),'</h2>', $eol;
+		echo '<h2><img src="images/planet',$planettype,'.png" style="width:1em;height:1em;" alt="">',systemcode($systemid,$orbit),'</h2>', $eol;
 		planetChanger($colonyid,'change_colony.php');
 		if ($result)
 		{
