@@ -10,9 +10,9 @@ class Template {
     private $variables;
 
     function __construct($templatePath){
-        $this->loader = new Twig_Loader_Filesystem($_ENV["DOCUMENT_ROOT"] . $templatePath);
+        $this->loader = new Twig_Loader_Filesystem($_SERVER["DOCUMENT_ROOT"] . $templatePath);
         $this->twig = new Twig_Environment($this->loader, array(
-            'cache' => $_ENV["DOCUMENT_ROOT"] . $templatePath . '/compiled',
+            'cache' => $_SERVER["DOCUMENT_ROOT"] . $templatePath . '/compiled',
             'auto_reload' => true,
         ));
         $this->variables = array();
