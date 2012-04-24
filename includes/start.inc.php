@@ -21,7 +21,10 @@ include_once("db.inc.php");
 include_once("functions.inc.php");
 $eol = "\n";
 
-if(!IS_API_CALL) include_once ('Template.php');
+if(!IS_API_CALL){
+    include_once ('Template.php');
+    $tpl = new Template("/templates/spacemmo");
+}
 
 register_shutdown_function("cleanUp");
 ?>
