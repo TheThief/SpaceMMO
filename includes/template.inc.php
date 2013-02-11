@@ -50,8 +50,11 @@ function template($title, $bodyfunc, $menufunc=null, $headerfunc=null)
 	if (isLoggedIn())
 	{
 		$userid = $_SESSION['userid'];
-		$colonyid = $_SESSION['colony'];
-		if (!$colonyid)
+		if (isset($_SESSION['colony']))
+		{
+			$colonyid = $_SESSION['colony'];
+		}
+		else
 		{
 			$query = $mysqli->prepare('SELECT planetid FROM colonies WHERE userid=? ORDER BY colonylevel DESC LIMIT 1');
 			$query->bind_param('i', $userid);
