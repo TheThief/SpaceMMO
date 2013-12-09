@@ -1,3 +1,4 @@
+RedirectMatch 403 /\.hg.*$
 RedirectMatch 403 /\.svn.*$
 
 <IfModule mod_rewrite.c>
