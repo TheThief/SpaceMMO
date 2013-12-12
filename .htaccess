@@ -6,7 +6,7 @@ RedirectMatch 403 /\mva(/.*)?$
  RewriteEngine On
  RewriteRule ^(.*)\.v[\d]+\.(css|js)$ $1.$2 [L]
 
- RewriteBase /
+ #RewriteBase /
  RewriteCond %{REQUEST_FILENAME} !-f
  RewriteCond %{REQUEST_FILENAME} !-d
  RewriteRule ^/?(.*)$ index.php/$1 [L]

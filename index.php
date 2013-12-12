@@ -5,17 +5,17 @@ function apiAutoload($classname)
 {
     if (preg_match('/[a-zA-Z0-9_]+Adapter$/', $classname))
     {
-        include __DIR__ . '/mva/adapters/' . $classname . '.php';
+        @include(__DIR__ . '/mva/adapters/' . $classname . '.php');
         return true;
     }
     elseif (preg_match('/[a-zA-Z0-9_]+Model$/', $classname))
     {
-        include __DIR__ . '/mva/models/' . $classname . '.php';
+        @include(__DIR__ . '/mva/models/' . $classname . '.php');
         return true;
     }
     elseif (preg_match('/[a-zA-Z0-9_]+View$/', $classname))
     {
-        include __DIR__ . '/mva/views/' . $classname . '.php';
+        @include(__DIR__ . '/mva/views/' . $classname . '.php');
         return true;
     }
 }
@@ -26,6 +26,8 @@ class Request
     public $verb;
     public $parameters;
     public $format;
+    public $apikey;
+    public $sessionkey;
 
     public function __construct()
     {
@@ -33,6 +35,8 @@ class Request
         $this->path = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';
         $this->format = false;
         $this->parseIncomingParams();
+        $this->apikey = isset($_SERVER['HTTP_X_API_KEY']) ? $_SERVER['HTTP_X_API_KEY'] : null;
+        $this->sessionkey = isset($_COOKIE['SESSION_KEY']) ? $_COOKIE['SESSION_KEY'] : null;
 
         return true;
     }

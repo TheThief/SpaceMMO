@@ -1,4 +1,4 @@
 <?php
-class DefaultAdapter extends ThingyAdapter
+class DefaultAdapter extends BaseAdapter
 {
 }
