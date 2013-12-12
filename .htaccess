@@ -1,0 +1,23 @@
+RedirectMatch 403 /\.hg(/.*)?$
+
+RedirectMatch 403 /\mva(/.*)?$
+
+<IfModule mod_rewrite.c>
+ RewriteEngine On
+ RewriteRule ^(.*)\.v[\d]+\.(css|js)$ $1.$2 [L]
+
+ RewriteBase /
+ RewriteCond %{REQUEST_FILENAME} !-f
+ RewriteCond %{REQUEST_FILENAME} !-d
+ RewriteRule ^/?(.*)$ index.php/$1 [L]
+</IfModule>
+
+<IfModule mod_deflate.c>
+ AddOutputFilterByType DEFLATE text/css application/x-javascript
+</IfModule>
+
+<IfModule mod_expires.c>
+ ExpiresActive on
+ ExpiresByType image/png "access plus 1 days"
+ ExpiresByType text/css "access plus 1 days"
+</IfModule>
