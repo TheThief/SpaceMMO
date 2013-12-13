@@ -65,6 +65,29 @@ class space_mysqli_stmt extends mysqli_stmt {
 	}
 }
 
+define("TICK",600); // Seconds per tick
+define("TICKS_PH",6); // Ticks per hour
+define("SMALLTICK",60); // Seconds per small tick
+define("SMALLTICKS_PH",60); // Small ticks per hour
+define("SMALL_PER_TICK",10); // Small ticks per tick
+
+define('SPEEDCONST',25);
+define('SPEEDPOWER',-0.5);
+define('FUELUSECONST',1000);
+define('FUELUSEPOWER',-1.1);
+define('FUELCONST',100);
+define('CARGOCONST',100);
+
+function attackPower($weapons)
+{
+	return $weapons;
+}
+
+function shiprange($speed, $fueluse, $fuel)
+{
+	return $speed * floor($fuel / ($fueluse / SMALLTICKS_PH)) / SMALLTICKS_PH;
+}
+
 class BaseModel
 {
     protected $mysqli;

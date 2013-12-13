@@ -5,7 +5,7 @@ class BaseAdapter
     {
         $authlevel = 0;
 
-        $model = GetModel('User');
+        $model = $this->GetModel('User');
         if (isset($request->apikey))
         {
             $userid = $model->validateApiKey($request->apikey);
@@ -17,7 +17,7 @@ class BaseAdapter
         }
         elseif (isset($request->sessionkey))
         {
-            $userid = $model->validateSession($request->sessionkey);
+            $userid = $model->validateSessionKey($request->sessionkey);
             if (isset($userid))
             {
                 $authlevel = 2;
@@ -29,7 +29,7 @@ class BaseAdapter
         {
             $result = new Result();
             $result->status = 'error';
-            RenderView('LoginRequired', $request->format, $result);
+            $this->RenderView('LoginRequired', $request->format, $result);
         }
         
         return true;

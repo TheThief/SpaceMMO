@@ -52,7 +52,7 @@ class UserModel extends BaseModel
         $query->fetch();
         $query->close();
 
-        return $userid;
+        return $userid ? $userid : null;
     }
     
     public function validateSessionKey($sessionkey)
