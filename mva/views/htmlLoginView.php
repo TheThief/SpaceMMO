@@ -12,7 +12,7 @@ class htmlLoginView
    <input type="submit" value="Submit">
   </form>
  </body>
-</html><?
+</html><?php
         return true;
     }
 }
