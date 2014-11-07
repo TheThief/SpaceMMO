@@ -1,4 +1,4 @@
-<?
+<?php
 function helpMenu()
 {
 	global $eol;

@@ -1,4 +1,4 @@
-<?
+<?php
 include_once '../includes/start.inc.php';
 
 include_once '../includes/helpmenu.inc.php';
@@ -34,5 +34,5 @@ function helpGettingStartedBody()
 <p>Next you are going to want to build a mine, as without a source of metal, once you've spent the 2000 you started with you'll be stuck.</p>
 <p>Next, a "deuterium scoop" will start you harvesting deuterium.</p>
 <p>After you build a building, you should notice that the list changes to show that you have the building at level 1. On the right, it will give you the option to "upgrade to level 2", but with a warning that you need to upgrade your dome before anything else. A level 2 building is more than twice as effective as the level 1 buildings you currently have.</p>
-<?
+<?php
 }

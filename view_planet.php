@@ -1,4 +1,4 @@
-<?
+<?php
 include_once 'includes/start.inc.php';
 checkLoggedIn();
 
@@ -47,7 +47,7 @@ function viewPlanetBody()
 		echo '<tr><th>Actions</th>';
 		?>
 		<td><form action="addbookmark_exec.php" method="post"><input type="hidden" name="planet" value="<?echo $planetid;?>">Description: <input name="description" value="-" maxlength="60" size="14"><input type="submit" value="Bookmark"></form></td></tr>
-		<?
+		<?php
 	}else{
 		echo '<tr><th>Actions</th><td>Bookmarked</td></tr>';
 	}

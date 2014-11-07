@@ -1,4 +1,4 @@
-<?
+<?php
 include_once 'includes/start.inc.php';
 $isAPICall = false;
 if(isset($_GET['api']) && $_GET['api']=='json') $isAPICall = true;
@@ -264,9 +264,9 @@ function viewSystemsBody()
 	$stmt->bind_result($systemid,$sysX,$sysY,$colonies,$othercolonies);
 	?>
 	
-	<form action="view_systems.php" method="get"><input type="hidden" name="zoom" value="<? echo $zoom;?>">System Code: <input name="syscode" size="4" maxlength="4" value="<? echo $syscode;?>"><input type="Submit" value="Jump To"></form><br>
+	<form action="view_systems.php" method="get"><input type="hidden" name="zoom" value="<?php echo $zoom;?>">System Code: <input name="syscode" size="4" maxlength="4" value="<?php echo $syscode;?>"><input type="Submit" value="Jump To"></form><br>
 
-	<?
+	<?php
 	echo '<div class="starmap" style="width: ', $viewsize+2, 'em; height: ', $viewsize+2, 'em;">', $eol;
 
 	echo '<a class="navbutton up" href="view_systems.php?x=', $x, '&y=', $y-$scroll, '&zoom=', $zoom, '"><img class="navtop" src="images/up.png" alt="Up"></a>', $eol;

@@ -1,4 +1,4 @@
-<?
+<?php
 include_once 'includes/start.inc.php';
 checkLoggedIn();
 
@@ -48,7 +48,8 @@ function accountBody()
 	</fieldset>
 	</form>
 	<h3>API info</h3>
-	API key: <? echo $apikey;?> <a href="changeapikey_exec.php">Generate new API key</a> <a href="changeapikey_exec.php?clear=1">Remove API key</a><br>
+	API key: <?php echo $apikey;?> <a href="changeapikey_exec.php">Generate new API key</a> <a href="changeapikey_exec.php?clear=1">Remove API key</a><br>
 	API url: http://spacemmo.dynamicarcade.co.uk/api/api.php?wsdl
-	<?
+	<?php
 }
+?>

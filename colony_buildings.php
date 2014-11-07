@@ -1,4 +1,4 @@
-<?
+<?php
 include_once 'includes/start.inc.php';
 checkLoggedIn();
 
@@ -212,7 +212,7 @@ function colonyBuildingsBody()
 }
 ?>
 <script type="text/javascript"> 
-<?
+<?php
 //print_r($countarray);
 foreach($countarray as $cid => $ctime){
 	echo "liveCount(".$ctime.",\"timesp".$cid."\",1,1,1);";

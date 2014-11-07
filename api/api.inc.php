@@ -1,4 +1,4 @@
-<?
+<?php
 include_once("../includes/db.inc.php");
 include_once("../includes/functions.inc.php");
 

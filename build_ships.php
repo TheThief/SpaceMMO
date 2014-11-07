@@ -61,7 +61,7 @@ function buildShipsBody()
 	<h2>Build Queue</h2>
 	<table>
 		<tr><th>Design Name</th><th>Quantity</th><!--<th>Ship Progress</th>--><th>Next Ship In</th><th>Order Complete In</th></tr>
-	<?	
+	<?php	
 	$timeoffset=0;
 	$first=TRUE;
 	$empty=FALSE;

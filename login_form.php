@@ -1,4 +1,4 @@
-<?
+<?php
 include_once 'includes/start.inc.php';
 
 include_once 'includes/template.inc.php';
@@ -25,7 +25,7 @@ function loginBody()
 		echo '</p>', $eol;
 	}
 ?><form action="login_exec.php" method="post">
-<?
+<?php
 if($page != "") echo "<input type=\"hidden\" name=\"p\" value=\"".$page."\">\n";
 if($qs != "") echo "<input type=\"hidden\" name=\"q\" value=\"".$qs."\">\n";
 ?>
@@ -34,6 +34,6 @@ if($qs != "") echo "<input type=\"hidden\" name=\"q\" value=\"".$qs."\">\n";
 <input type="submit" value="Submit">
 </form>
 <a href="register_form.php">Register</a>
-<?
+<?php
 }
 ?>

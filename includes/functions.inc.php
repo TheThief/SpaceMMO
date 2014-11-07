@@ -1,4 +1,4 @@
-<?
+<?php
 define("TICK",600); // Seconds per tick
 define("TICKS_PH",6); // Ticks per hour
 define("SMALLTICK",60); // Seconds per small tick
@@ -316,16 +316,16 @@ function planetChanger($current=NULL,$page=NULL){
 		exit;
 	}
 	?>
-	<form action="<? echo $page;?>" method="get">
-		<select name="planet" id="pcdd<? echo $planetChangeID;?>" onchange="changePage(<? echo $planetChangeID++;?>,'<? echo $page;?>',<? echo $current;?>)">
-	<?
+	<form action="<?php echo $page;?>" method="get">
+		<select name="planet" id="pcdd<?php echo $planetChangeID;?>" onchange="changePage(<?php echo $planetChangeID++;?>,'<?php echo $page;?>',<?php echo $current;?>)">
+	<?php
 	$query->bind_result($planetid,$systemid,$orbit);
 	while($query->fetch()){
 		?>
-		<option value="<? echo $planetid;?>" <? echo ($planetid==$current)?"selected":"";?>><? echo systemcode($systemid,$orbit);?></option>
-		<?
+		<option value="<?php echo $planetid;?>" <?php echo ($planetid==$current)?"selected":"";?>><?php echo systemcode($systemid,$orbit);?></option>
+		<?php
 	}
-	?> </select><input type="Submit" value="Go"></form> <?
+	?> </select><input type="Submit" value="Go"></form> <?php
 }
 
 function generateAPIKey(){

@@ -1,4 +1,4 @@
-<?
+<?php
 include_once 'includes/start.inc.php';
 checkLoggedIn();
 
@@ -398,13 +398,13 @@ function viewShipsBody()
 	}
 	?>
 <script type="text/javascript"> 
-<?
+<?php
 //print_r($countarray);
 foreach($countarray as $cid => $ctime){
 	echo "liveCount(".$ctime.",\"count".$cid."\",0,1,1);";
 }
 ?>
 </script>
-<?
+<?php
 }
 ?>

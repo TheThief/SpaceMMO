@@ -1,4 +1,4 @@
-<?
+<?php
 include_once '../includes/start.inc.php';
 
 include_once '../includes/colony.inc.php';
@@ -25,5 +25,5 @@ function helpColonisingBody()
 <p>Once you have chosen a planet, either bookmark it from its details page or note down its id code. Then go to the "ships in orbit" page of the colony your are sending the fleet from, and issue a "colonise" order for the fleet you are using, either choosing the bookmark from the destination dropdown, or choosing "Other" and putting the planet's code into the box. Remember to tell them to transport at least <?=COLONY_COST?> Metal (preferably 2000 more), and press dispatch.</p>
 
 <p>Now all you have to do is wait.</p>
-<?
+<?php
 }

@@ -1,4 +1,4 @@
-<?
+<?php
 class space_mysqli extends mysqli {
 
 	public function __construct($host, $user, $pass, $db) {

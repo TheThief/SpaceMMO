@@ -1,4 +1,4 @@
-<?
+<?php
 require_once("./nusoap/nusoap.php");
 include_once("api.inc.php");
 $server = new soap_server;
