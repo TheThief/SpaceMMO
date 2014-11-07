@@ -1,13 +1,12 @@
 <?php
 include_once 'includes/start.inc.php';
 
-header("HTTP/1.1 303 See Other");
 if (isLoggedIn())
 {
-	header("Location: list_colonies.php");
+	header("Location: list_colonies.php", true, 303); // 303 See Other
 }
 else
 {
-	header("Location: login_form.php");
+	header("Location: login_form.php", true, 303); // 303 See Other
 }
 ?>
