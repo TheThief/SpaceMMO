@@ -6,7 +6,7 @@ mb_internal_encoding('UTF-8');
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
-<?
+<?php
 foreach($_POST['test'] as $key => $value)
 {
 	echo $key,' = ',$value, ' (',mb_strlen($value),' c, ',strlen($value),' b)','<br>', $eol;

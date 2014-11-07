@@ -1,4 +1,4 @@
-<?
+<?php
 include_once "../includes/start.inc.php";
 $whlinks = getWHLinks($_SESSION["userid"]);
 $scale = 5;

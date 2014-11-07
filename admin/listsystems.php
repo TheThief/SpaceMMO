@@ -1,4 +1,4 @@
-<?
+<?php
 include_once 'includes/admin.inc.php';
 checkIsAdmin();
 
@@ -32,13 +32,13 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\"?><!DOCTYPE html PUBLIC \"-//W3C//
 <table>
 <tr><th>System ID</th><th>x</th><th>y</th><th>Planets</th><th>Colonies</th>
 <th>Actions</th></tr>
-<?
+<?php
 while($query->fetch())
 {
 	?><tr><td><?=$systemid?></td><td><?=$x?></td><td><?=$y?></td><td><?=$planets?></td><td><?=$colonies ? $colonies : '-'?></td><td>
 	<a href="listplanets.php?systemid=<?=$systemid?>">List Planets</a>
 	</td></tr>
-<?
+<?php
 }
 ?>
 <tr><td>&nbsp;</td>

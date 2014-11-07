@@ -1,4 +1,4 @@
-<?
+<?php
 include_once("includes/start.inc.php");
 
 $x=0;
@@ -31,12 +31,12 @@ $stmt->bind_result($systemID,$sysX,$sysY,$sysDist);
 <div>
 <table>
 <tr><th>System ID</th><th>Coordinates</th><th>Distance</th></tr>
-<?
+<?php
 while($stmt->fetch()){
 ?>
 <tr><td><?=$systemID?></td><td><?=$sysX?>,<?=$sysY?></td><td><?=$sysDist?> 
 Units</td></tr>
-<?
+<?php
 }
 $stmt->close();
 ?>

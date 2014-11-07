@@ -1,4 +1,4 @@
-<?
+<?php
 include_once 'includes/start.inc.php';
 checkLoggedIn();
 
@@ -97,7 +97,7 @@ function buildShipsBody()
 	?>
 	</table>
 	<h2>Ship Designs</h2>
-	<?
+	<?php
 	$query = $mysqli->prepare('SELECT designid,shipname,hullname,metalcost,size,engines,fuel,cargo,weapons,shields FROM shipdesigns LEFT JOIN shiphulls USING (hullid) WHERE userID = ? ORDER BY designid ASC;');
 	if (!$query)
 	{
@@ -151,7 +151,7 @@ function buildShipsBody()
 	?>
 	<script type="text/javascript">
 
-	<?
+	<?php
 	foreach($shiparray as $cid => $ctime){
 		echo "liveCount(".$ctime.",\"shsp".$cid."\",0,1,1);";
 	}
@@ -163,6 +163,6 @@ function buildShipsBody()
 	}
 	?>
 	</script>
-	<?
+	<?php
 }
 ?>

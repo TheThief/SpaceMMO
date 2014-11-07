@@ -1,5 +1,5 @@
 <ul>
-<?
+<?php
 if (!isLoggedIn())
 {
 	echo '<li><a href="/login_form.php">Log In</a></li>', $eol;

@@ -1,4 +1,4 @@
-<?
+<?php
 //include 'includes/admin.inc.php';
 $scale = 1;
 $tcount = (isset($_GET["count"]))?$_GET["count"]:0;

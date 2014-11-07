@@ -1,4 +1,4 @@
-<?
+<?php
 include_once 'includes/admin.inc.php';
 checkIsAdmin();
 
@@ -30,20 +30,20 @@ $query->bind_result($planetid,$orbit,$type,$metal,$deuterium,$userid,$username);
 <table>
 <tr><th>Planet ID</th><th>Orbit</th><th>Type</th><th>Metal</th><th>Deuterium</th><th>Colonised By</th>
 <th>Actions</th></tr>
-<?
+<?php
 while($query->fetch())
 {
-	?><tr><td><?=$planetid?></td><td><?=$orbit?></td><td><?=$lookups["planetType"][$type]?></td><td><?=round($metal,2)?></td><td><?=round($deuterium,2)?></td><td><?=$username?$username:'-'?></td><td><?
+	?><tr><td><?=$planetid?></td><td><?=$orbit?></td><td><?=$lookups["planetType"][$type]?></td><td><?=round($metal,2)?></td><td><?=round($deuterium,2)?></td><td><?=$username?$username:'-'?></td><td><?php
 	if (!$username)
 	{
-		?><a href="addcolony_exec.php?planet=<?=$planetid?>&userid=<?=$_SESSION['userid']?>">Colonise</a><?
+		?><a href="addcolony_exec.php?planet=<?=$planetid?>&userid=<?=$_SESSION['userid']?>">Colonise</a><?php
 	}
 	else if ($userid == $_SESSION['userid'])
 	{
-		?><a href="../colony_buildings.php?planet=<?=$planetid?>">View</a><?
+		?><a href="../colony_buildings.php?planet=<?=$planetid?>">View</a><?php
 	}
 	?></td></tr>
-<?
+<?php
 }
 ?>
 <form action="addplanet_exec.php" method="post">

@@ -1,4 +1,4 @@
-<?
+<?php
 if (!defined('DEBUG')) define("DEBUG",false);
 ini_set('session.hash_function', 1);
 ini_set('session.hash_bits_per_character',4);
