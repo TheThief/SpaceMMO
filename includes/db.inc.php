@@ -63,6 +63,8 @@ class space_mysqli_stmt extends mysqli_stmt {
 		}
 	}
 }
+
 //test
+include_once 'db_account.inc.php';
 $mysqli = new space_mysqli($db_server,$db_user,$db_pass,$db_db);
 ?>
